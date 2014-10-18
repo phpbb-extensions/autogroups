@@ -1,8 +1,15 @@
+imports:
+    - { resource: tables.yml }
+
 services:
     phpbb.autogroups.manager:
         class: phpbb\autogroups\conditions\manager
         arguments:
             - @phpbb.autogroups.conditions_collection
+            - @service_container
+            - @user
+            - %tables.autogroups_rules%
+            - %tables.autogroups_condtion_types%
 
 # ----- Auto Groups conditions -----
 # Scope MUST be prototype for all the plugins to work.
