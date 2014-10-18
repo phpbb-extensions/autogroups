@@ -7,6 +7,7 @@ services:
         arguments:
             - @phpbb.autogroups.conditions_collection
             - @service_container
+            - @dbal.conn
             - @user
             - %tables.autogroups_rules%
             - %tables.autogroups_condtion_types%

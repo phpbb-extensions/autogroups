@@ -23,6 +23,9 @@ class manager
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -43,19 +46,21 @@ class manager
 	/**
 	* Constructor
 	*
-	* @param array              $autogroups_conditions              Array with auto groups conditions
-	* @param ContainerInterface $phpbb_container                    Service container interface
-	* @param \phpbb\user        $user                               User object
-	* @param string             $autogroups_rules_table             Name of the table used to store auto group rules data
-	* @param string             $autogroups_condition_types_table   Name of the table used to store auto group conditions data
+	* @param array                                $autogroups_conditions              Array with auto groups conditions
+	* @param ContainerInterface                   $phpbb_container                    Service container interface
+	* @param \phpbb\db\driver\driver_interface    $db                                 Database object
+	* @param \phpbb\user                          $user                               User object
+	* @param string                               $autogroups_rules_table             Name of the table used to store auto group rules data
+	* @param string                               $autogroups_condition_types_table   Name of the table used to store auto group conditions data
 	*
 	* @return \phpbb\autogroups\conditions\manager
 	* @access public
 	*/
-	public function __construct($autogroups_conditions, ContainerInterface $phpbb_container, \phpbb\user $user, $autogroups_rules_table, $autogroups_condition_types_table)
+	public function __construct($autogroups_conditions, ContainerInterface $phpbb_container, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_condition_types_table)
 	{
 		$this->autogroups_conditions = $autogroups_conditions;
 		$this->phpbb_container = $phpbb_container;
+		$this->db = $db;
 		$this->user = $user;
 		$this->autogroups_rules_table = $autogroups_rules_table;
 		$this->autogroups_condition_types_table = $autogroups_condition_types_table;
