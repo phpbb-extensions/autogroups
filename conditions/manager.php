@@ -126,7 +126,7 @@ class manager
 				WHERE condition_type_id = ' . (int) $condtion_type_id;
 			$this->db->sql_query($sql);
 		}
-		catch (\phpbb\autogroups\exception $e)
+		catch (\phpbb\autogroups\exception\base $e)
 		{
 			// Continue
 		}
@@ -157,7 +157,7 @@ class manager
 		{
 			if (!isset($this->autogroups_conditions[$condition_type_name]))
 			{
-				throw new \phpbb\autogroups\exception($this->user->lang('CONDITION_TYPE_NOT_EXIST', $condition_type_name));
+				throw new \phpbb\autogroups\exception\base(array($condition_type_name, $this->user->lang('CONDITION_TYPE_NOT_EXIST')));
 			}
 		}
 
