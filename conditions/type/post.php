@@ -71,6 +71,17 @@ class post
 	* @return
 	* @access public
 	*/
+	public function get_type_name()
+	{
+		return $this->user->lang('AUTOGROUPS_CONDITION_TYPE_POST');
+	}
+
+	/**
+	*
+	*
+	* @return
+	* @access public
+	*/
 	public function get_group_rules()
 	{
 		$sql_array = array(
