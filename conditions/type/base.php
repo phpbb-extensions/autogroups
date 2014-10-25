@@ -79,9 +79,9 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	*/
 	public function remove_user_from_groups($groups_data)
 	{
-		foreach ($groups_data as $group_id => $default)
+		foreach ($groups_data as $group_id)
 		{
-			group_user_del($group_id, $this->user->data['user_id'], false, false, $default);
+			group_user_del($group_id, $this->user->data['user_id']);
 		}
 	}
 }
