@@ -74,20 +74,13 @@ class post extends \phpbb\autogroups\conditions\type\base
 
 		foreach($group_rules as $group_rule)
 		{
-			// @To-Do Define empty fields and if conditions after defining table structure
-			if ($group_rule[''] == 0 && $group_rule[''] == 0)
+			if (($this->user->data['user_post'] >= $group_rule['autogroups_min_value']) && ($this->user->data['user_post'] <= $group_rule['autogroups_max_value']))
 			{
-				continue;
+				$add_user_to_groups[$group_rule['autogroups_group_id']] = $group_rule['autogroups_default'];
 			}
-
-			if ()
+			else if (($this->user->data['user_post'] < $group_rule['autogroups_min_value']) && ($this->user->data['user_post'] > $group_rule['autogroups_max_value']))
 			{
-				$add_user_to_groups[$group_rule['']] = $group_rule[''];
-			}
-
-			if ()
-			{
-				$remove_user_from_groups[$group_rule['']] = $group_rule[''];
+				$remove_user_from_groups[] = $group_rule['autogroups_group_id'];
 			}
 
 			// Add user to groups
