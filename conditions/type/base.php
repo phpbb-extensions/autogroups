@@ -73,7 +73,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	* Remove user from groups
 	*
-	* @param array $groups_data Data array where a group id is a key and default is value
+	* @param array $groups_data Data array with group ids
 	* @return null
 	* @access public
 	*/
