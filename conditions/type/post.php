@@ -13,85 +13,46 @@ namespace phpbb\autogroups\conditions\type;
 /**
 * Auto Groups service class
 */
-class post
+class post extends \phpbb\autogroups\conditions\type\base
 {
-	/** @var \phpbb\db\driver\driver_interface */
-	protected $db;
-
-	/** @var \phpbb\user */
-	protected $user;
-
 	/**
-	* The database table the auto group rules are stored in
+	* Get condition type
 	*
-	* @var string
-	*/
-	protected $autogroups_rules_table;
-
-	/**
-	* The database table the auto group conditions are stored in
-	*
-	* @var string
-	*/
-	protected $autogroups_condition_types_table;
-
-	/**
-	* Constructor
-	*
-	* @param \phpbb\db\driver\driver_interface    $db                                 Database object
-	* @param \phpbb\user                          $user                               User object
-	* @param string                               $autogroups_rules_table             Name of the table used to store auto group rules data
-	* @param string                               $autogroups_condition_types_table   Name of the table used to store auto group conditions data
-	*
-	* @return \phpbb\autogroups\conditions\manager
+	* @return string Condition type
 	* @access public
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_condition_types_table)
-	{
-		$this->db = $db;
-		$this->user = $user;
-		$this->autogroups_rules_table = $autogroups_rules_table;
-		$this->autogroups_condition_types_table = $autogroups_condition_types_table;
-	}
-
-	/**
-	*
-	*
-	* @return
-	* @access public
-	*/
-	public function get_type()
+	public function get_condition_type()
 	{
 		return 'phpbb.autogroups.condition.type.post';
 	}
 
 	/**
+	* Get condition type name
 	*
-	*
-	* @return
+	* @return string Condition type name
 	* @access public
 	*/
-	public function get_type_name()
+	public function get_condition_type_name()
 	{
 		return $this->user->lang('AUTOGROUPS_CONDITION_TYPE_POST');
 	}
 
 	/**
+	* Get auto group rules for condition
 	*
-	*
-	* @return
+	* @return array
 	* @access public
 	*/
 	public function get_group_rules()
 	{
 		$sql_array = array(
-			'SELECT'	=> 'a.*',
+			'SELECT'	=> 'ag.*',
 			'FROM'	=> array(
-				$this->autogroups_rules_table => 'a',
-				$this->autogroups_condition_types_table => 'c',
+				$this->autogroups_rules_table => 'ag',
+				$this->autogroups_condition_types_table => 'agc',
 			),
-			'WHERE'	=> 'a.condition_type_id = c.condition_type_id
-				AND c.condition_type_name = ' . $this->get_type(),
+			'WHERE'	=> 'ag.condition_type_id = agc.condition_type_id
+				AND agc.condition_type_name = ' . $this->get_condition_type(),
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
@@ -100,37 +61,46 @@ class post
 	}
 
 	/**
+	* Check condition
 	*
-	*
-	* @return
+	* @return null
 	* @access public
 	*/
 	public function check()
 	{
-		$group_rules = $this->get_group_rules()
+		$group_rules = $this->get_group_rules();
 
-		$add_groups = array();
+		$add_user_to_groups = $remove_user_from_groups= array();
 
 		foreach($group_rules as $group_rule)
 		{
+			// @To-Do Define empty fields and if conditions after defining table structure
 			if ($group_rule[''] == 0 && $group_rule[''] == 0)
 			{
 				continue;
 			}
 
-			else if ((($group_rule[''] > 0 && $this->user->data['user_post'] >= $group_rule['min_']) ||
-					($group_rule[''] > 0 && $this->user->data['user_post'] <= $group_rule['max_'])))
+			if ()
 			{
-				$add_groups[] = $group_rule[''];
+				$add_user_to_groups[$group_rule['']] = $group_rule[''];
+			}
+
+			if ()
+			{
+				$remove_user_from_groups[$group_rule['']] = $group_rule[''];
+			}
+
+			// Add user to groups
+			if (sizeof($add_user_to_groups))
+			{
+				$this->add_user_to_groups($add_user_to_groups);
+			}
+
+			// Remove user from groups
+			if (sizeof($remove_user_from_groups))
+			{
+				$this->remove_user_from_groups($remove_user_from_groups);
 			}
 		}
-	}
-
-	public function add_user_to_groups()
-	{
-	}
-
-	public function remove_user_from_groups()
-	{
 	}
 }
