@@ -70,7 +70,7 @@ class post extends \phpbb\autogroups\conditions\type\base
 	{
 		$group_rules = $this->get_group_rules();
 
-		$add_user_to_groups = $remove_user_from_groups= array();
+		$add_user_to_groups = $remove_user_from_groups = array();
 
 		foreach($group_rules as $group_rule)
 		{
