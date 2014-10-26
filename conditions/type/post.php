@@ -38,31 +38,6 @@ class post extends \phpbb\autogroups\conditions\type\base
 	}
 
 	/**
-	* Get auto group rules for condition
-	*
-	* @return array
-	* @access public
-	*/
-	public function get_group_rules()
-	{
-		$sql_array = array(
-			'SELECT'	=> 'ag.*',
-			'FROM'	=> array(
-				$this->autogroups_rules_table => 'ag',
-				$this->autogroups_condition_types_table => 'agc',
-			),
-			'WHERE'	=> 'ag.condition_type_id = agc.condition_type_id
-				AND agc.condition_type_name = ' . $this->get_condition_type(),
-		);
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query($sql);
-		$rows = $this->db->sql_fetchrowset($result);
-		$this->db->sql_freeresult($result);
-
-		return $rows;
-	}
-
-	/**
 	* Check condition
 	*
 	* @return null
@@ -70,16 +45,24 @@ class post extends \phpbb\autogroups\conditions\type\base
 	*/
 	public function check()
 	{
-		$group_rules = $this->get_group_rules();
+		$group_rules = $this->get_group_rules($this->get_condition_type());
+		$user_groups = $this->user_groups();
 
 		$add_user_to_groups = $remove_user_from_groups = array();
 
-		foreach($group_rules as $group_rule)
+		foreach ($group_rules as $group_rule)
 		{
-			if ($this->user->data['user_post'] >= $group_rule['autogroups_min_value'])
+			// Check if a user post value is the settled range
+			if (($this->user->data['user_post'] >= $group_rule['autogroups_min_value'] && (empty($group_rule['autogroups_min_value']) || ($this->user->data['user_post'] <= $group_rule['autogroups_min_value'])))
 			{
-				$add_user_to_groups[$group_rule['autogroups_group_id']] = $group_rule['autogroups_default'];
+				// Check if a user is a member of checked group
+				if (!in_array($group_rule['autogroups_group_id'], $user_groups)
+				{
+					// Add user to group (create array where a group id is a key and default is value)
+					$add_user_to_groups[$group_rule['autogroups_group_id']] = $group_rule['autogroups_default'];
+				}
 			}
+			// If the user post value doesn't match to the above range, add that group id to array as value
 			else
 			{
 				$remove_user_from_groups[] = $group_rule['autogroups_group_id'];

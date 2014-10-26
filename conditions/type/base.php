@@ -52,6 +52,50 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
+	* Get auto group rules for condition
+	*
+	* @param string $condition Auto group condition type name
+	* @return array Auto group rows
+	* @access public
+	*/
+	public function get_group_rules($condition)
+	{
+		$sql_array = array(
+			'SELECT'	=> 'ag.*',
+			'FROM'	=> array(
+				$this->autogroups_rules_table => 'ag',
+				$this->autogroups_condition_types_table => 'agc',
+			),
+			'WHERE'	=> 'ag.condition_type_id = agc.condition_type_id
+				AND agc.condition_type_name = ' . $condition,
+		);
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+		$rows = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		return $rows;
+	}
+
+	/**
+	* Select user group ids
+	*
+	* @return array User group ids array
+	* @access public
+	*/
+	public function user_groups()
+	{
+		$sql = 'SELECT group_id
+			FROM ' . USER_GROUP_TABLE . '
+			WHERE user_id = ' . $this->user->data['user_id'];
+		$result = $this->db->sql_query($sql);
+		$rows = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		return $rows;
+	}
+
+	/**
 	* Add user to groups
 	*
 	* @param array $groups_data Data array where a group id is a key and default is value

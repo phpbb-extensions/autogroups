@@ -32,6 +32,23 @@ interface type_interface
 	public function get_condition_type_name();
 
 	/**
+	* Get auto group rules for condition
+	*
+	* @param string $condition Auto group condition type name
+	* @return array Auto group rows
+	* @access public
+	*/
+	public function get_group_rules($condition);
+
+	/**
+	* Select user group ids
+	*
+	* @return array User group ids array
+	* @access public
+	*/
+	public function user_groups();
+
+	/**
 	* Add user to groups
 	*
 	* @param array $groups_data Data array where a group id is a key and default is value
