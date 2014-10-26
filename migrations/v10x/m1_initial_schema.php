@@ -21,9 +21,7 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 	*		autogroups_id
 	*		autogroups_type_id
 	*		autogroups_min_value
-	*		autogroups_min_operator
 	*		autogroups_max_value
-	*		autogroups_max_operator
 	*		autogroups_group_id
 	*		autogroups_default
 	*
