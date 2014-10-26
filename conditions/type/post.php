@@ -53,10 +53,10 @@ class post extends \phpbb\autogroups\conditions\type\base
 		foreach ($group_rules as $group_rule)
 		{
 			// Check if a user post value is the settled range
-			if (($this->user->data['user_post'] >= $group_rule['autogroups_min_value'] && (empty($group_rule['autogroups_min_value']) || ($this->user->data['user_post'] <= $group_rule['autogroups_min_value'])))
+			if (($this->user->data['user_post'] >= $group_rule['autogroups_min_value']) && (empty($group_rule['autogroups_min_value']) || ($this->user->data['user_post'] <= $group_rule['autogroups_min_value'])))
 			{
 				// Check if a user is a member of checked group
-				if (!in_array($group_rule['autogroups_group_id'], $user_groups)
+				if (!in_array($group_rule['autogroups_group_id'], $user_groups))
 				{
 					// Add user to group (create array where a group id is a key and default is value)
 					$add_user_to_groups[$group_rule['autogroups_group_id']] = $group_rule['autogroups_default'];
