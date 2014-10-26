@@ -36,25 +36,25 @@ class m2_initial_data extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			array('custom', array(array($this, 'add_auto_group_conditions_data'))),
+			array('custom', array(array($this, 'add_autogroup_type_data'))),
 		);
 	}
 
 	/**
-	* Add auto group condtions to the database
+	* Add auto group types to the database
 	*
 	* @return null
 	* @access public
 	*/
-	public function add_auto_groups_conditions_data()
+	public function add_autogroups_type_data()
 	{
 		// Load the insert buffer class to perform a buffered multi insert
-		$insert_buffer = new \phpbb\db\sql_insert_buffer($this->db, $this->table_prefix . 'autogroups_condition_types');
+		$insert_buffer = new \phpbb\db\sql_insert_buffer($this->db, $this->table_prefix . 'autogroups_types');
 
 		/**
-		* Conditions types array
+		* Auto group types array
 		*/
-		$condition_types = array(
+		$types = array(
 			'birthdays',
 			'membership',
 			'post',
@@ -62,10 +62,10 @@ class m2_initial_data extends \phpbb\db\migration\migration
 		);
 
 		// Insert data
-		foreach ($condition_types as $condition_type)
+		foreach ($types as $type)
 		{
 			$insert_buffer->insert(array(
-				'autogroups_type_name'	=> $condition_type,
+				'autogroups_type_name'	=> 'phpbb.autogroups.type. ' . $type,
 			));
 		}
 

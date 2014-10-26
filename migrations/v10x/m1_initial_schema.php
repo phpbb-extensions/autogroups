@@ -38,14 +38,14 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 					'COLUMNS'	=> array(
 						'autogroups_id'					=> array('UINT', null, 'auto_increment'),
 						'autogroups_type_id'			=> array('USINT', 0),
-						'autogroups_min_value'			=> array('INT:11', ''),
-						'autogroups_max_value'			=> array('INT:11', ''),
+						'autogroups_min_value'			=> array('INT:11', 0),
+						'autogroups_max_value'			=> array('INT:11', 0),
 						'autogroups_group_id'			=> array('UINT', 0),
 						'autogroups_default'			=> array('BOOL', 0),
 					),
 					'PRIMARY_KEY'	=> 'autogroups_id',
 				),
-				$this->table_prefix . 'autogroups_condition_types'	=> array(
+				$this->table_prefix . 'autogroups_types'	=> array(
 					'COLUMNS'			=> array(
 						'autogroups_type_id'	=> array('USINT', null, 'auto_increment'),
 						'autogroups_type_name'	=> array('VCHAR:255', ''),
@@ -70,7 +70,7 @@ class m1_initial_schema extends \phpbb\db\migration\migration
 		return array(
 			'drop_tables'	=> array(
 				$this->table_prefix . 'autogroups_rules',
-				$this->table_prefix . 'autogroups_condition_types',
+				$this->table_prefix . 'autogroups_types',
 			),
 		);
 	}
