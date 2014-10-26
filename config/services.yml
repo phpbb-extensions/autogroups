@@ -10,13 +10,13 @@ services:
             - @dbal.conn
             - @user
             - %tables.autogroups_rules%
-            - %tables.autogroups_condtion_types%
+            - %tables.autogroups_types%
 
-# ----- Auto Groups conditions -----
+# ----- Auto groups types -----
 # Scope MUST be prototype for all the plugins to work.
     phpbb.autogroups.conditions_collection:
         class: phpbb\di\service_collection
         arguments:
             - @service_container
         tags:
-            - { name: service_collection, tag: autogroups.condition }
+            - { name: service_collection, tag: autogroups.type }

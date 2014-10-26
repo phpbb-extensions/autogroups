@@ -39,10 +39,10 @@ if (empty($lang) || !is_array($lang))
 
 /*
 * These are errors which can be triggered by sending invalid data to the
-* boardrules extension API.
+* autogroups extension API.
 *
 * These errors will never show to a user unless they are either modifying
-* the core boardrules extension code OR unless they are writing an extension
+* the core autogroups extension code OR unless they are writing an extension
 * which makes calls to this extension.
 *
 * Translators: Feel free to not translate these language strings
@@ -56,5 +56,5 @@ $lang = array_merge($lang, array(
 	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The field `%1$s` received unexpected data. Reason: %2$s',
 	'EXCEPTION_ILLEGAL_CHARACTERS'	=> 'The input contained illegal characters.',
 
-	'CONDITION_TYPE_NOT_EXIST'		=> 'The `%1$s` does not exist',
+	'AUTOGROUPS_TYPE_NOT_EXIST'		=> 'The `%1$s` does not exist',
 ));
