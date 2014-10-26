@@ -22,16 +22,12 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	protected $user;
 
 	/**
-	* The database table the auto group rules are stored in
-	*
-	* @var string
+	* @var string The database table the auto group rules are stored in
 	*/
 	protected $autogroups_rules_table;
 
 	/**
-	* The database table the auto group conditions are stored in
-	*
-	* @var string
+	* @var string The database table the auto group conditions are stored in
 	*/
 	protected $autogroups_condition_types_table;
 
@@ -43,7 +39,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	* @param string                               $autogroups_rules_table             Name of the table used to store auto group rules data
 	* @param string                               $autogroups_condition_types_table   Name of the table used to store auto group conditions data
 	*
-	* @return \phpbb\autogroups\conditions\manager
+	* @return \phpbb\autogroups\conditions\type\base
 	* @access public
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_condition_types_table)

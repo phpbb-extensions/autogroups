@@ -56,8 +56,10 @@ class post extends \phpbb\autogroups\conditions\type\base
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
+		$rows = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
 
-		return $result;
+		return $rows;
 	}
 
 	/**
@@ -74,11 +76,11 @@ class post extends \phpbb\autogroups\conditions\type\base
 
 		foreach($group_rules as $group_rule)
 		{
-			if (($this->user->data['user_post'] >= $group_rule['autogroups_min_value']) && ($this->user->data['user_post'] <= $group_rule['autogroups_max_value']))
+			if ($this->user->data['user_post'] >= $group_rule['autogroups_min_value'])
 			{
 				$add_user_to_groups[$group_rule['autogroups_group_id']] = $group_rule['autogroups_default'];
 			}
-			else if (($this->user->data['user_post'] < $group_rule['autogroups_min_value']) && ($this->user->data['user_post'] > $group_rule['autogroups_max_value']))
+			else
 			{
 				$remove_user_from_groups[] = $group_rule['autogroups_group_id'];
 			}
