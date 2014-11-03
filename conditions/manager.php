@@ -105,7 +105,8 @@ class manager
 	*/
 	public function add_autogroups_type($autogroups_type_name)
 	{
-		$sql = 'INSERT INTO ' . $this->autogroups_types_table . ' autogroups_type_name = ' . $autogroups_type_name;
+		$sql = 'INSERT INTO ' . $this->autogroups_types_table . '
+			' . $this->db->sql_build_array('INSERT', array('autogroups_type_name' => $this->db->sql_escape($autogroups_type_name)));
 		$this->db->sql_query($sql);
 	}
 
