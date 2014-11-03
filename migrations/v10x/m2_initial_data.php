@@ -36,7 +36,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			array('custom', array(array($this, 'add_autogroup_type_data'))),
+			array('custom', array(array($this, 'add_autogroups_type_data'))),
 		);
 	}
 
@@ -51,9 +51,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 		// Load the insert buffer class to perform a buffered multi insert
 		$insert_buffer = new \phpbb\db\sql_insert_buffer($this->db, $this->table_prefix . 'autogroups_types');
 
-		/**
-		* Auto group types array
-		*/
+		// Auto group types array
 		$types = array(
 			'birthdays',
 			'membership',
