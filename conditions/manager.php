@@ -98,7 +98,7 @@ class manager
 	/**
 	* Add new condition type for Auto Groups extension
 	*
-	* @param string     $condition_type_name      Type identifier of the auto group type
+	* @param string     $autogroups_type_name      The name of the auto group type
 	*
 	* @return null
 	* @access public
@@ -112,7 +112,7 @@ class manager
 	/**
 	* Purge all conditions of a certain type
 	*
-	* @param string     $autogroups_type_name      Type identifier of the auto group type
+	* @param string     $autogroups_type_name      The name of the auto group type
 	*
 	* @return null
 	* @access public
@@ -127,7 +127,7 @@ class manager
 				WHERE condition_type_id = ' . (int) $condtion_type_id;
 			$this->db->sql_query($sql);
 
-			$sql = 'DELETE FROM ' . $this->autogroups_condition_types_table . '
+			$sql = 'DELETE FROM ' . $this->autogroups_types_table . '
 				WHERE condition_type_id = ' . (int) $condtion_type_id;
 			$this->db->sql_query($sql);
 		}
@@ -140,17 +140,17 @@ class manager
 	/**
 	* Get the condition type id from the name
 	*
-	* @param string     $autogroups_type_name      Type identifier of the condition
+	* @param string     $autogroups_type_name      The name of the auto group type
 	*
 	* @return int The condition_type_id
 	* @throws \phpbb\autogroups\exception\base
 	*/
 	public function get_autogroup_type_id($autogroups_type_name)
 	{
-		$condition_type_ids = array();
+		$autogroups_type_ids = array();
 
 		$sql = 'SELECT autogroups_type_id, autogroups_type_name
-			FROM ' . $this->autogroups_condition_types_table;
+			FROM ' . $this->autogroups_types_table;
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
