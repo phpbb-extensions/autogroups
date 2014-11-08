@@ -63,7 +63,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 		foreach ($types as $type)
 		{
 			$insert_buffer->insert(array(
-				'autogroups_type_name'	=> 'phpbb.autogroups.type. ' . $type,
+				'autogroups_type_name'	=> 'phpbb.autogroups.type.' . $type,
 			));
 		}
 
