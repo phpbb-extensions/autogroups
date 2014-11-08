@@ -87,7 +87,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	{
 		$sql = 'SELECT group_id
 			FROM ' . USER_GROUP_TABLE . '
-			WHERE user_id = ' . $this->user->data['user_id'];
+			WHERE user_id = ' . (int) $this->user->data['user_id'];
 		$result = $this->db->sql_query($sql);
 		$rows = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
