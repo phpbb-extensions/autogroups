@@ -29,18 +29,10 @@ class manager
 	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	* The database table the auto group rules are stored in
-	*
-	* @var string
-	*/
+	/** @var stringThe database table the auto group rules are stored in */
 	protected $autogroups_rules_table;
 
-	/**
-	* The database table the auto group types are stored in
-	*
-	* @var string
-	*/
+	/** @var string The database table the auto group types are stored in */
 	protected $autogroups_types_table;
 
 	/**
