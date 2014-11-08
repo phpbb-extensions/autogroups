@@ -41,12 +41,12 @@ interface type_interface
 	public function get_group_rules($condition);
 
 	/**
-	* Select user group ids
+	* Get users group ids
 	*
-	* @return array User group ids array
+	* @return array An array of usergroup ids the user belongs to
 	* @access public
 	*/
-	public function user_groups();
+	public function get_users_groups();
 
 	/**
 	* Add user to groups
