@@ -78,7 +78,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Select user group ids
+	* Get users group ids
 	*
 	* @return array User group ids array
 	* @access public
