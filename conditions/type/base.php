@@ -83,7 +83,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	* @return array User group ids array
 	* @access public
 	*/
-	public function user_groups()
+	public function get_users_groups()
 	{
 		$sql = 'SELECT group_id
 			FROM ' . USER_GROUP_TABLE . '
