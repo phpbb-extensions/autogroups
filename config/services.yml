@@ -9,8 +9,8 @@ services:
             - @service_container
             - @dbal.conn
             - @user
-            - %tables.autogroups_rules%
-            - %tables.autogroups_types%
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
 
 # ----- Auto groups types -----
 # Scope MUST be prototype for all the plugins to work.
