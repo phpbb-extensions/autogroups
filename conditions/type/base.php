@@ -67,7 +67,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 				$this->autogroups_condition_types_table => 'agc',
 			),
 			'WHERE'	=> 'ag.condition_type_id = agc.condition_type_id
-				AND agc.condition_type_name = ' . $condition,
+				AND agc.condition_type_name = ' . $this->db->sql_escape($condition),
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
@@ -80,7 +80,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	* Get users group ids
 	*
-	* @return array User group ids array
+	* @return array An array of usergroup ids the user belongs to
 	* @access public
 	*/
 	public function get_users_groups()
