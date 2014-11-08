@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 */
 class manager
 {
-	/** @var array */
+	/** @var array Array with auto group types */
 	protected $autogroups_types;
 
 	/** @var ContainerInterface */
