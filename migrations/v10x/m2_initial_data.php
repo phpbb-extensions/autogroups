@@ -55,8 +55,8 @@ class m2_initial_data extends \phpbb\db\migration\migration
 		$types = array(
 			'birthdays',
 			'membership',
-			'post',
-			'warning',
+			'posts',
+			'warnings',
 		);
 
 		// Insert data
