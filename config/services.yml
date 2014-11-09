@@ -19,7 +19,7 @@ services:
         arguments:
             - @service_container
         tags:
-            - { name: service_collection, tag: autogroups.type }
+            - { name: service_collection, tag: phpbb.autogroups.type }
 
     phpbb.autogroups.condition.type.posts:
         class: phpbb\autogroups\conditions\type\posts
@@ -30,4 +30,4 @@ services:
             - %phpbb.autogroups.tables.autogroups_rules%
             - %phpbb.autogroups.tables.autogroups_types%
         tags:
-            - { name: autogroups.type }
+            - { name: phpbb.autogroups.type }
