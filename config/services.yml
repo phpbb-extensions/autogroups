@@ -1,0 +1,22 @@
+imports:
+    - { resource: tables.yml }
+
+services:
+    phpbb.autogroups.manager:
+        class: phpbb\autogroups\conditions\manager
+        arguments:
+            - @phpbb.autogroups.conditions_collection
+            - @service_container
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+
+# ----- Auto groups types -----
+# Scope MUST be prototype for all the plugins to work.
+    phpbb.autogroups.conditions_collection:
+        class: phpbb\di\service_collection
+        arguments:
+            - @service_container
+        tags:
+            - { name: service_collection, tag: autogroups.type }
