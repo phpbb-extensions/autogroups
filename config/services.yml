@@ -20,3 +20,14 @@ services:
             - @service_container
         tags:
             - { name: service_collection, tag: autogroups.type }
+
+    phpbb.autogroups.condition.type.posts:
+        class: phpbb\autogroups\conditions\type\posts
+        scope: prototype
+        arguments:
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+        tags:
+            - { name: autogroups.type }
