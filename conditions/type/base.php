@@ -21,14 +21,10 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/** @var \phpbb\user */
 	protected $user;
 
-	/**
-	* @var string The database table the auto group rules are stored in
-	*/
+	/** @var string The database table the auto group rules are stored in */
 	protected $autogroups_rules_table;
 
-	/**
-	* @var string The database table the auto group conditions are stored in
-	*/
+	/** @var string The database table the auto group conditions are stored in */
 	protected $autogroups_condition_types_table;
 
 	/**
