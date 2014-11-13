@@ -14,14 +14,14 @@ services:
 
 # ----- Auto groups types -----
 # Scope MUST be prototype for all the plugins to work.
-    phpbb.autogroups.conditions_collection:
+    phpbb.autogroups.types_collection:
         class: phpbb\di\service_collection
         arguments:
             - @service_container
         tags:
             - { name: service_collection, tag: phpbb.autogroups.type }
 
-    phpbb.autogroups.condition.type.posts:
+    phpbb.autogroups.type.posts:
         class: phpbb\autogroups\conditions\type\posts
         scope: prototype
         arguments:

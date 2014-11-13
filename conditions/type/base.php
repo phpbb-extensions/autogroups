@@ -57,12 +57,12 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	public function get_group_rules($condition)
 	{
 		$sql_array = array(
-			'SELECT'	=> 'ag.*',
+			'SELECT'	=> 'agr.*',
 			'FROM'	=> array(
-				$this->autogroups_rules_table => 'ag',
+				$this->autogroups_rules_table => 'agr',
 				$this->autogroups_types_table => 'agt',
 			),
-			'WHERE'	=> 'ag.autogroups_type_id = agt.autogroups_type_id
+			'WHERE'	=> 'agr.autogroups_type_id = agt.autogroups_type_id
 				AND agt.autogroups_type_name = ' . $this->db->sql_escape($condition),
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);

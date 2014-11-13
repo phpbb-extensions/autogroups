@@ -23,7 +23,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 	*/
 	public function get_condition_type()
 	{
-		return 'phpbb.autogroups.condition.type.posts';
+		return 'phpbb.autogroups.type.posts';
 	}
 
 	/**
@@ -34,7 +34,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 	*/
 	public function get_condition_type_name()
 	{
-		return $this->user->lang('AUTOGROUPS_CONDITION_TYPE_POSTS');
+		return $this->user->lang('AUTOGROUPS_TYPE_POSTS');
 	}
 
 	/**
