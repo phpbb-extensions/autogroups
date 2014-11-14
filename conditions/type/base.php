@@ -48,13 +48,13 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Get auto group rules for condition
+	* Get auto group rules for condition type
 	*
-	* @param string $condition Auto group condition type name
+	* @param string $type Auto group condition type name
 	* @return array Auto group rows
 	* @access public
 	*/
-	public function get_group_rules($condition)
+	public function get_group_rules($type)
 	{
 		$sql_array = array(
 			'SELECT'	=> 'agr.*',
@@ -62,8 +62,8 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 				$this->autogroups_rules_table => 'agr',
 				$this->autogroups_types_table => 'agt',
 			),
-			'WHERE'	=> 'agr.autogroups_type_id = agt.autogroups_type_id
-				AND agt.autogroups_type_name = ' . $this->db->sql_escape($condition),
+			'WHERE'	=> "agr.autogroups_type_id = agt.autogroups_type_id
+				AND agt.autogroups_type_name = '" . $this->db->sql_escape($type) . "'",
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
