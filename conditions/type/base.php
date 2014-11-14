@@ -74,21 +74,26 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Get users group ids
+	* Get user's group ids
 	*
 	* @return array An array of usergroup ids the user belongs to
 	* @access public
 	*/
 	public function get_users_groups()
 	{
+		$group_ids = array();
+
 		$sql = 'SELECT group_id
 			FROM ' . USER_GROUP_TABLE . '
 			WHERE user_id = ' . (int) $this->user->data['user_id'];
 		$result = $this->db->sql_query($sql);
-		$rows = $this->db->sql_fetchrowset($result);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$group_ids[] = $row['group_id'];
+		}
 		$this->db->sql_freeresult($result);
 
-		return $rows;
+		return $group_ids;
 	}
 
 	/**
