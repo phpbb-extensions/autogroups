@@ -5,7 +5,7 @@ services:
     phpbb.autogroups.manager:
         class: phpbb\autogroups\conditions\manager
         arguments:
-            - @phpbb.autogroups.conditions_collection
+            - @phpbb.autogroups.type_collection
             - @service_container
             - @dbal.conn
             - @user
@@ -14,9 +14,20 @@ services:
 
 # ----- Auto groups types -----
 # Scope MUST be prototype for all the plugins to work.
-    phpbb.autogroups.conditions_collection:
+    phpbb.autogroups.type_collection:
         class: phpbb\di\service_collection
         arguments:
             - @service_container
         tags:
-            - { name: service_collection, tag: autogroups.type }
+            - { name: service_collection, tag: phpbb.autogroups.type }
+
+    phpbb.autogroups.type.posts:
+        class: phpbb\autogroups\conditions\type\posts
+        scope: prototype
+        arguments:
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+        tags:
+            - { name: phpbb.autogroups.type }
