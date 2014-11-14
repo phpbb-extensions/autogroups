@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+	<table name="phpbb_autogroups_rules">
+		<column>autogroups_id</column>
+		<column>autogroups_type_id</column>
+		<column>autogroups_min_value</column>
+		<column>autogroups_max_value</column>
+		<column>autogroups_group_id</column>
+		<column>autogroups_default</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>10</value>
+			<value>20</value>
+			<value>2</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>100</value>
+			<value>200</value>
+			<value>3</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>1</value>
+			<value>500</value>
+			<value>0</value>
+			<value>4</value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_autogroups_types">
+		<column>autogroups_type_id</column>
+		<column>autogroups_type_name</column>
+		<row>
+			<value>1</value>
+			<value>phpbb.autogroups.type.posts</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>phpbb.autogroups.type.warnings</value>
+		</row>
+	</table>
+	<table name="phpbb_user_group">
+		<column>user_id</column>
+		<column>group_id</column>
+		<column>group_leader</column>
+		<column>user_pending</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>1</value>
+			<value>5</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>2</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_users">
+		<column>user_id</column>
+		<column>group_id</column>
+		<column>username</column>
+		<column>username_clean</column>
+		<column>user_permissions</column>
+		<column>user_sig</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>user 1</value>
+			<value>user 1</value>
+			<value></value>
+			<value></value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>2</value>
+			<value>user 2</value>
+			<value>user 2</value>
+			<value></value>
+			<value></value>
+		</row>
+	</table>
+	<table name="phpbb_groups">
+		<column>group_id</column>
+		<column>group_type</column>
+		<column>group_name</column>
+		<column>group_desc</column>
+		<row>
+			<value>1</value>
+			<value>3</value>
+			<value>REGISTERED</value>
+			<value></value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>4</value>
+			<value>FOO1</value>
+			<value></value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>4</value>
+			<value>BAR1</value>
+			<value></value>
+		</row>
+		<row>
+			<value>4</value>
+			<value>4</value>
+			<value>FOO2</value>
+			<value></value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>4</value>
+			<value>BAR2</value>
+			<value></value>
+		</row>
+	</table>
+</dataset>
