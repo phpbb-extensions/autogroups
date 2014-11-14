@@ -14,7 +14,7 @@ services:
 
 # ----- Auto groups types -----
 # Scope MUST be prototype for all the plugins to work.
-    phpbb.autogroups.types_collection:
+    phpbb.autogroups.type_collection:
         class: phpbb\di\service_collection
         arguments:
             - @service_container
