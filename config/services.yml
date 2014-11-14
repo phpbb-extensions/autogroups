@@ -5,7 +5,7 @@ services:
     phpbb.autogroups.manager:
         class: phpbb\autogroups\conditions\manager
         arguments:
-            - @phpbb.autogroups.conditions_collection
+            - @phpbb.autogroups.type_collection
             - @service_container
             - @dbal.conn
             - @user
