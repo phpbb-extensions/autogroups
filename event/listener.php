@@ -48,6 +48,7 @@ class listener implements EventSubscriberInterface
 	{
 		return array(
 			'core.submit_post_end'		=> 'check_posts_submit',
+			'core.delete_posts_after'	=> 'check_posts_delete',
 		);
 	}
 
@@ -65,5 +66,19 @@ class listener implements EventSubscriberInterface
 		;
 	}
 
+	/**
+	* Check user's post count after deleting a post for auto groups
+	*
+	* @return null
+	* @access public
+	*/
+	public function check_posts_delete($event)
+	{
+		$this->manager
+			->set_users($event['poster_ids'])
+			->check_condition('phpbb.autogroups.type.posts', array(
+				'action' => 'delete',
+			))
+		;
 	}
 }
