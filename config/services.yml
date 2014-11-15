@@ -29,5 +29,7 @@ services:
             - @user
             - %phpbb.autogroups.tables.autogroups_rules%
             - %phpbb.autogroups.tables.autogroups_types%
+            - %core.root_path%
+            - %core.php_ext%
         tags:
             - { name: phpbb.autogroups.type }
