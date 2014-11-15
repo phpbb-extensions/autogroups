@@ -47,26 +47,23 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.submit_post_end'	=> 'check_posts',
+			'core.submit_post_end'		=> 'check_posts_submit',
 		);
 	}
 
 	/**
-	* Check user's post count after submitting a post
+	* Check user's post count after submitting a post for auto groups
 	*
 	* @return null
 	* @access public
 	*/
-	public function check_posts()
+	public function check_posts_submit()
 	{
-		// User's post count won't be incremented until the next session
-		// so we need to temporarily increment it now for our manager
-		$this->user->data['user_posts']++;
+		$this->manager
+			->set_users($this->user->data['user_id'])
+			->check_condition('phpbb.autogroups.type.posts')
+		;
+	}
 
-		// Perform the auto group check for posts
-		$this->manager->check_condition('phpbb.autogroups.type.posts');
-
-		// Set the user's post count back to its original value
-		$this->user->data['user_posts']--;
 	}
 }
