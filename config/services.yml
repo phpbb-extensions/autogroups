@@ -2,6 +2,14 @@ imports:
     - { resource: tables.yml }
 
 services:
+    phpbb.autogroups.listener:
+        class: phpbb\autogroups\event\listener
+        arguments:
+            - @phpbb.autogroups.manager
+            - @user
+        tags:
+            - { name: event.listener }
+
     phpbb.autogroups.manager:
         class: phpbb\autogroups\conditions\manager
         arguments:
