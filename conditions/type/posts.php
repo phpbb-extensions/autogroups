@@ -60,11 +60,23 @@ class posts extends \phpbb\autogroups\conditions\type\base
 		}
 		$this->db->sql_freeresult($result);
 
+		// Merge default options
+		$options = array_merge(array(
+			'action'	=> '',
+		), $options);
+
 		// Get the group rules
 		$group_rules = $this->get_group_rules($this->get_condition_type());
 
 		foreach ($user_row as $user_id => $user_posts)
 		{
+			// We need to decrement the post count when deleting posts because
+			// the database has not yet been updated with new post counts
+			if ($options['action'] == 'delete')
+			{
+				$user_posts--;
+			}
+
 			// Make the user id available throughout the class
 			$this->user_id = (int) $user_id;
 
