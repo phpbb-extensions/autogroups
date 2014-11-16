@@ -134,4 +134,83 @@ class posts_test extends base
 		$result = $this->db->sql_query($sql);
 		$this->assertEquals($default, $this->db->sql_fetchfield('group_id', false, $result));
 	}
+
+
+	/**
+	 * Data for test_check_multiple_users
+	 */
+	public function check_multiple_users_test_data()
+	{
+		/*
+		 * Mock settings in the database:
+		 * Post count between 10 - 20 adds to group 2 as default
+		 * Post count between 100 - 200 adds to group 3 as default
+		 * Post count between 500 - unlimited adds to group 4 (no default)
+		 *
+		 * User 1 is already a member of groups 1 and 5 (1 is default)
+		 * User 2 is already a member of groups 1 and 2 (2 is default)
+		 */
+		return array(
+			array(
+				array(1, 2), // user ids
+				15, // posts
+				array(
+					1 => array(1, 5, 2), // user 1 added to group 2
+					2 => array(1, 2), // user 2 remains in groups 1 and 2
+				),
+				2, // default
+			),
+			array(
+				array(1, 2), // user ids
+				1000, // posts
+				array(
+					1 => array(1, 5, 4), // user 1 added to group 4
+					2 => array(1, 4), // user 2 removed from group 2, added to group 4
+				),
+				1, // default
+			),
+		);
+	}
+
+	/**
+	 * Test the check method with multiple user ids
+	 *
+	 * @dataProvider check_multiple_users_test_data
+	 */
+	public function test_check_multiple_users($user_ids, $post_count, $expected, $default)
+	{
+		// Update the users post counts
+		foreach ($user_ids as $user_id)
+		{
+			$sql = 'UPDATE ' . USERS_TABLE . '
+				SET user_posts = ' . (int) $post_count . '
+				WHERE user_id = ' . (int) $user_id;
+			$this->db->sql_query($sql);
+		}
+
+		$condition = $this->get_condition();
+
+		// Check the user and perform auto group
+		$condition->check($user_ids);
+
+		foreach ($user_ids as $user_id)
+		{
+			// Set the user id
+			$this->user->data['user_id'] = $user_id;
+
+			// Instantiate a new condition so we can use the new user_id
+			$condition = $this->get_condition();
+
+			// Get the user's groups
+			$result = $condition->get_users_groups();
+
+			// Assert the user's groups are as expected
+			$this->assertEquals($expected[$user_id], $result);
+
+			// Assert the user's default group id is as expected
+			$sql = 'SELECT group_id from phpbb_users WHERE user_id = ' . (int) $user_id;
+			$result = $this->db->sql_query($sql);
+			$this->assertEquals($default, $this->db->sql_fetchfield('group_id', false, $result));
+		}
+	}
 }
