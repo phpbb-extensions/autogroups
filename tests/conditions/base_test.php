@@ -21,8 +21,6 @@ class base_test extends base
 	public function setUp()
 	{
 		parent::setUp();
-
-		$this->condition = new \phpbb\autogroups\conditions\type\posts($this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
 	}
 
 	/**
@@ -70,7 +68,9 @@ class base_test extends base
 	 */
 	public function test_get_group_rules($type, $expected)
 	{
-		$result = $this->condition->get_group_rules($type);
+		$condition = $this->get_condition();
+
+		$result = $condition->get_group_rules($type);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -95,8 +95,10 @@ class base_test extends base
 		// Set the user id
 		$this->user->data['user_id'] = $user_id;
 
+		$condition = $this->get_condition();
+
 		// Get the user's groups
-		$result = $this->condition->get_users_groups();
+		$result = $condition->get_users_groups();
 
 		// Assert the user's groups are as expected
 		$this->assertEquals($expected, $result);
@@ -153,11 +155,13 @@ class base_test extends base
 		// Set the user id
 		$this->user->data['user_id'] = $user_id;
 
+		$condition = $this->get_condition();
+
 		// Add the user to groups
-		$this->condition->add_user_to_groups($groups_data);
+		$condition->add_user_to_groups($groups_data);
 
 		// Get the user's groups
-		$result = $this->condition->get_users_groups();
+		$result = $condition->get_users_groups();
 
 		// Assert the user's groups are as expected
 		$this->assertEquals($expected, $result);
@@ -206,11 +210,13 @@ class base_test extends base
 		// Set the user id
 		$this->user->data['user_id'] = $user_id;
 
+		$condition = $this->get_condition();
+
 		// Add the user to groups
-		$this->condition->remove_user_from_groups($groups_data);
+		$condition->remove_user_from_groups($groups_data);
 
 		// Get the user's groups
-		$result = $this->condition->get_users_groups();
+		$result = $condition->get_users_groups();
 
 		// Assert the user's groups are as expected
 		$this->assertEquals($expected, $result);

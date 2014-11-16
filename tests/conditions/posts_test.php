@@ -109,15 +109,22 @@ class posts_test extends base
 	 */
 	public function test_check($user_id, $post_count, $expected, $default)
 	{
+		// Update the user post count
+		$sql = 'UPDATE ' . USERS_TABLE . '
+			SET user_posts = ' . (int) $post_count . '
+			WHERE user_id = ' . (int) $user_id;
+		$this->db->sql_query($sql);
+
+		$condition = $this->get_condition();
+
+		// Check the user and perform auto group
+		$condition->check($user_id);
+
 		// Set the user id
 		$this->user->data['user_id'] = $user_id;
-		$this->user->data['user_posts'] = $post_count;
 
 		// Get the user's groups
-		$this->condition->check();
-
-		// Get the user's groups
-		$result = $this->condition->get_users_groups();
+		$result = $condition->get_users_groups();
 
 		// Assert the user's groups are as expected
 		$this->assertEquals($expected, $result);
