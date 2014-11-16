@@ -33,6 +33,9 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/** @var string */
 	protected $php_ext;
 
+	/** @var int user id */
+	protected $user_id;
+
 	/**
 	* Constructor
 	*
@@ -56,6 +59,8 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
+
+		$this->user_id = (int) $this->user->data['user_id'];
 	}
 
 	/**
@@ -96,7 +101,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		$sql = 'SELECT group_id
 			FROM ' . USER_GROUP_TABLE . '
-			WHERE user_id = ' . (int) $this->user->data['user_id'];
+			WHERE user_id = ' . (int) $this->user_id;
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -123,7 +128,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		foreach ($groups_data as $group_id => $default)
 		{
-			group_user_add($group_id, $this->user->data['user_id'], false, false, $default);
+			group_user_add($group_id, $this->user_id, false, false, $default);
 		}
 	}
 
@@ -143,7 +148,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		foreach ($groups_data as $group_id)
 		{
-			group_user_del($group_id, $this->user->data['user_id']);
+			group_user_del($group_id, $this->user_id);
 		}
 	}
 }

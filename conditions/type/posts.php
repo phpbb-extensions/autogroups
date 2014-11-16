@@ -40,32 +40,59 @@ class posts extends \phpbb\autogroups\conditions\type\base
 	/**
 	* Check condition
 	*
+	* @param array $user_ids Array of user ids to perform check on
 	* @return null
 	* @access public
 	*/
-	public function check()
+	public function check($user_ids)
 	{
-		$group_rules = $this->get_group_rules($this->get_condition_type());
-		$user_groups = $this->get_users_groups();
+		// Get user post data for the users to be checked
+		$sql = 'SELECT user_id, user_posts
+			FROM ' . USERS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+		$result = $this->db->sql_query($sql);
 
-		$add_user_to_groups = $remove_user_from_groups = array();
-
-		foreach ($group_rules as $group_rule)
+		$user_row = array();
+		while ($row = $this->db->sql_fetchrow($result))
 		{
-			// Check if a user's post count is within the min/max range
-			if (($this->user->data['user_posts'] >= $group_rule['autogroups_min_value']) && (empty($group_rule['autogroups_max_value']) || ($this->user->data['user_posts'] <= $group_rule['autogroups_max_value'])))
+			$user_row[$row['user_id']] = $row['user_posts'];
+		}
+		$this->db->sql_freeresult($result);
+
+		// Get the group rules
+		$group_rules = $this->get_group_rules($this->get_condition_type());
+
+		foreach ($user_row as $user_id => $user_posts)
+		{
+			// Make the user id available throughout the class
+			$this->user_id = (int) $user_id;
+
+			// Get the groups the user belongs to
+			$user_groups = $this->get_users_groups();
+
+			$add_user_to_groups = $remove_user_from_groups = array();
+
+			foreach ($group_rules as $group_rule)
 			{
-				// Check if a user is a member of checked group
-				if (!in_array($group_rule['autogroups_group_id'], $user_groups))
+				// Check if a user's post count is within the min/max range
+				if (($user_posts >= $group_rule['autogroups_min_value']) && (empty($group_rule['autogroups_max_value']) || ($user_posts <= $group_rule['autogroups_max_value'])))
 				{
-					// Add user to group (create array where a group id is a key and default is value)
-					$add_user_to_groups[$group_rule['autogroups_group_id']] = $group_rule['autogroups_default'];
+					// Check if a user is a member of checked group
+					if (!in_array($group_rule['autogroups_group_id'], $user_groups))
+					{
+						// Add user to group (create array where a group id is a key and default is value)
+						$add_user_to_groups[$group_rule['autogroups_group_id']] = $group_rule['autogroups_default'];
+					}
 				}
-			}
-			// If the user post value doesn't match to the above range, add that group id to array as value
-			else
-			{
-				$remove_user_from_groups[] = $group_rule['autogroups_group_id'];
+				else
+				{
+					// Check if a user is a member of checked group
+					if (in_array($group_rule['autogroups_group_id'], $user_groups))
+					{
+						// Remove user from the group
+						$remove_user_from_groups[] = $group_rule['autogroups_group_id'];
+					}
+				}
 			}
 
 			// Add user to groups
