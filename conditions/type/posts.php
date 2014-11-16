@@ -41,10 +41,11 @@ class posts extends \phpbb\autogroups\conditions\type\base
 	* Check condition
 	*
 	* @param array $user_ids Array of user ids to perform check on
+	* @param array $options Array of optional data
 	* @return null
 	* @access public
 	*/
-	public function check($user_ids)
+	public function check($user_ids, $options = array())
 	{
 		// Get user post data for the users to be checked
 		$sql = 'SELECT user_id, user_posts
