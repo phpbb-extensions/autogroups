@@ -35,9 +35,6 @@ class manager
 	/** @var string The database table the auto group types are stored in */
 	protected $autogroups_types_table;
 
-	/** @var array Array of user ids */
-	protected $user_ids;
-
 	/**
 	* Constructor
 	*
