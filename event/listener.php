@@ -60,10 +60,7 @@ class listener implements EventSubscriberInterface
 	*/
 	public function check_posts_submit()
 	{
-		$this->manager
-			->set_users($this->user->data['user_id'])
-			->check_condition('phpbb.autogroups.type.posts')
-		;
+		$this->manager->check_condition('phpbb.autogroups.type.posts');
 	}
 
 	/**
@@ -74,11 +71,9 @@ class listener implements EventSubscriberInterface
 	*/
 	public function check_posts_delete($event)
 	{
-		$this->manager
-			->set_users($event['poster_ids'])
-			->check_condition('phpbb.autogroups.type.posts', array(
-				'action' => 'delete',
-			))
-		;
+		$this->manager->check_condition('phpbb.autogroups.type.posts', array(
+			'action'	=> 'delete',
+			'users'		=> $event['poster_ids'],
+		));
 	}
 }
