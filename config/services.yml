@@ -6,7 +6,6 @@ services:
         class: phpbb\autogroups\event\listener
         arguments:
             - @phpbb.autogroups.manager
-            - @user
         tags:
             - { name: event.listener }
 

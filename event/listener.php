@@ -20,21 +20,16 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\autogroups\conditions\manager */
 	protected $manager;
 
-	/** @var \phpbb\user */
-	protected $user;
-
 	/**
 	* Constructor
 	*
 	* @param \phpbb\autogroups\conditions\manager $manager     Auto groups condition manager object
-	* @param \phpbb\user                          $user        User object
 	* @return \phpbb\autogroups\event\listener
 	* @access public
 	*/
-	public function __construct(\phpbb\autogroups\conditions\manager $manager, \phpbb\user $user)
+	public function __construct(\phpbb\autogroups\conditions\manager $manager)
 	{
 		$this->manager = $manager;
-		$this->user = $user;
 	}
 
 	/**
