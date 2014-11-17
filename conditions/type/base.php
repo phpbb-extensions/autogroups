@@ -59,8 +59,6 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
-
-		$this->user_id = (int) $this->user->data['user_id'];
 	}
 
 	/**
@@ -150,5 +148,17 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		{
 			group_user_del($group_id, $this->user_id);
 		}
+	}
+
+	/**
+	* Set the user_id for the user to be processed
+	*
+	* @param int $user_id User identifier
+	* @return null
+	* @access public
+	*/
+	public function set_user_id($user_id = 0)
+	{
+		$this->user_id = ($user_id) ? (int) $user_id : (int) $this->user->data['user_id'];
 	}
 }

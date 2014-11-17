@@ -38,28 +38,62 @@ class posts extends \phpbb\autogroups\conditions\type\base
 	}
 
 	/**
-	* Check condition
+	* Get users to apply to this condition
 	*
-	* @param array $user_ids Array of user ids to perform check on
 	* @param array $options Array of optional data
-	* @return null
+	* @return array Array of users ids as keys and their condition data as values
 	* @access public
 	*/
-	public function check($user_ids, $options = array())
+	public function get_users_for_condition($options = array())
 	{
-		// Get user post data for the users to be checked
-		$sql = 'SELECT user_id, user_posts
+		// The user data this condition needs to check
+		$condition_data = array(
+			'user_posts',
+		);
+
+		// Merge default options, use the active user as the default
+		$options = array_merge(array(
+			'users'		=> $this->user->data['user_id'],
+		), $options);
+
+		$user_ids = $options['users'];
+
+		// Clean up array of ids
+		if (is_array($user_ids))
+		{
+			$user_ids = array_map('intval', $user_ids);
+		}
+		else
+		{
+			$user_ids = array((int) $user_ids);
+		}
+
+		// Get data for the users to be checked
+		$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
 			FROM ' . USERS_TABLE . '
 			WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
 		$result = $this->db->sql_query($sql);
 
-		$user_row = array();
+		$user_data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$user_row[$row['user_id']] = $row['user_posts'];
+			$user_data[$row['user_id']] = $row;
 		}
 		$this->db->sql_freeresult($result);
 
+		return $user_data;
+	}
+
+	/**
+	* Check condition
+	*
+	* @param array $user_row Array of user data to perform checks on
+	* @param array $options Array of optional data
+	* @return null
+	* @access public
+	*/
+	public function check($user_row, $options = array())
+	{
 		// Merge default options
 		$options = array_merge(array(
 			'action'	=> '',
@@ -68,17 +102,17 @@ class posts extends \phpbb\autogroups\conditions\type\base
 		// Get the group rules
 		$group_rules = $this->get_group_rules($this->get_condition_type());
 
-		foreach ($user_row as $user_id => $user_posts)
+		foreach ($user_row as $user_id => $user_data)
 		{
 			// We need to decrement the post count when deleting posts because
 			// the database has not yet been updated with new post counts
 			if ($options['action'] == 'delete')
 			{
-				$user_posts--;
+				$user_data['user_posts']--;
 			}
 
-			// Make the user id available throughout the class
-			$this->user_id = (int) $user_id;
+			// Set the user id throughout the class
+			$this->set_user_id($user_id);
 
 			// Get the groups the user belongs to
 			$user_groups = $this->get_users_groups();
@@ -88,7 +122,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 			foreach ($group_rules as $group_rule)
 			{
 				// Check if a user's post count is within the min/max range
-				if (($user_posts >= $group_rule['autogroups_min_value']) && (empty($group_rule['autogroups_max_value']) || ($user_posts <= $group_rule['autogroups_max_value'])))
+				if (($user_data['user_posts'] >= $group_rule['autogroups_min_value']) && (empty($group_rule['autogroups_max_value']) || ($user_data['user_posts'] <= $group_rule['autogroups_max_value'])))
 				{
 					// Check if a user is a member of checked group
 					if (!in_array($group_rule['autogroups_group_id'], $user_groups))

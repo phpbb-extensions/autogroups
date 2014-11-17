@@ -62,37 +62,6 @@ class manager
 	}
 
 	/**
-	* Set the user id(s) we will apply auto groups to
-	*
-	* @param mixed $user_ids Optional user id or array of user ids
-	* @return manager $this object
-	* @access public
-	*/
-	public function set_users($user_ids = false)
-	{
-		$this->user_ids = $user_ids;
-
-		// If no ids give, use the current user's id
-		if ($this->user_ids === false)
-		{
-			$this->user_ids = array($this->user->data['user_id']);
-		}
-
-		// Clean up array of ids
-		if (is_array($this->user_ids))
-		{
-			$this->user_ids = array_map('intval', $this->user_ids);
-		}
-		else
-		{
-			$this->user_ids = array((int) $this->user_ids);
-		}
-
-		// Return this to allow function chaining
-		return $this;
-	}
-
-	/**
 	* Check auto groups conditions and execute them
 	*
 	* @return null
@@ -119,7 +88,7 @@ class manager
 	{
 		$condition = $this->phpbb_container->get($type_name);
 
-		$check_users = (isset($this->user_ids)) ? $this->user_ids : array($this->user->data['user_id']);
+		$check_users = $condition->get_users_for_condition($options);
 
 		$condition->check($check_users, $options);
 	}

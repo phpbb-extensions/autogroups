@@ -68,6 +68,7 @@ class base_test extends base
 	 */
 	public function test_get_group_rules($type, $expected)
 	{
+		// Instantiate the condition
 		$condition = $this->get_condition();
 
 		$result = $condition->get_group_rules($type);
@@ -92,10 +93,11 @@ class base_test extends base
 	 */
 	public function test_get_users_groups($user_id, $expected)
 	{
-		// Set the user id
-		$this->user->data['user_id'] = $user_id;
-
+		// Instantiate the condition
 		$condition = $this->get_condition();
+
+		// Set the user id
+		$condition->set_user_id($user_id);
 
 		// Get the user's groups
 		$result = $condition->get_users_groups();
@@ -152,10 +154,11 @@ class base_test extends base
 	 */
 	public function test_add_user_to_groups($user_id, $groups_data, $expected)
 	{
-		// Set the user id
-		$this->user->data['user_id'] = $user_id;
-
+		// Instantiate the condition
 		$condition = $this->get_condition();
+
+		// Set the user id
+		$condition->set_user_id($user_id);
 
 		// Add the user to groups
 		$condition->add_user_to_groups($groups_data);
@@ -207,10 +210,11 @@ class base_test extends base
 	 */
 	public function test_remove_user_from_groups($user_id, $groups_data, $expected)
 	{
-		// Set the user id
-		$this->user->data['user_id'] = $user_id;
-
+		// Instantiate the condition
 		$condition = $this->get_condition();
+
+		// Set the user id
+		$condition->set_user_id($user_id);
 
 		// Add the user to groups
 		$condition->remove_user_from_groups($groups_data);

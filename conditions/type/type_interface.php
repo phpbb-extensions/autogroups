@@ -32,6 +32,15 @@ interface type_interface
 	public function get_condition_type_name();
 
 	/**
+	* Get users to apply to this condition
+	*
+	* @param array $options Array of optional data
+	* @return array Array of users ids and their post counts
+	* @access public
+	*/
+	public function get_users_for_condition($options = array());
+
+	/**
 	* Get auto group rules for condition
 	*
 	* @param string $condition Auto group condition type name
@@ -65,4 +74,13 @@ interface type_interface
 	* @access public
 	*/
 	public function remove_user_from_groups($groups_data);
+
+	/**
+	* Set the user_id for the user to be processed
+	*
+	* @param int $user_id User identifier
+	* @return null
+	* @access public
+	*/
+	public function set_user_id($user_id = 0);
 }

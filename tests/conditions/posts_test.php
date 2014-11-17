@@ -103,7 +103,7 @@ class posts_test extends base
 	}
 
 	/**
-	 * Test the check method
+	 * Test the check method by passing it user ids
 	 *
 	 * @dataProvider check_test_data
 	 */
@@ -115,13 +115,14 @@ class posts_test extends base
 			WHERE user_id = ' . (int) $user_id;
 		$this->db->sql_query($sql);
 
+		// Instantiate the condition
 		$condition = $this->get_condition();
 
 		// Check the user and perform auto group
-		$condition->check($user_id);
-
-		// Set the user id
-		$this->user->data['user_id'] = $user_id;
+		$check_users = $condition->get_users_for_condition(array(
+			'users' => $user_id,
+		));
+		$condition->check($check_users);
 
 		// Get the user's groups
 		$result = $condition->get_users_groups();
@@ -135,6 +136,40 @@ class posts_test extends base
 		$this->assertEquals($default, $this->db->sql_fetchfield('group_id', false, $result));
 	}
 
+	/**
+	 * Test the check method using the active user, not passing it user ids
+	 *
+	 * @dataProvider check_test_data
+	 */
+	public function test_check_alt($user_id, $post_count, $expected, $default)
+	{
+		// Update the user post count
+		$sql = 'UPDATE ' . USERS_TABLE . '
+			SET user_posts = ' . (int) $post_count . '
+			WHERE user_id = ' . (int) $user_id;
+		$this->db->sql_query($sql);
+
+		// Set the current/active user id
+		$this->user->data['user_id'] = $user_id;
+
+		// Instantiate the condition
+		$condition = $this->get_condition();
+
+		// Check the user and perform auto group
+		$check_users = $condition->get_users_for_condition();
+		$condition->check($check_users);
+
+		// Get the user's groups
+		$result = $condition->get_users_groups();
+
+		// Assert the user's groups are as expected
+		$this->assertEquals($expected, $result);
+
+		// Assert the user's default group id is as expected
+		$sql = 'SELECT group_id from phpbb_users WHERE user_id = ' . (int) $user_id;
+		$result = $this->db->sql_query($sql);
+		$this->assertEquals($default, $this->db->sql_fetchfield('group_id', false, $result));
+	}
 
 	/**
 	 * Data for test_check_multiple_users
@@ -188,18 +223,19 @@ class posts_test extends base
 			$this->db->sql_query($sql);
 		}
 
+		// Instantiate the condition
 		$condition = $this->get_condition();
 
-		// Check the user and perform auto group
-		$condition->check($user_ids);
+		// Check the users and perform auto group
+		$check_users = $condition->get_users_for_condition(array(
+			'users' => $user_ids,
+		));
+		$condition->check($check_users);
 
 		foreach ($user_ids as $user_id)
 		{
-			// Set the user id
-			$this->user->data['user_id'] = $user_id;
-
-			// Instantiate a new condition so we can use the new user_id
-			$condition = $this->get_condition();
+			// Re-set the user id for this pass
+			$condition->set_user_id($user_id);
 
 			// Get the user's groups
 			$result = $condition->get_users_groups();
