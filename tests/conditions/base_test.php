@@ -81,8 +81,25 @@ class base_test extends base
 	public function get_users_groups_test_data()
 	{
 		return array(
-			array(1, array(1, 5)),
-			array(2, array(1, 2)),
+			array(
+				1,
+				array(
+					1 => array(1, 5),
+				),
+			),
+			array(
+				2,
+				array(
+					2 => array(1, 2),
+				),
+			),
+			array(
+				array(1, 2),
+				array(
+					1 => array(1, 5),
+					2 => array(1, 2),
+				),
+			),
 		);
 	}
 
@@ -96,11 +113,13 @@ class base_test extends base
 		// Instantiate the condition
 		$condition = $this->get_condition();
 
-		// Set the user id
-		$condition->set_user_id($user_id);
+		if (!is_array($user_id))
+		{
+			$user_id = array($user_id);
+		}
 
 		// Get the user's groups
-		$result = $condition->get_users_groups();
+		$result = $condition->get_users_groups($user_id);
 
 		// Assert the user's groups are as expected
 		$this->assertEquals($expected, $result);
@@ -113,37 +132,52 @@ class base_test extends base
 	{
 		return array(
 			array(
-				1, // add user 1 to group 2, default enabled
+				// add user 1 to group 2
 				array(
 					2 => 1,
 				),
-				array(1, 5, 2)),
+				1, // default enabled
+				array(1, 2, 5),
+			),
 			array(
-				1, // add user 1 to group 2, default disabled
+				// add user 1 to group 2
 				array(
-					2 => 0,
+					2 => 1,
 				),
-				array(1, 5, 2)),
+				0, // default disabled
+				array(1, 2, 5),
+			),
 			array(
-				1, // add user 1 to no group
-				array(),
-				array(1, 5)),
-			array(
-				2, // add user 2 to multiple groups, no defaults
+				// add user 2 to multiple groups, no defaults
 				array(
-					3 => 0,
-					4 => 0,
-					5 => 0,
+					3 => 2,
+					4 => 2,
+					5 => 2,
 				),
-				array(1, 2, 3, 4, 5)),
+				0, // default disabled
+				array(1, 2, 3, 4, 5),
+			),
 			array(
-				2, // add user 2 to multiple groups, defaults
+				// add user 2 to multiple groups
 				array(
-					3 => 1,
-					4 => 1,
-					5 => 1,
+					3 => 2,
+					4 => 2,
+					5 => 2,
 				),
-				array(1, 2, 3, 4, 5)),
+				1, // default enabled
+				array(1, 2, 3, 4, 5),
+			),
+			array(
+				// add multiple users to multiple groups
+				array(
+					2 => array(1, 2),
+					3 => array(1, 2),
+					4 => array(1, 2),
+					5 => array(1, 2),
+				),
+				1, // default enabled
+				array(1, 2, 3, 4, 5),
+			),
 		);
 	}
 
@@ -152,22 +186,28 @@ class base_test extends base
 	 *
 	 * @dataProvider add_user_to_groups_test_data
 	 */
-	public function test_add_user_to_groups($user_id, $groups_data, $expected)
+	public function test_add_user_to_groups($groups_data, $default, $expected)
 	{
 		// Instantiate the condition
 		$condition = $this->get_condition();
 
-		// Set the user id
-		$condition->set_user_id($user_id);
-
 		// Add the user to groups
-		$condition->add_user_to_groups($groups_data);
+		$condition->add_user_to_groups($groups_data, $default);
 
 		// Get the user's groups
-		$result = $condition->get_users_groups();
+		foreach ($groups_data as $user_ids)
+		{
+			$user_groups = $condition->get_users_groups($user_ids);
 
-		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $result);
+			foreach ($user_groups as $groups)
+			{
+				// sort the groups
+				sort($groups);
+
+				// Assert the user's groups are as expected
+				$this->assertEquals($expected, $groups);
+			}
+		}
 	}
 
 	/**
@@ -177,28 +217,44 @@ class base_test extends base
 	{
 		return array(
 			array(
-				1, // remove user 1 from group 5
-				array(5),
+				// remove user 1 from group 5
+				array(
+					5 => 1,
+				),
 				array(1)),
 			array(
-				1, // remove user 1 from no group
-				array(),
-				array(1, 5)),
-			array(
-				1, // remove user 1 from all their groups
-				array(1, 5),
+				// remove user 1 from all their groups
+				array(
+					1 => 1,
+					5 => 1,
+				),
 				array()),
 			array(
-				2, // remove user 2 from all their groups
-				array(1, 2),
+				// remove user 2 from all their groups
+				array(
+					1 => 2,
+					2 => 2,
+				),
 				array()),
 			array(
-				2, // remove user 2 from a group they do not belong to
-				array(5),
+				// remove user 2 from a group they do not belong to (5)
+				array(
+					5 => 2,
+				),
 				array(1, 2)),
 			array(
-				2, // remove user 2 from a group they do and do not belong to
-				array(2, 5),
+				// remove user 2 from a group they do (2) and do not (5) belong to
+				array(
+					2 => 2,
+					5 => 2,
+				),
+				array(1)),
+			array(
+				// remove users 1 and 2 from groups 2 and 5
+				array(
+					2 => array(1, 2),
+					5 => array(1, 2),
+				),
 				array(1)),
 		);
 	}
@@ -208,21 +264,27 @@ class base_test extends base
 	 *
 	 * @dataProvider remove_user_from_groups_test_data
 	 */
-	public function test_remove_user_from_groups($user_id, $groups_data, $expected)
+	public function test_remove_user_from_groups($groups_data, $expected)
 	{
 		// Instantiate the condition
 		$condition = $this->get_condition();
-
-		// Set the user id
-		$condition->set_user_id($user_id);
 
 		// Add the user to groups
 		$condition->remove_user_from_groups($groups_data);
 
 		// Get the user's groups
-		$result = $condition->get_users_groups();
+		foreach ($groups_data as $user_ids)
+		{
+			$user_groups = $condition->get_users_groups($user_ids);
 
-		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $result);
+			foreach ($user_groups as $groups)
+			{
+				// sort the groups
+				sort($groups);
+
+				// Assert the user's groups are as expected
+				$this->assertEquals($expected, $groups);
+			}
+		}
 	}
 }

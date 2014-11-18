@@ -102,42 +102,39 @@ class posts extends \phpbb\autogroups\conditions\type\base
 		// Get the group rules
 		$group_rules = $this->get_group_rules($this->get_condition_type());
 
-		foreach ($user_row as $user_id => $user_data)
+		// Get the groups the users belongs to
+		$user_groups = $this->get_users_groups(array_keys($user_row));
+
+		foreach ($group_rules as $group_rule)
 		{
-			// We need to decrement the post count when deleting posts because
-			// the database has not yet been updated with new post counts
-			if ($options['action'] == 'delete')
-			{
-				$user_data['user_posts']--;
-			}
-
-			// Set the user id throughout the class
-			$this->set_user_id($user_id);
-
-			// Get the groups the user belongs to
-			$user_groups = $this->get_users_groups();
-
 			$add_user_to_groups = $remove_user_from_groups = array();
 
-			foreach ($group_rules as $group_rule)
+			foreach ($user_row as $user_id => $user_data)
 			{
+				// We need to decrement the post count when deleting posts because
+				// the database has not yet been updated with new post counts
+				if ($options['action'] == 'delete')
+				{
+					$user_data['user_posts']--;
+				}
+
 				// Check if a user's post count is within the min/max range
 				if (($user_data['user_posts'] >= $group_rule['autogroups_min_value']) && (empty($group_rule['autogroups_max_value']) || ($user_data['user_posts'] <= $group_rule['autogroups_max_value'])))
 				{
 					// Check if a user is a member of checked group
-					if (!in_array($group_rule['autogroups_group_id'], $user_groups))
+					if (!in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
 					{
 						// Add user to group (create array where a group id is a key and default is value)
-						$add_user_to_groups[$group_rule['autogroups_group_id']] = $group_rule['autogroups_default'];
+						$add_user_to_groups[$group_rule['autogroups_group_id']][] = $user_id;
 					}
 				}
 				else
 				{
 					// Check if a user is a member of checked group
-					if (in_array($group_rule['autogroups_group_id'], $user_groups))
+					if (in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
 					{
 						// Remove user from the group
-						$remove_user_from_groups[] = $group_rule['autogroups_group_id'];
+						$remove_user_from_groups[$group_rule['autogroups_group_id']][] = $user_id;
 					}
 				}
 			}
@@ -145,7 +142,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 			// Add user to groups
 			if (sizeof($add_user_to_groups))
 			{
-				$this->add_user_to_groups($add_user_to_groups);
+				$this->add_user_to_groups($add_user_to_groups, $group_rule['autogroups_default']);
 			}
 
 			// Remove user from groups

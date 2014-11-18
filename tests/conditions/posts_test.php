@@ -125,10 +125,10 @@ class posts_test extends base
 		$condition->check($check_users);
 
 		// Get the user's groups
-		$result = $condition->get_users_groups();
+		$result = $condition->get_users_groups($user_id);
 
 		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $result);
+		$this->assertEquals($expected, $result[$user_id]);
 
 		// Assert the user's default group id is as expected
 		$sql = 'SELECT group_id from phpbb_users WHERE user_id = ' . (int) $user_id;
@@ -160,10 +160,10 @@ class posts_test extends base
 		$condition->check($check_users);
 
 		// Get the user's groups
-		$result = $condition->get_users_groups();
+		$result = $condition->get_users_groups($user_id);
 
 		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $result);
+		$this->assertEquals($expected, $result[$user_id]);
 
 		// Assert the user's default group id is as expected
 		$sql = 'SELECT group_id from phpbb_users WHERE user_id = ' . (int) $user_id;
@@ -234,14 +234,11 @@ class posts_test extends base
 
 		foreach ($user_ids as $user_id)
 		{
-			// Re-set the user id for this pass
-			$condition->set_user_id($user_id);
-
 			// Get the user's groups
-			$result = $condition->get_users_groups();
+			$result = $condition->get_users_groups($user_id);
 
 			// Assert the user's groups are as expected
-			$this->assertEquals($expected[$user_id], $result);
+			$this->assertEquals($expected[$user_id], $result[$user_id]);
 
 			// Assert the user's default group id is as expected
 			$sql = 'SELECT group_id from phpbb_users WHERE user_id = ' . (int) $user_id;
