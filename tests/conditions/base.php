@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
 require_once dirname(__FILE__) . '/../../../../../includes/functions_user.php';
 
 /**
-*
+* Base class for conditions type tests
 */
 class base extends \phpbb_database_test_case
 {

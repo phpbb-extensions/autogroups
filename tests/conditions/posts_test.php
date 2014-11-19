@@ -11,18 +11,11 @@
 namespace phpbb\autogroups\tests\conditions;
 
 /**
-*
-*/
+ * Run tests on the posts type class.
+ */
 class posts_test extends base
 {
 	protected $condition_type = 'phpbb.autogroups.type.posts';
-
-	public function setUp()
-	{
-		parent::setUp();
-
-		$this->condition = new \phpbb\autogroups\conditions\type\posts($this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
-	}
 
 	/**
 	 * Data for test_check
@@ -110,10 +103,7 @@ class posts_test extends base
 	public function test_check($user_id, $post_count, $expected, $default)
 	{
 		// Update the user post count
-		$sql = 'UPDATE ' . USERS_TABLE . '
-			SET user_posts = ' . (int) $post_count . '
-			WHERE user_id = ' . (int) $user_id;
-		$this->db->sql_query($sql);
+		$this->helper_update_user_posts($user_id, $post_count);
 
 		// Instantiate the condition
 		$condition = $this->get_condition();
@@ -131,9 +121,7 @@ class posts_test extends base
 		$this->assertEquals($expected, $result[$user_id]);
 
 		// Assert the user's default group id is as expected
-		$sql = 'SELECT group_id from phpbb_users WHERE user_id = ' . (int) $user_id;
-		$result = $this->db->sql_query($sql);
-		$this->assertEquals($default, $this->db->sql_fetchfield('group_id', false, $result));
+		$this->assertEquals($default, $this->helper_default_group_id($user_id));
 	}
 
 	/**
@@ -144,10 +132,7 @@ class posts_test extends base
 	public function test_check_alt($user_id, $post_count, $expected, $default)
 	{
 		// Update the user post count
-		$sql = 'UPDATE ' . USERS_TABLE . '
-			SET user_posts = ' . (int) $post_count . '
-			WHERE user_id = ' . (int) $user_id;
-		$this->db->sql_query($sql);
+		$this->helper_update_user_posts($user_id, $post_count);
 
 		// Set the current/active user id
 		$this->user->data['user_id'] = $user_id;
@@ -166,9 +151,7 @@ class posts_test extends base
 		$this->assertEquals($expected, $result[$user_id]);
 
 		// Assert the user's default group id is as expected
-		$sql = 'SELECT group_id from phpbb_users WHERE user_id = ' . (int) $user_id;
-		$result = $this->db->sql_query($sql);
-		$this->assertEquals($default, $this->db->sql_fetchfield('group_id', false, $result));
+		$this->assertEquals($default, $this->helper_default_group_id($user_id));
 	}
 
 	/**
@@ -217,10 +200,7 @@ class posts_test extends base
 		// Update the users post counts
 		foreach ($user_ids as $user_id)
 		{
-			$sql = 'UPDATE ' . USERS_TABLE . '
-				SET user_posts = ' . (int) $post_count . '
-				WHERE user_id = ' . (int) $user_id;
-			$this->db->sql_query($sql);
+			$this->helper_update_user_posts($user_id, $post_count);
 		}
 
 		// Instantiate the condition
@@ -241,9 +221,31 @@ class posts_test extends base
 			$this->assertEquals($expected[$user_id], $result[$user_id]);
 
 			// Assert the user's default group id is as expected
-			$sql = 'SELECT group_id from phpbb_users WHERE user_id = ' . (int) $user_id;
-			$result = $this->db->sql_query($sql);
-			$this->assertEquals($default, $this->db->sql_fetchfield('group_id', false, $result));
+			$this->assertEquals($default, $this->helper_default_group_id($user_id));
 		}
+	}
+
+	/*
+	 * Update the database with new post count values for a user
+	 */
+	public function helper_update_user_posts($user_id, $post_count)
+	{
+		$sql = 'UPDATE ' . USERS_TABLE . '
+			SET user_posts = ' . (int) $post_count . '
+			WHERE user_id = ' . (int) $user_id;
+		$this->db->sql_query($sql);
+	}
+
+	/*
+	 * Get the default group id for a user
+	 */
+	public function helper_default_group_id($user_id)
+	{
+		$sql = 'SELECT group_id
+			FROM phpbb_users
+			WHERE user_id = ' . (int) $user_id;
+		$result = $this->db->sql_query($sql);
+
+		return $this->db->sql_fetchfield('group_id', false, $result);
 	}
 }

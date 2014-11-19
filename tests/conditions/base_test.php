@@ -18,11 +18,6 @@ class base_test extends base
 {
 	protected $condition_type = 'phpbb.autogroups.type.posts';
 
-	public function setUp()
-	{
-		parent::setUp();
-	}
-
 	/**
 	 * Data for test_get_group_rules
 	 */
@@ -100,6 +95,10 @@ class base_test extends base
 					2 => array(1, 2),
 				),
 			),
+			array(
+				array(),
+				array(),
+			),
 		);
 	}
 
@@ -136,7 +135,7 @@ class base_test extends base
 				array(
 					2 => 1,
 				),
-				1, // default enabled
+				true, // default enabled
 				array(1, 2, 5),
 			),
 			array(
@@ -144,7 +143,7 @@ class base_test extends base
 				array(
 					2 => 1,
 				),
-				0, // default disabled
+				false, // default disabled
 				array(1, 2, 5),
 			),
 			array(
@@ -154,7 +153,7 @@ class base_test extends base
 					4 => 2,
 					5 => 2,
 				),
-				0, // default disabled
+				false, // default disabled
 				array(1, 2, 3, 4, 5),
 			),
 			array(
@@ -164,7 +163,7 @@ class base_test extends base
 					4 => 2,
 					5 => 2,
 				),
-				1, // default enabled
+				true, // default enabled
 				array(1, 2, 3, 4, 5),
 			),
 			array(
@@ -175,7 +174,7 @@ class base_test extends base
 					4 => array(1, 2),
 					5 => array(1, 2),
 				),
-				1, // default enabled
+				true, // default enabled
 				array(1, 2, 3, 4, 5),
 			),
 		);

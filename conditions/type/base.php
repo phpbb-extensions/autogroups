@@ -97,7 +97,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		$sql = 'SELECT user_id, group_id
 			FROM ' . USER_GROUP_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+			WHERE ' . $this->db->sql_in_set('user_id', $user_ids, false, true);
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -116,7 +116,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	* @return null
 	* @access public
 	*/
-	public function add_user_to_groups($groups_data, $default)
+	public function add_user_to_groups($groups_data, $default = false)
 	{
 		if (!function_exists('group_user_add'))
 		{
