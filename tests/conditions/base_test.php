@@ -135,16 +135,22 @@ class base_test extends base
 				array(
 					2 => 1,
 				),
-				true, // default enabled
-				array(1, 2, 5),
+				true, // default
+				// expect user 1 in groups 1, 2, 5
+				array(
+					1 => array(1, 5, 2),
+				),
 			),
 			array(
 				// add user 1 to group 2
 				array(
 					2 => 1,
 				),
-				false, // default disabled
-				array(1, 2, 5),
+				false, // default
+				// expect user 1 in groups 1, 2, 5
+				array(
+					1 => array(1, 5, 2),
+				),
 			),
 			array(
 				// add user 2 to multiple groups, no defaults
@@ -153,8 +159,11 @@ class base_test extends base
 					4 => 2,
 					5 => 2,
 				),
-				false, // default disabled
-				array(1, 2, 3, 4, 5),
+				false, // default
+				// expect user 2 in all groups
+				array(
+					2 => array(1, 2, 3, 4, 5),
+				),
 			),
 			array(
 				// add user 2 to multiple groups
@@ -163,8 +172,11 @@ class base_test extends base
 					4 => 2,
 					5 => 2,
 				),
-				true, // default enabled
-				array(1, 2, 3, 4, 5),
+				true, // default
+				// expect user 2 in all groups
+				array(
+					2 => array(1, 2, 3, 4, 5),
+				),
 			),
 			array(
 				// add multiple users to multiple groups
@@ -174,8 +186,12 @@ class base_test extends base
 					4 => array(1, 2),
 					5 => array(1, 2),
 				),
-				true, // default enabled
-				array(1, 2, 3, 4, 5),
+				true, // default
+				// expect user 1 in all groups, user 2 in all groups
+				array(
+					1 => array(1, 5, 2, 3, 4),
+					2 => array(1, 2, 3, 4, 5),
+				),
 			),
 		);
 	}
@@ -198,14 +214,8 @@ class base_test extends base
 		{
 			$user_groups = $condition->get_users_groups($user_ids);
 
-			foreach ($user_groups as $groups)
-			{
-				// sort the groups
-				sort($groups);
-
-				// Assert the user's groups are as expected
-				$this->assertEquals($expected, $groups);
-			}
+			// Assert the user's groups are as expected
+			$this->assertEquals($expected, $user_groups);
 		}
 	}
 
@@ -220,41 +230,62 @@ class base_test extends base
 				array(
 					5 => 1,
 				),
-				array(1)),
+				// expect user 1 in group 1
+				array(
+					1 => array(1),
+				),
+			),
 			array(
 				// remove user 1 from all their groups
 				array(
 					1 => 1,
 					5 => 1,
 				),
-				array()),
+				// expect user 1 in no group
+				array(),
+			),
 			array(
 				// remove user 2 from all their groups
 				array(
 					1 => 2,
 					2 => 2,
 				),
-				array()),
+				// expect user 2 in no group
+				array(),
+			),
 			array(
 				// remove user 2 from a group they do not belong to (5)
 				array(
 					5 => 2,
 				),
-				array(1, 2)),
+				// expect user 2 in group 1 and 2
+				array(
+					2 => array(1, 2),
+				),
+			),
 			array(
 				// remove user 2 from a group they do (2) and do not (5) belong to
 				array(
 					2 => 2,
 					5 => 2,
 				),
-				array(1)),
+				// expect user 2 in group 1
+				array(
+					2 => array(1),
+				),
+			),
 			array(
 				// remove users 1 and 2 from groups 2 and 5
 				array(
 					2 => array(1, 2),
 					5 => array(1, 2),
 				),
-				array(1)),
+				// expect user 1 in group 1, user 2 in group 1
+				array(
+					1 => array(1),
+					2 => array(1),
+				),
+			),
 		);
 	}
 
@@ -268,7 +299,7 @@ class base_test extends base
 		// Instantiate the condition
 		$condition = $this->get_condition();
 
-		// Add the user to groups
+		// Remove the user from groups
 		$condition->remove_user_from_groups($groups_data);
 
 		// Get the user's groups
@@ -276,14 +307,8 @@ class base_test extends base
 		{
 			$user_groups = $condition->get_users_groups($user_ids);
 
-			foreach ($user_groups as $groups)
-			{
-				// sort the groups
-				sort($groups);
-
-				// Assert the user's groups are as expected
-				$this->assertEquals($expected, $groups);
-			}
+			// Assert the user's groups are as expected
+			$this->assertEquals($expected, $user_groups);
 		}
 	}
 }
