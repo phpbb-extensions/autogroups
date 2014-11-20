@@ -111,12 +111,13 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	* Add user to groups
 	*
-	* @param array $groups_data Data array where a group id is a key and user array is value
-	* @param bool $default Make this group the default
+	* @param array $groups_data Data array where group id is key and user array is value
+	* @param array $default Data array where group id is key and value is a boolean if
+	*                       the group should be set as the default group for users
 	* @return null
 	* @access public
 	*/
-	public function add_user_to_groups($groups_data, $default = false)
+	public function add_user_to_groups($groups_data, $default = array())
 	{
 		if (!function_exists('group_user_add'))
 		{
@@ -125,6 +126,9 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		foreach ($groups_data as $group_id => $users)
 		{
+			// Use default value if valid, otherwise use false
+			$default = (isset($default[$group_id])) ? (bool) $default[$group_id] : false;
+
 			group_user_add($group_id, $users, false, false, $default);
 		}
 	}

@@ -105,9 +105,13 @@ class posts extends \phpbb\autogroups\conditions\type\base
 		// Get the groups the users belongs to
 		$user_groups = $this->get_users_groups(array_keys($user_row));
 
+		// Initialize some arrays
+		$add_user_to_groups = $remove_user_from_groups = $group_defaults = array();
+
 		foreach ($group_rules as $group_rule)
 		{
-			$add_user_to_groups = $remove_user_from_groups = array();
+			// Get the current group's default boolean setting
+			$group_defaults[$group_rule['autogroups_group_id']] = $group_rule['autogroups_default'];
 
 			foreach ($user_row as $user_id => $user_data)
 			{
@@ -138,18 +142,18 @@ class posts extends \phpbb\autogroups\conditions\type\base
 					}
 				}
 			}
+		}
 
-			// Add user to groups
-			if (sizeof($add_user_to_groups))
-			{
-				$this->add_user_to_groups($add_user_to_groups, $group_rule['autogroups_default']);
-			}
+		// Add user to groups
+		if (sizeof($add_user_to_groups))
+		{
+			$this->add_user_to_groups($add_user_to_groups, $group_defaults);
+		}
 
-			// Remove user from groups
-			if (sizeof($remove_user_from_groups))
-			{
-				$this->remove_user_from_groups($remove_user_from_groups);
-			}
+		// Remove user from groups
+		if (sizeof($remove_user_from_groups))
+		{
+			$this->remove_user_from_groups($remove_user_from_groups);
 		}
 	}
 }

@@ -131,66 +131,75 @@ class base_test extends base
 	{
 		return array(
 			array(
-				// add user 1 to group 2
 				array(
-					2 => 1,
+					2 => 1, // add user 1 to group 2
 				),
-				true, // default
-				// expect user 1 in groups 1, 2, 5
 				array(
-					1 => array(1, 5, 2),
+					2 => true, // make group 2 default
 				),
-			),
-			array(
-				// add user 1 to group 2
 				array(
-					2 => 1,
-				),
-				false, // default
-				// expect user 1 in groups 1, 2, 5
-				array(
-					1 => array(1, 5, 2),
+					1 => array(1, 5, 2), // expect user 1 in groups 1, 2, 5
 				),
 			),
 			array(
-				// add user 2 to multiple groups, no defaults
 				array(
-					3 => 2,
-					4 => 2,
-					5 => 2,
+					2 => 1, // add user 1 to group 2
 				),
-				false, // default
-				// expect user 2 in all groups
 				array(
-					2 => array(1, 2, 3, 4, 5),
+					2 => false, // // make group 2 default
+				),
+				array(
+					1 => array(1, 5, 2), // expect user 1 in groups 1, 2, 5
 				),
 			),
 			array(
 				// add user 2 to multiple groups
 				array(
-					3 => 2,
-					4 => 2,
-					5 => 2,
+					3 => 2, // add user 2 to group 3
+					4 => 2, // add user 2 to group 4
+					5 => 2, // add user 2 to group 5
 				),
-				true, // default
-				// expect user 2 in all groups
 				array(
-					2 => array(1, 2, 3, 4, 5),
+					3 => false, // no default
+					4 => false, // no default
+					5 => false, // no default
+				),
+				array(
+					2 => array(1, 2, 3, 4, 5), // expect user 2 in all groups
+				),
+			),
+			array(
+				array(
+					3 => 2, // add user 2 to group 3
+					4 => 2, // add user 2 to group 4
+					5 => 2, // add user 2 to group 5
+				),
+				array(
+					3 => true, // default
+					4 => true, // default
+					5 => true, // default
+				),
+				array(
+					2 => array(1, 2, 3, 4, 5), // expect user 2 in all groups
 				),
 			),
 			array(
 				// add multiple users to multiple groups
 				array(
-					2 => array(1, 2),
-					3 => array(1, 2),
-					4 => array(1, 2),
-					5 => array(1, 2),
+					2 => array(1, 2), // add users 1 and 2 to group 2
+					3 => array(1, 2), // add users 1 and 2 to group 3
+					4 => array(1, 2), // add users 1 and 2 to group 4
+					5 => array(1, 2), // add users 1 and 2 to group 5
 				),
-				true, // default
-				// expect user 1 in all groups, user 2 in all groups
 				array(
-					1 => array(1, 5, 2, 3, 4),
-					2 => array(1, 2, 3, 4, 5),
+					2 => true, // default
+					3 => true, // default
+					4 => true, // default
+					5 => true, // default
+				),
+				array(
+					1 => array(1, 5, 2, 3, 4), // expect user 1 in all groups
+					2 => array(1, 2, 3, 4, 5), // expect user 2 in all groups
 				),
 			),
 		);

@@ -62,12 +62,13 @@ interface type_interface
 	/**
 	* Add user to groups
 	*
-	* @param array $groups_data Data array where a group id is a key and user array is value
-	* @param bool $default Make this group the default
+	* @param array $groups_data Data array where group id is key and user array is value
+	* @param array $default Data array where group id is key and value is a boolean if
+	*                       the group should be set as the default group for users
 	* @return null
 	* @access public
 	*/
-	public function add_user_to_groups($groups_data, $default);
+	public function add_user_to_groups($groups_data, $default = array());
 
 	/**
 	* Remove user from groups
