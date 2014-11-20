@@ -41,17 +41,16 @@ interface type_interface
 	public function get_users_for_condition($options = array());
 
 	/**
-	* Get auto group rules for condition
+	* Get auto group rules for condition type
 	*
-	* @param array $user_ids An array of user ids to check
-	* @param string $condition Auto group condition type name
+	* @param string $type Auto group condition type name
 	* @return array Auto group rows
 	* @access public
 	*/
-	public function get_group_rules($condition);
+	public function get_group_rules($type);
 
 	/**
-	* Get users group ids
+	* Get user's group ids
 	*
 	* @param array $user_ids An array of user ids to check
 	* @return array An array of usergroup ids each user belongs to
