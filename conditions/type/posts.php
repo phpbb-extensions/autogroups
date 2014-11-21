@@ -68,10 +68,11 @@ class posts extends \phpbb\autogroups\conditions\type\base
 			$user_ids = array((int) $user_ids);
 		}
 
-		// Get data for the users to be checked
+		// Get data for the users to be checked (exclude bots and guests)
 		$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
 			FROM ' . USERS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+			WHERE ' . $this->db->sql_in_set('user_id', $user_ids) . '
+				AND user_type <> ' . USER_IGNORE;
 		$result = $this->db->sql_query($sql);
 
 		$user_data = array();
