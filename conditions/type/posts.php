@@ -38,47 +38,123 @@ class posts extends \phpbb\autogroups\conditions\type\base
 	}
 
 	/**
+	* Get users to apply to this condition
+	*
+	* @param array $options Array of optional data
+	* @return array Array of users ids as keys and their condition data as values
+	* @access public
+	*/
+	public function get_users_for_condition($options = array())
+	{
+		// The user data this condition needs to check
+		$condition_data = array(
+			'user_posts',
+		);
+
+		// Merge default options, use the active user as the default
+		$options = array_merge(array(
+			'users'		=> $this->user->data['user_id'],
+		), $options);
+
+		$user_ids = $options['users'];
+
+		// Clean up array of ids
+		if (is_array($user_ids))
+		{
+			$user_ids = array_map('intval', $user_ids);
+		}
+		else
+		{
+			$user_ids = array((int) $user_ids);
+		}
+
+		// Get data for the users to be checked (exclude bots and guests)
+		$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
+			FROM ' . USERS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('user_id', $user_ids) . '
+				AND user_type <> ' . USER_IGNORE;
+		$result = $this->db->sql_query($sql);
+
+		$user_data = array();
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$user_data[$row['user_id']] = $row;
+		}
+		$this->db->sql_freeresult($result);
+
+		return $user_data;
+	}
+
+	/**
 	* Check condition
 	*
+	* @param array $user_row Array of user data to perform checks on
+	* @param array $options Array of optional data
 	* @return null
 	* @access public
 	*/
-	public function check()
+	public function check($user_row, $options = array())
 	{
-		$group_rules = $this->get_group_rules($this->get_condition_type());
-		$user_groups = $this->get_users_groups();
+		// Merge default options
+		$options = array_merge(array(
+			'action'	=> '',
+		), $options);
 
-		$add_user_to_groups = $remove_user_from_groups = array();
+		// Get the group rules
+		$group_rules = $this->get_group_rules($this->get_condition_type());
+
+		// Get the groups the users belongs to
+		$user_groups = $this->get_users_groups(array_keys($user_row));
+
+		// Initialize some arrays
+		$add_user_to_groups = $remove_user_from_groups = $group_defaults = array();
 
 		foreach ($group_rules as $group_rule)
 		{
-			// Check if a user's post count is within the min/max range
-			if (($this->user->data['user_posts'] >= $group_rule['autogroups_min_value']) && (empty($group_rule['autogroups_max_value']) || ($this->user->data['user_posts'] <= $group_rule['autogroups_max_value'])))
+			// Get the current group's default boolean setting
+			$group_defaults[$group_rule['autogroups_group_id']] = $group_rule['autogroups_default'];
+
+			foreach ($user_row as $user_id => $user_data)
 			{
-				// Check if a user is a member of checked group
-				if (!in_array($group_rule['autogroups_group_id'], $user_groups))
+				// We need to decrement the post count when deleting posts because
+				// the database has not yet been updated with new post counts
+				if ($options['action'] == 'delete')
 				{
-					// Add user to group (create array where a group id is a key and default is value)
-					$add_user_to_groups[$group_rule['autogroups_group_id']] = $group_rule['autogroups_default'];
+					$user_data['user_posts']--;
+				}
+
+				// Check if a user's post count is within the min/max range
+				if (($user_data['user_posts'] >= $group_rule['autogroups_min_value']) && (empty($group_rule['autogroups_max_value']) || ($user_data['user_posts'] <= $group_rule['autogroups_max_value'])))
+				{
+					// Check if a user is a member of checked group
+					if (!in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
+					{
+						// Add user to group (create array where a group id is a key and default is value)
+						$add_user_to_groups[$group_rule['autogroups_group_id']][] = $user_id;
+					}
+				}
+				else
+				{
+					// Check if a user is a member of checked group
+					if (in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
+					{
+						// Remove user from the group
+						$remove_user_from_groups[$group_rule['autogroups_group_id']][] = $user_id;
+					}
 				}
 			}
-			// If the user post value doesn't match to the above range, add that group id to array as value
-			else
-			{
-				$remove_user_from_groups[] = $group_rule['autogroups_group_id'];
-			}
+		}
 
-			// Add user to groups
-			if (sizeof($add_user_to_groups))
-			{
-				$this->add_user_to_groups($add_user_to_groups);
-			}
+		// Add user to groups
+		if (sizeof($add_user_to_groups))
+		{
+			$this->add_user_to_groups($add_user_to_groups, $group_defaults);
+		}
 
-			// Remove user from groups
-			if (sizeof($remove_user_from_groups))
-			{
-				$this->remove_user_from_groups($remove_user_from_groups);
-			}
+		// Remove user from groups
+		if (sizeof($remove_user_from_groups))
+		{
+			$this->remove_user_from_groups($remove_user_from_groups);
 		}
 	}
 }

@@ -77,7 +77,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 				AND agt.autogroups_type_name = '" . $this->db->sql_escape($type) . "'",
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query($sql);
+		$result = $this->db->sql_query($sql, 7200);
 		$rows = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 
@@ -87,20 +87,21 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	* Get user's group ids
 	*
-	* @return array An array of usergroup ids the user belongs to
+	* @param array $user_ids An array of user ids to check
+	* @return array An array of usergroup ids each user belongs to
 	* @access public
 	*/
-	public function get_users_groups()
+	public function get_users_groups($user_ids)
 	{
 		$group_ids = array();
 
-		$sql = 'SELECT group_id
+		$sql = 'SELECT user_id, group_id
 			FROM ' . USER_GROUP_TABLE . '
-			WHERE user_id = ' . (int) $this->user->data['user_id'];
+			WHERE ' . $this->db->sql_in_set('user_id', $user_ids, false, true);
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$group_ids[] = $row['group_id'];
+			$group_ids[$row['user_id']][] = $row['group_id'];
 		}
 		$this->db->sql_freeresult($result);
 
@@ -110,27 +111,32 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	* Add user to groups
 	*
-	* @param array $groups_data Data array where a group id is a key and default is value
+	* @param array $groups_data Data array where group id is key and user array is value
+	* @param array $default Data array where group id is key and value is a boolean if
+	*                       the group should be set as the default group for users
 	* @return null
 	* @access public
 	*/
-	public function add_user_to_groups($groups_data)
+	public function add_user_to_groups($groups_data, $default = array())
 	{
 		if (!function_exists('group_user_add'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
-		foreach ($groups_data as $group_id => $default)
+		foreach ($groups_data as $group_id => $users)
 		{
-			group_user_add($group_id, $this->user->data['user_id'], false, false, $default);
+			// Use default value if valid, otherwise use false
+			$default = (isset($default[$group_id])) ? (bool) $default[$group_id] : false;
+
+			group_user_add($group_id, $users, false, false, $default);
 		}
 	}
 
 	/**
 	* Remove user from groups
 	*
-	* @param array $groups_data Data array with group ids
+	* @param array $groups_data Data array where a group id is a key and user array is value
 	* @return null
 	* @access public
 	*/
@@ -141,9 +147,9 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
-		foreach ($groups_data as $group_id)
+		foreach ($groups_data as $group_id => $users)
 		{
-			group_user_del($group_id, $this->user->data['user_id']);
+			group_user_del($group_id, $users);
 		}
 	}
 }

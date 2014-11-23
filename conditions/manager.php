@@ -76,15 +76,18 @@ class manager
 	* Check auto groups condition and execute it
 	*
 	* @param string     $type_name      Name of the condition
+	* @param array      $options        Array of optional data
 	*
 	* @return null
 	* @access public
 	*/
-	public function check_condition($type_name)
+	public function check_condition($type_name, $options = array())
 	{
 		$condition = $this->phpbb_container->get($type_name);
 
-		$condition->check();
+		$check_users = $condition->get_users_for_condition($options);
+
+		$condition->check($check_users, $options);
 	}
 
 	/**

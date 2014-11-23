@@ -32,35 +32,47 @@ interface type_interface
 	public function get_condition_type_name();
 
 	/**
-	* Get auto group rules for condition
+	* Get users to apply to this condition
 	*
-	* @param string $condition Auto group condition type name
+	* @param array $options Array of optional data
+	* @return array Array of users ids and their post counts
+	* @access public
+	*/
+	public function get_users_for_condition($options = array());
+
+	/**
+	* Get auto group rules for condition type
+	*
+	* @param string $type Auto group condition type name
 	* @return array Auto group rows
 	* @access public
 	*/
-	public function get_group_rules($condition);
+	public function get_group_rules($type);
 
 	/**
-	* Get users group ids
+	* Get user's group ids
 	*
-	* @return array An array of usergroup ids the user belongs to
+	* @param array $user_ids An array of user ids to check
+	* @return array An array of usergroup ids each user belongs to
 	* @access public
 	*/
-	public function get_users_groups();
+	public function get_users_groups($user_ids);
 
 	/**
 	* Add user to groups
 	*
-	* @param array $groups_data Data array where a group id is a key and default is value
+	* @param array $groups_data Data array where group id is key and user array is value
+	* @param array $default Data array where group id is key and value is a boolean if
+	*                       the group should be set as the default group for users
 	* @return null
 	* @access public
 	*/
-	public function add_user_to_groups($groups_data);
+	public function add_user_to_groups($groups_data, $default = array());
 
 	/**
 	* Remove user from groups
 	*
-	* @param array $groups_data Data array where a group id is a key and default is value
+	* @param array $groups_data Data array where a group id is a key and user array is value
 	* @return null
 	* @access public
 	*/

@@ -14,7 +14,7 @@ require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
 require_once dirname(__FILE__) . '/../../../../../includes/functions_user.php';
 
 /**
-*
+* Base class for conditions type tests
 */
 class base extends \phpbb_database_test_case
 {
@@ -61,5 +61,10 @@ class base extends \phpbb_database_test_case
 
 		$this->root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
+	}
+
+	public function get_condition()
+	{
+		return new \phpbb\autogroups\conditions\type\posts($this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
 	}
 }

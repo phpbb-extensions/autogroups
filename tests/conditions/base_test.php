@@ -18,13 +18,6 @@ class base_test extends base
 {
 	protected $condition_type = 'phpbb.autogroups.type.posts';
 
-	public function setUp()
-	{
-		parent::setUp();
-
-		$this->condition = new \phpbb\autogroups\conditions\type\posts($this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
-	}
-
 	/**
 	 * Data for test_get_group_rules
 	 */
@@ -70,7 +63,10 @@ class base_test extends base
 	 */
 	public function test_get_group_rules($type, $expected)
 	{
-		$result = $this->condition->get_group_rules($type);
+		// Instantiate the condition
+		$condition = $this->get_condition();
+
+		$result = $condition->get_group_rules($type);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -80,8 +76,29 @@ class base_test extends base
 	public function get_users_groups_test_data()
 	{
 		return array(
-			array(1, array(1, 5)),
-			array(2, array(1, 2)),
+			array(
+				1,
+				array(
+					1 => array(1, 5),
+				),
+			),
+			array(
+				2,
+				array(
+					2 => array(1, 2),
+				),
+			),
+			array(
+				array(1, 2),
+				array(
+					1 => array(1, 5),
+					2 => array(1, 2),
+				),
+			),
+			array(
+				array(),
+				array(),
+			),
 		);
 	}
 
@@ -92,11 +109,16 @@ class base_test extends base
 	 */
 	public function test_get_users_groups($user_id, $expected)
 	{
-		// Set the user id
-		$this->user->data['user_id'] = $user_id;
+		// Instantiate the condition
+		$condition = $this->get_condition();
+
+		if (!is_array($user_id))
+		{
+			$user_id = array($user_id);
+		}
 
 		// Get the user's groups
-		$result = $this->condition->get_users_groups();
+		$result = $condition->get_users_groups($user_id);
 
 		// Assert the user's groups are as expected
 		$this->assertEquals($expected, $result);
@@ -109,37 +131,77 @@ class base_test extends base
 	{
 		return array(
 			array(
-				1, // add user 1 to group 2, default enabled
 				array(
-					2 => 1,
+					2 => 1, // add user 1 to group 2
 				),
-				array(1, 5, 2)),
-			array(
-				1, // add user 1 to group 2, default disabled
 				array(
-					2 => 0,
+					2 => true, // make group 2 default
 				),
-				array(1, 5, 2)),
-			array(
-				1, // add user 1 to no group
-				array(),
-				array(1, 5)),
-			array(
-				2, // add user 2 to multiple groups, no defaults
 				array(
-					3 => 0,
-					4 => 0,
-					5 => 0,
+					1 => array(1, 5, 2), // expect user 1 in groups 1, 2, 5
 				),
-				array(1, 2, 3, 4, 5)),
+			),
 			array(
-				2, // add user 2 to multiple groups, defaults
 				array(
-					3 => 1,
-					4 => 1,
-					5 => 1,
+					2 => 1, // add user 1 to group 2
 				),
-				array(1, 2, 3, 4, 5)),
+				array(
+					2 => false, // // make group 2 default
+				),
+				array(
+					1 => array(1, 5, 2), // expect user 1 in groups 1, 2, 5
+				),
+			),
+			array(
+				// add user 2 to multiple groups
+				array(
+					3 => 2, // add user 2 to group 3
+					4 => 2, // add user 2 to group 4
+					5 => 2, // add user 2 to group 5
+				),
+				array(
+					3 => false, // no default
+					4 => false, // no default
+					5 => false, // no default
+				),
+				array(
+					2 => array(1, 2, 3, 4, 5), // expect user 2 in all groups
+				),
+			),
+			array(
+				array(
+					3 => 2, // add user 2 to group 3
+					4 => 2, // add user 2 to group 4
+					5 => 2, // add user 2 to group 5
+				),
+				array(
+					3 => true, // default
+					4 => true, // default
+					5 => true, // default
+				),
+				array(
+					2 => array(1, 2, 3, 4, 5), // expect user 2 in all groups
+				),
+			),
+			array(
+				// add multiple users to multiple groups
+				array(
+					2 => array(1, 2), // add users 1 and 2 to group 2
+					3 => array(1, 2), // add users 1 and 2 to group 3
+					4 => array(1, 2), // add users 1 and 2 to group 4
+					5 => array(1, 2), // add users 1 and 2 to group 5
+				),
+				array(
+					2 => true, // default
+					3 => true, // default
+					4 => true, // default
+					5 => true, // default
+				),
+				array(
+					1 => array(1, 5, 2, 3, 4), // expect user 1 in all groups
+					2 => array(1, 2, 3, 4, 5), // expect user 2 in all groups
+				),
+			),
 		);
 	}
 
@@ -148,19 +210,22 @@ class base_test extends base
 	 *
 	 * @dataProvider add_user_to_groups_test_data
 	 */
-	public function test_add_user_to_groups($user_id, $groups_data, $expected)
+	public function test_add_user_to_groups($groups_data, $default, $expected)
 	{
-		// Set the user id
-		$this->user->data['user_id'] = $user_id;
+		// Instantiate the condition
+		$condition = $this->get_condition();
 
 		// Add the user to groups
-		$this->condition->add_user_to_groups($groups_data);
+		$condition->add_user_to_groups($groups_data, $default);
 
 		// Get the user's groups
-		$result = $this->condition->get_users_groups();
+		foreach ($groups_data as $user_ids)
+		{
+			$user_groups = $condition->get_users_groups($user_ids);
 
-		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $result);
+			// Assert the user's groups are as expected
+			$this->assertEquals($expected, $user_groups);
+		}
 	}
 
 	/**
@@ -170,29 +235,66 @@ class base_test extends base
 	{
 		return array(
 			array(
-				1, // remove user 1 from group 5
-				array(5),
-				array(1)),
+				// remove user 1 from group 5
+				array(
+					5 => 1,
+				),
+				// expect user 1 in group 1
+				array(
+					1 => array(1),
+				),
+			),
 			array(
-				1, // remove user 1 from no group
+				// remove user 1 from all their groups
+				array(
+					1 => 1,
+					5 => 1,
+				),
+				// expect user 1 in no group
 				array(),
-				array(1, 5)),
+			),
 			array(
-				1, // remove user 1 from all their groups
-				array(1, 5),
-				array()),
+				// remove user 2 from all their groups
+				array(
+					1 => 2,
+					2 => 2,
+				),
+				// expect user 2 in no group
+				array(),
+			),
 			array(
-				2, // remove user 2 from all their groups
-				array(1, 2),
-				array()),
+				// remove user 2 from a group they do not belong to (5)
+				array(
+					5 => 2,
+				),
+				// expect user 2 in group 1 and 2
+				array(
+					2 => array(1, 2),
+				),
+			),
 			array(
-				2, // remove user 2 from a group they do not belong to
-				array(5),
-				array(1, 2)),
+				// remove user 2 from a group they do (2) and do not (5) belong to
+				array(
+					2 => 2,
+					5 => 2,
+				),
+				// expect user 2 in group 1
+				array(
+					2 => array(1),
+				),
+			),
 			array(
-				2, // remove user 2 from a group they do and do not belong to
-				array(2, 5),
-				array(1)),
+				// remove users 1 and 2 from groups 2 and 5
+				array(
+					2 => array(1, 2),
+					5 => array(1, 2),
+				),
+				// expect user 1 in group 1, user 2 in group 1
+				array(
+					1 => array(1),
+					2 => array(1),
+				),
+			),
 		);
 	}
 
@@ -201,18 +303,21 @@ class base_test extends base
 	 *
 	 * @dataProvider remove_user_from_groups_test_data
 	 */
-	public function test_remove_user_from_groups($user_id, $groups_data, $expected)
+	public function test_remove_user_from_groups($groups_data, $expected)
 	{
-		// Set the user id
-		$this->user->data['user_id'] = $user_id;
+		// Instantiate the condition
+		$condition = $this->get_condition();
 
-		// Add the user to groups
-		$this->condition->remove_user_from_groups($groups_data);
+		// Remove the user from groups
+		$condition->remove_user_from_groups($groups_data);
 
 		// Get the user's groups
-		$result = $this->condition->get_users_groups();
+		foreach ($groups_data as $user_ids)
+		{
+			$user_groups = $condition->get_users_groups($user_ids);
 
-		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $result);
+			// Assert the user's groups are as expected
+			$this->assertEquals($expected, $user_groups);
+		}
 	}
 }
