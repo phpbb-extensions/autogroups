@@ -146,7 +146,7 @@ class base_test extends base
 					2 => 1, // add user 1 to group 2
 				),
 				array(
-					2 => false, // // make group 2 default
+					2 => false, // make group 2 default
 				),
 				array(
 					1 => array(1, 5, 2), // expect user 1 in groups 1, 2, 5
