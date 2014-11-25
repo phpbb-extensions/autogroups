@@ -45,6 +45,7 @@ class base extends \phpbb_database_test_case
 		global $auth, $db, $user, $phpbb_container, $phpbb_dispatcher, $phpbb_log, $phpbb_root_path, $phpEx;
 
 		$this->db = $this->new_dbal();
+		$this->config = new \phpbb\config\config(array());
 		$this->user = new \phpbb\user('\phpbb\datetime');
 
 		$db = $this->db;
@@ -65,6 +66,6 @@ class base extends \phpbb_database_test_case
 
 	public function get_condition()
 	{
-		return new \phpbb\autogroups\conditions\type\posts($this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
+		return new \phpbb\autogroups\conditions\type\posts($this->config, $this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
 	}
 }

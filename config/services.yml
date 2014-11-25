@@ -32,6 +32,7 @@ services:
         class: phpbb\autogroups\conditions\type\posts
         scope: prototype
         arguments:
+            - @config
             - @dbal.conn
             - @user
             - %phpbb.autogroups.tables.autogroups_rules%
