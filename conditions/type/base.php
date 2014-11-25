@@ -114,6 +114,37 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
+	* Get users that should not have their default status changed
+	*
+	* @return array An array of user ids
+	* @access public
+	*/
+	public function get_default_exempt_users()
+	{
+		$user_id_ary = array();
+
+		// Get default exempt groups from db or an empty array
+		$group_id_ary = (!$this->config['autogroups_default_exempt']) ? array() : unserialize(trim($this->config['autogroups_default_exempt']));
+
+		if (!sizeof($group_id_ary))
+		{
+			return $user_id_ary;
+		}
+
+		$sql = 'SELECT user_id
+			FROM ' . USER_GROUP_TABLE . '
+			WHERE ' . $this->db->sql_in_set('group_id', $group_id_ary);
+		$result = $this->db->sql_query($sql, 7200);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$user_id_ary[] = $row['user_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return array_unique($user_id_ary);
+	}
+
+	/**
 	* Add user to groups
 	*
 	* @param array $groups_data Data array where group id is key and user array is value
@@ -129,12 +160,37 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
-		foreach ($groups_data as $group_id => $users)
+		foreach ($groups_data as $group_id => $user_id_ary)
 		{
-			// Use default value if valid, otherwise use false
+			// Add users to the group
+			group_user_add($group_id, $user_id_ary);
+
+			// Use default value if given, otherwise use false
 			$default = (isset($default[$group_id])) ? (bool) $default[$group_id] : false;
 
-			group_user_add($group_id, $users, false, false, $default);
+			// Set group as default?
+			if ($default)
+			{
+				if (!is_array($user_id_ary))
+				{
+					$user_id_ary = array($user_id_ary);
+				}
+
+				// Get array of users exempt from default group switching (run once)
+				if (!isset($default_exempt_users))
+				{
+					$default_exempt_users = $this->get_default_exempt_users();
+				}
+
+				// Remove any exempt users from our main user array
+				if (sizeof($default_exempt_users))
+				{
+					$user_id_ary = array_diff($user_id_ary, $default_exempt_users);
+				}
+
+				// Set the current group as default for non-exempt users
+				group_set_user_default($group_id, $user_id_ary);
+			}
 		}
 	}
 

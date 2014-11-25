@@ -36,6 +36,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
+			array('config.add', array('autogroups_default_exempt', '')),
 			array('custom', array(array($this, 'add_autogroups_type_data'))),
 		);
 	}

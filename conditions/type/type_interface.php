@@ -59,6 +59,14 @@ interface type_interface
 	public function get_users_groups($user_id_ary);
 
 	/**
+	* Get users that should not have their default status changed
+	*
+	* @return array An array of user ids
+	* @access public
+	*/
+	public function get_default_exempt_users();
+
+	/**
 	* Add user to groups
 	*
 	* @param array $groups_data Data array where group id is key and user array is value
