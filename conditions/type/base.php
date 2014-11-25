@@ -87,25 +87,25 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	* Get user's group ids
 	*
-	* @param array $user_ids An array of user ids to check
+	* @param array $user_id_ary An array of user ids to check
 	* @return array An array of usergroup ids each user belongs to
 	* @access public
 	*/
-	public function get_users_groups($user_ids)
+	public function get_users_groups($user_id_ary)
 	{
-		$group_ids = array();
+		$group_id_ary = array();
 
 		$sql = 'SELECT user_id, group_id
 			FROM ' . USER_GROUP_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_id', $user_ids, false, true);
+			WHERE ' . $this->db->sql_in_set('user_id', $user_id_ary, false, true);
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$group_ids[$row['user_id']][] = $row['group_id'];
+			$group_id_ary[$row['user_id']][] = $row['group_id'];
 		}
 		$this->db->sql_freeresult($result);
 
-		return $group_ids;
+		return $group_id_ary;
 	}
 
 	/**
@@ -147,9 +147,9 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
-		foreach ($groups_data as $group_id => $users)
+		foreach ($groups_data as $group_id => $user_id_ary)
 		{
-			group_user_del($group_id, $users);
+			group_user_del($group_id, $user_id_ary);
 		}
 	}
 }
