@@ -112,25 +112,25 @@
 		<row>
 			<value>2</value>
 			<value>4</value>
-			<value>FOO1</value>
+			<value>FOO</value>
 			<value></value>
 		</row>
 		<row>
 			<value>3</value>
 			<value>4</value>
-			<value>BAR1</value>
+			<value>BAR</value>
 			<value></value>
 		</row>
 		<row>
 			<value>4</value>
 			<value>4</value>
-			<value>FOO2</value>
+			<value>GLOBAL_MODERATORS</value>
 			<value></value>
 		</row>
 		<row>
 			<value>5</value>
 			<value>4</value>
-			<value>BAR2</value>
+			<value>ADMINISTRATORS</value>
 			<value></value>
 		</row>
 	</table>
