@@ -52,11 +52,19 @@ interface type_interface
 	/**
 	* Get user's group ids
 	*
-	* @param array $user_ids An array of user ids to check
+	* @param array $user_id_ary An array of user ids to check
 	* @return array An array of usergroup ids each user belongs to
 	* @access public
 	*/
-	public function get_users_groups($user_ids);
+	public function get_users_groups($user_id_ary);
+
+	/**
+	* Get users that should not have their default status changed
+	*
+	* @return array An array of user ids
+	* @access public
+	*/
+	public function get_default_exempt_users();
 
 	/**
 	* Add user to groups

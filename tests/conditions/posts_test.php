@@ -225,6 +225,62 @@ class posts_test extends base
 		}
 	}
 
+	/**
+	 * Data for test_check_group_exemptions
+	 */
+	public function check_group_exemptions_data()
+	{
+		/*
+		 * Mock settings in the database:
+		 * Post count between 10 - 20 adds to group 2 as default
+		 * Post count between 100 - 200 adds to group 3 as default
+		 * Post count between 500 - unlimited adds to group 4 (no default)
+		 *
+		 * User 1 is already a member of groups 1 and 5 (1 is default)
+		 * User 2 is already a member of groups 1 and 2 (2 is default)
+		 */
+		return array(
+			array(
+				1, // user id
+				10, // posts
+				1, // default exempt group
+				array(1, 5, 2), // user added to group 2
+			),
+		);
+	}
+
+	/**
+	 * Test the check method using with default group exemptions
+	 *
+	 * @dataProvider check_group_exemptions_data
+	 */
+	public function test_check_group_exemptions($user_id, $post_count, $default_exempt_group, $expected)
+	{
+		// Default group exemption (do not change default away from this group id)
+		$this->config['autogroups_default_exempt'] = serialize(array($default_exempt_group));
+
+		// Update the user post count
+		$this->helper_update_user_posts($user_id, $post_count);
+
+		// Instantiate the condition
+		$condition = $this->get_condition();
+
+		// Check the user and perform auto group
+		$check_users = $condition->get_users_for_condition(array(
+			'users' => $user_id,
+		));
+		$condition->check($check_users);
+
+		// Get the user's groups
+		$result = $condition->get_users_groups($user_id);
+
+		// Assert the user's groups are as expected
+		$this->assertEquals($expected, $result[$user_id]);
+
+		// Assert the user's default group id is as expected
+		$this->assertEquals($default_exempt_group, $this->helper_default_group_id($user_id));
+	}
+
 	/*
 	 * Update the database with new post count values for a user
 	 */

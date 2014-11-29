@@ -15,6 +15,9 @@ namespace phpbb\autogroups\conditions\type;
 */
 abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 {
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -36,6 +39,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	* Constructor
 	*
+	* @param \phpbb\config\config                 $config                   Config object
 	* @param \phpbb\db\driver\driver_interface    $db                       Database object
 	* @param \phpbb\user                          $user                     User object
 	* @param string                               $autogroups_rules_table   Name of the table used to store auto group rules data
@@ -46,8 +50,9 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	* @return \phpbb\autogroups\conditions\type\base
 	* @access public
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
 	{
+		$this->config = $config;
 		$this->db = $db;
 		$this->user = $user;
 
@@ -87,25 +92,56 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	* Get user's group ids
 	*
-	* @param array $user_ids An array of user ids to check
+	* @param array $user_id_ary An array of user ids to check
 	* @return array An array of usergroup ids each user belongs to
 	* @access public
 	*/
-	public function get_users_groups($user_ids)
+	public function get_users_groups($user_id_ary)
 	{
-		$group_ids = array();
+		$group_id_ary = array();
 
 		$sql = 'SELECT user_id, group_id
 			FROM ' . USER_GROUP_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_id', $user_ids, false, true);
+			WHERE ' . $this->db->sql_in_set('user_id', $user_id_ary, false, true);
 		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$group_ids[$row['user_id']][] = $row['group_id'];
+			$group_id_ary[$row['user_id']][] = $row['group_id'];
 		}
 		$this->db->sql_freeresult($result);
 
-		return $group_ids;
+		return $group_id_ary;
+	}
+
+	/**
+	* Get users that should not have their default status changed
+	*
+	* @return array An array of user ids
+	* @access public
+	*/
+	public function get_default_exempt_users()
+	{
+		$user_id_ary = array();
+
+		// Get default exempt groups from db or an empty array
+		$group_id_ary = (!$this->config['autogroups_default_exempt']) ? array() : unserialize(trim($this->config['autogroups_default_exempt']));
+
+		if (!sizeof($group_id_ary))
+		{
+			return $user_id_ary;
+		}
+
+		$sql = 'SELECT user_id
+			FROM ' . USER_GROUP_TABLE . '
+			WHERE ' . $this->db->sql_in_set('group_id', $group_id_ary);
+		$result = $this->db->sql_query($sql, 7200);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$user_id_ary[] = $row['user_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return array_unique($user_id_ary);
 	}
 
 	/**
@@ -124,12 +160,37 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
-		foreach ($groups_data as $group_id => $users)
+		foreach ($groups_data as $group_id => $user_id_ary)
 		{
-			// Use default value if valid, otherwise use false
+			// Add users to the group
+			group_user_add($group_id, $user_id_ary);
+
+			// Use default value if given, otherwise use false
 			$default = (isset($default[$group_id])) ? (bool) $default[$group_id] : false;
 
-			group_user_add($group_id, $users, false, false, $default);
+			// Set group as default?
+			if ($default)
+			{
+				if (!is_array($user_id_ary))
+				{
+					$user_id_ary = array($user_id_ary);
+				}
+
+				// Get array of users exempt from default group switching (run once)
+				if (!isset($default_exempt_users))
+				{
+					$default_exempt_users = $this->get_default_exempt_users();
+				}
+
+				// Remove any exempt users from our main user array
+				if (sizeof($default_exempt_users))
+				{
+					$user_id_ary = array_diff($user_id_ary, $default_exempt_users);
+				}
+
+				// Set the current group as default for non-exempt users
+				group_set_user_default($group_id, $user_id_ary);
+			}
 		}
 	}
 
@@ -147,9 +208,9 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
-		foreach ($groups_data as $group_id => $users)
+		foreach ($groups_data as $group_id => $user_id_ary)
 		{
-			group_user_del($group_id, $users);
+			group_user_del($group_id, $user_id_ary);
 		}
 	}
 }

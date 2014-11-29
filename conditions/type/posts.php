@@ -129,7 +129,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 					// Check if a user is a member of checked group
 					if (!in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
 					{
-						// Add user to group (create array where a group id is a key and default is value)
+						// Add user to group (create array where a group id is a key and user id array is value)
 						$add_user_to_groups[$group_rule['autogroups_group_id']][] = $user_id;
 					}
 				}
@@ -145,13 +145,13 @@ class posts extends \phpbb\autogroups\conditions\type\base
 			}
 		}
 
-		// Add user to groups
+		// Add users to groups
 		if (sizeof($add_user_to_groups))
 		{
 			$this->add_user_to_groups($add_user_to_groups, $group_defaults);
 		}
 
-		// Remove user from groups
+		// Remove users from groups
 		if (sizeof($remove_user_from_groups))
 		{
 			$this->remove_user_from_groups($remove_user_from_groups);
