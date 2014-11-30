@@ -145,72 +145,71 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Add user to groups
+	* Add user(s) to group
 	*
-	* @param array $groups_data Data array where group id is key and user array is value
-	* @param array $default Data array where group id is key and value is a boolean if
-	*                       the group should be set as the default group for users
+	* @param array $user_id_ary User(s) to add to group
+	* @param array $group_rule_data Auto group rule data
 	* @return null
 	* @access public
 	*/
-	public function add_user_to_groups($groups_data, $default = array())
+	public function add_users_to_group($user_id_ary, $group_rule_data)
 	{
 		if (!function_exists('group_user_add'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
-		foreach ($groups_data as $group_id => $user_id_ary)
+		// Make sure user_id_ary is an array
+		if (!is_array($user_id_ary))
 		{
-			// Add users to the group
-			group_user_add($group_id, $user_id_ary);
+			$user_id_ary = array($user_id_ary);
+		}
 
-			// Use default value if given, otherwise use false
-			$default = (isset($default[$group_id])) ? (bool) $default[$group_id] : false;
+		// Add user(s) to the group
+		group_user_add($group_rule_data['autogroups_group_id'], $user_id_ary);
 
-			// Set group as default?
-			if ($default)
+		// Set group as default?
+		if ($group_rule_data['autogroups_default'])
+		{
+			// Get array of users exempt from default group switching (run once)
+			if (!isset($default_exempt_users))
 			{
-				if (!is_array($user_id_ary))
-				{
-					$user_id_ary = array($user_id_ary);
-				}
-
-				// Get array of users exempt from default group switching (run once)
-				if (!isset($default_exempt_users))
-				{
-					$default_exempt_users = $this->get_default_exempt_users();
-				}
-
-				// Remove any exempt users from our main user array
-				if (sizeof($default_exempt_users))
-				{
-					$user_id_ary = array_diff($user_id_ary, $default_exempt_users);
-				}
-
-				// Set the current group as default for non-exempt users
-				group_set_user_default($group_id, $user_id_ary);
+				$default_exempt_users = $this->get_default_exempt_users();
 			}
+
+			// Remove any exempt users from our main user array
+			if (sizeof($default_exempt_users))
+			{
+				$user_id_ary = array_diff($user_id_ary, $default_exempt_users);
+			}
+
+			// Set the current group as default for non-exempt users
+			group_set_user_default($group_rule_data['autogroups_group_id'], $user_id_ary);
 		}
 	}
 
 	/**
-	* Remove user from groups
+	* Remove user(s) from group
 	*
-	* @param array $groups_data Data array where a group id is a key and user array is value
+	* @param array $user_id_ary User(s) to remove from group
+	* @param array $group_rule_data Auto group rule data
 	* @return null
 	* @access public
 	*/
-	public function remove_user_from_groups($groups_data)
+	public function remove_users_from_group($user_id_ary, $group_rule_data)
 	{
 		if (!function_exists('group_user_del'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
-		foreach ($groups_data as $group_id => $user_id_ary)
+		// Make sure user_id_ary is an array
+		if (!is_array($user_id_ary))
 		{
-			group_user_del($group_id, $user_id_ary);
+			$user_id_ary = array($user_id_ary);
 		}
+
+		// Delete user(s) from the group
+		group_user_del($group_rule_data['autogroups_group_id'], $user_id_ary);
 	}
 }

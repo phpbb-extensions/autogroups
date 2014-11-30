@@ -42,6 +42,7 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
+			// Auto Groups "Posts" listeners
 			'core.submit_post_end'		=> 'check_posts_submit',
 			'core.delete_posts_after'	=> 'check_posts_delete',
 		);

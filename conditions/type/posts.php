@@ -100,19 +100,16 @@ class posts extends \phpbb\autogroups\conditions\type\base
 			'action'	=> '',
 		), $options);
 
-		// Get the group rules
+		// Get auto group rule data sets for this type
 		$group_rules = $this->get_group_rules($this->get_condition_type());
 
 		// Get the groups the users belongs to
 		$user_groups = $this->get_users_groups(array_keys($user_row));
 
-		// Initialize some arrays
-		$add_user_to_groups = $remove_user_from_groups = $group_defaults = array();
-
 		foreach ($group_rules as $group_rule)
 		{
-			// Get the current group's default boolean setting
-			$group_defaults[$group_rule['autogroups_group_id']] = $group_rule['autogroups_default'];
+			// Initialize some arrays
+			$add_users_to_group = $remove_users_from_group = array();
 
 			foreach ($user_row as $user_id => $user_data)
 			{
@@ -130,7 +127,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 					if (!in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
 					{
 						// Add user to group (create array where a group id is a key and user id array is value)
-						$add_user_to_groups[$group_rule['autogroups_group_id']][] = $user_id;
+						$add_users_to_group[] = $user_id;
 					}
 				}
 				else
@@ -139,22 +136,22 @@ class posts extends \phpbb\autogroups\conditions\type\base
 					if (in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
 					{
 						// Remove user from the group
-						$remove_user_from_groups[$group_rule['autogroups_group_id']][] = $user_id;
+						$remove_users_from_group[] = $user_id;
 					}
 				}
 			}
-		}
 
-		// Add users to groups
-		if (sizeof($add_user_to_groups))
-		{
-			$this->add_user_to_groups($add_user_to_groups, $group_defaults);
-		}
+			// Add users to groups
+			if (sizeof($add_users_to_group))
+			{
+				$this->add_users_to_group($add_users_to_group, $group_rule);
+			}
 
-		// Remove users from groups
-		if (sizeof($remove_user_from_groups))
-		{
-			$this->remove_user_from_groups($remove_user_from_groups);
+			// Remove users from groups
+			if (sizeof($remove_users_from_group))
+			{
+				$this->remove_users_from_group($remove_users_from_group, $group_rule);
+			}
 		}
 	}
 }

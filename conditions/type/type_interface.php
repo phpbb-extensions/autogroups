@@ -67,22 +67,22 @@ interface type_interface
 	public function get_default_exempt_users();
 
 	/**
-	* Add user to groups
+	* Add user(s) to group
 	*
-	* @param array $groups_data Data array where group id is key and user array is value
-	* @param array $default Data array where group id is key and value is a boolean if
-	*                       the group should be set as the default group for users
+	* @param array $user_id_ary User(s) to add to group
+	* @param array $group_rule_data Auto group rule data
 	* @return null
 	* @access public
 	*/
-	public function add_user_to_groups($groups_data, $default = array());
+	public function add_users_to_group($user_id_ary, $group_rule_data);
 
 	/**
-	* Remove user from groups
+	* Remove user(s) from group
 	*
-	* @param array $groups_data Data array where a group id is a key and user array is value
+	* @param array $user_id_ary User(s) to remove from group
+	* @param array $group_rule_data Auto group rule data
 	* @return null
 	* @access public
 	*/
-	public function remove_user_from_groups($groups_data);
+	public function remove_users_from_group($user_id_ary, $group_rule_data);
 }
