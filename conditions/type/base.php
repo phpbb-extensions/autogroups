@@ -162,7 +162,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		// Make sure user_id_ary is an array
 		if (!is_array($user_id_ary))
 		{
-			$user_id_ary = array($user_id_ary);
+			$user_id_ary = array((int) $user_id_ary);
 		}
 
 		// Add user(s) to the group
@@ -206,7 +206,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		// Make sure user_id_ary is an array
 		if (!is_array($user_id_ary))
 		{
-			$user_id_ary = array($user_id_ary);
+			$user_id_ary = array((int) $user_id_ary);
 		}
 
 		// Delete user(s) from the group
