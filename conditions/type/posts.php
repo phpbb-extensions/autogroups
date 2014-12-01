@@ -126,7 +126,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 					// Check if a user is a member of checked group
 					if (!in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
 					{
-						// Add user to group (create array where a group id is a key and user id array is value)
+						// Add user to group
 						$add_users_to_group[] = $user_id;
 					}
 				}
