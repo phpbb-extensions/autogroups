@@ -122,7 +122,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		$sql = 'SELECT user_id
 			FROM ' . USER_GROUP_TABLE . '
-			WHERE ' . $this->db->sql_in_set('group_id', $group_id_ary);
+			WHERE ' . $this->db->sql_in_set('group_id', array_map('intval', $group_id_ary));
 		$result = $this->db->sql_query($sql, 7200);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
