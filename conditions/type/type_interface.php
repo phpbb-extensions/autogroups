@@ -24,6 +24,14 @@ interface type_interface
 	public function get_condition_type();
 
 	/**
+	* Get condition field (this is the field to check)
+	*
+	* @return string Condition field name
+	* @access public
+	*/
+	public function get_condition_field();
+
+	/**
 	* Get condition type name
 	*
 	* @return string Condition type name
@@ -85,4 +93,14 @@ interface type_interface
 	* @access public
 	*/
 	public function remove_users_from_group($user_id_ary, $group_rule_data);
+
+	/**
+	* Check condition
+	*
+	* @param array $user_row Array of user data to perform checks on
+	* @param array $options Array of optional data
+	* @return null
+	* @access public
+	*/
+	public function check($user_row, $options = array());
 }

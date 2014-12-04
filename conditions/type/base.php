@@ -196,4 +196,57 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		// Delete user(s) from the group
 		group_user_del($group_id, $user_id_ary);
 	}
+
+	/**
+	* {@inheritdoc}
+	*/
+	public function check($user_row, $options = array())
+	{
+		// Get auto group rule data sets for this type
+		$group_rules = $this->get_group_rules($this->get_condition_type());
+
+		// Get the groups the users belongs to
+		$user_groups = $this->get_users_groups(array_keys($user_row));
+
+		foreach ($group_rules as $group_rule)
+		{
+			// Initialize some arrays
+			$add_users_to_group = $remove_users_from_group = array();
+
+			foreach ($user_row as $user_id => $user_data)
+			{
+				// Check if a user's post count is within the min/max range
+				if (($user_data[$this->get_condition_field()] >= $group_rule['autogroups_min_value']) && (empty($group_rule['autogroups_max_value']) || ($user_data[$this->get_condition_field()] <= $group_rule['autogroups_max_value'])))
+				{
+					// Check if a user is a member of checked group
+					if (!in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
+					{
+						// Add user to group
+						$add_users_to_group[] = $user_id;
+					}
+				}
+				else
+				{
+					// Check if a user is a member of checked group
+					if (in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
+					{
+						// Remove user from the group
+						$remove_users_from_group[] = $user_id;
+					}
+				}
+			}
+
+			// Add users to groups
+			if (sizeof($add_users_to_group))
+			{
+				$this->add_users_to_group($add_users_to_group, $group_rule);
+			}
+
+			// Remove users from groups
+			if (sizeof($remove_users_from_group))
+			{
+				$this->remove_users_from_group($remove_users_from_group, $group_rule);
+			}
+		}
+	}
 }
