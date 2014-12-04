@@ -64,11 +64,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Get auto group rules for condition type
-	*
-	* @param string $type Auto group condition type name
-	* @return array Auto group rows
-	* @access public
+	* {@inheritdoc}
 	*/
 	public function get_group_rules($type)
 	{
@@ -90,11 +86,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Get user's group ids
-	*
-	* @param array $user_id_ary An array of user ids to check
-	* @return array An array of usergroup ids each user belongs to
-	* @access public
+	* {@inheritdoc}
 	*/
 	public function get_users_groups($user_id_ary)
 	{
@@ -114,10 +106,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Get users that should not have their default status changed
-	*
-	* @return array An array of user ids
-	* @access public
+	* {@inheritdoc}
 	*/
 	public function get_default_exempt_users()
 	{
@@ -145,12 +134,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Add user(s) to group
-	*
-	* @param array $user_id_ary User(s) to add to group
-	* @param array $group_rule_data Auto group rule data
-	* @return null
-	* @access public
+	* {@inheritdoc}
 	*/
 	public function add_users_to_group($user_id_ary, $group_rule_data)
 	{
@@ -192,12 +176,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Remove user(s) from group
-	*
-	* @param array $user_id_ary User(s) to remove from group
-	* @param array $group_rule_data Auto group rule data
-	* @return null
-	* @access public
+	* {@inheritdoc}
 	*/
 	public function remove_users_from_group($user_id_ary, $group_rule_data)
 	{
