@@ -149,14 +149,14 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 			$user_id_ary = array((int) $user_id_ary);
 		}
 
+		// Set this variable for readability in the code below
 		$group_id = $group_rule_data['autogroups_group_id'];
-		$default = (!empty($group_rule_data['autogroups_default'])) ? true : false;
 
 		// Add user(s) to the group
 		group_user_add($group_id, $user_id_ary);
 
 		// Set group as default?
-		if ($default)
+		if (!empty($group_rule_data['autogroups_default']))
 		{
 			// Get array of users exempt from default group switching (run once)
 			if (!isset($default_exempt_users))
@@ -191,6 +191,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 			$user_id_ary = array((int) $user_id_ary);
 		}
 
+		// Set this variable for readability in the code below
 		$group_id = $group_rule_data['autogroups_group_id'];
 
 		// Delete user(s) from the group
