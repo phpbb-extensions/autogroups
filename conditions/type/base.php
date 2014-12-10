@@ -158,12 +158,8 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 				$user_id_ary = array((int) $user_id_ary);
 			}
 
-			// Get array of users exempt from default group switching (run once)
-			static $default_exempt_users;
-			if (!isset($default_exempt_users))
-			{
-				$default_exempt_users = $this->get_default_exempt_users();
-			}
+			// Get array of users exempt from default group switching
+			$default_exempt_users = $this->get_default_exempt_users();
 
 			// Remove any exempt users from our main user array
 			if (sizeof($default_exempt_users))
