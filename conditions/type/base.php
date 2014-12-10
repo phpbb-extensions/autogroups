@@ -143,12 +143,6 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
-		// Make sure user_id_ary is an array
-		if (!is_array($user_id_ary))
-		{
-			$user_id_ary = array((int) $user_id_ary);
-		}
-
 		// Set this variable for readability in the code below
 		$group_id = $group_rule_data['autogroups_group_id'];
 
@@ -158,7 +152,14 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		// Set group as default?
 		if (!empty($group_rule_data['autogroups_default']))
 		{
+			// Make sure user_id_ary is an array
+			if (!is_array($user_id_ary))
+			{
+				$user_id_ary = array((int) $user_id_ary);
+			}
+
 			// Get array of users exempt from default group switching (run once)
+			static $default_exempt_users;
 			if (!isset($default_exempt_users))
 			{
 				$default_exempt_users = $this->get_default_exempt_users();
@@ -183,12 +184,6 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		if (!function_exists('group_user_del'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
-		}
-
-		// Make sure user_id_ary is an array
-		if (!is_array($user_id_ary))
-		{
-			$user_id_ary = array((int) $user_id_ary);
 		}
 
 		// Set this variable for readability in the code below
