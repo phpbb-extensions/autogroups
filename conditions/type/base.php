@@ -64,11 +64,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Get auto group rules for condition type
-	*
-	* @param string $type Auto group condition type name
-	* @return array Auto group rows
-	* @access public
+	* {@inheritdoc}
 	*/
 	public function get_group_rules($type)
 	{
@@ -90,11 +86,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Get user's group ids
-	*
-	* @param array $user_id_ary An array of user ids to check
-	* @return array An array of usergroup ids each user belongs to
-	* @access public
+	* {@inheritdoc}
 	*/
 	public function get_users_groups($user_id_ary)
 	{
@@ -114,10 +106,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Get users that should not have their default status changed
-	*
-	* @return array An array of user ids
-	* @access public
+	* {@inheritdoc}
 	*/
 	public function get_default_exempt_users()
 	{
@@ -133,7 +122,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		$sql = 'SELECT user_id
 			FROM ' . USER_GROUP_TABLE . '
-			WHERE ' . $this->db->sql_in_set('group_id', $group_id_ary);
+			WHERE ' . $this->db->sql_in_set('group_id', array_map('intval', $group_id_ary));
 		$result = $this->db->sql_query($sql, 7200);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
@@ -145,72 +134,111 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* Add user to groups
-	*
-	* @param array $groups_data Data array where group id is key and user array is value
-	* @param array $default Data array where group id is key and value is a boolean if
-	*                       the group should be set as the default group for users
-	* @return null
-	* @access public
+	* {@inheritdoc}
 	*/
-	public function add_user_to_groups($groups_data, $default = array())
+	public function add_users_to_group($user_id_ary, $group_rule_data)
 	{
 		if (!function_exists('group_user_add'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
-		foreach ($groups_data as $group_id => $user_id_ary)
+		// Set this variable for readability in the code below
+		$group_id = $group_rule_data['autogroups_group_id'];
+
+		// Add user(s) to the group
+		group_user_add($group_id, $user_id_ary);
+
+		// Set group as default?
+		if (!empty($group_rule_data['autogroups_default']))
 		{
-			// Add users to the group
-			group_user_add($group_id, $user_id_ary);
-
-			// Use default value if given, otherwise use false
-			$default = (isset($default[$group_id])) ? (bool) $default[$group_id] : false;
-
-			// Set group as default?
-			if ($default)
+			// Make sure user_id_ary is an array
+			if (!is_array($user_id_ary))
 			{
-				if (!is_array($user_id_ary))
-				{
-					$user_id_ary = array($user_id_ary);
-				}
-
-				// Get array of users exempt from default group switching (run once)
-				if (!isset($default_exempt_users))
-				{
-					$default_exempt_users = $this->get_default_exempt_users();
-				}
-
-				// Remove any exempt users from our main user array
-				if (sizeof($default_exempt_users))
-				{
-					$user_id_ary = array_diff($user_id_ary, $default_exempt_users);
-				}
-
-				// Set the current group as default for non-exempt users
-				group_set_user_default($group_id, $user_id_ary);
+				$user_id_ary = array((int) $user_id_ary);
 			}
+
+			// Get array of users exempt from default group switching
+			$default_exempt_users = $this->get_default_exempt_users();
+
+			// Remove any exempt users from our main user array
+			if (sizeof($default_exempt_users))
+			{
+				$user_id_ary = array_diff($user_id_ary, $default_exempt_users);
+			}
+
+			// Set the current group as default for non-exempt users
+			group_set_user_default($group_id, $user_id_ary);
 		}
 	}
 
 	/**
-	* Remove user from groups
-	*
-	* @param array $groups_data Data array where a group id is a key and user array is value
-	* @return null
-	* @access public
+	* {@inheritdoc}
 	*/
-	public function remove_user_from_groups($groups_data)
+	public function remove_users_from_group($user_id_ary, $group_rule_data)
 	{
 		if (!function_exists('group_user_del'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
-		foreach ($groups_data as $group_id => $user_id_ary)
+		// Set this variable for readability in the code below
+		$group_id = $group_rule_data['autogroups_group_id'];
+
+		// Delete user(s) from the group
+		group_user_del($group_id, $user_id_ary);
+	}
+
+	/**
+	* {@inheritdoc}
+	*/
+	public function check($user_row, $options = array())
+	{
+		// Get auto group rule data sets for this type
+		$group_rules = $this->get_group_rules($this->get_condition_type());
+
+		// Get the groups the users belongs to
+		$user_groups = $this->get_users_groups(array_keys($user_row));
+
+		foreach ($group_rules as $group_rule)
 		{
-			group_user_del($group_id, $user_id_ary);
+			// Initialize some arrays
+			$add_users_to_group = $remove_users_from_group = array();
+
+			foreach ($user_row as $user_id => $user_data)
+			{
+				// Check if a user's post count is within the min/max range
+				if (($user_data[$this->get_condition_field()] >= $group_rule['autogroups_min_value']) && (empty($group_rule['autogroups_max_value']) || ($user_data[$this->get_condition_field()] <= $group_rule['autogroups_max_value'])))
+				{
+					// Check if a user is a member of checked group
+					if (!in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
+					{
+						// Add user to group
+						$add_users_to_group[] = $user_id;
+					}
+				}
+				else
+				{
+					// Check if a user is a member of checked group
+					if (in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
+					{
+						// Remove user from the group
+						$remove_users_from_group[] = $user_id;
+					}
+				}
+			}
+
+			// Add users to groups
+			if (sizeof($add_users_to_group))
+			{
+				$this->add_users_to_group($add_users_to_group, $group_rule);
+			}
+
+			// Remove users from groups
+			if (sizeof($remove_users_from_group))
+			{
+				$this->remove_users_from_group($remove_users_from_group, $group_rule);
+			}
 		}
 	}
 }
