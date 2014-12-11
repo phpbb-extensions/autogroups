@@ -34,6 +34,7 @@ class base_test extends base
 						'autogroups_max_value'	=> 20,
 						'autogroups_group_id'	=> 2,
 						'autogroups_default'	=> 1,
+						'autogroups_notify'		=> 0,
 					),
 					array(
 						'autogroups_id' 		=> 2,
@@ -42,6 +43,7 @@ class base_test extends base
 						'autogroups_max_value'	=> 200,
 						'autogroups_group_id'	=> 3,
 						'autogroups_default'	=> 1,
+						'autogroups_notify'		=> 0,
 					),
 					array(
 						'autogroups_id' 		=> 3,
@@ -50,6 +52,7 @@ class base_test extends base
 						'autogroups_max_value'	=> 0,
 						'autogroups_group_id'	=> 4,
 						'autogroups_default'	=> 0,
+						'autogroups_notify'		=> 0,
 					),
 				),
 			),
