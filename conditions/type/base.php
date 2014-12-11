@@ -168,7 +168,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		}
 
 		// Set group as default?
-		if (!empty($group_rule_data['autogroups_default']))
+		if ($group_rule_data['autogroups_default'])
 		{
 			// Make sure user_id_ary is an array
 			if (!is_array($user_id_ary))
