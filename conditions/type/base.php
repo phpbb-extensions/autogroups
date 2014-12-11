@@ -10,11 +10,16 @@
 
 namespace phpbb\autogroups\conditions\type;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
 * Auto Groups service class
 */
 abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 {
+	/** @var ContainerInterface */
+	protected $container;
+
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -39,6 +44,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	* Constructor
 	*
+	* @param ContainerInterface                   $container                Service container interface
 	* @param \phpbb\config\config                 $config                   Config object
 	* @param \phpbb\db\driver\driver_interface    $db                       Database object
 	* @param \phpbb\user                          $user                     User object
@@ -50,8 +56,9 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	* @return \phpbb\autogroups\conditions\type\base
 	* @access public
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
+	public function __construct(ContainerInterface $container, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
 	{
+		$this->container = $container;
 		$this->config = $config;
 		$this->db = $db;
 		$this->user = $user;
