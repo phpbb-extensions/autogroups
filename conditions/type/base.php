@@ -156,6 +156,17 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		// Add user(s) to the group
 		group_user_add($group_id, $user_id_ary);
 
+		// Send notification
+		if ($group_rule_data['autogroups_notify'])
+		{
+			$phpbb_notifications = $this->container->get('notification_manager');
+			$phpbb_notifications->add_notifications('phpbb.autogroups.notification.type.group_added', array(
+				'user_ids'		=> $user_id_ary,
+				'group_id'		=> $group_id,
+				'group_name'	=> get_group_name($group_id),
+			));
+		}
+
 		// Set group as default?
 		if (!empty($group_rule_data['autogroups_default']))
 		{
@@ -194,6 +205,17 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		// Delete user(s) from the group
 		group_user_del($group_id, $user_id_ary);
+
+		// Send notification
+		if (!empty($group_rule_data['autogroups_notify']))
+		{
+			$phpbb_notifications = $this->container->get('notification_manager');
+			$phpbb_notifications->add_notifications('phpbb.autogroups.notification.type.group_removed', array(
+				'user_ids'		=> $user_id_ary,
+				'group_id'		=> $group_id,
+				'group_name'	=> get_group_name($group_id),
+			));
+		}
 	}
 
 	/**
