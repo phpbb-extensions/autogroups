@@ -26,18 +26,19 @@ class ext extends \phpbb\extension\base
 	 *
 	 * @param mixed $old_state State returned by previous call of this method
 	 * @return mixed Returns false after last step, otherwise temporary state
+	 * @access public
 	 */
-	function enable_step($old_state)
+	public function enable_step($old_state)
 	{
 		switch ($old_state)
 		{
 			case '': // Empty means nothing has run yet
 
 				// Enable Auto Groups notifications
-				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->enable_notifications('phpbb.autogroups.notification.type.group_added');
-				$phpbb_notifications->enable_notifications('phpbb.autogroups.notification.type.group_removed');
-				return 'notifications';
+				return $this->notification_handler('enable', array(
+					'phpbb.autogroups.notification.type.group_added',
+					'phpbb.autogroups.notification.type.group_removed',
+				));
 
 			break;
 
@@ -56,18 +57,19 @@ class ext extends \phpbb\extension\base
 	 *
 	 * @param mixed $old_state State returned by previous call of this method
 	 * @return mixed Returns false after last step, otherwise temporary state
+	 * @access public
 	 */
-	function disable_step($old_state)
+	public function disable_step($old_state)
 	{
 		switch ($old_state)
 		{
 			case '': // Empty means nothing has run yet
 
 				// Disable Auto Groups notifications
-				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->disable_notifications('phpbb.autogroups.notification.type.group_added');
-				$phpbb_notifications->disable_notifications('phpbb.autogroups.notification.type.group_removed');
-				return 'notifications';
+				return $this->notification_handler('disable', array(
+					'phpbb.autogroups.notification.type.group_added',
+					'phpbb.autogroups.notification.type.group_removed',
+				));
 
 			break;
 
@@ -86,18 +88,19 @@ class ext extends \phpbb\extension\base
 	 *
 	 * @param mixed $old_state State returned by previous call of this method
 	 * @return mixed Returns false after last step, otherwise temporary state
+	 * @access public
 	 */
-	function purge_step($old_state)
+	public function purge_step($old_state)
 	{
 		switch ($old_state)
 		{
 			case '': // Empty means nothing has run yet
 
 				// Purge Auto Groups notifications
-				$phpbb_notifications = $this->container->get('notification_manager');
-				$phpbb_notifications->purge_notifications('phpbb.autogroups.notification.type.group_added');
-				$phpbb_notifications->purge_notifications('phpbb.autogroups.notification.type.group_removed');
-				return 'notifications';
+				return $this->notification_handler('purge', array(
+					'phpbb.autogroups.notification.type.group_added',
+					'phpbb.autogroups.notification.type.group_removed',
+				));
 
 			break;
 
@@ -108,5 +111,25 @@ class ext extends \phpbb\extension\base
 
 			break;
 		}
+	}
+
+	/**
+	 * Notification handler to call notification enable/disable/purge steps
+	 *
+	 * @param string $step The step (enable, disable, purge)
+	 * @param array $notification_types The notification type names
+	 * @return string Return notifications as temporary state
+	 * @access protected
+	 */
+	protected function notification_handler($step, $notification_types)
+	{
+		$phpbb_notifications = $this->container->get('notification_manager');
+
+		foreach($notification_types as $notification_type)
+		{
+			call_user_func(array($phpbb_notifications, $step . '_notifications'), $notification_type);
+		}
+
+		return 'notifications';
 	}
 }
