@@ -121,6 +121,9 @@ class posts extends \phpbb\autogroups\conditions\type\base
 			}
 		}
 
+		// Always unset a variable passed by reference in a foreach loop
+		unset($user_data);
+
 		parent::check($user_row, $options);
 	}
 }
