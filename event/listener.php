@@ -62,6 +62,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* Check user's post count after deleting a post for auto groups
 	*
+	* @param object $event The event object
 	* @return null
 	* @access public
 	*/
