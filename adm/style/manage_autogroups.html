@@ -1,0 +1,52 @@
+<!-- INCLUDE overall_header.html -->
+
+<a id="maincontent"></a>
+
+	<h1>{L_ACP_AUTOGROUPS_MANAGE}</h1>
+
+	<p>{L_ACP_AUTOGROUPS_MANAGE_EXPLAIN}</p>
+
+	<table class="table1 zebra-table fixed-width-table">
+		<thead>
+			<tr>
+				<th style="width: 15%;">{L_ACP_AUTOGROUPS_GROUP_NAME}</th>
+				<th style="width: 15%;">{L_ACP_AUTOGROUPS_CONDITION_NAME}</th>
+				<th style="width: 10%;">{L_ACP_AUTOGROUPS_MIN_VALUE}</th>
+				<th style="width: 15%;">{L_ACP_AUTOGROUPS_MAX_VALUE}</th>
+				<th style="width: 15%;">{L_ACP_AUTOGROUPS_DEFAULT}</th>
+				<th style="width: 10%;">{L_ACTION}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- BEGIN autogroups -->
+				<tr>
+					<td><strong>{autogroups.GROUP_NAME}</strong></td>
+					<td>{autogroups.CONDITION_NAME}</td>
+					<td>{autogroups.MIN_VALUE}</td>
+					<td>{autogroups.MAX_VALUE}</td>
+					<td>
+						<!-- IF autogroups.S_DEFAULT -->
+							{L_YES}
+						<!-- ELSE -->
+							{L_NO}
+						<!-- ENDIF -->
+					</td>
+					<td><a href="{autogroups.U_EDIT}">{ICON_EDIT}</a> <a href="{autogroups.U_DELETE}" data-ajax="row_delete">{ICON_DELETE}</a></td>
+				</tr>
+			<!-- BEGINELSE -->
+				<tr>
+					<td colspan="8" style="text-align: center;">{L_ACP_AUTOGROUPS_EMPTY}</td>
+				</tr>
+			<!-- END autogroups -->
+		</tbody>
+	</table>
+
+	<form id="autogroups_add_rule" method="post" action="{U_ACTION}">
+		<fieldset class="quick">
+			<input class="button2" type="submit" name="addrule" value="{L_ACP_AUTOGROUPS_CREATE_RULE}" />
+			<input type="hidden" name="action" value="add" />
+			{S_FORM_TOKEN}
+		</fieldset>
+	</form>
+
+<!-- INCLUDE overall_footer.html -->

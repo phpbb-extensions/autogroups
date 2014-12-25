@@ -38,18 +38,6 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACP_AUTOGROUPS_MANAGE'			=> 'Manage auto group rules',
-	'ACP_AUTOGROUPS_MANAGE_EXPLAIN'	=> 'Explanation', //To-do
-	'ACP_AUTOGROUPS_ADD'			=> 'Add an auto group rule',
-	'ACP_AUTOGROUPS_EDIT'			=> 'Edit the auto group rule',
-
-	'ACP_AUTOGROUPS_GROUP_NAME'		=> 'Group name',
-	'ACP_AUTOGROUPS_CONDITION_NAME'	=> 'Condition',
-	'ACP_AUTOGROUPS_MIN_VALUE'		=> 'Min value',
-	'ACP_AUTOGROUPS_MAX_VALUE'		=> 'Max value',
-	'ACP_AUTOGROUPS_DEFAULT'		=> 'Default',
-	'ACP_AUTOGROUPS_CREATE_RULE'	=> 'Add new rule',
-
-	// Conditions
-	'AUTOGROUPS_TYPE_POSTS'	=> 'Posts',
+	// ACP modules
+	'ACP_AUTOGROUPS_MANAGE'	=> 'Manage auto group rules',
 ));
