@@ -57,6 +57,7 @@ class base extends \phpbb_database_test_case
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_container->set('cache.driver', new \phpbb\cache\driver\null());
 		$phpbb_container->set('notification_manager', new \phpbb_mock_notification_manager());
+		$this->phpbb_container = $phpbb_container;
 
 		$phpbb_log = new \phpbb\log\log($db, $user, $auth, $phpbb_dispatcher, $phpbb_root_path, 'adm/', $phpEx, LOG_TABLE);
 
@@ -66,6 +67,6 @@ class base extends \phpbb_database_test_case
 
 	public function get_condition()
 	{
-		return new \phpbb\autogroups\conditions\type\posts($this->config, $this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
+		return new \phpbb\autogroups\conditions\type\posts($this->phpbb_container, $this->config, $this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
 	}
 }

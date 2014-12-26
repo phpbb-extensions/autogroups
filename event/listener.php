@@ -42,10 +42,29 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
+			'core.user_setup'			=> 'load_language_on_setup',
+
 			// Auto Groups "Posts" listeners
 			'core.submit_post_end'		=> 'check_posts_submit',
 			'core.delete_posts_after'	=> 'check_posts_delete',
 		);
+	}
+
+	/**
+	* Load common language files during user setup
+	*
+	* @param object $event The event object
+	* @return null
+	* @access public
+	*/
+	public function load_language_on_setup($event)
+	{
+		$lang_set_ext = $event['lang_set_ext'];
+		$lang_set_ext[] = array(
+			'ext_name' => 'phpbb/autogroups',
+			'lang_set' => 'autogroups_common',
+		);
+		$event['lang_set_ext'] = $lang_set_ext;
 	}
 
 	/**

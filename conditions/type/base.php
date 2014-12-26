@@ -10,11 +10,16 @@
 
 namespace phpbb\autogroups\conditions\type;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
 * Auto Groups service class
 */
 abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 {
+	/** @var ContainerInterface */
+	protected $container;
+
 	/** @var \phpbb\config\config */
 	protected $config;
 
@@ -39,6 +44,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	* Constructor
 	*
+	* @param ContainerInterface                   $container                Service container interface
 	* @param \phpbb\config\config                 $config                   Config object
 	* @param \phpbb\db\driver\driver_interface    $db                       Database object
 	* @param \phpbb\user                          $user                     User object
@@ -50,8 +56,9 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	* @return \phpbb\autogroups\conditions\type\base
 	* @access public
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
+	public function __construct(ContainerInterface $container, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
 	{
+		$this->container = $container;
 		$this->config = $config;
 		$this->db = $db;
 		$this->user = $user;
@@ -149,8 +156,19 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		// Add user(s) to the group
 		group_user_add($group_id, $user_id_ary);
 
+		// Send notification
+		if ($group_rule_data['autogroups_notify'])
+		{
+			$phpbb_notifications = $this->container->get('notification_manager');
+			$phpbb_notifications->add_notifications('phpbb.autogroups.notification.type.group_added', array(
+				'user_ids'		=> $user_id_ary,
+				'group_id'		=> $group_id,
+				'group_name'	=> get_group_name($group_id),
+			));
+		}
+
 		// Set group as default?
-		if (!empty($group_rule_data['autogroups_default']))
+		if ($group_rule_data['autogroups_default'])
 		{
 			// Make sure user_id_ary is an array
 			if (!is_array($user_id_ary))
@@ -187,6 +205,17 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		// Delete user(s) from the group
 		group_user_del($group_id, $user_id_ary);
+
+		// Send notification
+		if (!empty($group_rule_data['autogroups_notify']))
+		{
+			$phpbb_notifications = $this->container->get('notification_manager');
+			$phpbb_notifications->add_notifications('phpbb.autogroups.notification.type.group_removed', array(
+				'user_ids'		=> $user_id_ary,
+				'group_id'		=> $group_id,
+				'group_name'	=> get_group_name($group_id),
+			));
+		}
 	}
 
 	/**
