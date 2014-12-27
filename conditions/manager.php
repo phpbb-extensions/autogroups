@@ -66,7 +66,7 @@ class manager
 	*/
 	public function check_conditions()
 	{
-		foreach ($this->autogroups_types as $autogroups_type)
+		foreach ($this->autogroups_types as $autogroups_type => $data)
 		{
 			$this->check_condition($autogroups_type);
 		}
