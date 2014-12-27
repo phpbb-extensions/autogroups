@@ -43,7 +43,7 @@ class membership_test extends base
 					1 => 15, // user 1 has 15 days
 				),
 				array(
-					1 => array(1, 5, 2), // user 1 added to group 2
+					1 => array(1, 2, 5), // user 1 added to group 2
 				),
 				array(
 					1 => 2, // default
@@ -80,7 +80,7 @@ class membership_test extends base
 					2 => 5, // user 2 has 5 days
 				),
 				array(
-					1 => array(1, 5, 3, 2), // user 1 added to groups 2 and 3
+					1 => array(1, 2, 3, 5), // user 1 added to groups 2 and 3
 					2 => array(1), // user 2 removed from group 2
 				),
 				array(
@@ -94,7 +94,7 @@ class membership_test extends base
 					2 => 501, // user 2 has 501 days
 				),
 				array(
-					1 => array(1, 5, 4), // user 1 added to group 4
+					1 => array(1, 4, 5), // user 1 added to group 4
 					2 => array(1, 6), // user 2 removed from group 2 and added to group 6
 				),
 				array(
@@ -128,7 +128,12 @@ class membership_test extends base
 		$condition->check($users);
 
 		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $condition->get_users_groups(array_keys($user_data)));
+		$result = $condition->get_users_groups(array_keys($user_data));
+		foreach ($result as $key => $ary)
+		{
+			sort($result[$key]);
+		}
+		$this->assertEquals($expected, $result);
 
 		// Assert the user's default group id is as expected
 		$this->assertEquals($default, $this->helper_default_groups(array_keys($user_data)));
@@ -159,7 +164,12 @@ class membership_test extends base
 		$condition->check($users);
 
 		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $condition->get_users_groups(array_keys($user_data)));
+		$result = $condition->get_users_groups(array_keys($user_data));
+		foreach ($result as $key => $ary)
+		{
+			sort($result[$key]);
+		}
+		$this->assertEquals($expected, $result);
 
 		// Assert the user's default group id is as expected
 		$this->assertEquals($default, $this->helper_default_groups(array_keys($user_data)));
