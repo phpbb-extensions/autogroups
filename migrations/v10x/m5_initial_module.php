@@ -11,9 +11,9 @@
 namespace phpbb\autogroups\migrations\v10x;
 
 /**
-* Migration stage 4: Initial module
+* Migration stage 5: Initial module
 */
-class m4_initial_module extends \phpbb\db\migration\migration
+class m5_initial_module extends \phpbb\db\migration\migration
 {
 	/**
 	* Add or update data in the database
