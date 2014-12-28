@@ -10,7 +10,7 @@
 
 namespace phpbb\autogroups\notification\type;
 
-class group_removed extends \phpbb\notification\type\base
+class group_removed extends \phpbb\autogroups\notification\type\group_added
 {
 	/**
 	* {@inheritdoc}
@@ -18,55 +18,6 @@ class group_removed extends \phpbb\notification\type\base
 	public function get_type()
 	{
 		return 'phpbb.autogroups.notification.type.group_removed';
-	}
-
-	/**
-	* {@inheritdoc}
-	*/
-	public function is_available()
-	{
-		return false;
-	}
-
-	/**
-	* {@inheritdoc}
-	*/
-	public static function get_item_id($data)
-	{
-		return (int) $data['group_id'];
-	}
-
-	/**
-	* {@inheritdoc}
-	*/
-	public static function get_item_parent_id($data)
-	{
-		return 0;
-	}
-
-	/**
-	* {@inheritdoc}
-	*/
-	public function find_users_for_notification($data, $options = array())
-	{
-		$users = array();
-
-		$data['user_ids'] = (!is_array($data['user_ids'])) ? array($data['user_ids']) : $data['user_ids'];
-
-		foreach ($data['user_ids'] as $user_id)
-		{
-			$users[$user_id] = array('');
-		}
-
-		return $users;
-	}
-
-	/**
-	* {@inheritdoc}
-	*/
-	public function users_to_query()
-	{
-		return array();
 	}
 
 	/**
@@ -83,31 +34,5 @@ class group_removed extends \phpbb\notification\type\base
 	public function get_url()
 	{
 		return '';
-	}
-
-	/**
-	* {@inheritdoc}
-	*/
-	public function get_email_template()
-	{
-		return false;
-	}
-
-	/**
-	* {@inheritdoc}
-	*/
-	public function get_email_template_variables()
-	{
-		return array();
-	}
-
-	/**
-	* {@inheritdoc}
-	*/
-	public function create_insert_array($data, $pre_create_data = array())
-	{
-		$this->set_data('group_name', $data['group_name']);
-
-		return parent::create_insert_array($data, $pre_create_data);
 	}
 }
