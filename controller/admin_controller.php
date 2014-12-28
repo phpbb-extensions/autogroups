@@ -100,6 +100,7 @@ class admin_controller implements admin_interface
 				'MAX_VALUE'			=> $row['autogroups_max_value'],
 
 				'S_DEFAULT'	=> $row['autogroups_default'],
+				'S_NOTIFY'	=> $row['autogroups_notify'],
 
 				'U_DELETE'	=> "{$this->u_action}&amp;action=delete&amp;autogroups_id=" . $row['autogroups_id'],
 				'U_EDIT'	=> "{$this->u_action}&amp;action=edit&amp;autogroups_id=" . $row['autogroups_id'],

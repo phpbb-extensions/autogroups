@@ -12,9 +12,10 @@
 				<th style="width: 15%;">{L_ACP_AUTOGROUPS_GROUP_NAME}</th>
 				<th style="width: 15%;">{L_ACP_AUTOGROUPS_CONDITION_NAME}</th>
 				<th style="width: 10%;">{L_ACP_AUTOGROUPS_MIN_VALUE}</th>
-				<th style="width: 15%;">{L_ACP_AUTOGROUPS_MAX_VALUE}</th>
-				<th style="width: 15%;">{L_ACP_AUTOGROUPS_DEFAULT}</th>
-				<th style="width: 10%;">{L_ACTION}</th>
+				<th style="width: 10%;">{L_ACP_AUTOGROUPS_MAX_VALUE}</th>
+				<th style="width: 10%;">{L_ACP_AUTOGROUPS_DEFAULT}</th>
+				<th style="width: 10%;">{L_ACP_AUTOGROUPS_NOTIFY}</th>
+				<th>{L_ACTION}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -31,11 +32,18 @@
 							{L_NO}
 						<!-- ENDIF -->
 					</td>
+					<td>
+						<!-- IF autogroups.S_NOTIFY -->
+							{L_YES}
+						<!-- ELSE -->
+							{L_NO}
+						<!-- ENDIF -->
+					</td>
 					<td><a href="{autogroups.U_EDIT}">{ICON_EDIT}</a> <a href="{autogroups.U_DELETE}" data-ajax="row_delete">{ICON_DELETE}</a></td>
 				</tr>
 			<!-- BEGINELSE -->
 				<tr>
-					<td colspan="8" style="text-align: center;">{L_ACP_AUTOGROUPS_EMPTY}</td>
+					<td colspan="7" style="text-align: center;">{L_ACP_AUTOGROUPS_EMPTY}</td>
 				</tr>
 			<!-- END autogroups -->
 		</tbody>

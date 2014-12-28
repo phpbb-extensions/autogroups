@@ -38,6 +38,6 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	// ACP modules
-	'ACP_AUTOGROUPS_MANAGE'	=> 'Manage auto group rules',
+	// ACP module
+	'ACP_AUTOGROUPS_MANAGE'	=> 'Manage Auto Groups',
 ));
