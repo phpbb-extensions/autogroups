@@ -156,7 +156,7 @@ class admin_controller implements admin_interface
 	* @return null
 	* @access public
 	*/
-	public function delete_autogroup_rule($autogroups_id);
+	public function delete_autogroup_rule($autogroups_id)
 	{
 		// To-do
 	}
