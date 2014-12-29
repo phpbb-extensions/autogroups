@@ -17,30 +17,27 @@ your extension.
 Adding your own Auto Groups starts with extending the base class in `autogroups/conditions/type/`:
 
 ```php
-
-	class example extends \phpbb\autogroups\conditions\type\base
-	{
-	}
+class example extends \phpbb\autogroups\conditions\type\base
+{
+}
 ```
 
 Add a method that defines the name of your Auto Group type. It must be prefied by your unique vendor and extension name:
 
 ```php
-
-	public function get_condition_type()
-	{
-		return 'vendor.extension.autogroups.type.example';
-	}
+public function get_condition_type()
+{
+	return 'vendor.extension.autogroups.type.example';
+}
 ```
 
 Add a method that defines the name of the user's data field it will be using to check the value of:
 
 ```php
-
-	public function get_condition_field()
-	{
-		return 'example_data';
-	}
+public function get_condition_field()
+{
+	return 'example_data';
+}
 ```
 
 Add a method that defines a language var stored in a language file with your extension. It will be used to display
@@ -48,11 +45,10 @@ the name of this auto group type (use a language file named `info_acp_yourname` 
 in the ACP):
 
 ```php
-
-	public function get_condition_type_name()
-	{
-		return $this->user->lang('VENDOR_EXTENSION_AUTOGROUPS_TYPE_EXAMPLE');
-	}
+public function get_condition_type_name()
+{
+	return $this->user->lang('VENDOR_EXTENSION_AUTOGROUPS_TYPE_EXAMPLE');
+}
 ```
 
 The most important method is the one that will get all the users and their data to check. Review our posts, membership
@@ -66,29 +62,27 @@ hold the user's data to be tested. You can use any means to get whatever data yo
 expected user data array. For example:
 
 ```php
+public function get_users_for_condition($options = array())
+{
+	// The user data this condition needs to check
+	$condition_data = array(
+		$this->get_condition_field(),
+	);
 
-	public function get_users_for_condition($options = array())
+	$user_data = array();
+
+	// This query simply grabs all users and their example_data field
+	$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
+		FROM ' . USERS_TABLE;
+	$result = $this->db->sql_query_limit($sql, 1);
+
+	while ($row = $this->db->sql_fetchrow($result))
 	{
-		// The user data this condition needs to check
-		$condition_data = array(
-			$this->get_condition_field(),
-		);
-
-		$user_data = array();
-
-		// This query simply grabs all users and their example_data field
-		$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
-			FROM ' . USERS_TABLE;
-		$result = $this->db->sql_query_limit($sql, 1);
-
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$user_data[$row['user_id']] = $row;
-		}
-		$this->db->sql_freeresult($result);
-
-		return $user_data;
+		$user_data[$row['user_id']] = $row;
 	}
+	$this->db->sql_freeresult($result);
+
+	return $user_data;
 }
 ```
 
@@ -97,22 +91,21 @@ checking or to completely rewrite the method to better suit your particular need
 provide variables and/or data needed for further processing in this method:
 
 ```php
+public function check($user_row, $options = array())
+{
+	// Merge default options, overriden by any data provided when called
+	$options = array_merge(array(
+		'foo'	=> '',
+	), $options);
 
-	public function check($user_row, $options = array())
+	if ($options['foo'] == 'bar')
 	{
-		// Merge default options, overriden by any data provided when called
-		$options = array_merge(array(
-			'foo'	=> '',
-		), $options);
-
-		if ($options['foo'] == 'bar')
-		{
-			// do some pre-check actions here
-		}
-
-		// Now perform the base check() method
-		parent::check($user_row, $options);
+		// do some pre-check actions here
 	}
+
+	// Now perform the base check() method
+	parent::check($user_row, $options);
+}
 ```
 
 ### Service Definitions
@@ -120,22 +113,21 @@ provide variables and/or data needed for further processing in this method:
 Your extension's `services.yml` file should contain a service definition for your Auto Group type class(es). The service
 name should be an exact match with the `get_condition_type()` method:
 
-```sh
-
-    vendor.extension.autogroups.type.example:			# change this for your extension
-        class: vendor\extension\conditions\type\example # change this for your extension
-        scope: prototype
-        arguments:
-            - @service_container
-            - @config
-            - @dbal.conn
-            - @user
-            - %core.table_prefix%autogroups_rules
-            - %core.table_prefix%autogroups_types
-            - %core.root_path%
-            - %core.php_ext%
-        tags:
-            - { name: phpbb.autogroups.type }
+```yml
+vendor.extension.autogroups.type.example:			# change this for your extension
+	class: vendor\extension\conditions\type\example # change this for your extension
+	scope: prototype
+	arguments:
+		- @service_container
+		- @config
+		- @dbal.conn
+		- @user
+		- %core.table_prefix%autogroups_rules
+		- %core.table_prefix%autogroups_types
+		- %core.root_path%
+		- %core.php_ext%
+	tags:
+		- { name: phpbb.autogroups.type }
 ```
 
 ### Calling Auto Group Type Classes
@@ -147,17 +139,15 @@ execution. Our posts and warnings classes are triggered using events. The Auto G
 available in your listener by injecting it as an optional service (and setting it in a constructor):
 
 ```sh
-
-	- @?phpbb.autogroups.manager # The ? defines this as an optional dependency
+- @?phpbb.autogroups.manager # The ? defines this as an optional dependency
 ```
 
 ```php
-
-	// The autogroups_manager argument must be set last and = to null (because it is optional)
-	public function __construct(\phpbb\autogroups\conditions\manager $autogroup_manager = null)
-	{
-		$this->autogroup_manager = $autogroup_manager;
-	}
+// The autogroups_manager argument must be set last and = to null (because it is optional)
+public function __construct(\phpbb\autogroups\conditions\manager $autogroup_manager = null)
+{
+	$this->autogroup_manager = $autogroup_manager;
+}
 ```
 
 - **In Code** From directly in your extension code somewhere, you can call your class. All you need is to make the Auto
@@ -175,19 +165,18 @@ or is empty.
 Calling an Auto Group type class is fairly simple (this applies the same to events, in code or cron):
 
 ```php
+// This conditional must be in place to ensure calls only go out if Auto Groups is installed/enabled
+if ($this->autogroup_manager !== null)
+{
+	// This calls our class
+	$this->autogroup_manager->check_condition('vendor.extension.autogroups.type.example');
 
-	// This conditional must be in place to ensure calls only go out if Auto Groups is installed/enabled
-	if ($this->autogroup_manager !== null)
-	{
-		// This calls our class
-		$this->autogroup_manager->check_condition('vendor.extension.autogroups.type.example');
-
-		// This calls our class and sends it some $options data
-		$this->autogroup_manager->check_condition('vendor.extension.autogroups.type.example', array(
-			'foo'	=> 'bar',
-			'users'	=> $user_id_ary,
-		));
-	}
+	// This calls our class and sends it some $options data
+	$this->autogroup_manager->check_condition('vendor.extension.autogroups.type.example', array(
+		'foo'	=> 'bar',
+		'users'	=> $user_id_ary,
+	));
+}
 ```
 
 ### Important Auto Group Compatibility Precautions
@@ -204,13 +193,12 @@ Auto Groups (if the user has it installed).
 Prevent installation of your extension when Auto Groups is unavailable by adding this method to `ext.php`:
 
 ```php
+public function is_enableable()
+{
+	$ext_manager = $this->container->get('ext.manager');
 
-	public function is_enableable()
-	{
-		$ext_manager = $this->container->get('ext.manager');
-
-		return $ext_manager->is_enabled('phpbb/autogroups');
-	}
+	return $ext_manager->is_enabled('phpbb/autogroups');
+}
 ```
 
 ### ACP
