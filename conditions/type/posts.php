@@ -111,18 +111,18 @@ class posts extends \phpbb\autogroups\conditions\type\base
 			'action'	=> '',
 		), $options);
 
-		// We need to decrement the post count when deleting posts because
-		// the database has not yet been updated with new post counts
-		foreach ($user_row as $user_id => &$user_data)
+		// We need to decrement the user's post count during post deletion
+		// because the database does not yet have updated post counts.
+		if ($options['action'] == 'delete')
 		{
-			if ($options['action'] == 'delete')
+			foreach ($user_row as $user_id => &$user_data)
 			{
 				$user_data['user_posts']--;
 			}
-		}
 
-		// Always unset a variable passed by reference in a foreach loop
-		unset($user_data);
+			// Always unset a variable passed by reference in a foreach loop
+			unset($user_data);
+		}
 
 		parent::check($user_row, $options);
 	}
