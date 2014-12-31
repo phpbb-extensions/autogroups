@@ -3,18 +3,18 @@
 Auto Groups can easily be extended by experienced extension developers. Add the Auto Group functionality to an existing
 extension or write a simple extension as an add-on that adds more Auto Group possibilities not available in the base package.
 
-The Auto Groups extension works by comparing a component of user data against pre-defined minimum / maximum values
+The Auto Groups extension works by comparing a component of user data against predefined minimum / maximum values
 set by the Admin in the ACP, and if a user's data is within the defined range for a specified group, the user will
 automatically be added to the group.
 
 The base Auto Group extension provides this functionality for user post counts, membership days and warning counts. To
 add new user data types, such as those added by other extensions (i.e.: Points/Reputation extensions, PayPal Donors,
-etc.) you need to extend the Auto Groups base class and trigger your Auto Group class in the appropriate manner for
+etc.) you need to extend the Auto Groups base type class and trigger your Auto Group class in an appropriate manner for
 your extension.
 
 ### Auto Group Condition Type Classes
 
-Adding your own Auto Groups starts with extending the base class in `autogroups/conditions/type/`:
+Adding your own Auto Group condition starts with extending the base class in `autogroups/conditions/type/`:
 
 ```php
 class example extends \phpbb\autogroups\conditions\type\base
@@ -22,7 +22,7 @@ class example extends \phpbb\autogroups\conditions\type\base
 }
 ```
 
-Add a method that defines the name of your Auto Group type. It must be prefixed by your unique vendor and extension name:
+Add the method that defines the name of your Auto Group type. It must be prefixed by your unique vendor and extension name:
 
 ```php
 public function get_condition_type()
@@ -31,7 +31,7 @@ public function get_condition_type()
 }
 ```
 
-Add a method that defines the name of the user data field it will be checking the value of:
+Add the method that defines the name of the user data field it will be checking the value of:
 
 ```php
 public function get_condition_field()
@@ -40,7 +40,7 @@ public function get_condition_field()
 }
 ```
 
-Add a method that defines a language var stored in a language file with your extension. It will be used to display
+Add the method that defines a language var stored in a language file with your extension. It will be used to display
 the name of this Auto Group type (prefix the language file with `info_acp_` so that it will be auto-loaded
 in the ACP):
 
@@ -53,9 +53,9 @@ public function get_condition_type_name()
 
 The most important method is the one that will get all the users and their data to check. Review our posts, membership
 and warning classes to see some examples. For example, in posts, we pass it an array of user_ids (via the `$options`
-parameter) that is already available when the method is called. In our memberships class, we use a more specific SQL
-query to get an array of users who are eligible to be added to the group and any users already in the group (in case
-they need to be removed).
+parameter) that is already available when the method is called. In our memberships class, instead of passing in
+user_id(s), we use a more specific SQL query to get an array of users who are eligible to be added to the group and 
+any users already in the group (in case they need to be removed).
 
 This method must output an array of users and their data where the array keys are the user ids, and the array values
 hold the user's data to be tested. You can use any means to get whatever data you need, so long as you return the
@@ -64,13 +64,15 @@ expected user data array. For example:
 ```php
 /*
 * Return an array of user data
-*    eg: 1 => array('user_id' => 1, 'example_data' => 'foobar')
+*    eg: 1 => array('user_id' => 1, 'example_data' => 'foo'),
+*        2 => array('user_id' => 2, 'example_data' => 'bar')
 */
 public function get_users_for_condition($options = array())
 {
 	// The user data this condition needs to check
 	$condition_data = array(
 		$this->get_condition_field(),
+		// additional fields can be added here
 	);
 
 	$user_data = array();
@@ -166,7 +168,7 @@ Groups manager class available in your extension (similar to way it is made avai
 is called using phpBB's cron methods. The Auto Groups extension will automatically check all types available once
 daily. If you need more frequent intervals you can create your own cron class (view our cron class as an example).
 
-Note: because of the use of automated cron checks, it is very important that all Auto Group type classes have a default
+> Note: because of the use of automated cron checks, it is very important that all Auto Group type classes have a default
 set of data to check defined by the `$options` argument in the `get_users_for_condition()` method. That is to say, the
 `get_users_for_condition()` method must always output a valid user data array whether the `$options` array has data 
 or is empty.
@@ -191,11 +193,11 @@ if ($this->autogroup_manager !== null)
 ### Important Compatibility Precautions
 
 Auto Groups must be installed and enabled for your extension to use it, obviously. But special care must be taken to
-ensure it is impossible to run your Auto Groups code if the main Auto Groups extension has been disabled for any reason.
+ensure it is impossible to run your Auto Groups code if the base Auto Groups extension has been disabled for any reason.
 Making the Auto Groups manager class an optional service as described above is the most important step.
 
 The `ext.php` class can be used in your extension as another safety measure to prevent the installation/enabling
-of your extension if Auto Groups is unavailable.
+of your extension if Auto Groups is unavailable, by adding the following method:.
 
 ```php
 public function is_enableable()
@@ -209,9 +211,14 @@ public function is_enableable()
 The above code is only needed if your extension is an add-on to Auto Groups. You may want to skip this step if your 
 extension does a lot of other stuff and is just trying to take advantage of Auto Groups if it is available.
 
-### ACP
+### Migrations
 
 TODO
+
+### ACP
+
+Not to worry. Your new Auto Group type classes should automatically be available for users to set up in the Auto
+Groups ACP section.
 
 ### Resources
 
