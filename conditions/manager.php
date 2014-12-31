@@ -127,7 +127,7 @@ class manager
 				WHERE condition_type_id = ' . (int) $condtion_type_id;
 			$this->db->sql_query($sql);
 		}
-		catch (\phpbb\autogroups\exception\base $e)
+		catch (\RuntimeException $e)
 		{
 			// Continue
 		}
@@ -139,7 +139,7 @@ class manager
 	* @param string     $autogroups_type_name      The name of the auto group type
 	*
 	* @return int The condition_type_id
-	* @throws \phpbb\autogroups\exception\base
+	* @throws \RuntimeException
 	*/
 	public function get_autogroup_type_id($autogroups_type_name)
 	{
@@ -158,7 +158,7 @@ class manager
 		{
 			if (!isset($this->autogroups_types[$autogroups_type_name]))
 			{
-				throw new \phpbb\autogroups\exception\base(array($autogroups_type_name, $this->user->lang('AUTOGROUPS_TYPE_NOT_EXIST')));
+				throw new \RuntimeException($this->user->lang('AUTOGROUPS_TYPE_NOT_EXIST', $autogroups_type_name));
 			}
 		}
 
