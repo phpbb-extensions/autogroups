@@ -133,7 +133,7 @@ class membership extends \phpbb\autogroups\conditions\type\base
 				$group_ids[] = $group_rule['autogroups_group_id'];
 			}
 
-			return '(' . ((sizeof($sql_where)) ? implode(' OR ', $sql_where) . ' OR ' : '') . $this->db->sql_in_set('ug.group_id', $group_ids) . ')';
+			return '(' . ((sizeof($sql_where)) ? implode(' OR ', $sql_where) . ' OR ' : '') . $this->db->sql_in_set('ug.group_id', $group_ids, false, true) . ')';
 		}
 	}
 

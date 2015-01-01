@@ -102,6 +102,11 @@ class membership_test extends base
 					2 => 1, // default
 				),
 			),
+			array(
+				array(),
+				array(),
+				array(),
+			),
 		);
 	}
 
@@ -193,7 +198,7 @@ class membership_test extends base
 	{
 		$sql = 'SELECT user_id, group_id
 			FROM phpbb_users
-			WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+			WHERE ' . $this->db->sql_in_set('user_id', $user_ids, false, true);
 		$result = $this->db->sql_query($sql);
 
 		$rowset = array();
