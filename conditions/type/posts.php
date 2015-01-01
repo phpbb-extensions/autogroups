@@ -111,7 +111,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 			'action'	=> '',
 		), $options);
 
-		// We need to decrement the user's post count during post deletion
+		// We need to decrease the user's post count during post deletion
 		// because the database does not yet have updated post counts.
 		if ($options['action'] == 'delete')
 		{
