@@ -82,7 +82,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 		// Get data for the users to be checked (exclude bots and guests)
 		$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
 			FROM ' . USERS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_id', $user_ids) . '
+			WHERE ' . $this->db->sql_in_set('user_id', $user_ids, false, true) . '
 				AND user_type <> ' . USER_IGNORE;
 		$result = $this->db->sql_query($sql);
 
@@ -111,18 +111,18 @@ class posts extends \phpbb\autogroups\conditions\type\base
 			'action'	=> '',
 		), $options);
 
-		// We need to decrement the post count when deleting posts because
-		// the database has not yet been updated with new post counts
-		foreach ($user_row as $user_id => &$user_data)
+		// We need to decrease the user's post count during post deletion
+		// because the database does not yet have updated post counts.
+		if ($options['action'] == 'delete')
 		{
-			if ($options['action'] == 'delete')
+			foreach ($user_row as $user_id => &$user_data)
 			{
 				$user_data['user_posts']--;
 			}
-		}
 
-		// Always unset a variable passed by reference in a foreach loop
-		unset($user_data);
+			// Always unset a variable passed by reference in a foreach loop
+			unset($user_data);
+		}
 
 		parent::check($user_row, $options);
 	}

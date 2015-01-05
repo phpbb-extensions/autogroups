@@ -82,7 +82,7 @@ class group_added extends \phpbb\notification\type\base
 	*/
 	public function get_url()
 	{
-		return append_sid($this->phpbb_root_path . 'memberlist.' . $this->php_ext, "mode=group&g={$this->item_id}");
+		return append_sid($this->phpbb_root_path . 'memberlist.' . $this->php_ext, "mode=group&amp;g={$this->item_id}");
 	}
 
 	/**

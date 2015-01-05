@@ -45,8 +45,8 @@ class listener implements EventSubscriberInterface
 			'core.user_setup'			=> 'load_language_on_setup',
 
 			// Auto Groups "Posts" listeners
-			'core.submit_post_end'		=> 'check_posts_submit',
-			'core.delete_posts_after'	=> 'check_posts_delete',
+			'core.submit_post_end'		=> 'submit_post_check',
+			'core.delete_posts_after'	=> 'delete_post_check',
 		);
 	}
 
@@ -73,7 +73,7 @@ class listener implements EventSubscriberInterface
 	* @return null
 	* @access public
 	*/
-	public function check_posts_submit()
+	public function submit_post_check()
 	{
 		$this->manager->check_condition('phpbb.autogroups.type.posts');
 	}
@@ -85,7 +85,7 @@ class listener implements EventSubscriberInterface
 	* @return null
 	* @access public
 	*/
-	public function check_posts_delete($event)
+	public function delete_post_check($event)
 	{
 		$this->manager->check_condition('phpbb.autogroups.type.posts', array(
 			'action'	=> 'delete',
