@@ -93,3 +93,13 @@ services:
             - %tables.user_notifications%
         tags:
             - { name: notification.type }
+
+    phpbb.autogroups.cron.task.autogroups_check:
+        class: phpbb\autogroups\cron\autogroups_check
+        arguments:
+            - @config
+            - @phpbb.autogroups.manager
+        calls:
+            - [set_name, [cron.task.autogroups_check]]
+        tags:
+            - { name: cron.task }
