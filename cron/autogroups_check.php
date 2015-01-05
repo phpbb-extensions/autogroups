@@ -66,6 +66,6 @@ class autogroups_check extends \phpbb\cron\task\base
 	 */
 	public function should_run()
 	{
-		return $this->config['autogroups_last_run'] < time() - 86400;
+		return $this->config['autogroups_last_run'] < strtotime('24 hours ago');
 	}
 }
