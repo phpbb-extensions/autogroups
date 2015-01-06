@@ -164,4 +164,26 @@ class manager
 
 		return $autogroups_type_ids[$autogroups_type_name];
 	}
+
+	/**
+	* Get the condition language var from the condition file
+	*
+	* @param string     $autogroups_type_name      The name of the auto group type
+	*
+	* @return string The condition type name
+	* @throws \phpbb\autogroups\exception\base
+	*/
+	public function get_condition_lang($autogroups_type_name)
+	{
+		try
+		{
+			$condition_lang_var = $this->phpbb_container->get($autogroups_type_name)->get_condition_type_name();
+		}
+		catch (\phpbb\autogroups\exception\base $e)
+		{
+			// Continue
+		}
+
+		return $condition_lang_var;
+	}
 }
