@@ -120,10 +120,10 @@ class admin_controller implements admin_interface
 		if ($this->request->is_set_post('submit'))
 		{
 			$data = array(
-				'autogroups_type_id'	=> $this->request->variable('autogroups_type_id', false),
+				'autogroups_type_id'	=> $this->request->variable('autogroups_type_id', '', true),
 				'autogroups_min_value'	=> $this->request->variable('autogroups_min_value', '', true),
 				'autogroups_max_value'	=> $this->request->variable('autogroups_max_value', '', true),
-				'autogroups_group_id'	=> $this->request->variable('autogroups_group_id', false),
+				'autogroups_group_id'	=> $this->request->variable('autogroups_group_id', '', true),
 				'autogroups_default'	=> $this->request->variable('autogroups_default', false),
 				'autogroups_notify'		=> $this->request->variable('autogroups_notify', false),
 			);
@@ -192,6 +192,8 @@ class admin_controller implements admin_interface
 		}
 		$this->db->sql_freeresult($result);
 
+		$action = ($autogroups_id != 0) ? 'edit' : 'add';
+
 		// Set output vars for display in the template
 		$this->template->assign_vars(array(
 			'S_ADD_EDIT'	=> true,
@@ -202,7 +204,8 @@ class admin_controller implements admin_interface
 			'S_DEFAULT'	=> (isset($autogroups_data['autogroups_default'])) ? true : false,
 			'S_NOTIFY'	=> (isset($autogroups_data['autogroups_notify'])) ? true : false,
 
-			'U_FORM_ACTION'	=> $this->u_action . '&amp;action=' . ($autogroups_id != 0) ? 'edit' : 'add',
+			'U_ACTION'		=> $this->u_action,
+			'U_FORM_ACTION'	=> "{$this->u_action}&amp;action={$action}",
 		));
 	}
 
