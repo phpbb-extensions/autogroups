@@ -69,10 +69,7 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* Display the auto group rules
-	*
-	* @return null
-	* @access public
+	* {@inheritdoc}
 	*/
 	public function display_autogroups()
 	{
@@ -116,46 +113,101 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* Add an auto group rule
-	*
-	* @return null
-	* @access public
+	* {@inheritdoc}
 	*/
-	public function add_autogroup_rule()
+	public function add_edit_autogroup_rule($autogroups_id = 0)
 	{
-		// To-do
+		if ($this->request->is_set_post('submit'))
+		{
+			$data = array(
+				'autogroups_type_id'	=> $this->request->variable('autogroups_type_id', false),
+				'autogroups_min_value'	=> $this->request->variable('autogroups_min_value', '', true),
+				'autogroups_max_value'	=> $this->request->variable('autogroups_max_value', '', true),
+				'autogroups_group_id'	=> $this->request->variable('autogroups_group_id', false),
+				'autogroups_default'	=> $this->request->variable('autogroups_default', false),
+				'autogroups_notify'		=> $this->request->variable('autogroups_notify', false),
+			);
+
+			if ($autogroups_id != 0)
+			{
+				$sql = 'UPDATE ' . $this->autogroups_rules_table . '
+					SET ' . $this->db->sql_build_array('UPDATE', $data) . '
+					WHERE autogroups_id = ' . $autogroups_id;
+				$this->db->sql_query($sql);
+			}
+			else
+			{
+				$sql = 'INSERT INTO ' . $this->autogroups_rules_table . ' ' . $this->db->sql_build_array('INSERT', $data);
+				$this->db->sql_query($sql);
+			}
+
+			// Output message to user for the announcement update
+			trigger_error('test' . adm_back_link($this->u_action));
+		}
+
+		$autogroups_data = array();
+
+		// Get auto group data
+		$sql = 'SELECT *
+			FROM ' . $this->autogroups_rules_table . '
+			WHERE autogroups_id = ' . $autogroups_id;
+		$result = $this->db->sql_query($sql);
+		$autogroups_data = $this->db->sql_fetchrow();
+		$this->db->sql_freeresult($result);
+
+		// Get groups data
+		$sql = 'SELECT group_id, group_name
+			FROM ' . GROUPS_TABLE . '
+			WHERE group_type <> ' . GROUP_SPECIAL . '
+			ORDER BY group_name';
+		$result = $this->db->sql_query($sql);
+
+		while ($group_row = $this->db->sql_fetchrow())
+		{
+			// Set output vars for display in the template
+			$this->template->assign_block_vars('groups', array(
+				'GROUP_NAME'	=> !empty($this->user->lang('G_' . $group_row['group_name'])) ? $this->user->lang('G_' . $group_row['group_name']) : $group_row['group_name'],
+				'GROUP_ID'		=> $group_row['group_id'],
+
+				'S_SELECTED'	=> ($group_row['group_id'] == $autogroups_data['autogroups_group_id']) ? true : false,
+			));
+		}
+		$this->db->sql_freeresult($result);
+
+		// Get auto group conditions data
+		$sql = 'SELECT *
+			FROM ' . $this->autogroups_types_table . '
+			ORDER BY autogroups_type_name';
+		$result = $this->db->sql_query($sql);
+
+		while ($condition_row = $this->db->sql_fetchrow())
+		{
+			// Set output vars for display in the template
+			$this->template->assign_block_vars('conditions', array(
+				'CONDITION_NAME'	=> $this->manager->get_condition_lang($condition_row['autogroups_type_name']),
+				'CONDITION_ID'		=> $condition_row['autogroups_type_id'],
+
+				'S_SELECTED'	=> ($condition_row['autogroups_type_id'] == $autogroups_data['autogroups_type_id']) ? true : false,
+			));
+		}
+		$this->db->sql_freeresult($result);
+
+		// Set output vars for display in the template
+		$this->template->assign_vars(array(
+			'S_ADD_EDIT'	=> true,
+
+			'MIN_VALUE'	=> (isset($autogroups_data['autogroups_min_value'])) ? $autogroups_data['autogroups_min_value'] : 0,
+			'MAX_VALUE'	=> (isset($autogroups_data['autogroups_max_value'])) ? $autogroups_data['autogroups_max_value'] : 0,
+
+			'S_DEFAULT'	=> (isset($autogroups_data['autogroups_default'])) ? true : false,
+			'S_NOTIFY'	=> (isset($autogroups_data['autogroups_notify'])) ? true : false,
+
+			'U_FORM_ACTION'	=> $this->u_action . '&amp;action=' . ($autogroups_id != 0) ? 'edit' : 'add',
+		));
 	}
 
 	/**
-	* Edit an auto group rule
-	*
-	* @param int $autogroups_id The auto groups identifier to edit
-	* @return null
-	* @access public
-	*/
-	public function edit_autogroup_rule($autogroups_id)
-	{
-		// To-do
-	}
-
-	/**
-	* Process page data to be added or edited
-	*
-	* @param object $entity The page entity object
-	* @return null
-	* @access protected
-	*/
-	protected function add_edit_autogroup_data($row = '')
-	{
-		// To-do
-	}
-
-	/**
-	* Delete an auto group rule
-	*
-	* @param int $autogroups_id The auto groups identifier to delete
-	* @return null
-	* @access public
+	* {@inheritdoc}
 	*/
 	public function delete_autogroup_rule($autogroups_id)
 	{
@@ -163,11 +215,7 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* Set page url
-	*
-	* @param string $u_action Custom form action
-	* @return null
-	* @access public
+	* {@inheritdoc}
 	*/
 	public function set_page_url($u_action)
 	{

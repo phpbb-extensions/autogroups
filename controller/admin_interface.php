@@ -26,24 +26,16 @@ interface admin_interface
 	public function display_autogroups();
 
 	/**
-	* Add an auto group rule
-	*
-	* @return null
-	* @access public
-	*/
-	public function add_autogroup_rule();
-
-	/**
-	* Edit an auto group rule
+	* Add or edit an Auto Group rule
 	*
 	* @param int $autogroups_id The auto groups identifier to edit
 	* @return null
 	* @access public
 	*/
-	public function edit_autogroup_rule($autogroups_id);
+	public function add_edit_autogroup_rule($autogroups_id);
 
 	/**
-	* Delete an auto group rule
+	* Delete the auto group rule
 	*
 	* @param int $autogroups_id The auto groups identifier to delete
 	* @return null
