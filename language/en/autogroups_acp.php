@@ -39,17 +39,25 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MANAGE'			=> 'Manage Auto Groups',
-	'ACP_AUTOGROUPS_MANAGE_EXPLAIN'	=> 'Explanation', //To-do
-	'ACP_AUTOGROUPS_ADD'			=> 'Add an auto group rule',
-	'ACP_AUTOGROUPS_EDIT'			=> 'Edit the auto group rule',
+	'ACP_AUTOGROUPS_MANAGE_EXPLAIN'	=> 'Using this form you can add, edit, view and delete Auto Group rules',
+	'ACP_AUTOGROUPS_ADD'			=> 'Add an Auto Group rule',
+	'ACP_AUTOGROUPS_EDIT'			=> 'Edit the Auto Group rule',
 
-	'ACP_AUTOGROUPS_GROUP_NAME'		=> 'Group name',
-	'ACP_AUTOGROUPS_CONDITION_NAME'	=> 'Condition',
-	'ACP_AUTOGROUPS_MIN_VALUE'		=> 'Min value',
-	'ACP_AUTOGROUPS_MAX_VALUE'		=> 'Max value',
-	'ACP_AUTOGROUPS_DEFAULT'		=> 'Default',
-	'ACP_AUTOGROUPS_DEFAULT'		=> 'Notify',
+	'ACP_AUTOGROUPS_GROUP_NAME'				=> 'Group name',
+	'ACP_AUTOGROUPS_GROUP_NAME_EXPLAIN'		=> '',
+	'ACP_AUTOGROUPS_CONDITION_NAME'			=> 'Condition',
+	'ACP_AUTOGROUPS_CONDITION_NAME_EXPLAIN'	=> '',
+	'ACP_AUTOGROUPS_MIN_VALUE'				=> 'Min value',
+	'ACP_AUTOGROUPS_MIN_VALUE_EXPLAIN'		=> '',
+	'ACP_AUTOGROUPS_MAX_VALUE'				=> 'Max value',
+	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> '',
+	'ACP_AUTOGROUPS_DEFAULT'				=> 'Default',
+	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> '',
+	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notify user',
+	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> '',
+
 	'ACP_AUTOGROUPS_CREATE_RULE'	=> 'Add new rule',
+	'ACP_AUTOGROUPS_EMPTY'			=> 'There are not Auto Group rules',
 
 	// Conditions
 	'AUTOGROUPS_TYPE_POSTS'	=> 'Posts',
