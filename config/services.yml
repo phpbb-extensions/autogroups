@@ -43,6 +43,21 @@ services:
         tags:
             - { name: phpbb.autogroups.type }
 
+    phpbb.autogroups.type.warnings:
+        class: phpbb\autogroups\conditions\type\warnings
+        scope: prototype
+        arguments:
+            - @service_container
+            - @config
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: phpbb.autogroups.type }
+
     phpbb.autogroups.type.membership:
         class: phpbb\autogroups\conditions\type\membership
         scope: prototype
