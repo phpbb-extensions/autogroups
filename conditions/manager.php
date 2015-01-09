@@ -23,6 +23,9 @@ class manager
 	/** @var ContainerInterface */
 	protected $phpbb_container;
 
+	/** @var \phpbb\cache\driver\driver_interface */
+	protected $cache;
+
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -40,6 +43,7 @@ class manager
 	*
 	* @param array                                $autogroups_types         Array with auto group types
 	* @param ContainerInterface                   $phpbb_container          Service container interface
+	* @param \phpbb\cache\driver\driver_interface $cache                    Cache driver interface
 	* @param \phpbb\db\driver\driver_interface    $db                       Database object
 	* @param \phpbb\user                          $user                     User object
 	* @param string                               $autogroups_rules_table   Name of the table used to store auto group rules data
@@ -48,10 +52,11 @@ class manager
 	* @return \phpbb\autogroups\conditions\manager
 	* @access public
 	*/
-	public function __construct($autogroups_types, ContainerInterface $phpbb_container, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
+	public function __construct($autogroups_types, ContainerInterface $phpbb_container, \phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
 	{
 		$this->autogroups_types = $autogroups_types;
 		$this->phpbb_container = $phpbb_container;
+		$this->cache = $cache;
 		$this->db = $db;
 		$this->user = $user;
 		$this->autogroups_rules_table = $autogroups_rules_table;
@@ -143,25 +148,58 @@ class manager
 	*/
 	public function get_autogroup_type_id($autogroups_type_name)
 	{
-		$autogroups_type_ids = array();
+		// Get cached auto groups ids if they exist
+		$autogroups_type_ids = $this->cache->get('autogroups_type_ids');
 
-		$sql = 'SELECT autogroups_type_id, autogroups_type_name
-			FROM ' . $this->autogroups_types_table;
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
+		// Get auto groups ids from the db if no cache data exists, cache result
+		if ($autogroups_type_ids === false)
 		{
-			$autogroups_type_ids[$row['autogroups_type_name']] = (int) $row['autogroups_type_id'];
-		}
-		$this->db->sql_freeresult($result);
+			$autogroups_type_ids = array();
 
+			$sql = 'SELECT autogroups_type_id, autogroups_type_name
+				FROM ' . $this->autogroups_types_table;
+			$result = $this->db->sql_query($sql);
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$autogroups_type_ids[$row['autogroups_type_name']] = (int) $row['autogroups_type_id'];
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->cache->put('autogroups_type_ids', $autogroups_type_ids);
+		}
+
+		// Add auto group type name to db if it exists as service but not in db, cache result
 		if (!isset($autogroups_type_ids[$autogroups_type_name]))
 		{
 			if (!isset($this->autogroups_types[$autogroups_type_name]))
 			{
 				throw new \phpbb\autogroups\exception\base(array($autogroups_type_name, $this->user->lang('AUTOGROUPS_TYPE_NOT_EXIST')));
 			}
+
+			$this->add_autogroups_type($autogroups_type_name); // Add the type name to the db
+
+			$autogroups_type_ids[$autogroups_type_name] = (int) $this->db->sql_nextid();
+
+			$this->cache->put('autogroups_type_ids', $autogroups_type_ids);
 		}
 
 		return $autogroups_type_ids[$autogroups_type_name];
+	}
+
+	/**
+	* Get condition type ids (as an array)
+	*
+	* @return array Array of condition type ids
+	*/
+	public function get_autogroup_type_ids()
+	{
+		$autogroups_type_ids = array();
+
+		foreach ($this->autogroups_types as $type_name => $data)
+		{
+			$autogroups_type_ids[$type_name] = $this->get_autogroup_type_id($type_name);
+		}
+
+		return $autogroups_type_ids;
 	}
 }

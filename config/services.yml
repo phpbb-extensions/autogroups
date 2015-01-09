@@ -14,6 +14,7 @@ services:
         arguments:
             - @phpbb.autogroups.type_collection
             - @service_container
+            - @cache.driver
             - @dbal.conn
             - @user
             - %phpbb.autogroups.tables.autogroups_rules%
