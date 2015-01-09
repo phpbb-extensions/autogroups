@@ -190,6 +190,7 @@ class manager
 	* Get condition type ids (as an array)
 	*
 	* @return array Array of condition type ids
+	* @access public
 	*/
 	public function get_autogroup_type_ids()
 	{
