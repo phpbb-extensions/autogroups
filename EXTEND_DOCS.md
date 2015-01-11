@@ -196,8 +196,38 @@ Auto Groups must be installed and enabled for your extension to use it, obviousl
 ensure it is impossible to run your Auto Groups code if the base Auto Groups extension has been disabled for any reason.
 Making the Auto Groups manager class an optional service as described above is the most important step.
 
-The `ext.php` class can be used in your extension as another safety measure to prevent the installation/enabling
-of your extension if Auto Groups is unavailable, by adding the following method:.
+The `ext.php` class should be used in your extension to remove your extension's Auto Group data using the `purge_step()`
+method. This helps prevent Auto Groups from trying to run your uninstalled extension's code.
+
+```php
+public function purge_step($old_state)
+{
+	switch ($old_state)
+	{
+		case '':
+			try
+			{
+				// Try to remove this extension from auto groups db tables
+				$autogroups = $this->container->get('phpbb.autogroups.manager');
+				$autogroups->purge_autogroups_type('vendor.extension.autogroups.type.example');
+			}
+			catch (\InvalidArgumentException $e)
+			{
+				// Continue
+			}
+
+			return 'autogroups';
+		break;
+
+		default:
+			return parent::purge_step($old_state);
+		break;
+	}
+}
+```
+
+The `ext.php` class can also be used in your extension to prevent the installation/enabling of your extension if
+Auto Groups is unavailable, by adding the following method:.
 
 ```php
 public function is_enableable()
@@ -208,18 +238,19 @@ public function is_enableable()
 }
 ```
 
-The above code is only needed if your extension is an add-on to Auto Groups. You may want to skip this step if your 
-extension does a lot of other stuff and is just trying to take advantage of Auto Groups if it is available.
+The above code is only needed if your extension is an add-on to Auto Groups, as it will make Auto Groups installation a
+requirement for your extension's installation. You may want to skip this code block if your extension does a lot of
+other stuff and is just trying to take advantage of Auto Groups if it is available.
 
 ### Migrations
 
-TODO
+There are no required DB changes to enable your extension to use Auto Groups.
 
 ### ACP
 
-Not to worry. Your new Auto Group type classes should automatically be available for users to set up in the Auto
+Not to worry. Your new Auto Group type classes should automatically be available for users to set up in the Manage Auto
 Groups ACP section.
 
 ### Resources
 
-TODO (links to extended scripts)
+TODO (links to extended scripts and examples)
