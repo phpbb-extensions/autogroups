@@ -133,6 +133,8 @@ class manager
 			$sql = 'DELETE FROM ' . $this->autogroups_types_table . '
 				WHERE condition_type_id = ' . (int) $condtion_type_id;
 			$this->db->sql_query($sql);
+
+			$this->cache->destroy('autogroups_type_ids');
 		}
 		catch (\phpbb\autogroups\exception\base $e)
 		{
