@@ -127,11 +127,11 @@ class manager
 			$condtion_type_id = $this->get_autogroup_type_id($autogroups_type_name);
 
 			$sql = 'DELETE FROM ' . $this->autogroups_rules_table . '
-				WHERE condition_type_id = ' . (int) $condtion_type_id;
+				WHERE autogroups_type_id = ' . (int) $condtion_type_id;
 			$this->db->sql_query($sql);
 
 			$sql = 'DELETE FROM ' . $this->autogroups_types_table . '
-				WHERE condition_type_id = ' . (int) $condtion_type_id;
+				WHERE autogroups_type_id = ' . (int) $condtion_type_id;
 			$this->db->sql_query($sql);
 
 			$this->cache->destroy('autogroups_type_ids');
