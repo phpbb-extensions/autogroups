@@ -96,11 +96,11 @@ class manager
 	}
 
 	/**
-	* Add new condition type for Auto Groups extension
+	* Add new condition type
 	*
 	* @param string     $autogroups_type_name      The name of the auto group type
 	*
-	* @return null
+	* @return int The identifier of the new condition type
 	* @access public
 	*/
 	public function add_autogroups_type($autogroups_type_name)
@@ -108,6 +108,8 @@ class manager
 		$sql = 'INSERT INTO ' . $this->autogroups_types_table . '
 			' . $this->db->sql_build_array('INSERT', array('autogroups_type_name' => $this->db->sql_escape($autogroups_type_name)));
 		$this->db->sql_query($sql);
+
+		return (int) $this->db->sql_nextid();
 	}
 
 	/**
@@ -176,9 +178,7 @@ class manager
 				throw new \phpbb\autogroups\exception\base(array($autogroups_type_name, $this->user->lang('AUTOGROUPS_TYPE_NOT_EXIST')));
 			}
 
-			$this->add_autogroups_type($autogroups_type_name); // Add the type name to the db
-
-			$autogroups_type_ids[$autogroups_type_name] = (int) $this->db->sql_nextid();
+			$autogroups_type_ids[$autogroups_type_name] = $this->add_autogroups_type($autogroups_type_name);
 
 			$this->cache->put('autogroups_type_ids', $autogroups_type_ids);
 		}
