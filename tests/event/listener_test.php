@@ -52,6 +52,8 @@ class event_listener_test extends \phpbb_test_case
 			'core.user_setup',
 			'core.submit_post_end',
 			'core.delete_posts_after',
+			'core.mcp_warn_post_after',
+			'core.mcp_warn_user_after',
 		), array_keys(\phpbb\autogroups\event\listener::getSubscribedEvents()));
 	}
 

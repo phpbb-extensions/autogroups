@@ -47,6 +47,10 @@ class listener implements EventSubscriberInterface
 			// Auto Groups "Posts" listeners
 			'core.submit_post_end'		=> 'submit_post_check',
 			'core.delete_posts_after'	=> 'delete_post_check',
+
+			// Auto Groups "Warnings" listeners
+			'core.mcp_warn_post_after'	=> 'add_warning_check',
+			'core.mcp_warn_user_after'	=> 'add_warning_check',
 		);
 	}
 
@@ -90,6 +94,20 @@ class listener implements EventSubscriberInterface
 		$this->manager->check_condition('phpbb.autogroups.type.posts', array(
 			'action'	=> 'delete',
 			'users'		=> $event['poster_ids'],
+		));
+	}
+
+	/**
+	 * Check user's warnings count after receiving a warning for auto groups
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function add_warning_check($event)
+	{
+		$this->manager->check_condition('phpbb.autogroups.type.warnings', array(
+			'users'		=> $event['user_row']['user_id'],
 		));
 	}
 }
