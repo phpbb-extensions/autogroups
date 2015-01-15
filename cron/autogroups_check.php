@@ -24,9 +24,8 @@ class autogroups_check extends \phpbb\cron\task\base
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\config\config $config                      Config object
-	 * @param \phpbb\autogroups\conditions\manager $manager     Auto groups condition manager object
-	 * @return \phpbb\autogroups\cron\autogroups_check
+	 * @param \phpbb\config\config                 $config  Config object
+	 * @param \phpbb\autogroups\conditions\manager $manager Auto groups condition manager object
 	 * @access public
 	 */
 	public function __construct(\phpbb\config\config $config, \phpbb\autogroups\conditions\manager $manager)

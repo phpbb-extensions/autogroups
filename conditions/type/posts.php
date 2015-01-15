@@ -11,50 +11,50 @@
 namespace phpbb\autogroups\conditions\type;
 
 /**
-* Auto Groups service class
-*/
+ * Auto Groups Posts class
+ */
 class posts extends \phpbb\autogroups\conditions\type\base
 {
 	/**
-	* Get condition type
-	*
-	* @return string Condition type
-	* @access public
-	*/
+	 * Get condition type
+	 *
+	 * @return string Condition type
+	 * @access public
+	 */
 	public function get_condition_type()
 	{
 		return 'phpbb.autogroups.type.posts';
 	}
 
 	/**
-	* Get condition field (this is the field to check)
-	*
-	* @return string Condition field name
-	* @access public
-	*/
+	 * Get condition field (this is the field to check)
+	 *
+	 * @return string Condition field name
+	 * @access public
+	 */
 	public function get_condition_field()
 	{
 		return 'user_posts';
 	}
 
 	/**
-	* Get condition type name
-	*
-	* @return string Condition type name
-	* @access public
-	*/
+	 * Get condition type name
+	 *
+	 * @return string Condition type name
+	 * @access public
+	 */
 	public function get_condition_type_name()
 	{
 		return $this->user->lang('AUTOGROUPS_TYPE_POSTS');
 	}
 
 	/**
-	* Get users to apply to this condition
-	*
-	* @param array $options Array of optional data
-	* @return array Array of users ids as keys and their condition data as values
-	* @access public
-	*/
+	 * Get users to apply to this condition
+	 *
+	 * @param array $options Array of optional data
+	 * @return array Array of users ids as keys and their condition data as values
+	 * @access public
+	 */
 	public function get_users_for_condition($options = array())
 	{
 		// The user data this condition needs to check
@@ -97,13 +97,13 @@ class posts extends \phpbb\autogroups\conditions\type\base
 	}
 
 	/**
-	* Check condition
-	*
-	* @param array $user_row Array of user data to perform checks on
-	* @param array $options Array of optional data
-	* @return null
-	* @access public
-	*/
+	 * Check condition
+	 *
+	 * @param array $user_row Array of user data to perform checks on
+	 * @param array $options  Array of optional data
+	 * @return null
+	 * @access public
+	 */
 	public function check($user_row, $options = array())
 	{
 		// Merge default options
