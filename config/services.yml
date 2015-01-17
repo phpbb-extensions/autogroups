@@ -74,6 +74,21 @@ services:
         tags:
             - { name: phpbb.autogroups.type }
 
+    phpbb.autogroups.type.birthdays:
+        class: phpbb\autogroups\conditions\type\birthdays
+        scope: prototype
+        arguments:
+            - @service_container
+            - @config
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: phpbb.autogroups.type }
+
     phpbb.autogroups.notification.type.group_added:
         class: phpbb\autogroups\notification\type\group_added
         scope: prototype # scope MUST be prototype for this to work!
