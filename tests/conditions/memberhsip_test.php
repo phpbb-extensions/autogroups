@@ -11,7 +11,7 @@
 namespace phpbb\autogroups\tests\conditions;
 
 /**
- * Run tests on the posts type class.
+ * Run tests on the membership type class.
  */
 class membership_test extends base
 {

@@ -13,8 +13,8 @@ namespace phpbb\autogroups\conditions;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
-* Auto Groups service class
-*/
+ * Auto Groups service manager class
+ */
 class manager
 {
 	/** @var array Array with auto group types */
@@ -39,19 +39,18 @@ class manager
 	protected $autogroups_types_table;
 
 	/**
-	* Constructor
-	*
-	* @param array                                $autogroups_types         Array with auto group types
-	* @param ContainerInterface                   $phpbb_container          Service container interface
-	* @param \phpbb\cache\driver\driver_interface $cache                    Cache driver interface
-	* @param \phpbb\db\driver\driver_interface    $db                       Database object
-	* @param \phpbb\user                          $user                     User object
-	* @param string                               $autogroups_rules_table   Name of the table used to store auto group rules data
-	* @param string                               $autogroups_types_table   Name of the table used to store auto group types data
-	*
-	* @return \phpbb\autogroups\conditions\manager
-	* @access public
-	*/
+	 * Constructor
+	 *
+	 * @param array                                $autogroups_types       Array with auto group types
+	 * @param ContainerInterface                   $phpbb_container        Service container interface
+	 * @param \phpbb\cache\driver\driver_interface $cache                  Cache driver interface
+	 * @param \phpbb\db\driver\driver_interface    $db                     Database object
+	 * @param \phpbb\user                          $user                   User object
+	 * @param string                               $autogroups_rules_table Name of the table used to store auto group rules data
+	 * @param string                               $autogroups_types_table Name of the table used to store auto group types data
+	 *
+	 * @access public
+	 */
 	public function __construct($autogroups_types, ContainerInterface $phpbb_container, \phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
 	{
 		$this->autogroups_types = $autogroups_types;
@@ -64,11 +63,11 @@ class manager
 	}
 
 	/**
-	* Check auto groups conditions and execute them
-	*
-	* @return null
-	* @access public
-	*/
+	 * Check auto groups conditions and execute them
+	 *
+	 * @return null
+	 * @access public
+	 */
 	public function check_conditions()
 	{
 		foreach ($this->autogroups_types as $autogroups_type => $data)
@@ -78,14 +77,14 @@ class manager
 	}
 
 	/**
-	* Check auto groups condition and execute it
-	*
-	* @param string     $type_name      Name of the condition
-	* @param array      $options        Array of optional data
-	*
-	* @return null
-	* @access public
-	*/
+	 * Check auto groups condition and execute it
+	 *
+	 * @param string $type_name Name of the condition
+	 * @param array  $options   Array of optional data
+	 *
+	 * @return null
+	 * @access public
+	 */
 	public function check_condition($type_name, $options = array())
 	{
 		$condition = $this->phpbb_container->get($type_name);
@@ -96,13 +95,13 @@ class manager
 	}
 
 	/**
-	* Add new condition type
-	*
-	* @param string     $autogroups_type_name      The name of the auto group type
-	*
-	* @return int The identifier of the new condition type
-	* @access public
-	*/
+	 * Add new condition type
+	 *
+	 * @param string $autogroups_type_name The name of the auto group type
+	 *
+	 * @return int The identifier of the new condition type
+	 * @access public
+	 */
 	public function add_autogroups_type($autogroups_type_name)
 	{
 		$sql = 'INSERT INTO ' . $this->autogroups_types_table . '
@@ -113,13 +112,13 @@ class manager
 	}
 
 	/**
-	* Purge all conditions of a certain type
-	*
-	* @param string     $autogroups_type_name      The name of the auto group type
-	*
-	* @return null
-	* @access public
-	*/
+	 * Purge all conditions of a certain type
+	 *
+	 * @param string $autogroups_type_name The name of the auto group type
+	 *
+	 * @return null
+	 * @access public
+	 */
 	public function purge_autogroups_type($autogroups_type_name)
 	{
 		try
@@ -143,13 +142,13 @@ class manager
 	}
 
 	/**
-	* Get the condition type id from the name
-	*
-	* @param string     $autogroups_type_name      The name of the auto group type
-	*
-	* @return int The condition_type_id
-	* @throws \phpbb\autogroups\exception\base
-	*/
+	 * Get the condition type id from the name
+	 *
+	 * @param string $autogroups_type_name The name of the auto group type
+	 *
+	 * @return int The condition_type_id
+	 * @throws \phpbb\autogroups\exception\base
+	 */
 	public function get_autogroup_type_id($autogroups_type_name)
 	{
 		// Get cached auto groups ids if they exist
@@ -189,11 +188,11 @@ class manager
 	}
 
 	/**
-	* Get condition type ids (as an array)
-	*
-	* @return array Array of condition type ids
-	* @access public
-	*/
+	 * Get condition type ids (as an array)
+	 *
+	 * @return array Array of condition type ids
+	 * @access public
+	 */
 	public function get_autogroup_type_ids()
 	{
 		$autogroups_type_ids = array();

@@ -11,28 +11,28 @@
 namespace phpbb\autogroups\migrations\v10x;
 
 /**
-* Migration stage 2: Initial data
-*/
+ * Migration stage 2: Initial data
+ */
 class m2_initial_data extends \phpbb\db\migration\migration
 {
 	/**
-	* Assign migration file dependencies for this migration
-	*
-	* @return array Array of migration files
-	* @static
-	* @access public
-	*/
+	 * Assign migration file dependencies for this migration
+	 *
+	 * @return array Array of migration files
+	 * @static
+	 * @access public
+	 */
 	static public function depends_on()
 	{
 		return array('\phpbb\autogroups\migrations\v10x\m1_initial_schema');
 	}
 
 	/**
-	* Add or update data in the database
-	*
-	* @return array Array of table data
-	* @access public
-	*/
+	 * Add or update data in the database
+	 *
+	 * @return array Array of table data
+	 * @access public
+	 */
 	public function update_data()
 	{
 		return array(
@@ -41,11 +41,11 @@ class m2_initial_data extends \phpbb\db\migration\migration
 	}
 
 	/**
-	* Add auto group types to the database
-	*
-	* @return null
-	* @access public
-	*/
+	 * Add auto group types to the database
+	 *
+	 * @return null
+	 * @access public
+	 */
 	public function add_autogroups_type_data()
 	{
 		// Load the insert buffer class to perform a buffered multi insert

@@ -13,8 +13,8 @@ namespace phpbb\autogroups\conditions\type;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
-* Auto Groups service class
-*/
+ * Auto Groups base class
+ */
 abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 {
 	/** @var ContainerInterface */
@@ -42,20 +42,19 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	protected $php_ext;
 
 	/**
-	* Constructor
-	*
-	* @param ContainerInterface                   $container                Service container interface
-	* @param \phpbb\config\config                 $config                   Config object
-	* @param \phpbb\db\driver\driver_interface    $db                       Database object
-	* @param \phpbb\user                          $user                     User object
-	* @param string                               $autogroups_rules_table   Name of the table used to store auto group rules data
-	* @param string                               $autogroups_types_table   Name of the table used to store auto group types data
-	* @param string                               $phpbb_root_path          phpBB root path
-	* @param string                               $php_ext                  phpEx
-	*
-	* @return \phpbb\autogroups\conditions\type\base
-	* @access public
-	*/
+	 * Constructor
+	 *
+	 * @param ContainerInterface                $container              Service container interface
+	 * @param \phpbb\config\config              $config                 Config object
+	 * @param \phpbb\db\driver\driver_interface $db                     Database object
+	 * @param \phpbb\user                       $user                   User object
+	 * @param string                            $autogroups_rules_table Name of the table used to store auto group rules data
+	 * @param string                            $autogroups_types_table Name of the table used to store auto group types data
+	 * @param string                            $phpbb_root_path        phpBB root path
+	 * @param string                            $php_ext                phpEx
+	 *
+	 * @access public
+	 */
 	public function __construct(ContainerInterface $container, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
 	{
 		$this->container = $container;
@@ -71,8 +70,8 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function get_group_rules($type)
 	{
 		$sql_array = array(
@@ -93,8 +92,8 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function get_users_groups($user_id_ary)
 	{
 		$group_id_ary = array();
@@ -113,8 +112,8 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function get_default_exempt_users()
 	{
 		$user_id_ary = array();
@@ -141,8 +140,8 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function add_users_to_group($user_id_ary, $group_rule_data)
 	{
 		if (!function_exists('group_user_add'))
@@ -191,8 +190,8 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function remove_users_from_group($user_id_ary, $group_rule_data)
 	{
 		if (!function_exists('group_user_del'))
@@ -219,8 +218,8 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function check($user_row, $options = array())
 	{
 		// Get auto group rule data sets for this type

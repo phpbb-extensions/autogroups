@@ -11,16 +11,16 @@
 namespace phpbb\autogroups\migrations\v10x;
 
 /**
-* Migration stage 5: Cron data
-*/
+ * Migration stage 5: Cron data
+ */
 class m5_cron_data extends \phpbb\db\migration\migration
 {
 	/**
-	* Add or update data in the database
-	*
-	* @return array Array of table data
-	* @access public
-	*/
+	 * Add or update data in the database
+	 *
+	 * @return array Array of table data
+	 * @access public
+	 */
 	public function update_data()
 	{
 		return array(
