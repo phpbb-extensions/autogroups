@@ -33,8 +33,8 @@ class birthdays_test extends base
 		 * Ages between 30 - 50 adds to group 3 (no default)
 		 * Ages over 40 adds to group 4 (no default)
 		 *
-		 * User 1 is 15, already a member of groups 1 and 5 (1 is default)
-		 * User 2 is 45, already a member of groups 1 and 2 (2 is default)
+		 * User 1 is already a member of groups 1 and 5 (1 is default)
+		 * User 2 is already a member of groups 1 and 2 (2 is default)
 		 */
 		return array(
 			array(
