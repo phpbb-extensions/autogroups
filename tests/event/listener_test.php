@@ -25,9 +25,11 @@ class event_listener_test extends \phpbb_test_case
 	*/
 	protected function set_listener()
 	{
-		$this->listener = new \phpbb\autogroups\event\listener(
-			new \phpbb\autogroups\tests\mock\manager()
-		);
+		$manager = $this->getMockBuilder('\phpbb\autogroups\conditions\manager')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->listener = new \phpbb\autogroups\event\listener($manager);
 	}
 
 	/**
