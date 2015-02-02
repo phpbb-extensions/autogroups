@@ -256,20 +256,20 @@ class manager
 	* @param string     $autogroups_type_name      The name of the auto group type
 	*
 	* @return string The condition type name
-	* @throws \phpbb\autogroups\exception\base
+	* @access public
 	*/
 	public function get_condition_lang($autogroups_type_name)
 	{
 		try
 		{
-			$condition_lang_var = $this->phpbb_container->get($autogroups_type_name)->get_condition_type_name();
+			$condition = $this->phpbb_container->get($autogroups_type_name);
 		}
-		catch (\phpbb\autogroups\exception\base $e)
+		catch (\InvalidArgumentException $e)
 		{
-			// Continue
+			return $this->user->lang('AUTOGROUPS_TYPE_NOT_EXIST', $autogroups_type_name);
 		}
 
-		return $condition_lang_var;
+		return $condition->get_condition_type_name();
 	}
 
 	/**
