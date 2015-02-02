@@ -79,8 +79,6 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 			$user_ids = array((int) $user_ids);
 		}
 
-		$now = phpbb_gmgetdate(); // Get the current UTC timestamp
-
 		// Get data for the users to be checked (exclude bots and guests)
 		$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
 			FROM ' . USERS_TABLE . '
@@ -90,13 +88,35 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 		$user_data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			// Convert stored birth date into the users current age
-			$birthday_year = (int) substr($row['user_birthday'], -4);
-			$birthday_age = ($birthday_year) ? max(0, $now['year'] - $birthday_year) : 0;
-			$user_data[$row['user_id']] = array($this->get_condition_field() => $birthday_age);
+			$user_data[$row['user_id']] = array(
+				$this->get_condition_field() => $this->get_user_age($row['user_birthday'])
+			);
 		}
 		$this->db->sql_freeresult($result);
 
 		return $user_data;
+	}
+
+	/**
+	 * Helper to get the users current age
+	 *
+	 * @param string $user_birthday The users birth date (e.g.: 20-10-1990)
+	 * @return int The users age in years
+	 */
+	protected function get_user_age($user_birthday)
+	{
+		static $now;
+
+		if (!isset($now))
+		{
+			// Get the current UTC timestamp
+			$now = phpbb_gmgetdate();
+		}
+
+		// Get birth year from the stored birth date
+		$birthday_year = (int) substr($user_birthday, -4);
+
+		// Return the users age
+		return ($birthday_year) ? (int) max(0, $now['year'] - $birthday_year) : 0;
 	}
 }
