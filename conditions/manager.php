@@ -274,6 +274,7 @@ class manager
 
 	/**
 	* Run auto groups check against users for a given condition/type
+	* Called in the ACP when adding/editing or via the Resync button
 	*
 	* @param int     $autogroups_rule_id      The id of the auto group rule
 	*
