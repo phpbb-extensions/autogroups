@@ -11,9 +11,9 @@
 namespace phpbb\autogroups\migrations\v10x;
 
 /**
- * Migration stage 3: Config data
+ * Migration stage 5: Cron data
  */
-class m3_config_data extends \phpbb\db\migration\migration
+class m5_cron_data extends \phpbb\db\migration\migration
 {
 	/**
 	 * Add or update data in the database
@@ -24,7 +24,7 @@ class m3_config_data extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			array('config.add', array('autogroups_default_exempt', '')),
+			array('config.add', array('autogroups_last_run', 0, true)),
 		);
 	}
 }

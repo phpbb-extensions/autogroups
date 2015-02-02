@@ -92,6 +92,18 @@ class posts_test extends base
 				array(1, 4), // user removed from group 2, added to group 4
 				1, // default
 			),
+			array(
+				null, // user id
+				null, // posts
+				null, // user groups
+				false, // default
+			),
+			array(
+				0, // user id
+				0, // posts
+				null, // user groups
+				false, // default
+			),
 		);
 	}
 
@@ -186,6 +198,12 @@ class posts_test extends base
 					2 => array(1, 4), // user 2 removed from group 2, added to group 4
 				),
 				1, // default
+			),
+			array(
+				array(), // user ids
+				null, // posts
+				array(), // groups
+				false, // default
 			),
 		);
 	}

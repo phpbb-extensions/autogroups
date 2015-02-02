@@ -60,5 +60,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_EMPTY'			=> 'There are not Auto Group rules',
 
 	// Conditions
-	'AUTOGROUPS_TYPE_POSTS'	=> 'Posts',
+	'AUTOGROUPS_TYPE_POSTS'			=> 'Posts',
+	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> 'Membership Days',
+	'AUTOGROUPS_TYPE_WARNINGS'		=> 'Warnings',
 ));

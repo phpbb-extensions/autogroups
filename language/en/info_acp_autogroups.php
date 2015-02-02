@@ -38,6 +38,5 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	// ACP module
-	'ACP_AUTOGROUPS_MANAGE'	=> 'Manage Auto Groups',
+	'AUTOGROUPS_TYPE_NOT_EXIST'		=> 'The Auto Group type `%1$s` does not exist.',
 ));

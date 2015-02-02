@@ -14,6 +14,7 @@ services:
         arguments:
             - @phpbb.autogroups.type_collection
             - @service_container
+            - @cache.driver
             - @dbal.conn
             - @user
             - %phpbb.autogroups.tables.autogroups_rules%
@@ -30,6 +31,36 @@ services:
 
     phpbb.autogroups.type.posts:
         class: phpbb\autogroups\conditions\type\posts
+        scope: prototype
+        arguments:
+            - @service_container
+            - @config
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: phpbb.autogroups.type }
+
+    phpbb.autogroups.type.warnings:
+        class: phpbb\autogroups\conditions\type\warnings
+        scope: prototype
+        arguments:
+            - @service_container
+            - @config
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: phpbb.autogroups.type }
+
+    phpbb.autogroups.type.membership:
+        class: phpbb\autogroups\conditions\type\membership
         scope: prototype
         arguments:
             - @service_container
@@ -78,3 +109,13 @@ services:
             - %tables.user_notifications%
         tags:
             - { name: notification.type }
+
+    phpbb.autogroups.cron.task.autogroups_check:
+        class: phpbb\autogroups\cron\autogroups_check
+        arguments:
+            - @config
+            - @phpbb.autogroups.manager
+        calls:
+            - [set_name, [cron.task.autogroups_check]]
+        tags:
+            - { name: cron.task }
