@@ -22,7 +22,7 @@ class autogroups_module
 		$user->add_lang_ext('phpbb/autogroups', 'autogroups_acp');
 
 		// Get an instance of the admin controller
-		$admin_controller = $phpbb_container->get('phpbb.autogroups.admin.controller');
+		$admin_controller = $phpbb_container->get('phpbb.autogroups.admin_controller');
 
 		// Requests
 		$action = $request->variable('action', '');
