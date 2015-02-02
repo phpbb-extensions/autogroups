@@ -271,4 +271,41 @@ class manager
 
 		return $condition_lang_var;
 	}
+
+	/**
+	* Run auto groups check against all users for a given condition/type
+	*
+	* @param int     $autogroups_rule_id      The id of the auto group rule
+	*
+	* @return null
+	* @access public
+	*/
+	public function sync_autogroups($autogroups_rule_id)
+	{
+		// Purge cached rules table queries
+		$this->cache->destroy('sql', $this->autogroups_rules_table);
+
+		// Get the auto group type name used by the specified auto group rule
+		$autogroup_type_name = $this->get_autogroup_type_name(0, $autogroups_rule_id);
+
+		// If found, grab all users and update their auto group status
+		if ($autogroup_type_name)
+		{
+			$user_ids = array();
+
+			$sql = 'SELECT user_id
+				FROM ' . USERS_TABLE . '
+				WHERE ' . $this->db->sql_in_set('user_type', array(USER_INACTIVE, USER_IGNORE), true);
+			$result = $this->db->sql_query($sql);
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$user_ids[] = (int) $row['user_id'];
+			}
+			$this->db->sql_freeresult($result);
+
+			$this->check_condition($autogroup_type_name, array(
+				'users'		=> $user_ids,
+			));
+		}
+	}
 }
