@@ -132,7 +132,25 @@ class admin_controller implements admin_interface
 	*/
 	public function delete_autogroup_rule($autogroups_id)
 	{
-		// Todo
+		$sql = 'DELETE FROM ' . $this->autogroups_rules_table . '
+			WHERE autogroups_id = ' . (int) $autogroups_id;
+		$this->db->sql_query($sql);
+
+		// Log the action
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'ACP_AUTOGROUPS_DELETE_LOG', time());
+
+		// If AJAX was used, show user a result message
+		if ($this->request->is_ajax())
+		{
+			$json_response = new \phpbb\json_response;
+			$json_response->send(array(
+				'MESSAGE_TITLE'	=> $this->user->lang['INFORMATION'],
+				'MESSAGE_TEXT'	=> $this->user->lang('ACP_AUTOGROUPS_DELETE_SUCCESS'),
+				'REFRESH_DATA'	=> array(
+					'time'	=> 3
+				)
+			));
+		}
 	}
 
 	/**

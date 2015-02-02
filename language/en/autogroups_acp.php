@@ -57,6 +57,8 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Send a notification to users after being automatically added or removed from this group.',
 
 	'ACP_AUTOGROUPS_CREATE_RULE'	=> 'Create new Auto Group',
+	'ACP_AUTOGROUPS_DELETE_CONFIRM'	=> 'Are you sure you want to delete this Auto Group configuration?',
+	'ACP_AUTOGROUPS_DELETE_SUCCESS'	=> 'Auto group successfully deleted.',
 	'ACP_AUTOGROUPS_EMPTY'			=> 'There are no auto groups.',
 	'ACP_NO_GROUPS'					=> 'There are no user groups.',
 	'ACP_SUBMIT_SUCCESS'			=> 'Auto group successfully configured.',
