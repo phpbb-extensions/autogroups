@@ -44,6 +44,15 @@ interface admin_interface
 	public function delete_autogroup_rule($autogroups_id);
 
 	/**
+	* Sync an auto group by running it's check against all users
+	*
+	* @param int $autogroups_id The auto groups identifier to delete
+	* @return null
+	* @access public
+	*/
+	public function resync_autogroup_rule($autogroups_id);
+
+	/**
 	* Set page url
 	*
 	* @param string $u_action Custom form action

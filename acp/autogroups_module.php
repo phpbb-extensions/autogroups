@@ -62,6 +62,11 @@ class autogroups_module
 				return;
 			break;
 
+			case 'sync':
+				// Resync applies an auto group check against all users
+				$admin_controller->resync_autogroup_rule($autogroups_id);
+			break;
+
 			case 'delete':
 				// Use a confirm box routine when deleting an auto group rule
 				if (confirm_box(true))
