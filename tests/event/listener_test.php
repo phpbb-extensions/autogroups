@@ -20,8 +20,6 @@ class event_listener_test extends \phpbb_test_case
 
 	/**
 	* Create our event listener
-	*
-	* @access protected
 	*/
 	protected function set_listener()
 	{
@@ -34,8 +32,6 @@ class event_listener_test extends \phpbb_test_case
 
 	/**
 	* Test the event listener is constructed correctly
-	*
-	* @access public
 	*/
 	public function test_construct()
 	{
@@ -45,8 +41,6 @@ class event_listener_test extends \phpbb_test_case
 
 	/**
 	* Test the event listener is subscribing events
-	*
-	* @access public
 	*/
 	public function test_getSubscribedEvents()
 	{
@@ -63,7 +57,6 @@ class event_listener_test extends \phpbb_test_case
 	* Data set for test_load_language_on_setup
 	*
 	* @return array Array of test data
-	* @access public
 	*/
 	public function load_language_on_setup_data()
 	{
@@ -102,7 +95,6 @@ class event_listener_test extends \phpbb_test_case
 	* Test the load_language_on_setup event
 	*
 	* @dataProvider load_language_on_setup_data
-	* @access public
 	*/
 	public function test_load_language_on_setup($lang_set_ext, $expected_contains)
 	{
