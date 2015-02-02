@@ -16,7 +16,7 @@ class autogroups_module
 
 	function main($id, $mode)
 	{
-		global $cache, $phpbb_container, $request, $user;
+		global $phpbb_container, $request, $user;
 
 		// Add the auto groups ACP lang file
 		$user->add_lang_ext('phpbb/autogroups', 'autogroups_acp');

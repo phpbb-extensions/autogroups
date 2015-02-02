@@ -154,13 +154,13 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	 * Submit auto group rule form data
-	 *
-	 * @param int $autogroups_id An auto group identifier
-	 *                           A value of 0 is new, otherwise we're updating
-	 * @return null
-	 * @access protected
-	 */
+	* Submit auto group rule form data
+	*
+	* @param int $autogroups_id An auto group identifier
+	*                           A value of 0 is new, otherwise we're updating
+	* @return null
+	* @access protected
+	*/
 	protected function submit_autogroup_rule($autogroups_id = 0)
 	{
 		$data = array(
@@ -181,29 +181,34 @@ class admin_controller implements admin_interface
 		if ($autogroups_id != 0)
 		{
 			$sql = 'UPDATE ' . $this->autogroups_rules_table . '
-					SET ' . $this->db->sql_build_array('UPDATE', $data) . '
-					WHERE autogroups_id = ' . (int) $autogroups_id;
+				SET ' . $this->db->sql_build_array('UPDATE', $data) . '
+				WHERE autogroups_id = ' . (int) $autogroups_id;
 			$this->db->sql_query($sql);
 		}
 		else
 		{
 			$sql = 'INSERT INTO ' . $this->autogroups_rules_table . ' ' . $this->db->sql_build_array('INSERT', $data);
 			$this->db->sql_query($sql);
+			$autogroups_id = $this->db->sql_nextid();
 		}
 
+		// Apply the auto group to all users
 		$this->manager->sync_autogroups($autogroups_id);
 
+		// Log the action
+		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'ACP_AUTOGROUPS_SAVED_LOG', time());
+
 		// Output message to user after submitting the form
-		trigger_error($this->user->lang('ACP_SUBMIT_SUCCESS') . adm_back_link($this->u_action));
+		trigger_error($this->user->lang('ACP_AUTOGROUPS_SUBMIT_SUCCESS') . adm_back_link($this->u_action));
 	}
 
 	/**
-	 * Get one auto group rule from the database
-	 *
-	 * @param int $id An auto group rule identifier
-	 * @return array An auto group rule and it's associated data
-	 * @access public
-	 */
+	* Get one auto group rule from the database
+	*
+	* @param int $id An auto group rule identifier
+	* @return array An auto group rule and it's associated data
+	* @access public
+	*/
 	protected function get_autogroup($id)
 	{
 		$sql = 'SELECT *
@@ -217,11 +222,11 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	 * Get all auto group rules from the database
-	 *
-	 * @return array Array of auto group rules and their associated data
-	 * @access public
-	 */
+	* Get all auto group rules from the database
+	*
+	* @return array Array of auto group rules and their associated data
+	* @access public
+	*/
 	protected function get_all_autogroups()
 	{
 		$sql_array = array(
@@ -244,12 +249,12 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	 * Build template vars for a select menu of user groups
-	 *
-	 * @param int $selected An identifier for the selected group
-	 * @return null
-	 * @access protected
-	 */
+	* Build template vars for a select menu of user groups
+	*
+	* @param int $selected An identifier for the selected group
+	* @return null
+	* @access protected
+	*/
 	protected function build_groups_menu($selected)
 	{
 		$sql = 'SELECT group_id, group_name
@@ -271,12 +276,12 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	 * Build template vars for a select menu of auto group conditions
-	 *
-	 * @param int $selected An identifier for the selected group
-	 * @return null
-	 * @access protected
-	 */
+	* Build template vars for a select menu of auto group conditions
+	*
+	* @param int $selected An identifier for the selected group
+	* @return null
+	* @access protected
+	*/
 	protected function build_conditions_menu($selected)
 	{
 		$conditions = $this->manager->get_autogroup_type_ids();
@@ -293,8 +298,8 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
+	* {@inheritdoc}
+	*/
 	public function set_page_url($u_action)
 	{
 		$this->u_action = $u_action;

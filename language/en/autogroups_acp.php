@@ -51,17 +51,17 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MIN_VALUE_EXPLAIN'		=> 'Users will be added to this group if they exceed the minimum value.',
 	'ACP_AUTOGROUPS_MAX_VALUE'				=> 'Maximum value',
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Users will be removed from this group if they exceed the maximum value. Leave this field empty if you do not want users to be removed.',
-	'ACP_AUTOGROUPS_DEFAULT'				=> 'Make group default',
+	'ACP_AUTOGROUPS_DEFAULT'				=> 'Set group default',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Make this the user’s new default group.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notify users',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Send a notification to users after being automatically added or removed from this group.',
 
 	'ACP_AUTOGROUPS_CREATE_RULE'	=> 'Create new Auto Group',
+	'ACP_AUTOGROUPS_SUBMIT_SUCCESS'	=> 'Auto Group successfully configured.',
 	'ACP_AUTOGROUPS_DELETE_CONFIRM'	=> 'Are you sure you want to delete this Auto Group configuration?',
-	'ACP_AUTOGROUPS_DELETE_SUCCESS'	=> 'Auto group successfully deleted.',
+	'ACP_AUTOGROUPS_DELETE_SUCCESS'	=> 'Auto Group successfully deleted.',
 	'ACP_AUTOGROUPS_EMPTY'			=> 'There are no auto groups.',
 	'ACP_NO_GROUPS'					=> 'There are no user groups.',
-	'ACP_SUBMIT_SUCCESS'			=> 'Auto group successfully configured.',
 
 	// Conditions
 	'AUTOGROUPS_TYPE_POSTS'			=> 'Posts',

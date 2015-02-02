@@ -42,5 +42,6 @@ $lang = array_merge($lang, array(
 	'AUTOGROUPS_TYPE_NOT_EXIST'		=> 'The Auto Group type `%1$s` does not exist.',
 
 	// Logs
+	'ACP_AUTOGROUPS_SAVED_LOG'		=> '<strong>An Auto Group configuration was saved</strong>',
 	'ACP_AUTOGROUPS_DELETE_LOG'		=> '<strong>An Auto Group configuration was deleted</strong>',
 ));
