@@ -289,7 +289,7 @@ class manager
 		$autogroup_type_name = $this->get_autogroup_type_name(0, $autogroups_rule_id);
 
 		// If found, grab all users and update their auto group status
-		if ($autogroup_type_name)
+		if ($autogroup_type_name !== false)
 		{
 			$user_ids = array();
 
