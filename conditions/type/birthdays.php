@@ -79,10 +79,11 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 			$user_ids = array((int) $user_ids);
 		}
 
-		// Get data for the users to be checked (exclude bots and guests)
+		// Get data for the users to be checked (exclude bots, guests and inactive users)
 		$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
 			FROM ' . USERS_TABLE . '
-			WHERE user_type <> ' . USER_IGNORE . ((!empty($options['users'])) ? ' AND ' .  $this->db->sql_in_set('user_id', $user_ids) : '');
+			WHERE ' . $this->db->sql_in_set('user_type', array(USER_INACTIVE, USER_IGNORE), true) . '
+				AND ' . $this->db->sql_in_set('user_id', $user_ids, !sizeof($user_ids), true);
 		$result = $this->db->sql_query($sql);
 
 		$user_data = array();
