@@ -206,6 +206,51 @@ class manager
 	}
 
 	/**
+	 * Get the condition type name from the condition or rule id
+	 *
+	 * @param int     $type_id      The id of the auto group type
+	 * @param int     $rule_id      The id of the auto group rule
+	 *
+	 * @return string|bool The condition type name, false on error
+	 * @access public
+	 */
+	public function get_autogroup_type_name($type_id = 0, $rule_id = 0)
+	{
+		$sql_array = array(
+			'SELECT'	=> 'agt.autogroups_type_name',
+			'FROM'		=> array(
+				$this->autogroups_types_table => 'agt',
+			),
+		);
+
+		if ($type_id)
+		{
+			$sql_array['WHERE'] = 'agt.autogroups_type_id = ' . (int) $type_id;
+		}
+		else if ($rule_id)
+		{
+			$sql_array['LEFT_JOIN'] = array(
+				array(
+					'FROM'	=>	array($this->autogroups_rules_table	=> 'agr'),
+					'ON'	=> 'agt.autogroups_type_id = agr.autogroups_type_id',
+				),
+			);
+			$sql_array['WHERE'] = 'agr.autogroups_id = ' . (int) $rule_id;
+		}
+		else
+		{
+			return false;
+		}
+
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+		$autogroup_type_name = $this->db->sql_fetchfield('autogroups_type_name');
+		$this->db->sql_freeresult($result);
+
+		return $autogroup_type_name;
+	}
+
+	/**
 	* Get the condition language var from the condition file
 	*
 	* @param string     $autogroups_type_name      The name of the auto group type
