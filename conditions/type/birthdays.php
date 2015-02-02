@@ -62,9 +62,9 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 			$this->get_condition_field(),
 		);
 
-		// Merge default options, use the active user as the default
+		// Merge default options, empty user array as the default
 		$options = array_merge(array(
-			'users'		=> '',
+			'users'		=> array(),
 		), $options);
 
 		$user_ids = $options['users'];
