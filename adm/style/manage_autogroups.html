@@ -2,15 +2,19 @@
 
 <a id="maincontent"></a>
 
+<!-- IF S_ADD or S_EDIT -->
+	<a href="{U_BACK}" style="float: {S_CONTENT_FLOW_END};">&laquo; {L_BACK}</a>
+<!-- ENDIF -->
+
 <h1>{L_ACP_AUTOGROUPS_MANAGE}</h1>
 
 <p>{L_ACP_AUTOGROUPS_MANAGE_EXPLAIN}</p>
 
-<!-- IF S_ADD_EDIT -->
+<!-- IF S_ADD or S_EDIT -->
 <form id="acp_autogroups_group" method="post" action="{U_FORM_ACTION}">
 	<fieldset>
 
-		<legend>{L_ACP_AUTOGROUPS}</legend>
+		<legend><!-- IF S_ADD -->{L_ACP_AUTOGROUPS_ADD}<!-- ELSE -->{L_ACP_AUTOGROUPS_EDIT}<!-- ENDIF --></legend>
 
 		<dl>
 			<dt><label for="autogroups_group_id">{L_ACP_AUTOGROUPS_GROUP_NAME}{L_COLON}</label><br /><span>{L_ACP_AUTOGROUPS_GROUP_NAME_EXPLAIN}</span></dt>
@@ -22,7 +26,7 @@
 						<!-- END groups -->
 					</select>
 				<!-- ELSE -->
-					{L_NO_GROUPS}
+					{L_ACP_NO_GROUPS}
 				<!-- ENDIF -->
 			</dd>
 		</dl>
@@ -36,11 +40,11 @@
 		</dl>
 		<dl>
 			<dt><label for="autogroups_min_value">{L_ACP_AUTOGROUPS_MIN_VALUE}{L_COLON}</label><br /><span>{L_ACP_AUTOGROUPS_MIN_VALUE_EXPLAIN}</span></dt>
-			<dd><input id="autogroups_min_value" type="number" maxlength="2" name="autogroups_min_value" value="{MIN_VALUE}"  /></dd>
+			<dd><input id="autogroups_min_value" type="number" size="4" name="autogroups_min_value" value="{MIN_VALUE}"  /></dd>
 		</dl>
 		<dl>
 			<dt><label for="autogroups_max_value">{L_ACP_AUTOGROUPS_MAX_VALUE}{L_COLON}</label><br /><span>{L_ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN}</span></dt>
-			<dd><input id="autogroups_max_value" type="number" maxlength="2" name="autogroups_max_value" value="{MAX_VALUE}"  /></dd>
+			<dd><input id="autogroups_max_value" type="number" size="4" name="autogroups_max_value" value="{MAX_VALUE}"  /></dd>
 		</dl>
 		<dl>
 			<dt><label for="autogroups_default">{L_ACP_AUTOGROUPS_DEFAULT}{L_COLON}</label><br /><span>{L_ACP_AUTOGROUPS_DEFAULT_EXPLAIN}</span></dt>
