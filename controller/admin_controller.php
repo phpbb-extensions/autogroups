@@ -53,7 +53,6 @@ class admin_controller implements admin_interface
 	* @param \phpbb\user                          $user                     User object
 	* @param string                               $autogroups_rules_table   Name of the table used to store auto group rules data
 	* @param string                               $autogroups_types_table   Name of the table used to store auto group types data
-	* @return \phpbb\autogroups\controller\admin_controller
 	* @access public
 	*/
 	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\log\log $log, \phpbb\autogroups\conditions\manager $manager, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
@@ -73,25 +72,12 @@ class admin_controller implements admin_interface
 	*/
 	public function display_autogroups()
 	{
-		// Load all auto groups data from the database
-		$sql_array = array(
-			'SELECT'	=> 'agr.*, agt.autogroups_type_name, g.group_name',
-			'FROM'	=> array(
-				$this->autogroups_rules_table => 'agr',
-				$this->autogroups_types_table => 'agt',
-				GROUPS_TABLE => 'g',
-			),
-			'WHERE'	=> 'agr.autogroups_type_id = agt.autogroups_type_id
-				AND agr.autogroups_group_id = g.group_id',
-			'ORDER_BY'	=> 'agt.autogroups_type_name ASC, autogroups_min_value ASC',
-		);
-		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query($sql);
+		$autogroup_rows = $this->get_all_autogroups();
 
-		while ($row = $this->db->sql_fetchrow($result))
+		foreach ($autogroup_rows as $row)
 		{
 			$this->template->assign_block_vars('autogroups', array(
-				'GROUP_NAME'		=> !empty($this->user->lang('G_' . $row['group_name'])) ? $this->user->lang('G_' . $row['group_name']) : $row['group_name'],
+				'GROUP_NAME'		=> $row['group_name'],
 				'CONDITION_NAME'	=> $this->manager->get_condition_lang($row['autogroups_type_name']),
 				'MIN_VALUE'			=> $row['autogroups_min_value'],
 				'MAX_VALUE'			=> $row['autogroups_max_value'],
@@ -103,9 +89,7 @@ class admin_controller implements admin_interface
 				'U_EDIT'	=> "{$this->u_action}&amp;action=edit&amp;autogroups_id=" . $row['autogroups_id'],
 			));
 		}
-		$this->db->sql_freeresult($result);
 
-		// Set output vars for display in the template
 		$this->template->assign_vars(array(
 			'U_ACTION'				=> $this->u_action,
 			'U_ADD_AUTOGROUP_RULE'	=> "{$this->u_action}&amp;action=add",
@@ -119,93 +103,27 @@ class admin_controller implements admin_interface
 	{
 		if ($this->request->is_set_post('submit'))
 		{
-			$data = array(
-				'autogroups_type_id'	=> $this->request->variable('autogroups_type_id', '', true),
-				'autogroups_min_value'	=> $this->request->variable('autogroups_min_value', '', true),
-				'autogroups_max_value'	=> $this->request->variable('autogroups_max_value', '', true),
-				'autogroups_group_id'	=> $this->request->variable('autogroups_group_id', '', true),
-				'autogroups_default'	=> $this->request->variable('autogroups_default', false),
-				'autogroups_notify'		=> $this->request->variable('autogroups_notify', false),
-			);
-
-			if ($autogroups_id != 0)
-			{
-				$sql = 'UPDATE ' . $this->autogroups_rules_table . '
-					SET ' . $this->db->sql_build_array('UPDATE', $data) . '
-					WHERE autogroups_id = ' . $autogroups_id;
-				$this->db->sql_query($sql);
-			}
-			else
-			{
-				$sql = 'INSERT INTO ' . $this->autogroups_rules_table . ' ' . $this->db->sql_build_array('INSERT', $data);
-				$this->db->sql_query($sql);
-			}
-
-			// Output message to user for the announcement update
-			trigger_error('test' . adm_back_link($this->u_action));
+			$this->submit_autogroup_rule($autogroups_id);
 		}
 
-		$autogroups_data = array();
+		// Get data for the auto group so we can display it
+		$autogroups_data = $this->get_autogroup($autogroups_id);
 
-		// Get auto group data
-		$sql = 'SELECT *
-			FROM ' . $this->autogroups_rules_table . '
-			WHERE autogroups_id = ' . $autogroups_id;
-		$result = $this->db->sql_query($sql);
-		$autogroups_data = $this->db->sql_fetchrow();
-		$this->db->sql_freeresult($result);
-
-		// Get groups data
-		$sql = 'SELECT group_id, group_name
-			FROM ' . GROUPS_TABLE . '
-			WHERE group_type <> ' . GROUP_SPECIAL . '
-			ORDER BY group_name';
-		$result = $this->db->sql_query($sql);
-
-		while ($group_row = $this->db->sql_fetchrow())
-		{
-			// Set output vars for display in the template
-			$this->template->assign_block_vars('groups', array(
-				'GROUP_NAME'	=> !empty($this->user->lang('G_' . $group_row['group_name'])) ? $this->user->lang('G_' . $group_row['group_name']) : $group_row['group_name'],
-				'GROUP_ID'		=> $group_row['group_id'],
-
-				'S_SELECTED'	=> ($group_row['group_id'] == $autogroups_data['autogroups_group_id']) ? true : false,
-			));
-		}
-		$this->db->sql_freeresult($result);
-
-		// Get auto group conditions data
-		$sql = 'SELECT *
-			FROM ' . $this->autogroups_types_table . '
-			ORDER BY autogroups_type_name';
-		$result = $this->db->sql_query($sql);
-
-		while ($condition_row = $this->db->sql_fetchrow())
-		{
-			// Set output vars for display in the template
-			$this->template->assign_block_vars('conditions', array(
-				'CONDITION_NAME'	=> $this->manager->get_condition_lang($condition_row['autogroups_type_name']),
-				'CONDITION_ID'		=> $condition_row['autogroups_type_id'],
-
-				'S_SELECTED'	=> ($condition_row['autogroups_type_id'] == $autogroups_data['autogroups_type_id']) ? true : false,
-			));
-		}
-		$this->db->sql_freeresult($result);
-
-		$action = ($autogroups_id != 0) ? 'edit' : 'add';
-
-		// Set output vars for display in the template
+		$this->build_groups_menu($autogroups_data['autogroups_group_id']);
+		$this->build_conditions_menu($autogroups_data['autogroups_type_id']);
 		$this->template->assign_vars(array(
-			'S_ADD_EDIT'	=> true,
+			'S_ADD'			=> (bool) !$autogroups_id,
+			'S_EDIT'		=> (bool) $autogroups_id,
 
-			'MIN_VALUE'	=> (isset($autogroups_data['autogroups_min_value'])) ? $autogroups_data['autogroups_min_value'] : 0,
-			'MAX_VALUE'	=> (isset($autogroups_data['autogroups_max_value'])) ? $autogroups_data['autogroups_max_value'] : 0,
+			'MIN_VALUE'		=> (int) $autogroups_data['autogroups_min_value'],
+			'MAX_VALUE'		=> (int) $autogroups_data['autogroups_max_value'],
 
-			'S_DEFAULT'	=> (isset($autogroups_data['autogroups_default'])) ? true : false,
-			'S_NOTIFY'	=> (isset($autogroups_data['autogroups_notify'])) ? true : false,
+			'S_DEFAULT'		=> (bool) $autogroups_data['autogroups_default'],
+			'S_NOTIFY'		=> (bool) $autogroups_data['autogroups_notify'],
 
+			'U_FORM_ACTION'	=> $this->u_action . '&amp;action=' . (($autogroups_id) ? 'edit' : 'add') . '&amp;autogroups_id=' . $autogroups_id,
 			'U_ACTION'		=> $this->u_action,
-			'U_FORM_ACTION'	=> "{$this->u_action}&amp;action={$action}",
+			'U_BACK'		=> $this->u_action,
 		));
 	}
 
@@ -214,12 +132,151 @@ class admin_controller implements admin_interface
 	*/
 	public function delete_autogroup_rule($autogroups_id)
 	{
-		// To-do
+		// Todo
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * Submit auto group rule form data
+	 *
+	 * @param int $autogroups_id An auto group identifier
+	 *                           A value of 0 is new, otherwise we're updating
+	 * @return null
+	 * @access protected
+	 */
+	protected function submit_autogroup_rule($autogroups_id = 0)
+	{
+		$data = array(
+			'autogroups_type_id'	=> $this->request->variable('autogroups_type_id', 0),
+			'autogroups_min_value'	=> $this->request->variable('autogroups_min_value', 0),
+			'autogroups_max_value'	=> $this->request->variable('autogroups_max_value', 0),
+			'autogroups_group_id'	=> $this->request->variable('autogroups_group_id', 0),
+			'autogroups_default'	=> $this->request->variable('autogroups_default', false),
+			'autogroups_notify'		=> $this->request->variable('autogroups_notify', false),
+		);
+
+		// Prevent form submit when no user groups are available or selected
+		if (!$data['autogroups_group_id'])
+		{
+			trigger_error($this->user->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
+		if ($autogroups_id != 0)
+		{
+			$sql = 'UPDATE ' . $this->autogroups_rules_table . '
+					SET ' . $this->db->sql_build_array('UPDATE', $data) . '
+					WHERE autogroups_id = ' . (int) $autogroups_id;
+			$this->db->sql_query($sql);
+		}
+		else
+		{
+			$sql = 'INSERT INTO ' . $this->autogroups_rules_table . ' ' . $this->db->sql_build_array('INSERT', $data);
+			$this->db->sql_query($sql);
+		}
+
+		$this->manager->sync_autogroups($autogroups_id);
+
+		// Output message to user after submitting the form
+		trigger_error($this->user->lang('ACP_SUBMIT_SUCCESS') . adm_back_link($this->u_action));
+	}
+
+	/**
+	 * Get one auto group rule from the database
+	 *
+	 * @param int $id An auto group rule identifier
+	 * @return array An auto group rule and it's associated data
+	 * @access public
+	 */
+	protected function get_autogroup($id)
+	{
+		$sql = 'SELECT *
+			FROM ' . $this->autogroups_rules_table . '
+			WHERE autogroups_id = ' . (int) $id;
+		$result = $this->db->sql_query($sql);
+		$autogroups_data = $this->db->sql_fetchrow();
+		$this->db->sql_freeresult($result);
+
+		return $autogroups_data;
+	}
+
+	/**
+	 * Get all auto group rules from the database
+	 *
+	 * @return array Array of auto group rules and their associated data
+	 * @access public
+	 */
+	protected function get_all_autogroups()
+	{
+		$sql_array = array(
+			'SELECT'	=> 'agr.*, agt.autogroups_type_name, g.group_name',
+			'FROM'	=> array(
+				$this->autogroups_rules_table => 'agr',
+				$this->autogroups_types_table => 'agt',
+				GROUPS_TABLE => 'g',
+			),
+			'WHERE'	=> 'agr.autogroups_type_id = agt.autogroups_type_id
+				AND agr.autogroups_group_id = g.group_id',
+			'ORDER_BY'	=> 'g.group_name ASC, autogroups_min_value ASC',
+		);
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+		$rows = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		return $rows;
+	}
+
+	/**
+	 * Build template vars for a select menu of user groups
+	 *
+	 * @param int $selected An identifier for the selected group
+	 * @return null
+	 * @access protected
+	 */
+	protected function build_groups_menu($selected)
+	{
+		$sql = 'SELECT group_id, group_name
+			FROM ' . GROUPS_TABLE . '
+			WHERE group_type <> ' . GROUP_SPECIAL . '
+			ORDER BY group_name';
+		$result = $this->db->sql_query($sql);
+
+		while ($group_row = $this->db->sql_fetchrow())
+		{
+			$this->template->assign_block_vars('groups', array(
+				'GROUP_NAME'	=> $group_row['group_name'],
+				'GROUP_ID'		=> $group_row['group_id'],
+
+				'S_SELECTED'	=> ($group_row['group_id'] == $selected) ? true : false,
+			));
+		}
+		$this->db->sql_freeresult($result);
+	}
+
+	/**
+	 * Build template vars for a select menu of auto group conditions
+	 *
+	 * @param int $selected An identifier for the selected group
+	 * @return null
+	 * @access protected
+	 */
+	protected function build_conditions_menu($selected)
+	{
+		$conditions = $this->manager->get_autogroup_type_ids();
+
+		foreach ($conditions as $condition_name => $condition_id)
+		{
+			$this->template->assign_block_vars('conditions', array(
+				'CONDITION_NAME'	=> $this->manager->get_condition_lang($condition_name),
+				'CONDITION_ID'		=> $condition_id,
+
+				'S_SELECTED'		=> ($condition_id == $selected) ? true : false,
+			));
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function set_page_url($u_action)
 	{
 		$this->u_action = $u_action;
