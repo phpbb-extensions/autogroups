@@ -137,20 +137,20 @@ class posts_test extends base
 	}
 
 	/**
-	 * Test the check method using the active user, not passing it user ids
+	 * Test the check method, not passing it user ids, results in no changes
 	 *
 	 * @dataProvider check_test_data
 	 */
-	public function test_check_alt($user_id, $post_count, $expected, $default)
+	public function test_check_alt($user_id, $post_count)
 	{
 		// Update the user post count
 		$this->helper_update_user_posts($user_id, $post_count);
 
-		// Set the current/active user id
-		$this->user->data['user_id'] = $user_id;
-
 		// Instantiate the condition
 		$condition = $this->get_condition();
+
+		// Get the user's groups
+		$expected = $condition->get_users_groups($user_id);
 
 		// Check the user and perform auto group
 		$check_users = $condition->get_users_for_condition();
@@ -159,11 +159,8 @@ class posts_test extends base
 		// Get the user's groups
 		$result = $condition->get_users_groups($user_id);
 
-		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $result[$user_id]);
-
-		// Assert the user's default group id is as expected
-		$this->assertEquals($default, $this->helper_default_group_id($user_id));
+		// Assert the user's groups are unchanged
+		$this->assertEquals($expected, $result);
 	}
 
 	/**
