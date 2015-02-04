@@ -62,9 +62,9 @@ class warnings extends \phpbb\autogroups\conditions\type\base
 			$this->get_condition_field(),
 		);
 
-		// Merge default options, empty user data as the default
+		// Merge default options, empty user array as the default
 		$options = array_merge(array(
-			'users'		=> '',
+			'users'		=> array(),
 		), $options);
 
 		$sql_array = array(
