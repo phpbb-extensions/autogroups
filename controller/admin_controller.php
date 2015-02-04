@@ -184,7 +184,7 @@ class admin_controller implements admin_interface
 		// Prevent form submit when no user groups are available or selected
 		if (!$data['autogroups_group_id'])
 		{
-			trigger_error($this->user->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->user->lang('ACP_AUTOGROUPS_INVALID_GROUPS') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		if ($autogroups_id != 0)

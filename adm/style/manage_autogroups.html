@@ -17,15 +17,13 @@
 			<dl>
 				<dt><label for="autogroups_group_id">{L_ACP_AUTOGROUPS_GROUP_NAME}{L_COLON}</label><br /><span>{L_ACP_AUTOGROUPS_GROUP_NAME_EXPLAIN}</span></dt>
 				<dd>
-					<!-- IF .groups -->
-						<select name="autogroups_group_id" id="autogroups_group_id">
-							<!-- BEGIN groups -->
-								<option value="{groups.GROUP_ID}"<!-- IF groups.S_SELECTED --> selected="selected"<!-- ENDIF -->>{groups.GROUP_NAME}</option>
-							<!-- END groups -->
-						</select>
-					<!-- ELSE -->
-						{L_ACP_NO_GROUPS}
-					<!-- ENDIF -->
+					<select name="autogroups_group_id" id="autogroups_group_id">
+						<!-- BEGIN groups -->
+							<option value="{groups.GROUP_ID}"<!-- IF groups.S_SELECTED --> selected="selected"<!-- ENDIF -->>{groups.GROUP_NAME}</option>
+						<!-- BEGINELSE -->
+							<option value="">{L_ACP_AUTOGROUPS_NO_GROUPS}</option>
+						<!-- END groups -->
+					</select>
 				</dd>
 			</dl>
 			<dl>

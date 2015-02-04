@@ -61,7 +61,8 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_DELETE_CONFIRM'	=> 'Are you sure you want to delete this Auto Group configuration?',
 	'ACP_AUTOGROUPS_DELETE_SUCCESS'	=> 'Auto Group successfully deleted.',
 	'ACP_AUTOGROUPS_EMPTY'			=> 'There are no auto groups.',
-	'ACP_NO_GROUPS'					=> 'There are no user groups.',
+	'ACP_AUTOGROUPS_NO_GROUPS'		=> 'No groups available',
+	'ACP_AUTOGROUPS_INVALID_GROUPS'	=> 'An error occurred. A valid user group was not selected.<br />Auto Groups can only be used with user defined groups, which can be created on the Manage groups page.',
 
 	// Conditions
 	'AUTOGROUPS_TYPE_POSTS'			=> 'Posts',
