@@ -50,6 +50,7 @@ class membership extends \phpbb\autogroups\conditions\type\base
 
 	/**
 	 * Get users to apply to this condition
+	 * Memberships is typically called via cron with no $options arguments.
 	 * By default, get users that have between the min/max values assigned
 	 * to this type, and users currently in groups assigned to this type.
 	 *

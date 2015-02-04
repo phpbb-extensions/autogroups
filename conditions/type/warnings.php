@@ -50,6 +50,11 @@ class warnings extends \phpbb\autogroups\conditions\type\base
 
 	/**
 	 * Get users to apply to this condition
+	 * Warnings is called by cron or by events when warnings are issued
+	 * to user(s). By default, get users that have between the min/max
+	 * values assigned to this type and any users currently in groups
+	 * assigned to this type, otherwise use the user_id(s) supplied in
+	 * the $options arg.
 	 *
 	 * @param array $options Array of optional data
 	 * @return array Array of users ids as keys and their condition data as values

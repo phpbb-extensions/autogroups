@@ -50,8 +50,8 @@ class posts extends \phpbb\autogroups\conditions\type\base
 
 	/**
 	 * Get users to apply to this condition
-	 * Posts expects to receive user_id(s) or it will return empty
-	 * (except during a 'sync' action which will return all users)
+	 * Posts expects to receive user_id(s) or it will return empty,
+	 * except during a 'sync' action which will return all users.
 	 *
 	 * @param array $options Array of optional data
 	 * @return array Array of users ids as keys and their condition data as values
