@@ -50,6 +50,8 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 
 	/**
 	 * Get users to apply to this condition
+	 * Memberships is typically called via cron with no $options arguments.
+	 * By default, get all users, otherwise use user_id(s) supplied in $options arg.
 	 *
 	 * @param array $options Array of optional data
 	 * @return array Array of users ids as keys and their condition data as values
