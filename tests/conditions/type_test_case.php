@@ -109,6 +109,7 @@ abstract class type_test_case extends base
 		));
 		$condition->check($check_users);
 
+		// Get the users group data
 		$group_data = $this->helper_default_groups($user_id);
 
 		// Assert the user's default group id is as expected

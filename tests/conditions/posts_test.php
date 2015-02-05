@@ -17,11 +17,18 @@ class posts_test extends type_test_case
 {
 	protected $condition_type = 'phpbb.autogroups.type.posts';
 
-	protected $extra_options = array('action' => 'sync');
-
 	public function get_condition()
 	{
-		return new \phpbb\autogroups\conditions\type\posts($this->phpbb_container, $this->config, $this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
+		return new \phpbb\autogroups\conditions\type\posts(
+			$this->phpbb_container,
+			$this->config,
+			$this->db,
+			$this->user,
+			'phpbb_autogroups_rules',
+			'phpbb_autogroups_types',
+			$this->root_path,
+			$this->php_ext
+		);
 	}
 
 	/**

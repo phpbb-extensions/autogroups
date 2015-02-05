@@ -19,7 +19,16 @@ class warnings_test extends type_test_case
 
 	public function get_condition()
 	{
-		return new \phpbb\autogroups\conditions\type\warnings($this->phpbb_container, $this->config, $this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
+		return new \phpbb\autogroups\conditions\type\warnings(
+			$this->phpbb_container,
+			$this->config,
+			$this->db,
+			$this->user,
+			'phpbb_autogroups_rules',
+			'phpbb_autogroups_types',
+			$this->root_path,
+			$this->php_ext
+		);
 	}
 
 	/**
