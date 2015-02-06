@@ -1,0 +1,65 @@
+services:
+    phpbb.autogroups.manager:
+        class: phpbb\autogroups\conditions\manager
+        arguments:
+            - @phpbb.autogroups.type_collection
+            - @service_container
+            - @cache.driver
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+
+# ----- Auto groups types -----
+# Scope MUST be prototype for all the plugins to work.
+    phpbb.autogroups.type_collection:
+        class: phpbb\di\service_collection
+        arguments:
+            - @service_container
+        tags:
+            - { name: service_collection, tag: phpbb.autogroups.type }
+
+    phpbb.autogroups.type.posts:
+        class: phpbb\autogroups\conditions\type\posts
+        scope: prototype
+        arguments:
+            - @service_container
+            - @config
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: phpbb.autogroups.type }
+
+    phpbb.autogroups.type.warnings:
+        class: phpbb\autogroups\conditions\type\warnings
+        scope: prototype
+        arguments:
+            - @service_container
+            - @config
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: phpbb.autogroups.type }
+
+    phpbb.autogroups.type.membership:
+        class: phpbb\autogroups\conditions\type\membership
+        scope: prototype
+        arguments:
+            - @service_container
+            - @config
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: phpbb.autogroups.type }
