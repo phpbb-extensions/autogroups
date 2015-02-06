@@ -331,7 +331,7 @@ class admin_controller implements admin_interface
 				'GROUP_ID'		=> $group_row['group_id'],
 				'GROUP_NAME'	=> ($group_row['group_type'] == GROUP_SPECIAL) ? $this->user->lang('G_' . $group_row['group_name']) : $group_row['group_name'],
 
-				'S_SELECTED'	=> (in_array($group_row['group_id'], $selected)) ? true : false,
+				'S_SELECTED'	=> in_array($group_row['group_id'], $selected),
 			));
 		}
 		$this->db->sql_freeresult($result);
@@ -354,7 +354,7 @@ class admin_controller implements admin_interface
 				'CONDITION_ID'		=> $condition_id,
 				'CONDITION_NAME'	=> $this->manager->get_condition_lang($condition_name),
 
-				'S_SELECTED'		=> ($condition_id == $selected) ? true : false,
+				'S_SELECTED'		=> $condition_id == $selected,
 			));
 		}
 	}
