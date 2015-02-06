@@ -1,0 +1,38 @@
+services:
+# ----- Auto groups notification types -----
+# Scope MUST be prototype for all the plugins to work.
+    phpbb.autogroups.notification.type.group_added:
+        class: phpbb\autogroups\notification\type\group_added
+        scope: prototype
+        arguments:
+            - @user_loader
+            - @dbal.conn
+            - @cache.driver
+            - @user
+            - @auth
+            - @config
+            - %core.root_path%
+            - %core.php_ext%
+            - %tables.notification_types%
+            - %tables.notifications%
+            - %tables.user_notifications%
+        tags:
+            - { name: notification.type }
+
+    phpbb.autogroups.notification.type.group_removed:
+        class: phpbb\autogroups\notification\type\group_removed
+        scope: prototype
+        arguments:
+            - @user_loader
+            - @dbal.conn
+            - @cache.driver
+            - @user
+            - @auth
+            - @config
+            - %core.root_path%
+            - %core.php_ext%
+            - %tables.notification_types%
+            - %tables.notifications%
+            - %tables.user_notifications%
+        tags:
+            - { name: notification.type }
