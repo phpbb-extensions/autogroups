@@ -13,24 +13,24 @@ namespace phpbb\autogroups\notification\type;
 class group_removed extends \phpbb\autogroups\notification\type\group_added
 {
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function get_type()
 	{
 		return 'phpbb.autogroups.notification.type.group_removed';
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function get_title()
 	{
 		return $this->user->lang('AUTOGROUPS_NOTIFICATION_GROUP_REMOVED', $this->get_data('group_name'));
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function get_url()
 	{
 		return '';

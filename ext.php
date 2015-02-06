@@ -11,13 +11,13 @@
 namespace phpbb\autogroups;
 
 /**
-* This ext class is optional and can be omitted if left empty.
-* However you can add special (un)installation commands in the
-* methods enable_step(), disable_step() and purge_step(). As it is,
-* these methods are defined in \phpbb\extension\base, which this
-* class extends, but you can overwrite them to give special
-* instructions for those cases.
-*/
+ * This ext class is optional and can be omitted if left empty.
+ * However you can add special (un)installation commands in the
+ * methods enable_step(), disable_step() and purge_step(). As it is,
+ * these methods are defined in \phpbb\extension\base, which this
+ * class extends, but you can overwrite them to give special
+ * instructions for those cases.
+ */
 class ext extends \phpbb\extension\base
 {
 	/**
@@ -116,8 +116,8 @@ class ext extends \phpbb\extension\base
 	/**
 	 * Notification handler to call notification enable/disable/purge steps
 	 *
-	 * @param string $step The step (enable, disable, purge)
-	 * @param array $notification_types The notification type names
+	 * @param string $step               The step (enable, disable, purge)
+	 * @param array  $notification_types The notification type names
 	 * @return string Return notifications as temporary state
 	 * @access protected
 	 */
@@ -125,7 +125,7 @@ class ext extends \phpbb\extension\base
 	{
 		$phpbb_notifications = $this->container->get('notification_manager');
 
-		foreach($notification_types as $notification_type)
+		foreach ($notification_types as $notification_type)
 		{
 			call_user_func(array($phpbb_notifications, $step . '_notifications'), $notification_type);
 		}

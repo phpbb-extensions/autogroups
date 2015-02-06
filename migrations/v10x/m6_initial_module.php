@@ -11,9 +11,9 @@
 namespace phpbb\autogroups\migrations\v10x;
 
 /**
- * Migration stage 3: Config data
- */
-class m3_config_data extends \phpbb\db\migration\migration
+* Migration stage 6: Initial module
+*/
+class m6_initial_module extends \phpbb\db\migration\migration
 {
 	/**
 	 * Assign migration file dependencies for this migration
@@ -28,15 +28,20 @@ class m3_config_data extends \phpbb\db\migration\migration
 	}
 
 	/**
-	 * Add or update data in the database
-	 *
-	 * @return array Array of table data
-	 * @access public
-	 */
+	* Add or update data in the database
+	*
+	* @return array Array of table data
+	* @access public
+	*/
 	public function update_data()
 	{
 		return array(
-			array('config.add', array('autogroups_default_exempt', '')),
+			array('module.add', array(
+				'acp', 'ACP_GROUPS', array(
+					'module_basename'	=> '\phpbb\autogroups\acp\autogroups_module',
+					'modes'				=> array('manage'),
+				),
+			)),
 		);
 	}
 }

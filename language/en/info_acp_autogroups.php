@@ -37,24 +37,11 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 //
 
-/*
-* These are errors which can be triggered by sending invalid data to the
-* autogroups extension API.
-*
-* These errors will never show to a user unless they are either modifying
-* the core autogroups extension code OR unless they are writing an extension
-* which makes calls to this extension.
-*
-* Translators: Feel free to not translate these language strings
-*/
 $lang = array_merge($lang, array(
-	'EXCEPTION_FIELD_MISSING'		=> 'Required field missing',
-	'EXCEPTION_INVALID_ARGUMENT'	=> 'Invalid argument specified for `%1$s`. Reason: %2$s',
-	'EXCEPTION_OUT_OF_BOUNDS'		=> 'The field `%1$s` received data beyond its bounds',
-	'EXCEPTION_TOO_LONG'			=> 'The input was longer than the maximum length.',
-	'EXCEPTION_NOT_UNIQUE'			=> 'The input was not unique.',
-	'EXCEPTION_UNEXPECTED_VALUE'	=> 'The field `%1$s` received unexpected data. Reason: %2$s',
-	'EXCEPTION_ILLEGAL_CHARACTERS'	=> 'The input contained illegal characters.',
+	'ACP_AUTOGROUPS_MANAGE'			=> 'Manage Auto Groups',
+	'AUTOGROUPS_TYPE_NOT_EXIST'		=> 'The Auto Group type `%1$s` does not exist.',
 
-	'AUTOGROUPS_TYPE_NOT_EXIST'		=> 'The `%1$s` does not exist',
+	// Logs
+	'ACP_AUTOGROUPS_SAVED_LOG'		=> '<strong>An Auto Group configuration was saved</strong>',
+	'ACP_AUTOGROUPS_DELETE_LOG'		=> '<strong>An Auto Group configuration was deleted</strong>',
 ));

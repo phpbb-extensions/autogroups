@@ -11,52 +11,53 @@
 namespace phpbb\autogroups\conditions\type;
 
 /**
-* Auto Groups Membership class
-*/
+ * Auto Groups Membership class
+ */
 class membership extends \phpbb\autogroups\conditions\type\base
 {
 	/**
-	* Get condition type
-	*
-	* @return string Condition type
-	* @access public
-	*/
+	 * Get condition type
+	 *
+	 * @return string Condition type
+	 * @access public
+	 */
 	public function get_condition_type()
 	{
 		return 'phpbb.autogroups.type.membership';
 	}
 
 	/**
-	* Get condition field (this is the field to check)
-	*
-	* @return string Condition field name
-	* @access public
-	*/
+	 * Get condition field (this is the field to check)
+	 *
+	 * @return string Condition field name
+	 * @access public
+	 */
 	public function get_condition_field()
 	{
 		return 'user_regdate';
 	}
 
 	/**
-	* Get condition type name
-	*
-	* @return string Condition type name
-	* @access public
-	*/
+	 * Get condition type name
+	 *
+	 * @return string Condition type name
+	 * @access public
+	 */
 	public function get_condition_type_name()
 	{
 		return $this->user->lang('AUTOGROUPS_TYPE_MEMBERSHIP');
 	}
 
 	/**
-	* Get users to apply to this condition
-	* By default, get users that have between the min/max values assigned
-	* to this type, and users currently in groups assigned to this type.
-	*
-	* @param array $options Array of optional data
-	* @return array Array of users ids as keys and their condition data as values
-	* @access public
-	*/
+	 * Get users to apply to this condition
+	 * Memberships is typically called via cron with no $options arguments.
+	 * By default, get users that have between the min/max values assigned
+	 * to this type, and users currently in groups assigned to this type.
+	 *
+	 * @param array $options Array of optional data
+	 * @return array Array of users ids as keys and their condition data as values
+	 * @access public
+	 */
 	public function get_users_for_condition($options = array())
 	{
 		// The user data this condition needs to check
@@ -64,9 +65,9 @@ class membership extends \phpbb\autogroups\conditions\type\base
 			$this->get_condition_field(),
 		);
 
-		// Merge default options, empty user data as the default
+		// Merge default options, empty user array as the default
 		$options = array_merge(array(
-			'users'		=> '',
+			'users'		=> array(),
 		), $options);
 
 		$sql_array = array(
@@ -101,13 +102,13 @@ class membership extends \phpbb\autogroups\conditions\type\base
 	}
 
 	/**
-	* Helper to generate the needed sql where clause. If user ids were
-	* supplied, use them. Otherwise find all qualified users to check.
-	*
-	* @param array $options Array of optional data
-	* @return string SQL where clause
-	* @access protected
-	*/
+	 * Helper to generate the needed sql where clause. If user ids were
+	 * supplied, use them. Otherwise find all qualified users to check.
+	 *
+	 * @param array $options Array of optional data
+	 * @return string SQL where clause
+	 * @access protected
+	 */
 	protected function sql_where_clause($options)
 	{
 		if (!empty($options['users']))
@@ -138,24 +139,24 @@ class membership extends \phpbb\autogroups\conditions\type\base
 	}
 
 	/**
-	* Helper to convert days into a timestamp
-	*
-	* @param int $value Number of days
-	* @return int Timestamp
-	* @access protected
-	*/
+	 * Helper to convert days into a timestamp
+	 *
+	 * @param int $value Number of days
+	 * @return int Timestamp
+	 * @access protected
+	 */
 	protected function days_to_timestamp($value)
 	{
 		return (int) time() - ($value * 86400);
 	}
 
 	/**
-	* Helper to convert a timestamp into days
-	*
-	* @param int $value Timestamp
-	* @return int Number of days
-	* @access protected
-	*/
+	 * Helper to convert a timestamp into days
+	 *
+	 * @param int $value Timestamp
+	 * @return int Number of days
+	 * @access protected
+	 */
 	protected function timestamp_to_days($value)
 	{
 		return (int) round((time() - $value) / 86400);

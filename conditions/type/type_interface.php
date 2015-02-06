@@ -11,96 +11,96 @@
 namespace phpbb\autogroups\conditions\type;
 
 /**
-* Auto Groups interface
-*/
+ * Auto Groups interface
+ */
 interface type_interface
 {
 	/**
-	* Get condition type
-	*
-	* @return string Condition type
-	* @access public
-	*/
+	 * Get condition type
+	 *
+	 * @return string Condition type
+	 * @access public
+	 */
 	public function get_condition_type();
 
 	/**
-	* Get condition field (this is the field to check)
-	*
-	* @return string Condition field name
-	* @access public
-	*/
+	 * Get condition field (this is the field to check)
+	 *
+	 * @return string Condition field name
+	 * @access public
+	 */
 	public function get_condition_field();
 
 	/**
-	* Get condition type name
-	*
-	* @return string Condition type name
-	* @access public
-	*/
+	 * Get condition type name
+	 *
+	 * @return string Condition type name
+	 * @access public
+	 */
 	public function get_condition_type_name();
 
 	/**
-	* Get users to apply to this condition
-	*
-	* @param array $options Array of optional data
-	* @return array Array of users ids and their post counts
-	* @access public
-	*/
+	 * Get users to apply to this condition
+	 *
+	 * @param array $options Array of optional data
+	 * @return array Array of users ids and their post counts
+	 * @access public
+	 */
 	public function get_users_for_condition($options = array());
 
 	/**
-	* Get auto group rules for condition type
-	*
-	* @param string $type Auto group condition type name
-	* @return array Auto group rows
-	* @access public
-	*/
+	 * Get auto group rules for condition type
+	 *
+	 * @param string $type Auto group condition type name
+	 * @return array Auto group rows
+	 * @access public
+	 */
 	public function get_group_rules($type);
 
 	/**
-	* Get user's group ids
-	*
-	* @param array $user_id_ary An array of user ids to check
-	* @return array An array of usergroup ids each user belongs to
-	* @access public
-	*/
+	 * Get user's group ids
+	 *
+	 * @param array $user_id_ary An array of user ids to check
+	 * @return array An array of usergroup ids each user belongs to
+	 * @access public
+	 */
 	public function get_users_groups($user_id_ary);
 
 	/**
-	* Get users that should not have their default status changed
-	*
-	* @return array An array of user ids
-	* @access public
-	*/
+	 * Get users that should not have their default status changed
+	 *
+	 * @return array An array of user ids
+	 * @access public
+	 */
 	public function get_default_exempt_users();
 
 	/**
-	* Add user(s) to group
-	*
-	* @param array $user_id_ary User(s) to add to group
-	* @param array $group_rule_data Auto group rule data
-	* @return null
-	* @access public
-	*/
+	 * Add user(s) to group
+	 *
+	 * @param array $user_id_ary     User(s) to add to group
+	 * @param array $group_rule_data Auto group rule data
+	 * @return null
+	 * @access public
+	 */
 	public function add_users_to_group($user_id_ary, $group_rule_data);
 
 	/**
-	* Remove user(s) from group
-	*
-	* @param array $user_id_ary User(s) to remove from group
-	* @param array $group_rule_data Auto group rule data
-	* @return null
-	* @access public
-	*/
+	 * Remove user(s) from group
+	 *
+	 * @param array $user_id_ary     User(s) to remove from group
+	 * @param array $group_rule_data Auto group rule data
+	 * @return null
+	 * @access public
+	 */
 	public function remove_users_from_group($user_id_ary, $group_rule_data);
 
 	/**
-	* Check condition
-	*
-	* @param array $user_row Array of user data to perform checks on
-	* @param array $options Array of optional data
-	* @return null
-	* @access public
-	*/
+	 * Check condition
+	 *
+	 * @param array $user_row Array of user data to perform checks on
+	 * @param array $options  Array of optional data
+	 * @return null
+	 * @access public
+	 */
 	public function check($user_row, $options = array());
 }

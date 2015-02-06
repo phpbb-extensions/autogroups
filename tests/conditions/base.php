@@ -22,16 +22,20 @@ class base extends \phpbb_database_test_case
 	* Define the extensions to be tested
 	*
 	* @return array vendor/name of extension(s) to test
-	* @access static
 	*/
 	static protected function setup_extensions()
 	{
 		return array('phpbb/autogroups');
 	}
 
+	protected $config;
 	protected $db;
 	protected $user;
 	protected $condition;
+	protected $phpbb_container;
+	protected $condition_type;
+	protected $root_path;
+	protected $php_ext;
 
 	public function getDataSet()
 	{
@@ -63,10 +67,5 @@ class base extends \phpbb_database_test_case
 
 		$this->root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
-	}
-
-	public function get_condition()
-	{
-		return new \phpbb\autogroups\conditions\type\posts($this->phpbb_container, $this->config, $this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
 	}
 }
