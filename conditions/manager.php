@@ -204,4 +204,97 @@ class manager
 
 		return $autogroups_type_ids;
 	}
+
+	/**
+	 * Get the condition type name from the condition or rule id
+	 *
+	 * @param int     $type_id      The id of the auto group type
+	 * @param int     $rule_id      The id of the auto group rule
+	 *
+	 * @return string|bool The condition type name, false on error
+	 * @access public
+	 */
+	public function get_autogroup_type_name($type_id = 0, $rule_id = 0)
+	{
+		$sql_array = array(
+			'SELECT'	=> 'agt.autogroups_type_name',
+			'FROM'		=> array(
+				$this->autogroups_types_table => 'agt',
+			),
+		);
+
+		if ($type_id)
+		{
+			$sql_array['WHERE'] = 'agt.autogroups_type_id = ' . (int) $type_id;
+		}
+		else if ($rule_id)
+		{
+			$sql_array['LEFT_JOIN'] = array(
+				array(
+					'FROM'	=>	array($this->autogroups_rules_table	=> 'agr'),
+					'ON'	=> 'agt.autogroups_type_id = agr.autogroups_type_id',
+				),
+			);
+			$sql_array['WHERE'] = 'agr.autogroups_id = ' . (int) $rule_id;
+		}
+		else
+		{
+			return false;
+		}
+
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
+		$autogroup_type_name = $this->db->sql_fetchfield('autogroups_type_name');
+		$this->db->sql_freeresult($result);
+
+		return $autogroup_type_name;
+	}
+
+	/**
+	* Get the condition language var from the condition file
+	*
+	* @param string     $autogroups_type_name      The name of the auto group type
+	*
+	* @return string The condition type name
+	* @access public
+	*/
+	public function get_condition_lang($autogroups_type_name)
+	{
+		try
+		{
+			$condition = $this->phpbb_container->get($autogroups_type_name);
+		}
+		catch (\InvalidArgumentException $e)
+		{
+			return $this->user->lang('AUTOGROUPS_TYPE_NOT_EXIST', $autogroups_type_name);
+		}
+
+		return $condition->get_condition_type_name();
+	}
+
+	/**
+	* Run auto groups check against users for a given condition/type
+	* Called in the ACP when adding/editing or via the Resync button
+	*
+	* @param int     $autogroups_rule_id      The id of the auto group rule
+	*
+	* @return null
+	* @access public
+	*/
+	public function sync_autogroups($autogroups_rule_id)
+	{
+		// Purge cached rules table queries
+		$this->cache->destroy('sql', $this->autogroups_rules_table);
+
+		// Get the auto group type name used by the specified auto group rule
+		$autogroup_type_name = $this->get_autogroup_type_name(0, $autogroups_rule_id);
+
+		// If auto group type exists, run it
+		if ($autogroup_type_name !== false)
+		{
+			$this->check_condition($autogroup_type_name, array(
+				'action'	=> 'sync',
+			));
+		}
+	}
 }

@@ -20,6 +20,18 @@ services:
             - %phpbb.autogroups.tables.autogroups_rules%
             - %phpbb.autogroups.tables.autogroups_types%
 
+    phpbb.autogroups.admin_controller:
+        class: phpbb\autogroups\controller\admin_controller
+        arguments:
+            - @dbal.conn
+            - @log
+            - @phpbb.autogroups.manager
+            - @request
+            - @template
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+
 # ----- Auto groups types -----
 # Scope MUST be prototype for all the plugins to work.
     phpbb.autogroups.type_collection:
