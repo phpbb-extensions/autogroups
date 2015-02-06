@@ -3,13 +3,13 @@
 Auto Groups can easily be extended by experienced extension developers. Add the Auto Group functionality to an existing
 extension or write a simple extension as an add-on that adds more Auto Group possibilities not available in the base package.
 
-The Auto Groups extension works by comparing a component of user data against predefined minimum / maximum values
+The Auto Groups extension works by comparing a component of user data against defined minimum / maximum values
 set by the Admin in the ACP, and if a user's data is within the defined range for a specified group, the user will
 automatically be added to the group.
 
-The base Auto Group extension provides this functionality for user post counts, membership days and warning counts. To
-add new user data types, such as those added by other extensions (i.e.: Points/Reputation extensions, PayPal Donors,
-etc.) you need to extend the Auto Groups base type class and trigger your Auto Group class in an appropriate manner for
+The Auto Group extension provides this functionality for user post counts, membership days and warning counts. To
+add new user data types, such as those added by other extensions (i.e.: Points/Reputation extensions, PayPal Donations,
+etc.) you need to extend the Auto Groups base condition type class and trigger your Auto Group class in an appropriate manner for
 your extension.
 
 ### Auto Group Condition Type Classes
@@ -164,7 +164,7 @@ public function __construct(\phpbb\autogroups\conditions\manager $autogroup_mana
 - **In Code:** Call your class directly in your extension code somewhere. All that is required is to make the Auto
 Groups manager class available in your extension (similar to way it is made available to the listener class).
 
-- **Cron:** Some Auto Group types are best checked via automated intervals, such as once a day. Our membership class is
+- **Cron:** Some Auto Group types are best checked via automated intervals, such as once a day. Our membership class
 is called using phpBB's cron methods. The Auto Groups extension will automatically check all types available once
 daily. If you need more frequent intervals you can create your own cron class (view our cron class as an example).
 
