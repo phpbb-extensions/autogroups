@@ -58,7 +58,7 @@ interface admin_interface
 	* @return null
 	* @access public
 	*/
-	public function set_general_options();
+	public function submit_autogroups_settings();
 
 	/**
 	* Set page url

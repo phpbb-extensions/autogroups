@@ -43,9 +43,6 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_ADD'			=> 'Add Auto Groups',
 	'ACP_AUTOGROUPS_EDIT'			=> 'Edit Auto Groups',
 
-	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Set default group exemptions',
-	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Select groups that should keep their default status. For example, select Administrators if you do not want members with that group as their default to have it switched to another group by Auto Groups. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and clicking.',
-
 	'ACP_AUTOGROUPS_GROUP_NAME'				=> 'Group',
 	'ACP_AUTOGROUPS_GROUP_NAME_EXPLAIN'		=> 'Choose a group to automatically add/remove users from.',
 	'ACP_AUTOGROUPS_CONDITION_NAME'			=> 'Auto Group type',
@@ -58,6 +55,9 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Make this the user’s new default group.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notify users',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Send a notification to users after being automatically added or removed from this group.',
+
+	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Set group default exemptions',
+	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Auto Groups will not change a user’s default group if it is selected in this list. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and clicking.',
 
 	'ACP_AUTOGROUPS_CREATE_RULE'	=> 'Create new Auto Group',
 	'ACP_AUTOGROUPS_SUBMIT_SUCCESS'	=> 'Auto Group successfully configured.',
