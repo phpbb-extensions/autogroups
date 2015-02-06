@@ -107,7 +107,7 @@ class admin_controller implements admin_interface
 	/**
 	* {@inheritdoc}
 	*/
-	public function add_edit_autogroup_rule($autogroups_id = 0)
+	public function save_autogroup_rule($autogroups_id = 0)
 	{
 		if ($this->request->is_set_post('submit'))
 		{

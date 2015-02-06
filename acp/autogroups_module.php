@@ -50,8 +50,8 @@ class autogroups_module
 				// Set the page title for our ACP auto groups
 				$this->page_title = $user->lang('ACP_AUTOGROUPS_ADD');
 
-				// Load the add auto group handle in the admin controller
-				$admin_controller->add_edit_autogroup_rule();
+				// Load the save auto group handle in the admin controller
+				$admin_controller->save_autogroup_rule();
 
 				// Return to stop execution of this script
 				return;
@@ -61,8 +61,8 @@ class autogroups_module
 				// Set the page title for our ACP auto groups
 				$this->page_title = $user->lang('ACP_AUTOGROUPS_EDIT');
 
-				// Load the edit auto group handle in the admin controller
-				$admin_controller->add_edit_autogroup_rule($autogroups_id);
+				// Load the save auto group handle in the admin controller
+				$admin_controller->save_autogroup_rule($autogroups_id);
 
 				// Return to stop execution of this script
 				return;
