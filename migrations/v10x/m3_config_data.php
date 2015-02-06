@@ -36,7 +36,30 @@ class m3_config_data extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			array('config.add', array('autogroups_default_exempt', '')),
+			array('config.add', array('autogroups_default_exempt', $this->get_initial_groups())),
 		);
+	}
+
+	/**
+	 * Get the group ids of Administrators and Global Moderators
+	 *
+	 * @return string Serialized string of group ids
+	 * @access public
+	 */
+	protected function get_initial_groups()
+	{
+		$group_ids = array();
+
+		$sql = 'SELECT group_id
+			FROM ' . GROUPS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('group_name', array('ADMINISTRATORS', 'GLOBAL_MODERATORS'));
+		$result = $this->db->sql_query($sql);
+		while ($row = $this->db->sql_fetchrow($result))
+		{
+			$group_ids[] = $row['group_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		return (sizeof($group_ids)) ? serialize($group_ids) : '';
 	}
 }
