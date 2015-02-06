@@ -166,7 +166,14 @@ class admin_controller implements admin_interface
 	*/
 	public function resync_autogroup_rule($autogroups_id)
 	{
-		$this->manager->sync_autogroups($autogroups_id);
+		try
+		{
+			$this->manager->sync_autogroups($autogroups_id);
+		}
+		catch (\Exception $e)
+		{
+			trigger_error($e->getMessage() . adm_back_link($this->u_action), E_USER_WARNING);
+		}
 	}
 
 	/**
