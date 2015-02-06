@@ -73,12 +73,15 @@ class listener implements EventSubscriberInterface
 	/**
 	 * Check user's post count after submitting a post for auto groups
 	 *
+	 * @param object $event The event object
 	 * @return null
 	 * @access public
 	 */
-	public function submit_post_check()
+	public function submit_post_check($event)
 	{
-		$this->manager->check_condition('phpbb.autogroups.type.posts');
+		$this->manager->check_condition('phpbb.autogroups.type.posts', array(
+			'users'		=> $event['data']['poster_id'],
+		));
 	}
 
 	/**

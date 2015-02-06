@@ -12,11 +12,19 @@ namespace phpbb\autogroups\tests\conditions;
 
 /**
  * Run tests on the type base class.
- * Because it is abstracted we will base these tests from the posts class.
  */
 class base_test extends base
 {
 	protected $condition_type = 'phpbb.autogroups.type.posts';
+
+	/**
+	 * Because it is abstracted we will base these tests from the posts class.
+	 * @return \phpbb\autogroups\conditions\type\posts
+	 */
+	public function get_condition()
+	{
+		return new \phpbb\autogroups\conditions\type\posts($this->phpbb_container, $this->config, $this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
+	}
 
 	/**
 	 * Data for test_get_group_rules

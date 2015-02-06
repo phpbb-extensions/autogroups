@@ -50,6 +50,8 @@ class posts extends \phpbb\autogroups\conditions\type\base
 
 	/**
 	 * Get users to apply to this condition
+	 * Posts expects to receive user_id(s) or it will return empty,
+	 * except during a 'sync' action which will return all users.
 	 *
 	 * @param array $options Array of optional data
 	 * @return array Array of users ids as keys and their condition data as values
@@ -62,9 +64,10 @@ class posts extends \phpbb\autogroups\conditions\type\base
 			$this->get_condition_field(),
 		);
 
-		// Merge default options, use the active user as the default
+		// Merge default options, empty user array as the default
 		$options = array_merge(array(
-			'users'		=> $this->user->data['user_id'],
+			'users'		=> array(),
+			'action'	=> '',
 		), $options);
 
 		$user_ids = $options['users'];
@@ -79,10 +82,14 @@ class posts extends \phpbb\autogroups\conditions\type\base
 			$user_ids = array((int) $user_ids);
 		}
 
+		// Is this a sync action? If so, we want to get all users
+		// by setting the $negate arg to true in sql_in_set for 1=1
+		$sync = ($options['action'] == 'sync') ? true : false;
+
 		// Get data for the users to be checked (exclude bots and guests)
 		$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
 			FROM ' . USERS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_id', $user_ids, false, true) . '
+			WHERE ' . $this->db->sql_in_set('user_id', $user_ids, $sync, true) . '
 				AND user_type <> ' . USER_IGNORE;
 		$result = $this->db->sql_query($sql);
 
