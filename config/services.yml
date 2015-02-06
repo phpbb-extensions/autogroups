@@ -12,6 +12,17 @@ services:
         tags:
             - { name: event.listener }
 
+    phpbb.autogroups.manager:
+        class: phpbb\autogroups\conditions\manager
+        arguments:
+            - @phpbb.autogroups.type_collection
+            - @service_container
+            - @cache.driver
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+
     phpbb.autogroups.admin_controller:
         class: phpbb\autogroups\controller\admin_controller
         arguments:
