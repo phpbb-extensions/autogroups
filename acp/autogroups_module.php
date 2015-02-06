@@ -37,6 +37,11 @@ class autogroups_module
 		// Set the page title for our ACP auto groups
 		$this->page_title = $user->lang('ACP_AUTOGROUPS_MANAGE');
 
+		if ($request->is_set_post('generalsubmit'))
+		{
+			$admin_controller->set_general_options();
+		}
+
 		// Perform any actions submitted by the user
 		switch ($action)
 		{

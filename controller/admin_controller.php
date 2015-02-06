@@ -15,6 +15,9 @@ namespace phpbb\autogroups\controller;
 */
 class admin_controller implements admin_interface
 {
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -45,6 +48,7 @@ class admin_controller implements admin_interface
 	/**
 	* Constructor
 	*
+	* @param \phpbb\config\config                 $config                   Config object
 	* @param \phpbb\db\driver\driver_interface    $db                       Database object
 	* @param \phpbb\log\log                       $log                      The phpBB log system
 	* @param \phpbb\autogroups\conditions\manager $manager                  Auto groups condition manager object
@@ -55,8 +59,9 @@ class admin_controller implements admin_interface
 	* @param string                               $autogroups_types_table   Name of the table used to store auto group types data
 	* @access public
 	*/
-	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\log\log $log, \phpbb\autogroups\conditions\manager $manager, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\log\log $log, \phpbb\autogroups\conditions\manager $manager, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
 	{
+		$this->config = $config;
 		$this->db = $db;
 		$this->log = $log;
 		$this->manager = $manager;
@@ -95,6 +100,8 @@ class admin_controller implements admin_interface
 			'U_ACTION'				=> $this->u_action,
 			'U_ADD_AUTOGROUP_RULE'	=> "{$this->u_action}&amp;action=add",
 		));
+
+		$this->display_groups_multiselect();
 	}
 
 	/**
@@ -110,7 +117,7 @@ class admin_controller implements admin_interface
 		// Get data for the auto group so we can display it
 		$autogroups_data = $this->get_autogroup($autogroups_id);
 
-		$this->build_groups_menu($autogroups_data['autogroups_group_id']);
+		$this->build_groups_menu(array($autogroups_data['autogroups_group_id']), true);
 		$this->build_conditions_menu($autogroups_data['autogroups_type_id']);
 		$this->template->assign_vars(array(
 			'S_ADD'			=> (bool) !$autogroups_id,
@@ -160,6 +167,28 @@ class admin_controller implements admin_interface
 	public function resync_autogroup_rule($autogroups_id)
 	{
 		$this->manager->sync_autogroups($autogroups_id);
+	}
+
+	/**
+	* {@inheritdoc}
+	*/
+	public function set_general_options()
+	{
+		// Get data from the form
+		$autogroups_default_exempt = $this->request->variable('group_ids', array(0));
+
+		// Use a confirmation box routine before setting the data
+		if (confirm_box(true))
+		{
+			$this->config->set('autogroups_default_exempt', serialize($autogroups_default_exempt));
+		}
+		else
+		{
+			confirm_box(false, $this->user->lang('CONFIRM_OPERATION'), build_hidden_fields(array(
+				'generalsubmit' => true,
+				'group_ids' => $autogroups_default_exempt,
+			)));
+		}
 	}
 
 	/**
@@ -258,27 +287,44 @@ class admin_controller implements admin_interface
 	}
 
 	/**
+	 * Display multi-select box containing all user groups
+	 *
+	 * @return null
+	 * @access protected
+	 */
+	protected function display_groups_multiselect()
+	{
+		// Get default exempt groups from db or an empty array
+		$group_id_ary = (!$this->config['autogroups_default_exempt']) ? array() : unserialize(trim($this->config['autogroups_default_exempt']));
+
+		$this->build_groups_menu($group_id_ary);
+	}
+
+	/**
 	* Build template vars for a select menu of user groups
 	*
-	* @param int $selected An identifier for the selected group
+	* @param array $selected An array of identifiers for selected group(s)
+	* @param bool $exclude_predefined_groups Exclude GROUP_SPECIAL
 	* @return null
 	* @access protected
 	*/
-	protected function build_groups_menu($selected)
+	protected function build_groups_menu($selected, $exclude_predefined_groups = false)
 	{
-		$sql = 'SELECT group_id, group_name
+		// Get groups excluding BOTS, Guests, and optionally predefined
+		$sql = 'SELECT group_id, group_name, group_type
 			FROM ' . GROUPS_TABLE . '
-			WHERE group_type <> ' . GROUP_SPECIAL . '
+			WHERE ' . $this->db->sql_in_set('group_name', array('BOTS', 'GUESTS'), true, true) .
+				(($exclude_predefined_groups) ? ' AND group_type <> ' . GROUP_SPECIAL : '') . '
 			ORDER BY group_name';
 		$result = $this->db->sql_query($sql);
 
 		while ($group_row = $this->db->sql_fetchrow())
 		{
 			$this->template->assign_block_vars('groups', array(
-				'GROUP_NAME'	=> $group_row['group_name'],
 				'GROUP_ID'		=> $group_row['group_id'],
+				'GROUP_NAME'	=> ($group_row['group_type'] == GROUP_SPECIAL) ? $this->user->lang('G_' . $group_row['group_name']) : $group_row['group_name'],
 
-				'S_SELECTED'	=> ($group_row['group_id'] == $selected) ? true : false,
+				'S_SELECTED'	=> (in_array($group_row['group_id'], $selected)) ? true : false,
 			));
 		}
 		$this->db->sql_freeresult($result);
@@ -298,8 +344,8 @@ class admin_controller implements admin_interface
 		foreach ($conditions as $condition_name => $condition_id)
 		{
 			$this->template->assign_block_vars('conditions', array(
-				'CONDITION_NAME'	=> $this->manager->get_condition_lang($condition_name),
 				'CONDITION_ID'		=> $condition_id,
+				'CONDITION_NAME'	=> $this->manager->get_condition_lang($condition_name),
 
 				'S_SELECTED'		=> ($condition_id == $selected) ? true : false,
 			));

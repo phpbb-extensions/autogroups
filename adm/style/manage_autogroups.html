@@ -109,6 +109,24 @@
 			{S_FORM_TOKEN}
 		</fieldset>
 	</form>
+	<form id="autogroups_general_options" method="post" action="{U_ACTION}">
+		<fieldset>
+			<legend>{L_GENERAL_OPTIONS}</legend>
+			<dl>
+				<dt><label for="group_ids">{L_ACP_AUTOGROUPS_EXEMPT_GROUP}</label><br /><span>{L_ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN}</span></dt>
+				<dd>
+					<select name="group_ids[]" id="group_ids" size="10" multiple="multiple">
+						<!-- BEGIN groups -->
+							<option value="{groups.GROUP_ID}"<!-- IF groups.S_SELECTED --> selected="selected"<!-- ENDIF -->>{groups.GROUP_NAME}</option>
+						<!-- END groups -->
+					</select>
+				</dd>
+			</dl>
+			<p class="quick">
+				<input class="button1" type="submit" id="generalsubmit" name="generalsubmit" value="{L_SUBMIT}" />
+			</p>
+		</fieldset>
+	</form>
 <!-- ENDIF -->
 
 <!-- INCLUDE overall_footer.html -->

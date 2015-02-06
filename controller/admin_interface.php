@@ -53,6 +53,14 @@ interface admin_interface
 	public function resync_autogroup_rule($autogroups_id);
 
 	/**
+	* Set form data from the ACP general options section
+	 *
+	* @return null
+	* @access public
+	*/
+	public function set_general_options();
+
+	/**
 	* Set page url
 	*
 	* @param string $u_action Custom form action
