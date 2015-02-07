@@ -47,19 +47,9 @@ class autogroups_module
 		switch ($action)
 		{
 			case 'add':
-				// Set the page title for our ACP auto groups
-				$this->page_title = $user->lang('ACP_AUTOGROUPS_ADD');
-
-				// Load the save auto group handle in the admin controller
-				$admin_controller->save_autogroup_rule();
-
-				// Return to stop execution of this script
-				return;
-			break;
-
 			case 'edit':
 				// Set the page title for our ACP auto groups
-				$this->page_title = $user->lang('ACP_AUTOGROUPS_EDIT');
+				$this->page_title = $user->lang(strtoupper("ACP_AUTOGROUPS_$action"));
 
 				// Load the save auto group handle in the admin controller
 				$admin_controller->save_autogroup_rule($autogroups_id);
