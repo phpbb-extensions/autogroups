@@ -69,17 +69,8 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 			'users'		=> array(),
 		), $options);
 
-		$user_ids = $options['users'];
-
-		// Clean up array of ids
-		if (is_array($user_ids))
-		{
-			$user_ids = array_map('intval', $user_ids);
-		}
-		else
-		{
-			$user_ids = array((int) $user_ids);
-		}
+		// Prepare the user ids data for use in the query
+		$user_ids = $this->prepare_users_for_query($options['users']);
 
 		// Get data for the users to be checked (exclude bots, guests and inactive users)
 		$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
