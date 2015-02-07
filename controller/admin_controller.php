@@ -101,7 +101,7 @@ class admin_controller implements admin_interface
 			'U_ADD_AUTOGROUP_RULE'	=> "{$this->u_action}&amp;action=add",
 		));
 
-		$this->display_groups_multiselect();
+		$this->display_group_exempt_options();
 	}
 
 	/**
@@ -299,7 +299,7 @@ class admin_controller implements admin_interface
 	 * @return null
 	 * @access protected
 	 */
-	protected function display_groups_multiselect()
+	protected function display_group_exempt_options()
 	{
 		// Get default exempt groups from db or an empty array
 		$group_id_ary = (!$this->config['autogroups_default_exempt']) ? array() : unserialize(trim($this->config['autogroups_default_exempt']));
