@@ -142,6 +142,26 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	 * {@inheritdoc}
 	 */
+	public function prepare_users_for_query($user_ids)
+	{
+		if (is_array($user_ids))
+		{
+			// Cast each array value to integer
+			$user_ids = array_map('intval', $user_ids);
+		}
+		else
+		{
+			// Cast user id to integer and pur it inside an array
+			$user_ids = array((int) $user_ids);
+		}
+
+		return $user_ids;
+	}
+
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function add_users_to_group($user_id_ary, $group_rule_data)
 	{
 		if (!function_exists('group_user_add'))

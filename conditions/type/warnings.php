@@ -110,35 +110,32 @@ class warnings extends \phpbb\autogroups\conditions\type\base
 	 */
 	protected function sql_where_clause($options)
 	{
+		// If we have user id data, return a sql_in_set of user_ids
 		if (!empty($options['users']))
 		{
-			$options['users'] = (is_array($options['users'])) ? array_map('intval', $options['users']) : array((int) $options['users']);
-
-			return $this->db->sql_in_set('u.user_id', $options['users']);
+			return $this->db->sql_in_set('u.user_id', $this->prepare_users_for_query($options['users']));
 		}
-		else
+
+		$sql_where = $group_ids = array();
+		$extremes = array('min' => '>=', 'max' => '<=');
+
+		// Get auto group rule data for this type
+		$group_rules = $this->get_group_rules($this->get_condition_type());
+		foreach ($group_rules as $group_rule)
 		{
-			$sql_where = $group_ids = array();
-			$extremes = array('min' => '>=', 'max' => '<=');
-
-			// Get auto group rule data for this type
-			$group_rules = $this->get_group_rules($this->get_condition_type());
-			foreach ($group_rules as $group_rule)
+			$where = array();
+			foreach ($extremes as $end => $sign)
 			{
-				$where = array();
-				foreach ($extremes as $end => $sign)
+				if (!empty($group_rule['autogroups_' . $end . '_value']))
 				{
-					if (!empty($group_rule['autogroups_' . $end . '_value']))
-					{
-						$where[] = "u.user_warnings $sign " . $group_rule['autogroups_' . $end . '_value'];
-					}
+					$where[] = "u.user_warnings $sign " . $group_rule['autogroups_' . $end . '_value'];
 				}
-
-				$sql_where[] = '(' . implode(' AND ', $where) . ')';
-				$group_ids[] = $group_rule['autogroups_group_id'];
 			}
 
-			return '(' . ((sizeof($sql_where)) ? implode(' OR ', $sql_where) . ' OR ' : '') . $this->db->sql_in_set('ug.group_id', $group_ids, false, true) . ')';
+			$sql_where[] = '(' . implode(' AND ', $where) . ')';
+			$group_ids[] = $group_rule['autogroups_group_id'];
 		}
+
+		return '(' . ((sizeof($sql_where)) ? implode(' OR ', $sql_where) . ' OR ' : '') . $this->db->sql_in_set('ug.group_id', $group_ids, false, true) . ')';
 	}
 }

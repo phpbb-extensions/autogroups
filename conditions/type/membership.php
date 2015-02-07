@@ -111,31 +111,28 @@ class membership extends \phpbb\autogroups\conditions\type\base
 	 */
 	protected function sql_where_clause($options)
 	{
+		// If we have user id data, return a sql_in_set of user_ids
 		if (!empty($options['users']))
 		{
-			$options['users'] = (is_array($options['users'])) ? array_map('intval', $options['users']) : array((int) $options['users']);
-
-			return $this->db->sql_in_set('u.user_id', $options['users']);
+			return $this->db->sql_in_set('u.user_id', $this->prepare_users_for_query($options['users']));
 		}
-		else
+
+		$sql_where = $group_ids = array();
+
+		// Get auto group rule data for this type
+		$group_rules = $this->get_group_rules($this->get_condition_type());
+		foreach ($group_rules as $group_rule)
 		{
-			$sql_where = $group_ids = array();
+			$min = $this->days_to_timestamp($group_rule['autogroups_max_value']);
+			$max = $this->days_to_timestamp($group_rule['autogroups_min_value']);
 
-			// Get auto group rule data for this type
-			$group_rules = $this->get_group_rules($this->get_condition_type());
-			foreach ($group_rules as $group_rule)
-			{
-				$min = $this->days_to_timestamp($group_rule['autogroups_max_value']);
-				$max = $this->days_to_timestamp($group_rule['autogroups_min_value']);
+			$min = ($max >= $min) ? $min : 0; // For cases where no max_value was set (no end limit)
 
-				$min = ($max >= $min) ? $min : 0; // For cases where no max_value was set (no end limit)
-
-				$sql_where[] = "(u.user_regdate BETWEEN $min AND $max)";
-				$group_ids[] = $group_rule['autogroups_group_id'];
-			}
-
-			return '(' . ((sizeof($sql_where)) ? implode(' OR ', $sql_where) . ' OR ' : '') . $this->db->sql_in_set('ug.group_id', $group_ids, false, true) . ')';
+			$sql_where[] = "(u.user_regdate BETWEEN $min AND $max)";
+			$group_ids[] = $group_rule['autogroups_group_id'];
 		}
+
+		return '(' . ((sizeof($sql_where)) ? implode(' OR ', $sql_where) . ' OR ' : '') . $this->db->sql_in_set('ug.group_id', $group_ids, false, true) . ')';
 	}
 
 	/**
