@@ -83,7 +83,8 @@ class warnings extends \phpbb\autogroups\conditions\type\base
 					'ON' => 'u.user_id = ug.user_id',
 				),
 			),
-			'WHERE' => $this->sql_where_clause($options) . ' AND ' . $this->db->sql_in_set('u.user_type', array(USER_INACTIVE, USER_IGNORE), true),
+			'WHERE' => $this->sql_where_clause($options) . '
+				AND ' . $this->db->sql_in_set('u.user_type', array(USER_INACTIVE, USER_IGNORE), true),
 			'GROUP_BY' => 'u.user_id',
 		);
 

@@ -75,7 +75,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 
 		// Is this a sync action? If so, we want to get all users
 		// by setting the $negate arg to true in sql_in_set for 1=1
-		$sync = ($options['action'] == 'sync') ? true : false;
+		$sync = $options['action'] == 'sync';
 
 		// Get data for the users to be checked (exclude bots and guests)
 		$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
