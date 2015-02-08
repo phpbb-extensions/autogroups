@@ -142,6 +142,22 @@ class manager
 	}
 
 	/**
+	 * Purge all autogroups rules related to a certain group_id
+	 *
+	 * @param int $group_id Group identifier
+	 * @return null
+	 * @access public
+	 */
+	public function purge_autogroups_group($group_id)
+	{
+		$sql = 'DELETE FROM ' . $this->autogroups_rules_table . '
+			WHERE autogroups_group_id = ' . (int) $group_id;
+		$this->db->sql_query($sql);
+
+		$this->cache->destroy('autogroups_type_ids');
+	}
+
+	/**
 	 * Get the condition type id from the name
 	 *
 	 * @param string $autogroups_type_name The name of the auto group type

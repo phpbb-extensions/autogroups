@@ -45,6 +45,7 @@ class event_listener_test extends \phpbb_test_case
 	public function test_getSubscribedEvents()
 	{
 		$this->assertEquals(array(
+			'core.delete_group_after',
 			'core.user_setup',
 			'core.submit_post_end',
 			'core.delete_posts_after',
