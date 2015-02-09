@@ -151,7 +151,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		}
 		else
 		{
-			// Cast user id to integer and pur it inside an array
+			// Cast user id to integer and put it inside an array
 			$user_ids = array((int) $user_ids);
 		}
 
