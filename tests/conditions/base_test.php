@@ -234,6 +234,34 @@ class base_test extends base
 	}
 
 	/**
+	 * Data for test_prepare_users_for_query
+	 */
+	public function prepare_users_for_query_test_data()
+	{
+		return array(
+			array(1, array(1)),
+			array(array(1, 2), array(1, 2)),
+			array('1', array(1)),
+			array(array(1, '2', 'foobar', '', true, false), array(1, 2, 0, 0, 1, 0)),
+			array('', array(0)),
+			array(array(), array()),
+		);
+	}
+
+	/**
+	 * Test the prepare_users_for_query method
+	 *
+	 * @dataProvider prepare_users_for_query_test_data
+	 */
+	public function test_prepare_users_for_query($user_ids, $expected)
+	{
+		// Instantiate the condition
+		$condition = $this->get_condition();
+
+		$this->assertEquals($expected, $condition->prepare_users_for_query($user_ids));
+	}
+
+	/**
 	 * Test the add_users_to_group method
 	 *
 	 * @dataProvider add_users_to_group_test_data
