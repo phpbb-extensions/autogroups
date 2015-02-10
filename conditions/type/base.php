@@ -176,15 +176,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		group_user_add($group_id, $user_id_ary);
 
 		// Send notification
-		if ($group_rule_data['autogroups_notify'])
-		{
-			$phpbb_notifications = $this->container->get('notification_manager');
-			$phpbb_notifications->add_notifications('phpbb.autogroups.notification.type.group_added', array(
-				'user_ids'		=> $user_id_ary,
-				'group_id'		=> $group_id,
-				'group_name'	=> get_group_name($group_id),
-			));
-		}
+		$this->send_notifications((bool) $group_rule_data['autogroups_notify'], 'group_added', $user_id_ary, $group_id);
 
 		// Set group as default?
 		if ($group_rule_data['autogroups_default'])
@@ -232,15 +224,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		group_user_del($group_id, $user_id_ary);
 
 		// Send notification
-		if (!empty($group_rule_data['autogroups_notify']))
-		{
-			$phpbb_notifications = $this->container->get('notification_manager');
-			$phpbb_notifications->add_notifications('phpbb.autogroups.notification.type.group_removed', array(
-				'user_ids'		=> $user_id_ary,
-				'group_id'		=> $group_id,
-				'group_name'	=> get_group_name($group_id),
-			));
-		}
+		$this->send_notifications((bool) $group_rule_data['autogroups_notify'], 'group_removed', $user_id_ary, $group_id);
 	}
 
 	/**
@@ -351,5 +335,26 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		}
 
 		return $user_id_ary;
+	}
+
+	/**
+	 * Send out notifications
+	 *
+	 * @param bool $notify       Should a notification be sent
+	 * @param string $type       Type of notification to send (group_added|group_removed)
+	 * @param array $user_id_ary Array of user(s) to notify
+	 * @param int $group_id      The usergroup identifier
+	 */
+	protected function send_notifications($notify, $type, $user_id_ary, $group_id)
+	{
+		if ($notify)
+		{
+			$phpbb_notifications = $this->container->get('notification_manager');
+			$phpbb_notifications->add_notifications("phpbb.autogroups.notification.type.$type", array(
+				'user_ids'		=> $user_id_ary,
+				'group_id'		=> $group_id,
+				'group_name'	=> get_group_name($group_id),
+			));
+		}
 	}
 }
