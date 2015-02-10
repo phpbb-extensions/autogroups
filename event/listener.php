@@ -41,6 +41,7 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
+			'core.delete_group_after'	=> 'delete_group_rules',
 			'core.user_setup'			=> 'load_language_on_setup',
 
 			// Auto Groups "Posts" listeners
@@ -51,6 +52,18 @@ class listener implements EventSubscriberInterface
 			'core.mcp_warn_post_after'	=> 'add_warning_check',
 			'core.mcp_warn_user_after'	=> 'add_warning_check',
 		);
+	}
+
+	/**
+	 * Delete autogroups rules when their related group is deleted
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function delete_group_rules($event)
+	{
+		$this->manager->purge_autogroups_group($event['group_id']);
 	}
 
 	/**

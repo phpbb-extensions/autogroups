@@ -75,6 +75,15 @@ interface type_interface
 	public function get_default_exempt_users();
 
 	/**
+	 * Prepare user ids for querying
+	 *
+	 * @param mixed $user_ids User id(s) expected as int or array
+	 * @return array An array of user id(s)
+	 * @access public
+	 */
+	public function prepare_users_for_query($user_ids);
+
+	/**
 	 * Add user(s) to group
 	 *
 	 * @param array $user_id_ary     User(s) to add to group

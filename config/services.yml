@@ -26,6 +26,7 @@ services:
     phpbb.autogroups.admin_controller:
         class: phpbb\autogroups\controller\admin_controller
         arguments:
+            - @config
             - @dbal.conn
             - @log
             - @phpbb.autogroups.manager
