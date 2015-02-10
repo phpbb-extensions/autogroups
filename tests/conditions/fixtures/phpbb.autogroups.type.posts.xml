@@ -43,10 +43,6 @@
 			<value>1</value>
 			<value>phpbb.autogroups.type.posts</value>
 		</row>
-		<row>
-			<value>2</value>
-			<value>phpbb.autogroups.type.warnings</value>
-		</row>
 	</table>
 	<table name="phpbb_user_group">
 		<column>user_id</column>

@@ -72,16 +72,16 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function get_group_rules($type)
+	public function get_group_rules($type = '')
 	{
 		$sql_array = array(
-			'SELECT'	=> 'agr.*',
-			'FROM'	=> array(
+			'SELECT'	=> 'agr.*, agt.autogroups_type_name',
+			'FROM'		=> array(
 				$this->autogroups_rules_table => 'agr',
 				$this->autogroups_types_table => 'agt',
 			),
-			'WHERE'	=> "agr.autogroups_type_id = agt.autogroups_type_id
-				AND agt.autogroups_type_name = '" . $this->db->sql_escape($type) . "'",
+			'WHERE'		=> 'agr.autogroups_type_id = agt.autogroups_type_id' .
+				(($type) ? " AND agt.autogroups_type_name = '" . $this->db->sql_escape($type) . "'" : ''),
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql, 7200);
@@ -214,6 +214,12 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	 */
 	public function remove_users_from_group($user_id_ary, $group_rule_data)
 	{
+		// Return if the user_id_array is empty
+		if (!sizeof($user_id_ary))
+		{
+			return;
+		}
+
 		if (!function_exists('group_user_del'))
 		{
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
@@ -242,51 +248,108 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	 */
 	public function check($user_row, $options = array())
 	{
-		// Get auto group rule data sets for this type
-		$group_rules = $this->get_group_rules($this->get_condition_type());
+		// Get all auto group rule data sets
+		$group_rules = $this->get_group_rules();
 
-		// Get the groups the users belongs to
+		// Get an array of users and the groups they belong to
 		$user_groups = $this->get_users_groups(array_keys($user_row));
 
 		foreach ($group_rules as $group_rule)
 		{
-			// Initialize some arrays
-			$add_users_to_group = $remove_users_from_group = array();
-
-			foreach ($user_row as $user_id => $user_data)
+			// Only check group rules set for this condition type
+			if ($group_rule['autogroups_type_name'] == $this->get_condition_type())
 			{
-				// Check if a user's post count is within the min/max range
-				if (($user_data[$this->get_condition_field()] >= $group_rule['autogroups_min_value']) && (empty($group_rule['autogroups_max_value']) || ($user_data[$this->get_condition_field()] <= $group_rule['autogroups_max_value'])))
+				// Initialize some arrays
+				$add_users_to_group = $remove_users_from_group = array();
+
+				foreach ($user_row as $user_id => $user_data)
 				{
-					// Check if a user is a member of checked group
-					if (!in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
+					// Check if a user's data is within the min/max range
+					if ($this->check_user($user_data[$this->get_condition_field()], $group_rule))
 					{
-						// Add user to group
-						$add_users_to_group[] = $user_id;
+						// Check if a user is already a member of checked group
+						if (!in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
+						{
+							// Add user to group
+							$add_users_to_group[] = $user_id;
+						}
 					}
-				}
-				else
-				{
-					// Check if a user is a member of checked group
-					if (in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
+					else if (in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
 					{
 						// Remove user from the group
 						$remove_users_from_group[] = $user_id;
 					}
 				}
-			}
 
-			// Add users to groups
-			if (sizeof($add_users_to_group))
-			{
-				$this->add_users_to_group($add_users_to_group, $group_rule);
-			}
+				if (sizeof($add_users_to_group))
+				{
+					// Add users to groups
+					$this->add_users_to_group($add_users_to_group, $group_rule);
+				}
 
-			// Remove users from groups
-			if (sizeof($remove_users_from_group))
-			{
-				$this->remove_users_from_group($remove_users_from_group, $group_rule);
+				if (sizeof($remove_users_from_group))
+				{
+					// Filter users that should not be removed
+					$remove_users_from_group = $this->filter_users($remove_users_from_group, $group_rule, $group_rules);
+
+					// Remove users from groups
+					$this->remove_users_from_group($remove_users_from_group, $group_rule);
+				}
 			}
 		}
+	}
+
+	/**
+	 * Helper function checks if a user's data is within
+	 * an auto group rule condition's min/max range.
+	 *
+	 * @param int   $value      The value of the user's data field to check
+	 * @param array $group_rule Data array for an auto group rule
+	 * @return bool True if the user meets the condition, false otherwise
+	 * @access protected
+	 */
+	protected function check_user($value, $group_rule)
+	{
+		return ($value >= $group_rule['autogroups_min_value']) &&
+			(empty($group_rule['autogroups_max_value']) || ($value <= $group_rule['autogroups_max_value'])
+		);
+	}
+
+	/**
+	 * Helper function prevents un-wanted removal of users from
+	 * the current group in cases where users do not satisfy the
+	 * conditions of the current rule, but may satisfy conditions
+	 * for another rule that applies to the current group.
+	 *
+	 * @param array $user_id_ary  Array of users marked for removal
+	 * @param array $current_rule Data array for an auto group rule
+	 * @param array $group_rules  Data array for all auto group rules
+	 * @return array Array of users to be removed
+	 * @access protected
+	 */
+	protected function filter_users($user_id_ary, $current_rule, $group_rules)
+	{
+		// Iterate through every auto group rule
+		foreach ($group_rules as $group_rule)
+		{
+			// Only look at other auto group rules that apply to this group
+			if ($group_rule['autogroups_group_id'] == $current_rule['autogroups_group_id'] &&
+				$group_rule['autogroups_type_id'] != $current_rule['autogroups_type_id'] &&
+				sizeof($user_id_ary)
+			)
+			{
+				// Load other auto group rule's condition type and get new data for our user(s)
+				$condition = $this->container->get($group_rule['autogroups_type_name']);
+				$condition_user_data = $condition->get_users_for_condition(array(
+					'users' => $user_id_ary,
+				));
+				// Filter users out users that satisfy other conditions for this group
+				$user_id_ary = array_filter($user_id_ary, function ($user_id) use ($condition, $condition_user_data, $group_rule) {
+					return !$condition->check_user($condition_user_data[$user_id][$condition->get_condition_field()], $group_rule);
+				});
+			}
+		}
+
+		return $user_id_ary;
 	}
 }
