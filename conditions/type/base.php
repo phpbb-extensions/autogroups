@@ -182,10 +182,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		if ($group_rule_data['autogroups_default'])
 		{
 			// Make sure user_id_ary is an array
-			if (!is_array($user_id_ary))
-			{
-				$user_id_ary = array((int) $user_id_ary);
-			}
+			$user_id_ary = $this->prepare_users_for_query($user_id_ary);
 
 			// Get array of users exempt from default group switching
 			$default_exempt_users = $this->get_default_exempt_users();
