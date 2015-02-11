@@ -67,6 +67,11 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
+
+		if (!function_exists('group_user_add'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+		}
 	}
 
 	/**
@@ -158,17 +163,11 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		return $user_ids;
 	}
 
-
 	/**
 	 * {@inheritdoc}
 	 */
 	public function add_users_to_group($user_id_ary, $group_rule_data)
 	{
-		if (!function_exists('group_user_add'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
-		}
-
 		// Set this variable for readability in the code below
 		$group_id = $group_rule_data['autogroups_group_id'];
 
@@ -207,11 +206,6 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		if (!sizeof($user_id_ary))
 		{
 			return;
-		}
-
-		if (!function_exists('group_user_del'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
 		// Set this variable for readability in the code below
@@ -341,6 +335,8 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	 * @param string $type       Type of notification to send (group_added|group_removed)
 	 * @param array $user_id_ary Array of user(s) to notify
 	 * @param int $group_id      The usergroup identifier
+	 * @return null
+	 * @access protected
 	 */
 	protected function send_notifications($notify, $type, $user_id_ary, $group_id)
 	{
