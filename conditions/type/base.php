@@ -123,10 +123,10 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	{
 		$user_id_ary = array();
 
-		// Get default exempt groups from db or an empty array
-		$group_id_ary = (!$this->config['autogroups_default_exempt']) ? array() : unserialize(trim($this->config['autogroups_default_exempt']));
+		// Get default exempt groups from db
+		$group_id_ary = unserialize(trim($this->config['autogroups_default_exempt']));
 
-		if (!sizeof($group_id_ary))
+		if (empty($group_id_ary))
 		{
 			return $user_id_ary;
 		}
@@ -319,7 +319,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 					'users' => $user_id_ary,
 				));
 				// Filter users out users that satisfy other conditions for this group
-				$user_id_ary = array_filter($user_id_ary, function ($user_id) use ($condition, $condition_user_data, $group_rule) {
+				$user_id_ary = array_filter($user_id_ary, function($user_id) use ($condition, $condition_user_data, $group_rule) {
 					return !$condition->check_user($condition_user_data[$user_id][$condition->get_condition_field()], $group_rule);
 				});
 			}
@@ -329,7 +329,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	}
 
 	/**
-	 * Send out notifications
+	 * Send notifications
 	 *
 	 * @param bool $notify       Should a notification be sent
 	 * @param string $type       Type of notification to send (group_added|group_removed)
