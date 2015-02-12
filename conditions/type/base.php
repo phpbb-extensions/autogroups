@@ -240,7 +240,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 				foreach ($user_row as $user_id => $user_data)
 				{
 					// Check if a user's data is within the min/max range
-					if ($this->check_user($user_data[$this->get_condition_field()], $group_rule))
+					if ($this->check_user_data($user_data[$this->get_condition_field()], $group_rule))
 					{
 						// Check if a user is already a member of checked group
 						if (!in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
@@ -283,7 +283,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	 * @return bool True if the user meets the condition, false otherwise
 	 * @access protected
 	 */
-	protected function check_user($value, $group_rule)
+	protected function check_user_data($value, $group_rule)
 	{
 		return ($value >= $group_rule['autogroups_min_value']) &&
 			(empty($group_rule['autogroups_max_value']) || ($value <= $group_rule['autogroups_max_value'])
@@ -320,7 +320,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 				));
 				// Filter users out users that satisfy other conditions for this group
 				$user_id_ary = array_filter($user_id_ary, function($user_id) use ($condition, $condition_user_data, $group_rule) {
-					return !$condition->check_user($condition_user_data[$user_id][$condition->get_condition_field()], $group_rule);
+					return !$condition->check_user_data($condition_user_data[$user_id][$condition->get_condition_field()], $group_rule);
 				});
 			}
 		}
