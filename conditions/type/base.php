@@ -23,6 +23,9 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\autogroups\conditions\type\helper */
+	protected $helper;
+
 	/** @var \phpbb\user */
 	protected $user;
 
