@@ -26,7 +26,6 @@ class base_test extends base
 		return new \phpbb\autogroups\conditions\type\posts(
 			$this->phpbb_container,
 			$this->db,
-			$this->helper,
 			$this->user,
 			'phpbb_autogroups_rules',
 			'phpbb_autogroups_types',

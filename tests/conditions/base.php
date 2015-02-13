@@ -76,5 +76,7 @@ class base extends \phpbb_database_test_case
 			$this->root_path,
 			$this->php_ext
 		);
+
+		$phpbb_container->set('phpbb.autogroups.helper', $this->helper);
 	}
 }

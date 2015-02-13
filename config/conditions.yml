@@ -14,7 +14,6 @@ services:
         arguments:
             - @service_container
             - @dbal.conn
-            - @phpbb.autogroups.helper
             - @user
             - %phpbb.autogroups.tables.autogroups_rules%
             - %phpbb.autogroups.tables.autogroups_types%
@@ -29,7 +28,6 @@ services:
         arguments:
             - @service_container
             - @dbal.conn
-            - @phpbb.autogroups.helper
             - @user
             - %phpbb.autogroups.tables.autogroups_rules%
             - %phpbb.autogroups.tables.autogroups_types%
@@ -44,7 +42,6 @@ services:
         arguments:
             - @service_container
             - @dbal.conn
-            - @phpbb.autogroups.helper
             - @user
             - %phpbb.autogroups.tables.autogroups_rules%
             - %phpbb.autogroups.tables.autogroups_types%

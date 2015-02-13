@@ -23,9 +23,6 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\autogroups\conditions\type\helper */
-	protected $helper;
-
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -46,7 +43,6 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	 *
 	 * @param ContainerInterface                       $container              Service container interface
 	 * @param \phpbb\db\driver\driver_interface        $db                     Database object
-	 * @param \phpbb\autogroups\conditions\type\helper $helper                 Auto Groups condition helper object
 	 * @param \phpbb\user                              $user                   User object
 	 * @param string                                   $autogroups_rules_table Name of the table used to store auto group rules data
 	 * @param string                                   $autogroups_types_table Name of the table used to store auto group types data
@@ -55,11 +51,10 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	 *
 	 * @access public
 	 */
-	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db, \phpbb\autogroups\conditions\type\helper $helper, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
+	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
 	{
 		$this->container = $container;
 		$this->db = $db;
-		$this->helper = $helper;
 		$this->user = $user;
 
 		$this->autogroups_rules_table = $autogroups_rules_table;
@@ -67,6 +62,10 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
+
+		// Load the helper from the container instead of dependency injection to
+		// help anyone extending auto groups avoid setting optional dependencies.
+		$this->helper = $this->container->get('phpbb.autogroups.helper');
 
 		if (!function_exists('group_user_add'))
 		{
