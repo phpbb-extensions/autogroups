@@ -90,9 +90,9 @@ class admin_controller implements admin_interface
 				'S_DEFAULT'	=> $row['autogroups_default'],
 				'S_NOTIFY'	=> $row['autogroups_notify'],
 
-				'U_DELETE'	=> "{$this->u_action}&amp;action=delete&amp;autogroups_id=" . $row['autogroups_id'],
-				'U_SYNC'	=> "{$this->u_action}&amp;action=sync&amp;autogroups_id=" . $row['autogroups_id'],
 				'U_EDIT'	=> "{$this->u_action}&amp;action=edit&amp;autogroups_id=" . $row['autogroups_id'],
+				'U_DELETE'	=> "{$this->u_action}&amp;action=delete&amp;autogroups_id=" . $row['autogroups_id'],
+				'U_SYNC'	=> "{$this->u_action}&amp;action=sync&amp;autogroups_id=" . $row['autogroups_id'] . '&amp;hash=' . generate_link_hash('sync' . $row['autogroups_id']),
 			));
 		}
 
@@ -166,6 +166,12 @@ class admin_controller implements admin_interface
 	*/
 	public function resync_autogroup_rule($autogroups_id)
 	{
+		// If the link hash is invalid, stop and show an error message to the user
+		if (!check_link_hash($this->request->variable('hash', ''), 'sync' . $autogroups_id))
+		{
+			trigger_error($this->user->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
 		try
 		{
 			$this->manager->sync_autogroups($autogroups_id);
