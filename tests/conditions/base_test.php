@@ -43,6 +43,7 @@ class base_test extends base
 						'autogroups_group_id'	=> 2,
 						'autogroups_default'	=> 1,
 						'autogroups_notify'		=> 0,
+						'autogroups_type_name'	=> 'phpbb.autogroups.type.posts',
 					),
 					array(
 						'autogroups_id' 		=> 2,
@@ -52,6 +53,7 @@ class base_test extends base
 						'autogroups_group_id'	=> 3,
 						'autogroups_default'	=> 1,
 						'autogroups_notify'		=> 0,
+						'autogroups_type_name'	=> 'phpbb.autogroups.type.posts',
 					),
 					array(
 						'autogroups_id' 		=> 3,
@@ -61,6 +63,7 @@ class base_test extends base
 						'autogroups_group_id'	=> 4,
 						'autogroups_default'	=> 0,
 						'autogroups_notify'		=> 0,
+						'autogroups_type_name'	=> 'phpbb.autogroups.type.posts',
 					),
 				),
 			),
