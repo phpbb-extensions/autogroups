@@ -44,13 +44,13 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface                       $container              Service container interface
-	 * @param \phpbb\db\driver\driver_interface        $db                     Database object
-	 * @param \phpbb\user                              $user                   User object
-	 * @param string                                   $autogroups_rules_table Name of the table used to store auto group rules data
-	 * @param string                                   $autogroups_types_table Name of the table used to store auto group types data
-	 * @param string                                   $phpbb_root_path        phpBB root path
-	 * @param string                                   $php_ext                phpEx
+	 * @param ContainerInterface                $container              Service container interface
+	 * @param \phpbb\db\driver\driver_interface $db                     Database object
+	 * @param \phpbb\user                       $user                   User object
+	 * @param string                            $autogroups_rules_table Name of the table used to store auto group rules data
+	 * @param string                            $autogroups_types_table Name of the table used to store auto group types data
+	 * @param string                            $phpbb_root_path        phpBB root path
+	 * @param string                            $php_ext                phpEx
 	 *
 	 * @access public
 	 */
