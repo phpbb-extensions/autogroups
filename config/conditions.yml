@@ -13,8 +13,8 @@ services:
         scope: prototype
         arguments:
             - @service_container
-            - @config
             - @dbal.conn
+            - @phpbb.autogroups.helper
             - @user
             - %phpbb.autogroups.tables.autogroups_rules%
             - %phpbb.autogroups.tables.autogroups_types%
@@ -28,8 +28,8 @@ services:
         scope: prototype
         arguments:
             - @service_container
-            - @config
             - @dbal.conn
+            - @phpbb.autogroups.helper
             - @user
             - %phpbb.autogroups.tables.autogroups_rules%
             - %phpbb.autogroups.tables.autogroups_types%
@@ -43,8 +43,8 @@ services:
         scope: prototype
         arguments:
             - @service_container
-            - @config
             - @dbal.conn
+            - @phpbb.autogroups.helper
             - @user
             - %phpbb.autogroups.tables.autogroups_rules%
             - %phpbb.autogroups.tables.autogroups_types%

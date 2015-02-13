@@ -21,8 +21,8 @@ class membership_test extends type_test_case
 	{
 		return new \phpbb\autogroups\conditions\type\membership(
 			$this->phpbb_container,
-			$this->config,
 			$this->db,
+			$this->helper,
 			$this->user,
 			'phpbb_autogroups_rules',
 			'phpbb_autogroups_types',

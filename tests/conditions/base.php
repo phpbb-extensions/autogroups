@@ -28,12 +28,13 @@ class base extends \phpbb_database_test_case
 		return array('phpbb/autogroups');
 	}
 
+	protected $condition;
+	protected $condition_type;
 	protected $config;
 	protected $db;
-	protected $user;
-	protected $condition;
+	protected $helper;
 	protected $phpbb_container;
-	protected $condition_type;
+	protected $user;
 	protected $root_path;
 	protected $php_ext;
 
@@ -67,5 +68,13 @@ class base extends \phpbb_database_test_case
 
 		$this->root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
+
+		$this->helper = new \phpbb\autogroups\conditions\type\helper(
+			$this->phpbb_container,
+			$this->config,
+			$this->db,
+			$this->root_path,
+			$this->php_ext
+		);
 	}
 }

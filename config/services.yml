@@ -23,6 +23,15 @@ services:
             - %phpbb.autogroups.tables.autogroups_rules%
             - %phpbb.autogroups.tables.autogroups_types%
 
+    phpbb.autogroups.helper:
+        class: phpbb\autogroups\conditions\type\helper
+        arguments:
+            - @service_container
+            - @config
+            - @dbal.conn
+            - %core.root_path%
+            - %core.php_ext%
+
     phpbb.autogroups.admin_controller:
         class: phpbb\autogroups\controller\admin_controller
         arguments:

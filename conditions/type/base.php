@@ -20,11 +20,11 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/** @var ContainerInterface */
 	protected $container;
 
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
+
+	/** @var \phpbb\autogroups\conditions\type\helper */
+	protected $helper;
 
 	/** @var \phpbb\user */
 	protected $user;
@@ -44,22 +44,22 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface                $container              Service container interface
-	 * @param \phpbb\config\config              $config                 Config object
-	 * @param \phpbb\db\driver\driver_interface $db                     Database object
-	 * @param \phpbb\user                       $user                   User object
-	 * @param string                            $autogroups_rules_table Name of the table used to store auto group rules data
-	 * @param string                            $autogroups_types_table Name of the table used to store auto group types data
-	 * @param string                            $phpbb_root_path        phpBB root path
-	 * @param string                            $php_ext                phpEx
+	 * @param ContainerInterface                       $container              Service container interface
+	 * @param \phpbb\db\driver\driver_interface        $db                     Database object
+	 * @param \phpbb\autogroups\conditions\type\helper $helper                 Auto Groups condition helper object
+	 * @param \phpbb\user                              $user                   User object
+	 * @param string                                   $autogroups_rules_table Name of the table used to store auto group rules data
+	 * @param string                                   $autogroups_types_table Name of the table used to store auto group types data
+	 * @param string                                   $phpbb_root_path        phpBB root path
+	 * @param string                                   $php_ext                phpEx
 	 *
 	 * @access public
 	 */
-	public function __construct(ContainerInterface $container, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
+	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db, \phpbb\autogroups\conditions\type\helper $helper, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
 	{
 		$this->container = $container;
-		$this->config = $config;
 		$this->db = $db;
+		$this->helper = $helper;
 		$this->user = $user;
 
 		$this->autogroups_rules_table = $autogroups_rules_table;
@@ -99,73 +99,6 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function get_users_groups($user_id_ary)
-	{
-		$group_id_ary = array();
-
-		$sql = 'SELECT user_id, group_id
-			FROM ' . USER_GROUP_TABLE . '
-			WHERE ' . $this->db->sql_in_set('user_id', $user_id_ary, false, true);
-		$result = $this->db->sql_query($sql);
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$group_id_ary[$row['user_id']][] = $row['group_id'];
-		}
-		$this->db->sql_freeresult($result);
-
-		return $group_id_ary;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function get_default_exempt_users()
-	{
-		$user_id_ary = array();
-
-		// Get default exempt groups from db
-		$group_id_ary = unserialize(trim($this->config['autogroups_default_exempt']));
-
-		if (empty($group_id_ary))
-		{
-			return $user_id_ary;
-		}
-
-		$sql = 'SELECT user_id
-			FROM ' . USER_GROUP_TABLE . '
-			WHERE ' . $this->db->sql_in_set('group_id', array_map('intval', $group_id_ary));
-		$result = $this->db->sql_query($sql, 7200);
-		while ($row = $this->db->sql_fetchrow($result))
-		{
-			$user_id_ary[] = $row['user_id'];
-		}
-		$this->db->sql_freeresult($result);
-
-		return array_unique($user_id_ary);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function prepare_users_for_query($user_ids)
-	{
-		if (is_array($user_ids))
-		{
-			// Cast each array value to integer
-			$user_ids = array_map('intval', $user_ids);
-		}
-		else
-		{
-			// Cast user id to integer and put it inside an array
-			$user_ids = array((int) $user_ids);
-		}
-
-		return $user_ids;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function add_users_to_group($user_id_ary, $group_rule_data)
 	{
 		// Set this variable for readability in the code below
@@ -175,16 +108,19 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		group_user_add($group_id, $user_id_ary);
 
 		// Send notification
-		$this->send_notifications((bool) $group_rule_data['autogroups_notify'], 'group_added', $user_id_ary, $group_id);
+		if ($group_rule_data['autogroups_notify'])
+		{
+			$this->helper->send_notifications('group_added', $user_id_ary, $group_id);
+		}
 
 		// Set group as default?
 		if ($group_rule_data['autogroups_default'])
 		{
 			// Make sure user_id_ary is an array
-			$user_id_ary = $this->prepare_users_for_query($user_id_ary);
+			$user_id_ary = $this->helper->prepare_users_for_query($user_id_ary);
 
 			// Get array of users exempt from default group switching
-			$default_exempt_users = $this->get_default_exempt_users();
+			$default_exempt_users = $this->helper->get_default_exempt_users();
 
 			// Remove any exempt users from our main user array
 			if (sizeof($default_exempt_users))
@@ -215,7 +151,10 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		group_user_del($group_id, $user_id_ary);
 
 		// Send notification
-		$this->send_notifications((bool) $group_rule_data['autogroups_notify'], 'group_removed', $user_id_ary, $group_id);
+		if ($group_rule_data['autogroups_notify'])
+		{
+			$this->helper->send_notifications('group_removed', $user_id_ary, $group_id);
+		}
 	}
 
 	/**
@@ -227,7 +166,7 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		$group_rules = $this->get_group_rules();
 
 		// Get an array of users and the groups they belong to
-		$user_groups = $this->get_users_groups(array_keys($user_row));
+		$user_groups = $this->helper->get_users_groups(array_keys($user_row));
 
 		foreach ($group_rules as $group_rule)
 		{
@@ -326,28 +265,5 @@ abstract class base implements \phpbb\autogroups\conditions\type\type_interface
 		}
 
 		return $user_id_ary;
-	}
-
-	/**
-	 * Send notifications
-	 *
-	 * @param bool $notify       Should a notification be sent
-	 * @param string $type       Type of notification to send (group_added|group_removed)
-	 * @param array $user_id_ary Array of user(s) to notify
-	 * @param int $group_id      The usergroup identifier
-	 * @return null
-	 * @access protected
-	 */
-	protected function send_notifications($notify, $type, $user_id_ary, $group_id)
-	{
-		if ($notify)
-		{
-			$phpbb_notifications = $this->container->get('notification_manager');
-			$phpbb_notifications->add_notifications("phpbb.autogroups.notification.type.$type", array(
-				'user_ids'		=> $user_id_ary,
-				'group_id'		=> $group_id,
-				'group_name'	=> get_group_name($group_id),
-			));
-		}
 	}
 }
