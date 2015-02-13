@@ -50,11 +50,6 @@ class helper
 		$this->db = $db;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
-
-		if (!function_exists('get_group_name'))
-		{
-			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
-		}
 	}
 
 	/**
@@ -146,6 +141,11 @@ class helper
 	 */
 	public function send_notifications($type, $user_id_ary, $group_id)
 	{
+		if (!function_exists('get_group_name'))
+		{
+			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+		}
+
 		$phpbb_notifications = $this->container->get('notification_manager');
 		$phpbb_notifications->add_notifications("phpbb.autogroups.notification.type.$type", array(
 			'user_ids'		=> $user_id_ary,
