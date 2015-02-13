@@ -70,7 +70,7 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 		), $options);
 
 		// Prepare the user ids data for use in the query
-		$user_ids = $this->prepare_users_for_query($options['users']);
+		$user_ids = $this->helper->prepare_users_for_query($options['users']);
 
 		// Get data for the users to be checked (exclude bots, guests and inactive users)
 		$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
