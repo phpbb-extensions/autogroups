@@ -126,7 +126,6 @@ vendor.extension.autogroups.type.example:			# change this for your extension
 	scope: prototype
 	arguments:
 		- @service_container
-		- @config
 		- @dbal.conn
 		- @user
 		- %core.table_prefix%autogroups_rules
