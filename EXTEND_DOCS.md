@@ -1,15 +1,15 @@
 # Extending Auto Groups
 
 Auto Groups can easily be extended by experienced extension developers. Add the Auto Group functionality to an existing
-extension or write a simple extension as an add-on that adds more Auto Group possibilities not available in the base package.
+extension or write a simple add-on extension that extends Auto Groups with more options not available in the base package.
 
 The Auto Groups extension works by comparing a component of user data against defined minimum / maximum values
-set by the Admin in the ACP, and if a user's data is within the defined range for a specified group, the user will
+set by the Admin in the ACP. If a user's data is within the defined range for a specified group, the user will
 automatically be added to the group.
 
-The Auto Group extension provides this functionality for user post counts, membership days and warning counts. To
-add new user data types, such as those added by other extensions (i.e.: Points/Reputation extensions, PayPal Donations,
-etc.) you need to extend the Auto Groups base condition type class and trigger your Auto Group class in an appropriate manner for
+The Auto Groups extension provides this functionality for user post counts, warning counts, membership duration and age. To
+add new user data types, such as those added by other extensions (i.e.: Points/Reputation, PayPal Donations,
+etc.), you need to extend the Auto Groups base condition type class and trigger your Auto Group class in an appropriate manner for
 your extension.
 
 ### Auto Group Condition Type Classes
@@ -40,9 +40,9 @@ public function get_condition_field()
 }
 ```
 
-Add the method that defines a language var stored in a language file with your extension. It will be used to display
-the name of this Auto Group type (prefix the language file with `info_acp_` so that it will be auto-loaded
-in the ACP):
+Add the method that defines the language key that will be used to display the name of this Auto Group type. The 
+translation of this key should be stored in a language file with your extension (prefixing the language file with 
+`info_acp_` will auto-load it for you in the ACP):
 
 ```php
 public function get_condition_type_name()
@@ -57,15 +57,17 @@ parameter) that is already available when the method is called. In our membershi
 user_id(s), we use a more specific SQL query to get an array of users who are eligible to be added to the group and 
 any users already in the group (in case they need to be removed).
 
-This method must output an array of users and their data where the array keys are the user ids, and the array values
-hold the user's data to be tested. You can use any means to get whatever data you need, so long as you return the
+This method must output an array of users and their data where the array keys contain the user id, and the array values
+contain the user's data to be tested. You can use any means to get whatever data you need, so long as you return the
 expected user data array. For example:
 
 ```php
 /*
-* Return an array of user data
-*    eg: 1 => array('user_id' => 1, 'example_data' => 'foo'),
-*        2 => array('user_id' => 2, 'example_data' => 'bar')
+* Return an array of user data, eg:
+*    array(
+*        1 => array('user_id' => 1, 'example_data' => 'foo'),
+*        2 => array('user_id' => 2, 'example_data' => 'bar'),
+*    );
 */
 public function get_users_for_condition($options = array())
 {
@@ -80,8 +82,7 @@ public function get_users_for_condition($options = array())
 	// This query simply grabs all users and their example_data field
 	$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
 		FROM ' . USERS_TABLE;
-	$result = $this->db->sql_query_limit($sql, 1);
-
+	$result = $this->db->sql_query($sql);
 	while ($row = $this->db->sql_fetchrow($result))
 	{
 		$user_data[$row['user_id']] = $row;
@@ -168,10 +169,10 @@ Groups manager class available in your extension (similar to way it is made avai
 is called using phpBB's cron methods. The Auto Groups extension will automatically check all types available once
 daily. If you need more frequent intervals you can create your own cron class (view our cron class as an example).
 
-> Note: because of the use of automated cron checks, it is very important that all Auto Group type classes have a default
-set of data to check defined by the `$options` argument in the `get_users_for_condition()` method. That is to say, the
-`get_users_for_condition()` method must always output a valid user data array whether the `$options` array has data 
-or is empty.
+> Note: Our cron task calls all Auto Group types without passing them any `$options` data. Therefor, it is very 
+important that all Auto Group type classes have a default set of data to check defined by the `$options` argument 
+in the `get_users_for_condition()` method. That is to say, the `get_users_for_condition()` should always output 
+a valid user data array. An empty array will result in processing no users.
 
 Calling an Auto Group type class is fairly simple (this applies the same to events, in code or cron):
 
@@ -192,12 +193,12 @@ if ($this->autogroup_manager !== null)
 
 ### Important Compatibility Precautions
 
-Auto Groups must be installed and enabled for your extension to use it, obviously. But special care must be taken to
+Auto Groups must be installed and enabled for your extension to use it, obviously. Special care must be taken to
 ensure it is impossible to run your Auto Groups code if the base Auto Groups extension has been disabled for any reason.
 Making the Auto Groups manager class an optional service as described above is the most important step.
 
-The `ext.php` class should be used in your extension to remove your extension's Auto Group data using the `purge_step()`
-method. This helps prevent Auto Groups from trying to run your uninstalled extension's code.
+The `ext.php` class should also be used in your extension to remove it's Auto Group data using the `purge_step()`
+method. This will prevent Auto Groups from trying to run your uninstalled extension's code.
 
 ```php
 public function purge_step($old_state)
