@@ -10,21 +10,19 @@
 
 namespace phpbb\autogroups\conditions\type;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 /**
  * Auto Groups conditions type helper class
  */
 class helper
 {
-	/** @var ContainerInterface */
-	protected $container;
-
 	/** @var \phpbb\config\config */
 	protected $config;
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
+
+	/** @var \phpbb\notification\manager */
+	protected $notification_manager;
 
 	/** @var string */
 	protected $phpbb_root_path;
@@ -35,19 +33,19 @@ class helper
 	/**
 	 * Constructor
 	 *
-	 * @param ContainerInterface                $container              Service container interface
 	 * @param \phpbb\config\config              $config                 Config object
 	 * @param \phpbb\db\driver\driver_interface $db                     Database object
+	 * @param \phpbb\notification\manager       $notification_manager   Notification manager
 	 * @param string                            $phpbb_root_path        phpBB root path
 	 * @param string                            $php_ext                phpEx
 	 *
 	 * @access public
 	 */
-	public function __construct(ContainerInterface $container, \phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\notification\manager $notification_manager, $phpbb_root_path, $php_ext)
 	{
-		$this->container = $container;
 		$this->config = $config;
 		$this->db = $db;
+		$this->notification_manager = $notification_manager;
 		$this->phpbb_root_path = $phpbb_root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -146,8 +144,7 @@ class helper
 			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
 		}
 
-		$phpbb_notifications = $this->container->get('notification_manager');
-		$phpbb_notifications->add_notifications("phpbb.autogroups.notification.type.$type", array(
+		$this->notification_manager->add_notifications("phpbb.autogroups.notification.type.$type", array(
 			'user_ids'		=> $user_id_ary,
 			'group_id'		=> $group_id,
 			'group_name'	=> get_group_name($group_id),
