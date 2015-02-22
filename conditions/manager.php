@@ -87,7 +87,7 @@ class manager
 	 */
 	public function check_condition($type_name, $options = array())
 	{
-		$condition = $this->get_type($type_name);
+		$condition = $this->phpbb_container->get($type_name);
 
 		$check_users = $condition->get_users_for_condition($options);
 
@@ -278,7 +278,7 @@ class manager
 	{
 		try
 		{
-			$condition = $this->get_type($autogroups_type_name);
+			$condition = $this->phpbb_container->get($autogroups_type_name);
 		}
 		catch (\InvalidArgumentException $e)
 		{
@@ -312,17 +312,5 @@ class manager
 				'action'	=> 'sync',
 			));
 		}
-	}
-
-	/**
-	* Helper to load objects (autogroup types)
-	*
-	* @param string     $type_name      The name of the auto group type
-	*
-	* @return object The auto group type service
-	*/
-	protected function get_type($type_name)
-	{
-		return $this->phpbb_container->get($type_name);
 	}
 }
