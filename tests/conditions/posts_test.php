@@ -21,7 +21,6 @@ class posts_test extends type_test_case
 	{
 		return new \phpbb\autogroups\conditions\type\posts(
 			$this->phpbb_container,
-			$this->config,
 			$this->db,
 			$this->user,
 			'phpbb_autogroups_rules',
@@ -195,7 +194,7 @@ class posts_test extends type_test_case
 		$condition->check($check_users);
 
 		// Get the user's groups
-		$result = $condition->get_users_groups($user_id);
+		$result = $this->helper->get_users_groups($user_id);
 
 		// Assert the user's groups are unchanged
 		$this->assertEquals($expected, $result[$user_id]);

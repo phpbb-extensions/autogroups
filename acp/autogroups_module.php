@@ -14,7 +14,7 @@ class autogroups_module
 {
 	public $u_action;
 
-	function main($id, $mode)
+	public function main($id, $mode)
 	{
 		global $phpbb_container, $request, $user;
 

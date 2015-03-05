@@ -28,12 +28,13 @@ class base extends \phpbb_database_test_case
 		return array('phpbb/autogroups');
 	}
 
+	protected $condition;
+	protected $condition_type;
 	protected $config;
 	protected $db;
-	protected $user;
-	protected $condition;
+	protected $helper;
 	protected $phpbb_container;
-	protected $condition_type;
+	protected $user;
 	protected $root_path;
 	protected $php_ext;
 
@@ -65,7 +66,21 @@ class base extends \phpbb_database_test_case
 
 		$phpbb_log = new \phpbb\log\log($db, $user, $auth, $phpbb_dispatcher, $phpbb_root_path, 'adm/', $phpEx, LOG_TABLE);
 
+		$notification_manager = $this->getMockBuilder('\phpbb\notification\manager')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
+
+		$this->helper = new \phpbb\autogroups\conditions\type\helper(
+			$this->config,
+			$this->db,
+			$notification_manager,
+			$this->root_path,
+			$this->php_ext
+		);
+
+		$phpbb_container->set('phpbb.autogroups.helper', $this->helper);
 	}
 }

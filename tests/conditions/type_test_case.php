@@ -40,7 +40,7 @@ abstract class type_test_case extends base
 		$condition->check($users);
 
 		// Assert the user's groups are as expected
-		$result = $condition->get_users_groups(array_keys($user_data));
+		$result = $this->helper->get_users_groups(array_keys($user_data));
 		foreach ($result as $key => $ary)
 		{
 			sort($result[$key]);
@@ -76,7 +76,7 @@ abstract class type_test_case extends base
 		$condition->check($users);
 
 		// Assert the user's groups are as expected
-		$result = $condition->get_users_groups(array_keys($user_data));
+		$result = $this->helper->get_users_groups(array_keys($user_data));
 		foreach ($result as $key => $ary)
 		{
 			sort($result[$key]);
