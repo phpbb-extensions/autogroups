@@ -22,16 +22,21 @@ class base extends \phpbb_database_test_case
 	* Define the extensions to be tested
 	*
 	* @return array vendor/name of extension(s) to test
-	* @access static
 	*/
 	static protected function setup_extensions()
 	{
 		return array('phpbb/autogroups');
 	}
 
-	protected $db;
-	protected $user;
 	protected $condition;
+	protected $condition_type;
+	protected $config;
+	protected $db;
+	protected $helper;
+	protected $phpbb_container;
+	protected $user;
+	protected $root_path;
+	protected $php_ext;
 
 	public function getDataSet()
 	{
@@ -61,12 +66,21 @@ class base extends \phpbb_database_test_case
 
 		$phpbb_log = new \phpbb\log\log($db, $user, $auth, $phpbb_dispatcher, $phpbb_root_path, 'adm/', $phpEx, LOG_TABLE);
 
+		$notification_manager = $this->getMockBuilder('\phpbb\notification\manager')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->root_path = $phpbb_root_path;
 		$this->php_ext = $phpEx;
-	}
 
-	public function get_condition()
-	{
-		return new \phpbb\autogroups\conditions\type\posts($this->phpbb_container, $this->config, $this->db, $this->user, 'phpbb_autogroups_rules', 'phpbb_autogroups_types', $this->root_path, $this->php_ext);
+		$this->helper = new \phpbb\autogroups\conditions\type\helper(
+			$this->config,
+			$this->db,
+			$notification_manager,
+			$this->root_path,
+			$this->php_ext
+		);
+
+		$phpbb_container->set('phpbb.autogroups.helper', $this->helper);
 	}
 }

@@ -38,6 +38,37 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
+	'ACP_AUTOGROUPS_MANAGE'			=> 'Manage Auto Groups',
+	'ACP_AUTOGROUPS_MANAGE_EXPLAIN'	=> 'Using this form you can add, edit, view and delete Auto Group configurations.',
+	'ACP_AUTOGROUPS_ADD'			=> 'Add Auto Groups',
+	'ACP_AUTOGROUPS_EDIT'			=> 'Edit Auto Groups',
+
+	'ACP_AUTOGROUPS_GROUP_NAME'				=> 'Group',
+	'ACP_AUTOGROUPS_GROUP_NAME_EXPLAIN'		=> 'Choose a group to automatically add/remove users from.',
+	'ACP_AUTOGROUPS_CONDITION_NAME'			=> 'Auto Group type',
+	'ACP_AUTOGROUPS_CONDITION_NAME_EXPLAIN'	=> 'Choose the type of condition on which users will be added or removed from this group.',
+	'ACP_AUTOGROUPS_MIN_VALUE'				=> 'Minimum value',
+	'ACP_AUTOGROUPS_MIN_VALUE_EXPLAIN'		=> 'Users will be added to this group if they exceed the minimum value.',
+	'ACP_AUTOGROUPS_MAX_VALUE'				=> 'Maximum value',
+	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Users will be removed from this group if they exceed the maximum value. Leave this field empty if you do not want users to be removed.',
+	'ACP_AUTOGROUPS_DEFAULT'				=> 'Set group default',
+	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Make this the user’s new default group.',
+	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notify users',
+	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Send a notification to users after being automatically added or removed from this group.',
+
+	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Set group default exemptions',
+	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Auto Groups will not change a user’s default group if it is selected in this list. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
+
+	'ACP_AUTOGROUPS_CREATE_RULE'	=> 'Create new Auto Group',
+	'ACP_AUTOGROUPS_SUBMIT_SUCCESS'	=> 'Auto Group successfully configured.',
+	'ACP_AUTOGROUPS_DELETE_CONFIRM'	=> 'Are you sure you want to delete this Auto Group configuration?',
+	'ACP_AUTOGROUPS_DELETE_SUCCESS'	=> 'Auto Group successfully deleted.',
+	'ACP_AUTOGROUPS_EMPTY'			=> 'There are no auto groups.',
+	'ACP_AUTOGROUPS_NO_GROUPS'		=> 'No groups available',
+	'ACP_AUTOGROUPS_INVALID_GROUPS'	=> 'An error occurred. A valid user group was not selected.<br />Auto Groups can only be used with user defined groups, which can be created on the Manage groups page.',
+
 	// Conditions
-	'AUTOGROUPS_TYPE_POSTS'	=> 'Posts',
+	'AUTOGROUPS_TYPE_POSTS'			=> 'Posts',
+	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> 'Membership Days',
+	'AUTOGROUPS_TYPE_WARNINGS'		=> 'Warnings',
 ));

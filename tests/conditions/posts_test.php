@@ -13,129 +13,178 @@ namespace phpbb\autogroups\tests\conditions;
 /**
  * Run tests on the posts type class.
  */
-class posts_test extends base
+class posts_test extends type_test_case
 {
 	protected $condition_type = 'phpbb.autogroups.type.posts';
 
-	/**
-	 * Data for test_check
-	 */
-	public function check_test_data()
+	public function get_condition()
 	{
-		/*
-		 * Mock settings in the database:
-		 * Post count between 10 - 20 adds to group 2 as default
-		 * Post count between 100 - 200 adds to group 3 as default
-		 * Post count between 500 - unlimited adds to group 4 (no default)
-		 *
-		 * User 1 is already a member of groups 1 and 5 (1 is default)
-		 * User 2 is already a member of groups 1 and 2 (2 is default)
-		 */
+		return new \phpbb\autogroups\conditions\type\posts(
+			$this->phpbb_container,
+			$this->db,
+			$this->user,
+			'phpbb_autogroups_rules',
+			'phpbb_autogroups_types',
+			$this->root_path,
+			$this->php_ext
+		);
+	}
+
+	/**
+	 * Mock settings in the database:
+	 * Post count between 10 - 20 adds to group 2 as default
+	 * Post count between 100 - 200 adds to group 3 as default
+	 * Post count between 500 - unlimited adds to group 4 (no default)
+	 *
+	 * User 1 is already a member of groups 1 and 5 (1 is default)
+	 * User 2 is already a member of groups 1 and 2 (2 is default)
+	 *
+	 * @return Array of test data
+	 */
+	public function check_condition_test_data()
+	{
 		return array(
 			array(
-				1, // user id
-				10, // posts
-				array(1, 5, 2), // user added to group 2
-				2, // default
+				array(1 => 10), // user 1 has 10 posts
+				array(1 => array(1, 2, 5)), // user added to group 2
+				array(1 => 2), // default
+				array('action' => 'sync'),
 			),
 			array(
-				1, // user id
-				0, // posts
-				array(1, 5), // user not added to any group
-				1, // default
+				array(1 => 0), // user 1 has 0 posts
+				array(1 => array(1, 5)), // user not added to any group
+				array(1 => 1), // default
+				array('action' => 'sync'),
 			),
 			array(
-				1, // user id
-				21, // posts
-				array(1, 5), // user not added to any group
-				1, // default
+				array(1 => 21), // user 1 has 21 posts
+				array(1 => array(1, 5)), // user not added to any group
+				array(1 => 1), // default
+				array('action' => 'sync'),
 			),
 			array(
-				1, // user id
-				100, // posts
-				array(1, 5, 3), // user added to group 3
-				3, // default
+				array(1 => 21), // user 1 has 21 posts
+				array(1 => array(1, 5)), // user not added to any group
+				array(1 => 1), // default
+				array('action' => 'sync'),
 			),
 			array(
-				1, // user id
-				200, // posts
-				array(1, 5, 3), // user added to group 3
-				3, // default
+				array(1 => 100), // user 1 has 100 posts
+				array(1 => array(1, 3, 5)), // user added to group 3
+				array(1 => 3), // default
+				array('action' => 'sync'),
 			),
 			array(
-				1, // user id
-				500, // posts
-				array(1, 5, 4), // user added to group 4
-				1, // default
+				array(1 => 200), // user 1 has 200 posts
+				array(1 => array(1, 3, 5)), // user added to group 3
+				array(1 => 3), // default
+				array('action' => 'sync'),
 			),
 			array(
-				1, // user id
-				1000, // posts
-				array(1, 5, 4), // user added to group 4
-				1, // default
+				array(1 => 500), // user 1 has 500 posts
+				array(1 => array(1, 4, 5)), // user added to group 4
+				array(1 => 1), // default
+				array('action' => 'sync'),
 			),
 			array(
-				2, // user id
-				15, // posts
-				array(1, 2), // user remains in groups 1 and 2
-				2, // default
+				array(1 => 1000), // user 1 has 1000 posts
+				array(1 => array(1, 4, 5)), // user added to group 4
+				array(1 => 1), // default
+				array('action' => 'sync'),
 			),
 			array(
-				2, // user id
-				150, // posts
-				array(1, 3), // user removed from group 2, added to group 3
-				3, // default
+				array(2 => 15), // user 2 has 15 posts
+				array(2 => array(1, 2)), // user remains in groups 1 and 2
+				array(2 => 2), // default
+				array('action' => 'sync'),
 			),
 			array(
-				2, // user id
-				1500, // posts
-				array(1, 4), // user removed from group 2, added to group 4
-				1, // default
+				array(2 => 150), // user 2 has 150 posts
+				array(2 => array(1, 3)), // user removed from group 2, added to group 3
+				array(2 => 3), // default
+				array('action' => 'sync'),
+			),
+			array(
+				array(2 => 1500), // user 2 has 1500 posts
+				array(2 => array(1, 4)), // user removed from group 2, added to group 4
+				array(2 => 1), // default
+				array('action' => 'sync'),
+			),
+			array(
+				array(
+					1 => 15, // user 1 has 15 posts
+					2 => 15, // user 2 has 15 posts
+				),
+				array(
+					1 => array(1, 2, 5), // user 1 added to group 2
+					2 => array(1, 2), // user 2 remains in groups 1 and 2
+				),
+				array(
+					1 => 2, // default
+					2 => 2, // default
+				),
+				array('action' => 'sync'),
+			),
+			array(
+				array(
+					1 => 1000, // user 1 has 1000 posts
+					2 => 1000, // user 2 has 1000 posts
+				),
+				array(
+					1 => array(1, 4, 5), // user 1 added to group 4
+					2 => array(1, 4), // user 2 removed from group 2, added to group 4
+				),
+				array(
+					1 => 1, // default
+					2 => 1, // default
+				),
+				array('action' => 'sync'),
+			),
+			array(
+				array(0 => 0),
+				array(),
+				array(),
+				array('action' => 'sync'),
+			),
+			array(
+				array(),
+				array(),
+				array(),
+				array(),
 			),
 		);
 	}
 
 	/**
-	 * Test the check method by passing it user ids
+	 * Mock settings in the database:
+	 * Post count between 10 - 20 adds to group 2 as default
+	 * Post count between 100 - 200 adds to group 3 as default
+	 * Post count between 500 - unlimited adds to group 4 (no default)
 	 *
-	 * @dataProvider check_test_data
+	 * User 1 is already a member of groups 1 and 5 (1 is default)
+	 * User 2 is already a member of groups 1 and 2 (2 is default)
+	 *
+	 * @return Array of test data
 	 */
-	public function test_check($user_id, $post_count, $expected, $default)
+	public function check_no_options_test_data()
 	{
-		// Update the user post count
-		$this->helper_update_user_posts($user_id, $post_count);
-
-		// Instantiate the condition
-		$condition = $this->get_condition();
-
-		// Check the user and perform auto group
-		$check_users = $condition->get_users_for_condition(array(
-			'users' => $user_id,
-		));
-		$condition->check($check_users);
-
-		// Get the user's groups
-		$result = $condition->get_users_groups($user_id);
-
-		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $result[$user_id]);
-
-		// Assert the user's default group id is as expected
-		$this->assertEquals($default, $this->helper_default_group_id($user_id));
+		return array(
+			array(1, 10, array(1, 5)),
+			array(2, 1500, array(1, 2)),
+		);
 	}
 
 	/**
-	 * Test the check method using the active user, not passing it user ids
+	 * Test the check method, not passing it user ids.
+	 * If the posts class does not receive a user_id array or
+	 * a sync action is not performed, it results in no changes.
 	 *
-	 * @dataProvider check_test_data
+	 * @dataProvider check_no_options_test_data
 	 */
-	public function test_check_alt($user_id, $post_count, $expected, $default)
+	public function test_check_no_options($user_id, $post_count, $expected)
 	{
 		// Update the user post count
-		$this->helper_update_user_posts($user_id, $post_count);
-
-		// Set the current/active user id
-		$this->user->data['user_id'] = $user_id;
+		$this->helper_update_user_data($user_id, $post_count);
 
 		// Instantiate the condition
 		$condition = $this->get_condition();
@@ -145,163 +194,39 @@ class posts_test extends base
 		$condition->check($check_users);
 
 		// Get the user's groups
-		$result = $condition->get_users_groups($user_id);
+		$result = $this->helper->get_users_groups($user_id);
 
-		// Assert the user's groups are as expected
+		// Assert the user's groups are unchanged
 		$this->assertEquals($expected, $result[$user_id]);
-
-		// Assert the user's default group id is as expected
-		$this->assertEquals($default, $this->helper_default_group_id($user_id));
-	}
-
-	/**
-	 * Data for test_check_multiple_users
-	 */
-	public function check_multiple_users_test_data()
-	{
-		/*
-		 * Mock settings in the database:
-		 * Post count between 10 - 20 adds to group 2 as default
-		 * Post count between 100 - 200 adds to group 3 as default
-		 * Post count between 500 - unlimited adds to group 4 (no default)
-		 *
-		 * User 1 is already a member of groups 1 and 5 (1 is default)
-		 * User 2 is already a member of groups 1 and 2 (2 is default)
-		 */
-		return array(
-			array(
-				array(1, 2), // user ids
-				15, // posts
-				array(
-					1 => array(1, 5, 2), // user 1 added to group 2
-					2 => array(1, 2), // user 2 remains in groups 1 and 2
-				),
-				2, // default
-			),
-			array(
-				array(1, 2), // user ids
-				1000, // posts
-				array(
-					1 => array(1, 5, 4), // user 1 added to group 4
-					2 => array(1, 4), // user 2 removed from group 2, added to group 4
-				),
-				1, // default
-			),
-		);
-	}
-
-	/**
-	 * Test the check method with multiple user ids
-	 *
-	 * @dataProvider check_multiple_users_test_data
-	 */
-	public function test_check_multiple_users($user_ids, $post_count, $expected, $default)
-	{
-		// Update the users post counts
-		foreach ($user_ids as $user_id)
-		{
-			$this->helper_update_user_posts($user_id, $post_count);
-		}
-
-		// Instantiate the condition
-		$condition = $this->get_condition();
-
-		// Check the users and perform auto group
-		$check_users = $condition->get_users_for_condition(array(
-			'users' => $user_ids,
-		));
-		$condition->check($check_users);
-
-		foreach ($user_ids as $user_id)
-		{
-			// Get the user's groups
-			$result = $condition->get_users_groups($user_id);
-
-			// Assert the user's groups are as expected
-			$this->assertEquals($expected[$user_id], $result[$user_id]);
-
-			// Assert the user's default group id is as expected
-			$this->assertEquals($default, $this->helper_default_group_id($user_id));
-		}
 	}
 
 	/**
 	 * Data for test_check_group_exemptions
+	 *
+	 * @return Array of test data
 	 */
 	public function check_group_exemptions_data()
 	{
-		/*
-		 * Mock settings in the database:
-		 * Post count between 10 - 20 adds to group 2 as default
-		 * Post count between 100 - 200 adds to group 3 as default
-		 * Post count between 500 - unlimited adds to group 4 (no default)
-		 *
-		 * User 1 is already a member of groups 1 and 5 (1 is default)
-		 * User 2 is already a member of groups 1 and 2 (2 is default)
-		 */
 		return array(
 			array(
 				1, // user id
-				10, // posts
+				10, // posts (would make group 2 the new default)
 				1, // default exempt group
-				array(1, 5, 2), // user added to group 2
 			),
 		);
 	}
 
 	/**
-	 * Test the check method using with default group exemptions
-	 *
-	 * @dataProvider check_group_exemptions_data
-	 */
-	public function test_check_group_exemptions($user_id, $post_count, $default_exempt_group, $expected)
-	{
-		// Default group exemption (do not change default away from this group id)
-		$this->config['autogroups_default_exempt'] = serialize(array($default_exempt_group));
-
-		// Update the user post count
-		$this->helper_update_user_posts($user_id, $post_count);
-
-		// Instantiate the condition
-		$condition = $this->get_condition();
-
-		// Check the user and perform auto group
-		$check_users = $condition->get_users_for_condition(array(
-			'users' => $user_id,
-		));
-		$condition->check($check_users);
-
-		// Get the user's groups
-		$result = $condition->get_users_groups($user_id);
-
-		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $result[$user_id]);
-
-		// Assert the user's default group id is as expected
-		$this->assertEquals($default_exempt_group, $this->helper_default_group_id($user_id));
-	}
-
-	/*
 	 * Update the database with new post count values for a user
+	 *
+	 * @param int $user_id
+	 * @param int $data The number of posts a user has
 	 */
-	public function helper_update_user_posts($user_id, $post_count)
+	public function helper_update_user_data($user_id, $data)
 	{
 		$sql = 'UPDATE ' . USERS_TABLE . '
-			SET user_posts = ' . (int) $post_count . '
+			SET user_posts = ' . (int) $data . '
 			WHERE user_id = ' . (int) $user_id;
 		$this->db->sql_query($sql);
-	}
-
-	/*
-	 * Get the default group id for a user
-	 */
-	public function helper_default_group_id($user_id)
-	{
-		$sql = 'SELECT group_id
-			FROM phpbb_users
-			WHERE user_id = ' . (int) $user_id;
-		$result = $this->db->sql_query($sql);
-
-		return $this->db->sql_fetchfield('group_id', false, $result);
 	}
 }

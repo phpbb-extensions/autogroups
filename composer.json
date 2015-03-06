@@ -2,7 +2,7 @@
 	"name": "phpbb/autogroups",
 	"type": "phpbb-extension",
 	"description": "An extension that allows users to be automatically added to special groups upon reaching specified goals.",
-	"homepage": "https://phpbb.com",
+	"homepage": "https://www.phpbb.com",
 	"version": "1.0.0-dev",
 	"keywords": ["phpbb", "extension", "auto", "groups"],
 	"license": "GPL-2.0",
@@ -55,12 +55,7 @@
 	"extra": {
 		"display-name": "Auto Groups",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.1.0-RC5,<3.2.*@dev"
-		},
-		"version-check": {
-			"host": "version.phpbb.com",
-			"directory": "/phpbb-extensions",
-			"filename": "autogroups_versions.json"
+			"phpbb/phpbb": ">=3.1.0,<3.2.*@dev"
 		}
 	}
 }

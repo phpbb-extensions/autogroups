@@ -20,20 +20,18 @@ class event_listener_test extends \phpbb_test_case
 
 	/**
 	* Create our event listener
-	*
-	* @access protected
 	*/
 	protected function set_listener()
 	{
-		$this->listener = new \phpbb\autogroups\event\listener(
-			new \phpbb\autogroups\tests\mock\manager()
-		);
+		$manager = $this->getMockBuilder('\phpbb\autogroups\conditions\manager')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->listener = new \phpbb\autogroups\event\listener($manager);
 	}
 
 	/**
 	* Test the event listener is constructed correctly
-	*
-	* @access public
 	*/
 	public function test_construct()
 	{
@@ -43,15 +41,16 @@ class event_listener_test extends \phpbb_test_case
 
 	/**
 	* Test the event listener is subscribing events
-	*
-	* @access public
 	*/
 	public function test_getSubscribedEvents()
 	{
 		$this->assertEquals(array(
+			'core.delete_group_after',
 			'core.user_setup',
 			'core.submit_post_end',
 			'core.delete_posts_after',
+			'core.mcp_warn_post_after',
+			'core.mcp_warn_user_after',
 		), array_keys(\phpbb\autogroups\event\listener::getSubscribedEvents()));
 	}
 
@@ -59,7 +58,6 @@ class event_listener_test extends \phpbb_test_case
 	* Data set for test_load_language_on_setup
 	*
 	* @return array Array of test data
-	* @access public
 	*/
 	public function load_language_on_setup_data()
 	{
@@ -98,7 +96,6 @@ class event_listener_test extends \phpbb_test_case
 	* Test the load_language_on_setup event
 	*
 	* @dataProvider load_language_on_setup_data
-	* @access public
 	*/
 	public function test_load_language_on_setup($lang_set_ext, $expected_contains)
 	{

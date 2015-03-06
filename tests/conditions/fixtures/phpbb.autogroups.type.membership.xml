@@ -12,7 +12,7 @@
 			<value>1</value>
 			<value>1</value>
 			<value>10</value>
-			<value>20</value>
+			<value>50</value>
 			<value>2</value>
 			<value>1</value>
 			<value>0</value>
@@ -20,18 +20,27 @@
 		<row>
 			<value>2</value>
 			<value>1</value>
+			<value>50</value>
 			<value>100</value>
-			<value>200</value>
 			<value>3</value>
-			<value>1</value>
+			<value>0</value>
 			<value>0</value>
 		</row>
 		<row>
 			<value>3</value>
+			<value>1</value>
+			<value>0</value>
+			<value>3</value>
+			<value>4</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>4</value>
 			<value>1</value>
 			<value>500</value>
 			<value>0</value>
-			<value>4</value>
+			<value>6</value>
 			<value>0</value>
 			<value>0</value>
 		</row>
@@ -41,7 +50,7 @@
 		<column>autogroups_type_name</column>
 		<row>
 			<value>1</value>
-			<value>phpbb.autogroups.type.posts</value>
+			<value>phpbb.autogroups.type.membership</value>
 		</row>
 	</table>
 	<table name="phpbb_user_group">
@@ -79,6 +88,7 @@
 		<column>group_id</column>
 		<column>username</column>
 		<column>username_clean</column>
+		<column>user_regdate</column>
 		<column>user_permissions</column>
 		<column>user_sig</column>
 		<row>
@@ -86,6 +96,7 @@
 			<value>1</value>
 			<value>user 1</value>
 			<value>user 1</value>
+			<value>1419572010</value>
 			<value></value>
 			<value></value>
 		</row>
@@ -94,6 +105,7 @@
 			<value>2</value>
 			<value>user 2</value>
 			<value>user 2</value>
+			<value>1419572010</value>
 			<value></value>
 			<value></value>
 		</row>
@@ -131,6 +143,12 @@
 			<value>5</value>
 			<value>4</value>
 			<value>ADMINISTRATORS</value>
+			<value></value>
+		</row>
+		<row>
+			<value>6</value>
+			<value>4</value>
+			<value>OTHER</value>
 			<value></value>
 		</row>
 	</table>

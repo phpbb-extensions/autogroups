@@ -12,11 +12,27 @@ namespace phpbb\autogroups\tests\conditions;
 
 /**
  * Run tests on the type base class.
- * Because it is abstracted we will base these tests from the posts class.
  */
 class base_test extends base
 {
 	protected $condition_type = 'phpbb.autogroups.type.posts';
+
+	/**
+	 * Because it is abstracted we will base these tests from the posts class.
+	 * @return \phpbb\autogroups\conditions\type\posts
+	 */
+	public function get_condition()
+	{
+		return new \phpbb\autogroups\conditions\type\posts(
+			$this->phpbb_container,
+			$this->db,
+			$this->user,
+			'phpbb_autogroups_rules',
+			'phpbb_autogroups_types',
+			$this->root_path,
+			$this->php_ext
+		);
+	}
 
 	/**
 	 * Data for test_get_group_rules
@@ -35,6 +51,7 @@ class base_test extends base
 						'autogroups_group_id'	=> 2,
 						'autogroups_default'	=> 1,
 						'autogroups_notify'		=> 0,
+						'autogroups_type_name'	=> 'phpbb.autogroups.type.posts',
 					),
 					array(
 						'autogroups_id' 		=> 2,
@@ -44,6 +61,7 @@ class base_test extends base
 						'autogroups_group_id'	=> 3,
 						'autogroups_default'	=> 1,
 						'autogroups_notify'		=> 0,
+						'autogroups_type_name'	=> 'phpbb.autogroups.type.posts',
 					),
 					array(
 						'autogroups_id' 		=> 3,
@@ -53,6 +71,7 @@ class base_test extends base
 						'autogroups_group_id'	=> 4,
 						'autogroups_default'	=> 0,
 						'autogroups_notify'		=> 0,
+						'autogroups_type_name'	=> 'phpbb.autogroups.type.posts',
 					),
 				),
 			),
@@ -70,107 +89,6 @@ class base_test extends base
 		$condition = $this->get_condition();
 
 		$result = $condition->get_group_rules($type);
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * Data for test_get_default_exempt_users
-	 */
-	public function get_default_exempt_users_test_data()
-	{
-		return array(
-			array(
-				array(),
-				array(),
-			),
-			array(
-				array(1),
-				array(1, 2),
-			),
-			array(
-				array(2),
-				array(2),
-			),
-			array(
-				array(3),
-				array(),
-			),
-			array(
-				array(1, 2, 3),
-				array(1, 2),
-			),
-		);
-	}
-
-	/**
-	 * Test the get_default_exempt_users method
-	 *
-	 * @dataProvider get_default_exempt_users_test_data
-	 */
-	public function test_get_default_exempt_users($groups, $expected)
-	{
-		$this->config['autogroups_default_exempt'] = serialize($groups);
-
-		$condition = $this->get_condition();
-
-		// Get the user's groups
-		$result = $condition->get_default_exempt_users();
-
-		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
-	 * Data for test_get_users_groups
-	 */
-	public function get_users_groups_test_data()
-	{
-		return array(
-			array(
-				1,
-				array(
-					1 => array(1, 5),
-				),
-			),
-			array(
-				2,
-				array(
-					2 => array(1, 2),
-				),
-			),
-			array(
-				array(1, 2),
-				array(
-					1 => array(1, 5),
-					2 => array(1, 2),
-				),
-			),
-			array(
-				array(),
-				array(),
-			),
-		);
-	}
-
-	/**
-	 * Test the get_users_groups method
-	 *
-	 * @dataProvider get_users_groups_test_data
-	 */
-	public function test_get_users_groups($user_id, $expected)
-	{
-		// Instantiate the condition
-		$condition = $this->get_condition();
-
-		if (!is_array($user_id))
-		{
-			$user_id = array($user_id);
-		}
-
-		// Get the user's groups
-		$result = $condition->get_users_groups($user_id);
-
-		// Assert the user's groups are as expected
 		$this->assertEquals($expected, $result);
 	}
 
@@ -245,7 +163,7 @@ class base_test extends base
 		$condition->add_users_to_group($user_id_ary, $group_rule_data);
 
 		// Get the user's groups
-		$user_groups = $condition->get_users_groups($user_id_ary);
+		$user_groups = $this->helper->get_users_groups($user_id_ary);
 
 		// Assert the user's groups are as expected
 		$this->assertEquals($expected, $user_groups);
@@ -310,7 +228,7 @@ class base_test extends base
 		$condition->remove_users_from_group($user_id_ary, $group_rule_data);
 
 		// Get the user's groups
-		$user_groups = $condition->get_users_groups($user_id_ary);
+		$user_groups = $this->helper->get_users_groups($user_id_ary);
 
 		// Assert the user's groups are as expected
 		$this->assertEquals($expected, $user_groups);
