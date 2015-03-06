@@ -115,7 +115,7 @@ class membership extends \phpbb\autogroups\conditions\type\base
 		// If we have user id data, return a sql_in_set of user_ids
 		if (!empty($options['users']))
 		{
-			return $this->db->sql_in_set('u.user_id', $this->prepare_users_for_query($options['users']));
+			return $this->db->sql_in_set('u.user_id', $this->helper->prepare_users_for_query($options['users']));
 		}
 
 		$sql_where = $group_ids = array();

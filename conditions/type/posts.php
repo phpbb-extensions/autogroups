@@ -71,7 +71,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 		), $options);
 
 		// Prepare the user ids data for use in the query
-		$user_ids = $this->prepare_users_for_query($options['users']);
+		$user_ids = $this->helper->prepare_users_for_query($options['users']);
 
 		// Is this a sync action? If so, we want to get all users
 		// by setting the $negate arg to true in sql_in_set for 1=1

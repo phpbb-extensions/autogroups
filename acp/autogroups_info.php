@@ -12,7 +12,7 @@ namespace phpbb\autogroups\acp;
 
 class autogroups_info
 {
-	function module()
+	public function module()
 	{
 		return array(
 			'filename'	=> '\phpbb\autogroups\acp\autogroups_module',
