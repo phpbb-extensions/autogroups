@@ -39,7 +39,15 @@ class base extends \phpbb_database_test_case
 
 	public function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/' . $this->condition_type . '.xml');
+		// Aggregate multiple fixtures into a single dataset
+		$ds1 = $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/' . $this->condition_type . '.xml');
+		$ds2 = $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/users.xml');
+
+		$compositeDs = new \PHPUnit_Extensions_Database_DataSet_CompositeDataSet();
+		$compositeDs->addDataSet($ds1);
+		$compositeDs->addDataSet($ds2);
+
+		return $compositeDs;
 	}
 
 	public function setUp()
