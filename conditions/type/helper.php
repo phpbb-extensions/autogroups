@@ -94,7 +94,7 @@ class helper
 		);
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
-		$result = $this->db->sql_query($sql, 7200);
+		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$user_id_ary[] = $row['user_id'];
