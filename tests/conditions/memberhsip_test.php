@@ -47,39 +47,21 @@ class membership_test extends type_test_case
 	{
 		return array(
 			array(
-				array(
-					1 => 15, // user 1 has 15 days
-				),
-				array(
-					1 => array(1, 2, 5), // user 1 added to group 2
-				),
-				array(
-					1 => 2, // default
-				),
+				array(1 => 15), // user 1 has 15 days
+				array(1 => array(1, 2, 5)), // user 1 added to group 2
+				array(1 => 2), // default
 				array(),
 			),
 			array(
-				array(
-					1 => 150, // user 1 has 150 days
-				),
-				array(
-					1 => array(1, 5), // user 1 added to no new groups
-				),
-				array(
-					1 => 1, // default
-				),
+				array(1 => 150), // user 1 has 150 days
+				array(1 => array(1, 5)), // user 1 added to no new groups
+				array(1 => 1), // default
 				array(),
 			),
 			array(
-				array(
-					3 => 20, // user 3 has 20 days
-				),
-				array(
-					3 => array(2, 5), // user 3 added to group 2
-				),
-				array(
-					3 => 5, // default remains on group 5
-				),
+				array(3 => 20), // user 3 has 20 days
+				array(3 => array(2, 5)), // user 3 added to group 2
+				array(3 => 5), // default remains on group 5
 				array(),
 			),
 			array(
