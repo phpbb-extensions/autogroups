@@ -30,7 +30,6 @@ class base extends \phpbb_database_test_case
 
 	protected $condition;
 	protected $condition_type;
-	protected $config;
 	protected $db;
 	protected $helper;
 	protected $phpbb_container;
@@ -50,7 +49,6 @@ class base extends \phpbb_database_test_case
 		global $auth, $db, $user, $phpbb_container, $phpbb_dispatcher, $phpbb_log, $phpbb_root_path, $phpEx;
 
 		$this->db = $this->new_dbal();
-		$this->config = new \phpbb\config\config(array());
 		$this->user = new \phpbb\user('\phpbb\datetime');
 
 		$db = $this->db;
@@ -74,7 +72,6 @@ class base extends \phpbb_database_test_case
 		$this->php_ext = $phpEx;
 
 		$this->helper = new \phpbb\autogroups\conditions\type\helper(
-			$this->config,
 			$this->db,
 			$notification_manager,
 			$this->root_path,

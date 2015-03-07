@@ -26,7 +26,6 @@ services:
     phpbb.autogroups.helper:
         class: phpbb\autogroups\conditions\type\helper
         arguments:
-            - @config
             - @dbal.conn
             - @notification_manager
             - %core.root_path%

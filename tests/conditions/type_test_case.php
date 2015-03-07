@@ -88,35 +88,6 @@ abstract class type_test_case extends base
 	}
 
 	/**
-	 * Test the check method with default group exemptions
-	 *
-	 * @dataProvider check_group_exemptions_data
-	 */
-	public function test_check_group_exemptions($user_id, $post_count, $default_exempt_group)
-	{
-		// Default group exemption (do not change default away from this group id)
-		$this->config['autogroups_default_exempt'] = serialize(array($default_exempt_group));
-
-		// Update the user post count
-		$this->helper_update_user_data($user_id, $post_count);
-
-		// Instantiate the condition
-		$condition = $this->get_condition();
-
-		// Check the user and perform auto group
-		$check_users = $condition->get_users_for_condition(array(
-			'users' => $user_id,
-		));
-		$condition->check($check_users);
-
-		// Get the users group data
-		$group_data = $this->helper_default_groups($user_id);
-
-		// Assert the user's default group id is as expected
-		$this->assertEquals($default_exempt_group, $group_data[$user_id]);
-	}
-
-	/**
 	 * Get the default groups for users
 	 *
 	 * @param array $user_ids

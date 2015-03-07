@@ -201,22 +201,6 @@ class posts_test extends type_test_case
 	}
 
 	/**
-	 * Data for test_check_group_exemptions
-	 *
-	 * @return Array of test data
-	 */
-	public function check_group_exemptions_data()
-	{
-		return array(
-			array(
-				1, // user id
-				10, // posts (would make group 2 the new default)
-				1, // default exempt group
-			),
-		);
-	}
-
-	/**
 	 * Update the database with new post count values for a user
 	 *
 	 * @param int $user_id
