@@ -185,7 +185,7 @@ class admin_controller implements admin_interface
 	/**
 	* {@inheritdoc}
 	*/
-	public function submit_autogroups_settings()
+	public function submit_autogroups_options()
 	{
 		// Get data from the form
 		$autogroups_default_exempt = $this->request->variable('group_ids', array(0));
