@@ -69,6 +69,15 @@ class helper_test extends base
 	}
 
 	/**
+	 * Test the get_default_exempt_users method
+	 * In our tables, only user 3 is in a default exempt group
+	 */
+	public function test_get_default_exempt_users()
+	{
+		$this->assertEquals(array(3), $this->helper->get_default_exempt_users());
+	}
+
+	/**
 	 * Data for test_prepare_users_for_query
 	 */
 	public function prepare_users_for_query_test_data()

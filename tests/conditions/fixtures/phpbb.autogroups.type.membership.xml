@@ -82,6 +82,12 @@
 			<value>0</value>
 			<value>0</value>
 		</row>
+		<row>
+			<value>3</value>
+			<value>5</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
 	</table>
 	<table name="phpbb_users">
 		<column>user_id</column>
@@ -105,6 +111,15 @@
 			<value>2</value>
 			<value>user 2</value>
 			<value>user 2</value>
+			<value>1419572010</value>
+			<value></value>
+			<value></value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>5</value>
+			<value>user 3</value>
+			<value>user 3</value>
 			<value>1419572010</value>
 			<value></value>
 			<value></value>

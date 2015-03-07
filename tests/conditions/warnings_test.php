@@ -39,6 +39,7 @@ class warnings_test extends type_test_case
 	 *
 	 * User 1 is already a member of groups 1 and 5 (1 is default)
 	 * User 2 is already a member of groups 1 and 2 (2 is default)
+	 * User 3 is already a member of group 5 (5 is default)
 	 *
 	 * @return Array of test data
 	 */
@@ -66,6 +67,18 @@ class warnings_test extends type_test_case
 				),
 				array(
 					2 => 2, // default
+				),
+				array(),
+			),
+			array(
+				array(
+					3 => 2, // user 3 has 2 warnings
+				),
+				array(
+					3 => array(2, 5), // user 3 added to group 2
+				),
+				array(
+					3 => 5, // default remains on group 5
 				),
 				array(),
 			),
