@@ -49,3 +49,17 @@ services:
             - %core.php_ext%
         tags:
             - { name: phpbb.autogroups.type }
+
+    phpbb.autogroups.type.birthdays:
+        class: phpbb\autogroups\conditions\type\birthdays
+        scope: prototype
+        arguments:
+            - @service_container
+            - @dbal.conn
+            - @user
+            - %phpbb.autogroups.tables.autogroups_rules%
+            - %phpbb.autogroups.tables.autogroups_types%
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: phpbb.autogroups.type }

@@ -68,7 +68,8 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_INVALID_GROUPS'	=> 'An error occurred. A valid user group was not selected.<br />Auto Groups can only be used with user defined groups, which can be created on the Manage groups page.',
 
 	// Conditions
-	'AUTOGROUPS_TYPE_POSTS'			=> 'Posts',
+	'AUTOGROUPS_TYPE_BIRTHDAYS'		=> 'User age',
 	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> 'Membership Days',
+	'AUTOGROUPS_TYPE_POSTS'			=> 'Posts',
 	'AUTOGROUPS_TYPE_WARNINGS'		=> 'Warnings',
 ));
