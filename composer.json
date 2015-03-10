@@ -1,7 +1,7 @@
 {
 	"name": "phpbb/autogroups",
 	"type": "phpbb-extension",
-	"description": "An extension that allows users to be automatically added to special groups upon reaching specified goals.",
+	"description": "An extension that allows admins to configure the automatic addition and/or removal of users from user-defined groups upon reaching specified milestones related to post count, membership time, warnings count and user age.",
 	"homepage": "https://www.phpbb.com",
 	"version": "1.0.0-dev",
 	"keywords": ["phpbb", "extension", "auto", "groups"],
@@ -15,8 +15,8 @@
 		},
 		{
 			"name": "Michael Cullum",
-			"homepage": "http://michaelcullum.com",
 			"email": "michael@phpbb.com",
+			"homepage": "http://michaelcullum.com",
 			"role": "Extensions Team Consultant"
 		},
 		{
@@ -30,14 +30,19 @@
 			"role": "Former Extensions Development Team Lead"
 		},
 		{
-			"name": "Lukasz Kaczynski",
+			"name": "Clemens Husung",
+			"email": "wolfsblvt@pinkes-forum.de",
 			"role": "Extensions Development Team"
+		},
+		{
+			"name": "Lukasz Kaczynski",
+			"role": "Former Extensions Development Team Member"
 		},
 		{
 			"name": "John Peskens",
 			"email": "info@forumhulp.com",
 			"homepage": "http://forumhulp.com",
-			"role": "Extensions Development Team"
+			"role": "Former Extensions Development Team Member"
 		},
 		{
 			"name": "Ruslan Uzdenov",
