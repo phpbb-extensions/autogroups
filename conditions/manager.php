@@ -87,10 +87,13 @@ class manager
 	 */
 	public function check_condition($type_name, $options = array())
 	{
+		// Get an instance of the condition type to check
 		$condition = $this->phpbb_container->get($type_name);
 
+		// Get the user id array of users to check
 		$check_users = $condition->get_users_for_condition($options);
 
+		// Check the users and auto group them
 		$condition->check($check_users, $options);
 	}
 
@@ -104,10 +107,12 @@ class manager
 	 */
 	public function add_autogroups_type($autogroups_type_name)
 	{
+		// Insert the type name into the database
 		$sql = 'INSERT INTO ' . $this->autogroups_types_table . '
 			' . $this->db->sql_build_array('INSERT', array('autogroups_type_name' => $this->db->sql_escape($autogroups_type_name)));
 		$this->db->sql_query($sql);
 
+		// Return the id of the newly inserted condition type
 		return (int) $this->db->sql_nextid();
 	}
 
@@ -125,16 +130,20 @@ class manager
 	{
 		try
 		{
+			// Get the id of the condition
 			$condtion_type_id = $this->get_autogroup_type_id($autogroups_type_name);
 
+			// Delete any rules associated with the condition id
 			$sql = 'DELETE FROM ' . $this->autogroups_rules_table . '
 				WHERE autogroups_type_id = ' . (int) $condtion_type_id;
 			$this->db->sql_query($sql);
 
+			// Delete any types associated with the condition id
 			$sql = 'DELETE FROM ' . $this->autogroups_types_table . '
 				WHERE autogroups_type_id = ' . (int) $condtion_type_id;
 			$this->db->sql_query($sql);
 
+			// Clear any cached autogroup data
 			$this->cache->destroy('autogroups_type_ids');
 		}
 		catch (\RuntimeException $e)
@@ -152,10 +161,12 @@ class manager
 	 */
 	public function purge_autogroups_group($group_id)
 	{
+		// Delete any rules associated with the group id
 		$sql = 'DELETE FROM ' . $this->autogroups_rules_table . '
 			WHERE autogroups_group_id = ' . (int) $group_id;
 		$this->db->sql_query($sql);
 
+		// Clear any cached autogroup data
 		$this->cache->destroy('autogroups_type_ids');
 	}
 
@@ -189,7 +200,7 @@ class manager
 			$this->cache->put('autogroups_type_ids', $autogroups_type_ids);
 		}
 
-		// Add auto group type name to db if it exists as service but not in db, cache result
+		// Add auto group type name to db if it exists as service but is not in db, cache result
 		if (!isset($autogroups_type_ids[$autogroups_type_name]))
 		{
 			if (!isset($this->autogroups_types[$autogroups_type_name]))

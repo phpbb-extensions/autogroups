@@ -79,6 +79,7 @@ class helper
 	{
 		$user_id_ary = array();
 
+		// Get users whose default group is autogroup_default_exempt
 		$sql_array = array(
 			'SELECT'	=> 'u.user_id',
 			'FROM'		=> array(
