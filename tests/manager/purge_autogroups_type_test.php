@@ -41,15 +41,15 @@ class purge_autogroups_type_test extends base_manager
 		$this->db->sql_freeresult($result);
 
 		// Check that there are types and rules
-		$this->assertNotEmpty($this->count_types($type_name));
-		$this->assertNotEmpty($this->count_rules($type_id));
+		$this->assertGreaterThan(0, $this->count_types($type_name));
+		$this->assertGreaterThan(0, $this->count_rules($type_id));
 
 		// Purge auto group data
 		$this->manager->purge_autogroups_type($type_name);
 
 		// Check that there are no more types or rules
-		$this->assertEmpty($this->count_types($type_name));
-		$this->assertEmpty($this->count_rules($type_id));
+		$this->assertEquals(0, $this->count_types($type_name));
+		$this->assertEquals(0, $this->count_rules($type_id));
 	}
 
 	/**
@@ -64,7 +64,7 @@ class purge_autogroups_type_test extends base_manager
 			FROM phpbb_autogroups_rules
 			WHERE autogroups_type_id = ' . (int) $type_id;
 		$result = $this->db->sql_query($sql);
-		$rules = (int) $this->db->sql_fetchfield('rules');
+		$rules = $this->db->sql_fetchfield('rules');
 		$this->db->sql_freeresult($result);
 
 		return (int) $rules;
@@ -82,7 +82,7 @@ class purge_autogroups_type_test extends base_manager
 			FROM phpbb_autogroups_types
 			WHERE autogroups_type_name = '" . $this->db->sql_escape($type_name) . "'";
 		$result = $this->db->sql_query($sql);
-		$types = (int) $this->db->sql_fetchfield('types');
+		$types = $this->db->sql_fetchfield('types');
 		$this->db->sql_freeresult($result);
 
 		return (int) $types;
