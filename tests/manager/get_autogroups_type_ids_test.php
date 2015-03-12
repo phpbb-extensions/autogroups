@@ -10,13 +10,13 @@
 
 namespace phpbb\autogroups\tests\manager;
 
-class get_autogroup_type_ids_test extends base_manager
+class get_autogroups_type_ids_test extends base_manager
 {
 	/**
-	 * Test the get_autogroup_type_ids method
+	 * Test the get_autogroups_type_ids method
 	 * Should load all available service types and their identifiers
 	 */
-	public function test_get_autogroup_type_ids()
+	public function test_get_autogroups_type_ids()
 	{
 		$expected = array(
 			'phpbb.autogroups.type.sample1' => 1,
@@ -24,6 +24,6 @@ class get_autogroup_type_ids_test extends base_manager
 			'phpbb.autogroups.type.sample3' => 3,
 		);
 
-		$this->assertSame($expected, $this->manager->get_autogroup_type_ids());
+		$this->assertSame($expected, $this->manager->get_autogroups_type_ids());
 	}
 }

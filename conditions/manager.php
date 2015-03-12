@@ -131,7 +131,7 @@ class manager
 		try
 		{
 			// Get the id of the condition
-			$condtion_type_id = $this->get_autogroup_type_id($autogroups_type_name);
+			$condtion_type_id = $this->get_autogroups_type_id($autogroups_type_name);
 
 			// Delete any rules associated with the condition id
 			$sql = 'DELETE FROM ' . $this->autogroups_rules_table . '
@@ -143,7 +143,7 @@ class manager
 				WHERE autogroups_type_id = ' . (int) $condtion_type_id;
 			$this->db->sql_query($sql);
 
-			// Clear any cached autogroup data
+			// Clear any cached autogroups data
 			$this->cache->destroy('autogroups_type_ids');
 		}
 		catch (\RuntimeException $e)
@@ -166,7 +166,7 @@ class manager
 			WHERE autogroups_group_id = ' . (int) $group_id;
 		$this->db->sql_query($sql);
 
-		// Clear any cached autogroup data
+		// Clear any cached autogroups data
 		$this->cache->destroy('autogroups_type_ids');
 	}
 
@@ -178,7 +178,7 @@ class manager
 	 * @return int The condition_type_id
 	 * @throws \RuntimeException
 	 */
-	public function get_autogroup_type_id($autogroups_type_name)
+	public function get_autogroups_type_id($autogroups_type_name)
 	{
 		// Get cached auto groups ids if they exist
 		$autogroups_type_ids = $this->cache->get('autogroups_type_ids');
@@ -222,13 +222,13 @@ class manager
 	 * @return array Array of condition type ids
 	 * @access public
 	 */
-	public function get_autogroup_type_ids()
+	public function get_autogroups_type_ids()
 	{
 		$autogroups_type_ids = array();
 
 		foreach ($this->autogroups_types as $type_name => $data)
 		{
-			$autogroups_type_ids[$type_name] = $this->get_autogroup_type_id($type_name);
+			$autogroups_type_ids[$type_name] = $this->get_autogroups_type_id($type_name);
 		}
 
 		return $autogroups_type_ids;
@@ -243,7 +243,7 @@ class manager
 	 * @return string|bool The condition type name, false on error
 	 * @access public
 	 */
-	public function get_autogroup_type_name($type_id = 0, $rule_id = 0)
+	public function get_autogroups_type_name($type_id = 0, $rule_id = 0)
 	{
 		$sql_array = array(
 			'SELECT'	=> 'agt.autogroups_type_name',
@@ -273,10 +273,10 @@ class manager
 
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql);
-		$autogroup_type_name = $this->db->sql_fetchfield('autogroups_type_name');
+		$autogroups_type_name = $this->db->sql_fetchfield('autogroups_type_name');
 		$this->db->sql_freeresult($result);
 
-		return $autogroup_type_name;
+		return $autogroups_type_name;
 	}
 
 	/**
@@ -316,12 +316,12 @@ class manager
 		$this->cache->destroy('sql', $this->autogroups_rules_table);
 
 		// Get the auto group type name used by the specified auto group rule
-		$autogroup_type_name = $this->get_autogroup_type_name(0, $autogroups_rule_id);
+		$autogroups_type_name = $this->get_autogroups_type_name(0, $autogroups_rule_id);
 
 		// If auto group type exists, run it
-		if ($autogroup_type_name !== false)
+		if ($autogroups_type_name !== false)
 		{
-			$this->check_condition($autogroup_type_name, array(
+			$this->check_condition($autogroups_type_name, array(
 				'action'	=> 'sync',
 			));
 		}

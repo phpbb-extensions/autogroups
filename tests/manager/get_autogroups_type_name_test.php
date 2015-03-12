@@ -10,14 +10,14 @@
 
 namespace phpbb\autogroups\tests\manager;
 
-class get_autogroup_type_name_test extends base_manager
+class get_autogroups_type_name_test extends base_manager
 {
 	/**
-	 * Data for test_get_autogroup_type_name
+	 * Data for test_get_autogroups_type_name
 	 *
 	 * @return array Array of test data
 	 */
-	public function get_autogroup_type_name_test_data()
+	public function get_autogroups_type_name_test_data()
 	{
 		return array(
 			array(1, 0, 'phpbb.autogroups.type.sample1'),
@@ -33,12 +33,12 @@ class get_autogroup_type_name_test extends base_manager
 	}
 
 	/**
-	 * Test the get_autogroup_type_name method
+	 * Test the get_autogroups_type_name method
 	 *
-	 * @dataProvider get_autogroup_type_name_test_data
+	 * @dataProvider get_autogroups_type_name_test_data
 	 */
-	public function test_get_autogroup_type_name($type_id, $rule_id, $expected)
+	public function test_get_autogroups_type_name($type_id, $rule_id, $expected)
 	{
-		$this->assertSame($expected, $this->manager->get_autogroup_type_name($type_id, $rule_id));
+		$this->assertSame($expected, $this->manager->get_autogroups_type_name($type_id, $rule_id));
 	}
 }

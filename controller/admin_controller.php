@@ -384,7 +384,7 @@ class admin_controller implements admin_interface
 	 */
 	protected function build_conditions_menu($selected)
 	{
-		$conditions = $this->manager->get_autogroup_type_ids();
+		$conditions = $this->manager->get_autogroups_type_ids();
 
 		foreach ($conditions as $condition_name => $condition_id)
 		{
