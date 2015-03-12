@@ -26,7 +26,6 @@ services:
     phpbb.autogroups.helper:
         class: phpbb\autogroups\conditions\type\helper
         arguments:
-            - @config
             - @dbal.conn
             - @notification_manager
             - %core.root_path%
@@ -35,7 +34,7 @@ services:
     phpbb.autogroups.admin_controller:
         class: phpbb\autogroups\controller\admin_controller
         arguments:
-            - @config
+            - @cache.driver
             - @dbal.conn
             - @log
             - @phpbb.autogroups.manager

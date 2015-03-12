@@ -15,9 +15,6 @@ namespace phpbb\autogroups\conditions\type;
  */
 class helper
 {
-	/** @var \phpbb\config\config */
-	protected $config;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
@@ -33,7 +30,6 @@ class helper
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\config\config              $config                 Config object
 	 * @param \phpbb\db\driver\driver_interface $db                     Database object
 	 * @param \phpbb\notification\manager       $notification_manager   Notification manager
 	 * @param string                            $phpbb_root_path        phpBB root path
@@ -41,9 +37,8 @@ class helper
 	 *
 	 * @access public
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\notification\manager $notification_manager, $phpbb_root_path, $php_ext)
+	public function __construct(\phpbb\db\driver\driver_interface $db, \phpbb\notification\manager $notification_manager, $phpbb_root_path, $php_ext)
 	{
-		$this->config = $config;
 		$this->db = $db;
 		$this->notification_manager = $notification_manager;
 		$this->phpbb_root_path = $phpbb_root_path;
@@ -84,25 +79,29 @@ class helper
 	{
 		$user_id_ary = array();
 
-		// Get default exempt groups from db
-		$group_id_ary = unserialize(trim($this->config['autogroups_default_exempt']));
+		$sql_array = array(
+			'SELECT'	=> 'u.user_id',
+			'FROM'		=> array(
+				USERS_TABLE	=> 'u',
+			),
+			'LEFT_JOIN'	=> array(
+				array(
+					'FROM'	=> array(GROUPS_TABLE => 'g'),
+					'ON'	=> 'g.group_id = u.group_id',
+				),
+			),
+			'WHERE'		=> 'g.autogroup_default_exempt = 1',
+		);
 
-		if (empty($group_id_ary))
-		{
-			return $user_id_ary;
-		}
-
-		$sql = 'SELECT user_id
-			FROM ' . USER_GROUP_TABLE . '
-			WHERE ' . $this->db->sql_in_set('group_id', array_map('intval', $group_id_ary));
-		$result = $this->db->sql_query($sql, 7200);
+		$sql = $this->db->sql_build_query('SELECT', $sql_array);
+		$result = $this->db->sql_query($sql);
 		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$user_id_ary[] = $row['user_id'];
 		}
 		$this->db->sql_freeresult($result);
 
-		return array_unique($user_id_ary);
+		return $user_id_ary;
 	}
 
 	/**

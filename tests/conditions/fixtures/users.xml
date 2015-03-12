@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+	<table name="phpbb_user_group">
+		<column>user_id</column>
+		<column>group_id</column>
+		<column>group_leader</column>
+		<column>user_pending</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>1</value>
+			<value>5</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>2</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>5</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_users">
+		<column>user_id</column>
+		<column>group_id</column>
+		<column>username</column>
+		<column>username_clean</column>
+		<column>user_regdate</column>
+		<column>user_permissions</column>
+		<column>user_sig</column>
+		<column>user_birthday</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>user 1</value>
+			<value>user 1</value>
+			<value>1419572010</value>
+			<value></value>
+			<value></value>
+			<value></value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>2</value>
+			<value>user 2</value>
+			<value>user 2</value>
+			<value>1419572010</value>
+			<value></value>
+			<value></value>
+			<value></value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>5</value>
+			<value>user 3</value>
+			<value>user 3</value>
+			<value>1419572010</value>
+			<value></value>
+			<value></value>
+			<value></value>
+		</row>
+	</table>
+	<table name="phpbb_groups">
+		<column>group_id</column>
+		<column>group_type</column>
+		<column>group_name</column>
+		<column>group_desc</column>
+		<column>autogroup_default_exempt</column>
+		<row>
+			<value>1</value>
+			<value>3</value>
+			<value>REGISTERED</value>
+			<value></value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>4</value>
+			<value>FOO</value>
+			<value></value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>4</value>
+			<value>BAR</value>
+			<value></value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>4</value>
+			<value>4</value>
+			<value>GLOBAL_MODERATORS</value>
+			<value></value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>4</value>
+			<value>ADMINISTRATORS</value>
+			<value></value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>6</value>
+			<value>4</value>
+			<value>OTHER</value>
+			<value></value>
+			<value>0</value>
+		</row>
+	</table>
+</dataset>

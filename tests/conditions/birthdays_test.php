@@ -38,6 +38,7 @@ class birthdays_test extends type_test_case
 	 *
 	 * User 1 is already a member of groups 1 and 5 (1 is default)
 	 * User 2 is already a member of groups 1 and 2 (2 is default)
+	 * User 3 is already a member of group 5 (5 is default and exempt)
 	 *
 	 * @return Array of test data
 	 */
@@ -60,26 +61,16 @@ class birthdays_test extends type_test_case
 				array(),
 			),
 			array(
-				array(),
-				array(),
-				array(),
+				array(3 => 15),
+				array(3 => array(2, 5)), // user 3 added to group 2
+				array(3 => 5), // default remains on group 5
 				array(),
 			),
-		);
-	}
-
-	/**
-	 * Data for test_check_group_exemptions
-	 *
-	 * @return Array of test data
-	 */
-	public function check_group_exemptions_data()
-	{
-		return array(
 			array(
-				1, // user id
-				10, // Age 10 (would make group 2 the new default)
-				1, // default exempt group
+				array(),
+				array(),
+				array(),
+				array(),
 			),
 		);
 	}

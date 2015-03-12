@@ -44,7 +44,7 @@ class m3_config_data extends \phpbb\db\migration\migration
 	 * Get the group ids of Administrators and Global Moderators
 	 *
 	 * @return string Serialized string of group ids
-	 * @access public
+	 * @access protected
 	 */
 	protected function get_initial_groups()
 	{

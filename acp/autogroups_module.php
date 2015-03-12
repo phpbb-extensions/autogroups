@@ -40,7 +40,7 @@ class autogroups_module
 		// Quick-submit settings from the general options form
 		if ($request->is_set_post('generalsubmit'))
 		{
-			$admin_controller->submit_autogroups_settings();
+			$admin_controller->submit_autogroups_options();
 		}
 
 		// Perform any actions submitted by the user

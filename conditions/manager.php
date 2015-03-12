@@ -113,6 +113,8 @@ class manager
 
 	/**
 	 * Purge all conditions of a certain type
+	 * (Note: This method is not used directly by Auto Groups, but is
+	 * used in the purge step of extensions extending Auto Groups.)
 	 *
 	 * @param string $autogroups_type_name The name of the auto group type
 	 *
