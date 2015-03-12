@@ -71,7 +71,7 @@ class purge_autogroups_type_test extends base_manager
 	}
 
 	/**
-	 * Get a count of autogroups using type_name phpbb_autogroups_rules
+	 * Get count of autogroups using type_name in phpbb_autogroups_rules
 	 *
 	 * @param $type_name
 	 * @return int

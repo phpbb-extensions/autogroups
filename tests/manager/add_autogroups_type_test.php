@@ -21,8 +21,6 @@ class add_autogroups_type_test extends base_manager
 	{
 		// The database insertion does not persist between tests,
 		// so the expected ID of each insertion will always be 3.
-		// Type names come from the service definitions, so
-		// should always have content and be unique.
 		return array(
 			array('phpbb.autogroups.type.sample3', 3),
 			array('phpbb.autogroups.type.sample4', 3),

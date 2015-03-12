@@ -37,7 +37,7 @@ class get_autogroup_type_id_test extends base_manager
 	}
 
 	/**
-	 * Data for test_get_autogroup_type_id_from_db
+	 * Data for test_get_autogroup_type_id_from_service
 	 *
 	 * @return array Array of test data
 	 */
@@ -51,7 +51,7 @@ class get_autogroup_type_id_test extends base_manager
 	/**
 	 * Test the get_autogroup_type_id method
 	 * with types that exist as a service but are missing
-	 * from the database, and get added to the database.
+	 * from the database, and are added to the database.
 	 *
 	 * @dataProvider get_autogroup_type_id_from_service_test_data
 	 */
@@ -77,7 +77,7 @@ class get_autogroup_type_id_test extends base_manager
 	}
 
 	/**
-	 * Test setting invalid data on the title which should throw an exception
+	 * Test getting invalid type_names which should throw an exception
 	 *
 	 * @dataProvider get_autogroup_type_id_fails_test_data
 	 * @expectedException \RuntimeException
