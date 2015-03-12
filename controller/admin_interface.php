@@ -11,61 +11,61 @@
 namespace phpbb\autogroups\controller;
 
 /**
-* Interface for our admin controller
-*
-* This describes all of the methods we'll use for the admin front-end of this extension
-*/
+ * Interface for our admin controller
+ *
+ * This describes all of the methods we'll use for the admin front-end of this extension
+ */
 interface admin_interface
 {
 	/**
-	* Display the auto group rules
-	*
-	* @return null
-	* @access public
-	*/
+	 * Display the auto group rules
+	 *
+	 * @return null
+	 * @access public
+	 */
 	public function display_autogroups();
 
 	/**
-	* Save an Auto Group rule
-	*
-	* @param int $autogroups_id The auto groups identifier to edit
-	* @return null
-	* @access public
-	*/
+	 * Save an Auto Group rule
+	 *
+	 * @param int $autogroups_id The auto groups identifier to edit
+	 * @return null
+	 * @access public
+	 */
 	public function save_autogroup_rule($autogroups_id);
 
 	/**
-	* Delete the auto group rule
-	*
-	* @param int $autogroups_id The auto groups identifier to delete
-	* @return null
-	* @access public
-	*/
+	 * Delete the auto group rule
+	 *
+	 * @param int $autogroups_id The auto groups identifier to delete
+	 * @return null
+	 * @access public
+	 */
 	public function delete_autogroup_rule($autogroups_id);
 
 	/**
-	* Sync an auto group by running it's check against all users
-	*
-	* @param int $autogroups_id The auto groups identifier to delete
-	* @return null
-	* @access public
-	*/
+	 * Sync an auto group by running it's check against all users
+	 *
+	 * @param int $autogroups_id The auto groups identifier to delete
+	 * @return null
+	 * @access public
+	 */
 	public function resync_autogroup_rule($autogroups_id);
 
 	/**
-	* Set form data from the ACP general options section
+	 * Set form data from the ACP general options section
 	 *
-	* @return null
-	* @access public
-	*/
+	 * @return null
+	 * @access public
+	 */
 	public function submit_autogroups_options();
 
 	/**
-	* Set page url
-	*
-	* @param string $u_action Custom form action
-	* @return null
-	* @access public
-	*/
+	 * Set page url
+	 *
+	 * @param string $u_action Custom form action
+	 * @return null
+	 * @access public
+	 */
 	public function set_page_url($u_action);
 }

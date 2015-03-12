@@ -269,13 +269,13 @@ class manager
 	}
 
 	/**
-	* Get the condition language var from the condition file
-	*
-	* @param string     $autogroups_type_name      The name of the auto group type
-	*
-	* @return string The condition type name
-	* @access public
-	*/
+	 * Get the condition language var from the condition type class
+	 *
+	 * @param string     $autogroups_type_name      The name of the auto group type
+	 *
+	 * @return string The condition type name
+	 * @access public
+	 */
 	public function get_condition_lang($autogroups_type_name)
 	{
 		try
@@ -291,14 +291,14 @@ class manager
 	}
 
 	/**
-	* Run auto groups check against users for a given condition/type
-	* Called in the ACP when adding/editing or via the Resync button
-	*
-	* @param int     $autogroups_rule_id      The id of the auto group rule
-	*
-	* @return null
-	* @access public
-	*/
+	 * Run auto groups check against users for a given condition/type
+	 * Called in the ACP when adding/editing or via the Resync button
+	 *
+	 * @param int     $autogroups_rule_id      The id of the auto group rule
+	 *
+	 * @return null
+	 * @access public
+	 */
 	public function sync_autogroups($autogroups_rule_id)
 	{
 		// Purge cached rules table queries
