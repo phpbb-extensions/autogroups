@@ -18,7 +18,10 @@ class autogroups_info
 			'filename'	=> '\phpbb\autogroups\acp\autogroups_module',
 			'title'		=> 'ACP_AUTOGROUPS_MANAGE',
 			'modes'		=> array(
-				'manage'	=> array('title' => 'ACP_AUTOGROUPS_MANAGE', 'auth' => 'ext_phpbb/autogroups && acl_a_group', 'cat' => array('ACP_GROUPS')),
+				'manage'	=> array(
+					'title'	=> 'ACP_AUTOGROUPS_MANAGE',
+					'auth'	=> 'ext_phpbb/autogroups && acl_a_group',
+					'cat'	=> array('ACP_GROUPS')),
 			),
 		);
 	}
