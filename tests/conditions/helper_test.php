@@ -18,51 +18,6 @@ class helper_test extends base
 	protected $condition_type = 'phpbb.autogroups.type.posts';
 
 	/**
-	 * Data for test_get_default_exempt_users
-	 */
-	public function get_default_exempt_users_test_data()
-	{
-		return array(
-			array(
-				array(),
-				array(),
-			),
-			array(
-				array(1),
-				array(1, 2),
-			),
-			array(
-				array(2),
-				array(2),
-			),
-			array(
-				array(3),
-				array(),
-			),
-			array(
-				array(1, 2, 3),
-				array(1, 2),
-			),
-		);
-	}
-
-	/**
-	 * Test the get_default_exempt_users method
-	 *
-	 * @dataProvider get_default_exempt_users_test_data
-	 */
-	public function test_get_default_exempt_users($groups, $expected)
-	{
-		$this->config['autogroups_default_exempt'] = serialize($groups);
-
-		// Get the user's groups
-		$result = $this->helper->get_default_exempt_users();
-
-		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $result);
-	}
-
-	/**
 	 * Data for test_get_users_groups
 	 */
 	public function get_users_groups_test_data()
@@ -111,6 +66,15 @@ class helper_test extends base
 
 		// Assert the user's groups are as expected
 		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * Test the get_default_exempt_users method
+	 * In our tables, only user 3 is in a default exempt group
+	 */
+	public function test_get_default_exempt_users()
+	{
+		$this->assertEquals(array(3), $this->helper->get_default_exempt_users());
 	}
 
 	/**

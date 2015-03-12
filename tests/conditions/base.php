@@ -30,7 +30,6 @@ class base extends \phpbb_database_test_case
 
 	protected $condition;
 	protected $condition_type;
-	protected $config;
 	protected $db;
 	protected $helper;
 	protected $phpbb_container;
@@ -40,7 +39,15 @@ class base extends \phpbb_database_test_case
 
 	public function getDataSet()
 	{
-		return $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/' . $this->condition_type . '.xml');
+		// Aggregate multiple fixtures into a single dataset
+		$ds1 = $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/' . $this->condition_type . '.xml');
+		$ds2 = $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/users.xml');
+
+		$compositeDs = new \PHPUnit_Extensions_Database_DataSet_CompositeDataSet();
+		$compositeDs->addDataSet($ds1);
+		$compositeDs->addDataSet($ds2);
+
+		return $compositeDs;
 	}
 
 	public function setUp()
@@ -50,7 +57,6 @@ class base extends \phpbb_database_test_case
 		global $auth, $db, $user, $phpbb_container, $phpbb_dispatcher, $phpbb_log, $phpbb_root_path, $phpEx;
 
 		$this->db = $this->new_dbal();
-		$this->config = new \phpbb\config\config(array());
 		$this->user = new \phpbb\user('\phpbb\datetime');
 
 		$db = $this->db;
@@ -74,7 +80,6 @@ class base extends \phpbb_database_test_case
 		$this->php_ext = $phpEx;
 
 		$this->helper = new \phpbb\autogroups\conditions\type\helper(
-			$this->config,
 			$this->db,
 			$notification_manager,
 			$this->root_path,

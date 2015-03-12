@@ -38,6 +38,7 @@ class posts_test extends type_test_case
 	 *
 	 * User 1 is already a member of groups 1 and 5 (1 is default)
 	 * User 2 is already a member of groups 1 and 2 (2 is default)
+	 * User 3 is already a member of group 5 (5 is default)
 	 *
 	 * @return Array of test data
 	 */
@@ -108,6 +109,12 @@ class posts_test extends type_test_case
 				array(2 => 1500), // user 2 has 1500 posts
 				array(2 => array(1, 4)), // user removed from group 2, added to group 4
 				array(2 => 1), // default
+				array('action' => 'sync'),
+			),
+			array(
+				array(3 => 15), // user 3 has 15 posts
+				array(3 => array(2, 5)), // user added to group 2
+				array(3 => 5), // default remains on group 5
 				array('action' => 'sync'),
 			),
 			array(
@@ -198,22 +205,6 @@ class posts_test extends type_test_case
 
 		// Assert the user's groups are unchanged
 		$this->assertEquals($expected, $result[$user_id]);
-	}
-
-	/**
-	 * Data for test_check_group_exemptions
-	 *
-	 * @return Array of test data
-	 */
-	public function check_group_exemptions_data()
-	{
-		return array(
-			array(
-				1, // user id
-				10, // posts (would make group 2 the new default)
-				1, // default exempt group
-			),
-		);
 	}
 
 	/**

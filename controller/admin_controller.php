@@ -15,8 +15,8 @@ namespace phpbb\autogroups\controller;
 */
 class admin_controller implements admin_interface
 {
-	/** @var \phpbb\config\config */
-	protected $config;
+	/** @var \phpbb\cache\driver\driver_interface */
+	protected $cache;
 
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
@@ -48,7 +48,7 @@ class admin_controller implements admin_interface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\config\config                 $config                   Config object
+	* @param \phpbb\cache\driver\driver_interface $cache                    Cache driver interface
 	* @param \phpbb\db\driver\driver_interface    $db                       Database object
 	* @param \phpbb\log\log                       $log                      The phpBB log system
 	* @param \phpbb\autogroups\conditions\manager $manager                  Auto groups condition manager object
@@ -59,9 +59,9 @@ class admin_controller implements admin_interface
 	* @param string                               $autogroups_types_table   Name of the table used to store auto group types data
 	* @access public
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\db\driver\driver_interface $db, \phpbb\log\log $log, \phpbb\autogroups\conditions\manager $manager, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\log\log $log, \phpbb\autogroups\conditions\manager $manager, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
 	{
-		$this->config = $config;
+		$this->cache = $cache;
 		$this->db = $db;
 		$this->log = $log;
 		$this->manager = $manager;
@@ -185,7 +185,7 @@ class admin_controller implements admin_interface
 	/**
 	* {@inheritdoc}
 	*/
-	public function submit_autogroups_settings()
+	public function submit_autogroups_options()
 	{
 		// Get data from the form
 		$autogroups_default_exempt = $this->request->variable('group_ids', array(0));
@@ -193,7 +193,20 @@ class admin_controller implements admin_interface
 		// Use a confirmation box routine before setting the data
 		if (confirm_box(true))
 		{
-			$this->config->set('autogroups_default_exempt', serialize($autogroups_default_exempt));
+			// Set selected groups to 1
+			$sql = 'UPDATE ' . GROUPS_TABLE . '
+				SET autogroup_default_exempt = 1
+				WHERE ' . $this->db->sql_in_set('group_id', $autogroups_default_exempt, false, true);
+			$this->db->sql_query($sql);
+
+			// Set all other groups to 0
+			$sql = 'UPDATE ' . GROUPS_TABLE . '
+				SET autogroup_default_exempt = 0
+				WHERE ' . $this->db->sql_in_set('group_id', $autogroups_default_exempt, true, true);
+			$this->db->sql_query($sql);
+
+			// Clear the cached group table data
+			$this->cache->destroy('sql', GROUPS_TABLE);
 		}
 		else
 		{
@@ -307,9 +320,22 @@ class admin_controller implements admin_interface
 	 */
 	protected function display_group_exempt_options()
 	{
-		// Get default exempt groups from db or an empty array
-		$group_id_ary = (!$this->config['autogroups_default_exempt']) ? array() : unserialize(trim($this->config['autogroups_default_exempt']));
+		// Get default exempted groups
+		$group_id_ary = array();
 
+		$sql = 'SELECT group_id
+			FROM ' . GROUPS_TABLE . '
+			WHERE autogroup_default_exempt = 1';
+		$result = $this->db->sql_query($sql, 7200);
+
+		while ($row = $this->db->sql_fetchrow())
+		{
+			$group_id_ary[] = $row['group_id'];
+		}
+		$this->db->sql_freeresult($result);
+
+		// Build groups menu. The exempted groups we found
+		// are to be marked as selected in the menu.
 		$this->build_groups_menu($group_id_ary);
 	}
 
