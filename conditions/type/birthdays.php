@@ -11,38 +11,38 @@
 namespace phpbb\autogroups\conditions\type;
 
 /**
-* Auto Groups Birthdays class
-*/
+ * Auto Groups Birthdays class
+ */
 class birthdays extends \phpbb\autogroups\conditions\type\base
 {
 	/**
-	* Get condition type
-	*
-	* @return string Condition type
-	* @access public
-	*/
+	 * Get condition type
+	 *
+	 * @return string Condition type
+	 * @access public
+	 */
 	public function get_condition_type()
 	{
 		return 'phpbb.autogroups.type.birthdays';
 	}
 
 	/**
-	* Get condition field (this is the field to check)
-	*
-	* @return string Condition field name
-	* @access public
-	*/
+	 * Get condition field (this is the field to check)
+	 *
+	 * @return string Condition field name
+	 * @access public
+	 */
 	public function get_condition_field()
 	{
 		return 'user_birthday';
 	}
 
 	/**
-	* Get condition type name
-	*
-	* @return string Condition type name
-	* @access public
-	*/
+	 * Get condition type name
+	 *
+	 * @return string Condition type name
+	 * @access public
+	 */
 	public function get_condition_type_name()
 	{
 		return $this->user->lang('AUTOGROUPS_TYPE_BIRTHDAYS');
@@ -50,7 +50,7 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 
 	/**
 	 * Get users to apply to this condition
-	 * Memberships is typically called via cron with no $options arguments.
+	 * Birthdays is typically called via cron with no $options arguments.
 	 * By default, get all users, otherwise use user_id(s) supplied in $options arg.
 	 *
 	 * @param array $options Array of optional data

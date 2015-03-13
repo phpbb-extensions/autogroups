@@ -28,11 +28,11 @@ class m6_initial_module extends \phpbb\db\migration\migration
 	}
 
 	/**
-	* Add or update data in the database
-	*
-	* @return array Array of table data
-	* @access public
-	*/
+	 * Add or update data in the database
+	 *
+	 * @return array Array of table data
+	 * @access public
+	 */
 	public function update_data()
 	{
 		return array(

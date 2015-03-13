@@ -11,8 +11,8 @@
 namespace phpbb\autogroups\controller;
 
 /**
-* Admin controller
-*/
+ * Admin controller
+ */
 class admin_controller implements admin_interface
 {
 	/** @var \phpbb\cache\driver\driver_interface */
@@ -46,19 +46,19 @@ class admin_controller implements admin_interface
 	protected $u_action;
 
 	/**
-	* Constructor
-	*
-	* @param \phpbb\cache\driver\driver_interface $cache                    Cache driver interface
-	* @param \phpbb\db\driver\driver_interface    $db                       Database object
-	* @param \phpbb\log\log                       $log                      The phpBB log system
-	* @param \phpbb\autogroups\conditions\manager $manager                  Auto groups condition manager object
-	* @param \phpbb\request\request               $request                  Request object
-	* @param \phpbb\template\template             $template                 Template object
-	* @param \phpbb\user                          $user                     User object
-	* @param string                               $autogroups_rules_table   Name of the table used to store auto group rules data
-	* @param string                               $autogroups_types_table   Name of the table used to store auto group types data
-	* @access public
-	*/
+	 * Constructor
+	 *
+	 * @param \phpbb\cache\driver\driver_interface $cache                    Cache driver interface
+	 * @param \phpbb\db\driver\driver_interface    $db                       Database object
+	 * @param \phpbb\log\log                       $log                      The phpBB log system
+	 * @param \phpbb\autogroups\conditions\manager $manager                  Auto groups condition manager object
+	 * @param \phpbb\request\request               $request                  Request object
+	 * @param \phpbb\template\template             $template                 Template object
+	 * @param \phpbb\user                          $user                     User object
+	 * @param string                               $autogroups_rules_table   Name of the table used to store auto group rules data
+	 * @param string                               $autogroups_types_table   Name of the table used to store auto group types data
+	 * @access public
+	 */
 	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\log\log $log, \phpbb\autogroups\conditions\manager $manager, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
 	{
 		$this->cache = $cache;
@@ -73,12 +73,14 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function display_autogroups()
 	{
+		// Get all auto groups data from the database
 		$autogroup_rows = $this->get_all_autogroups();
 
+		// Process all auto groups data for display in the template
 		foreach ($autogroup_rows as $row)
 		{
 			$this->template->assign_block_vars('autogroups', array(
@@ -101,14 +103,16 @@ class admin_controller implements admin_interface
 			'U_ADD_AUTOGROUP_RULE'	=> "{$this->u_action}&amp;action=add",
 		));
 
+		// Display the group exemption select box
 		$this->display_group_exempt_options();
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function save_autogroup_rule($autogroups_id = 0)
 	{
+		// Process auto group form data if form was submitted
 		if ($this->request->is_set_post('submit'))
 		{
 			$this->submit_autogroup_rule($autogroups_id);
@@ -117,6 +121,7 @@ class admin_controller implements admin_interface
 		// Get data for the auto group so we can display it
 		$autogroups_data = $this->get_autogroup($autogroups_id);
 
+		// Process the auto group data for display in the template
 		$this->build_groups_menu(array($autogroups_data['autogroups_group_id']), true);
 		$this->build_conditions_menu($autogroups_data['autogroups_type_id']);
 		$this->template->assign_vars(array(
@@ -136,10 +141,11 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function delete_autogroup_rule($autogroups_id)
 	{
+		// Delete and auto group rule
 		$sql = 'DELETE FROM ' . $this->autogroups_rules_table . '
 			WHERE autogroups_id = ' . (int) $autogroups_id;
 		$this->db->sql_query($sql);
@@ -162,8 +168,8 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function resync_autogroup_rule($autogroups_id)
 	{
 		// If the link hash is invalid, stop and show an error message to the user
@@ -183,8 +189,8 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function submit_autogroups_options()
 	{
 		// Get data from the form
@@ -218,13 +224,13 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* Submit auto group rule form data
-	*
-	* @param int $autogroups_id An auto group identifier
-	*                           A value of 0 is new, otherwise we're updating
-	* @return null
-	* @access protected
-	*/
+	 * Submit auto group rule form data
+	 *
+	 * @param int $autogroups_id An auto group identifier
+	 *                           A value of 0 is new, otherwise we're updating
+	 * @return null
+	 * @access protected
+	 */
 	protected function submit_autogroup_rule($autogroups_id = 0)
 	{
 		$data = array(
@@ -242,14 +248,14 @@ class admin_controller implements admin_interface
 			trigger_error($this->user->lang('ACP_AUTOGROUPS_INVALID_GROUPS') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		if ($autogroups_id != 0)
+		if ($autogroups_id != 0) // Update existing auto group data
 		{
 			$sql = 'UPDATE ' . $this->autogroups_rules_table . '
 				SET ' . $this->db->sql_build_array('UPDATE', $data) . '
 				WHERE autogroups_id = ' . (int) $autogroups_id;
 			$this->db->sql_query($sql);
 		}
-		else
+		else // Insert new auto group data
 		{
 			$sql = 'INSERT INTO ' . $this->autogroups_rules_table . ' ' . $this->db->sql_build_array('INSERT', $data);
 			$this->db->sql_query($sql);
@@ -267,12 +273,12 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* Get one auto group rule from the database
-	*
-	* @param int $id An auto group rule identifier
-	* @return array An auto group rule and it's associated data
-	* @access public
-	*/
+	 * Get one auto group rule from the database
+	 *
+	 * @param int $id An auto group rule identifier
+	 * @return array An auto group rule and it's associated data
+	 * @access public
+	 */
 	protected function get_autogroup($id)
 	{
 		$sql = 'SELECT *
@@ -286,11 +292,11 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* Get all auto group rules from the database
-	*
-	* @return array Array of auto group rules and their associated data
-	* @access public
-	*/
+	 * Get all auto group rules from the database
+	 *
+	 * @return array Array of auto group rules and their associated data
+	 * @access public
+	 */
 	protected function get_all_autogroups()
 	{
 		$sql_array = array(
@@ -320,9 +326,9 @@ class admin_controller implements admin_interface
 	 */
 	protected function display_group_exempt_options()
 	{
-		// Get default exempted groups
 		$group_id_ary = array();
 
+		// Get default exempted groups
 		$sql = 'SELECT group_id
 			FROM ' . GROUPS_TABLE . '
 			WHERE autogroup_default_exempt = 1';
@@ -340,13 +346,13 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* Build template vars for a select menu of user groups
-	*
-	* @param array $selected An array of identifiers for selected group(s)
-	* @param bool $exclude_predefined_groups Exclude GROUP_SPECIAL
-	* @return null
-	* @access protected
-	*/
+	 * Build template vars for a select menu of user groups
+	 *
+	 * @param array $selected                  An array of identifiers for selected group(s)
+	 * @param bool  $exclude_predefined_groups Exclude GROUP_SPECIAL
+	 * @return null
+	 * @access protected
+	 */
 	protected function build_groups_menu($selected, $exclude_predefined_groups = false)
 	{
 		// Get groups excluding BOTS, Guests, and optionally predefined
@@ -370,15 +376,15 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* Build template vars for a select menu of auto group conditions
-	*
-	* @param int $selected An identifier for the selected group
-	* @return null
-	* @access protected
-	*/
+	 * Build template vars for a select menu of auto group conditions
+	 *
+	 * @param int $selected An identifier for the selected group
+	 * @return null
+	 * @access protected
+	 */
 	protected function build_conditions_menu($selected)
 	{
-		$conditions = $this->manager->get_autogroup_type_ids();
+		$conditions = $this->manager->get_autogroups_type_ids();
 
 		foreach ($conditions as $condition_name => $condition_id)
 		{
@@ -392,8 +398,8 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	* {@inheritdoc}
-	*/
+	 * {@inheritdoc}
+	 */
 	public function set_page_url($u_action)
 	{
 		$this->u_action = $u_action;
