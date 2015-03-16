@@ -42,7 +42,7 @@ class autogroups_check extends \phpbb\cron\task\base
 	public function run()
 	{
 		$this->manager->check_conditions();
-		$this->config->set('autogroups_last_run', time(), false); // TODO: move this into the check_conditions() method?
+		$this->config->set('autogroups_last_run', time(), false);
 	}
 
 	/**
