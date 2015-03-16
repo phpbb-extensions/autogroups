@@ -165,9 +165,6 @@ class manager
 		$sql = 'DELETE FROM ' . $this->autogroups_rules_table . '
 			WHERE autogroups_group_id = ' . (int) $group_id;
 		$this->db->sql_query($sql);
-
-		// Clear any cached autogroups data
-		$this->cache->destroy('_autogroups_type_ids');
 	}
 
 	/**
