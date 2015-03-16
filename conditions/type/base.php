@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Auto Groups base class
  */
-abstract class base implements \phpbb\autogroups\conditions\type\type_interface
+abstract class base implements type_interface
 {
 	/** @var ContainerInterface */
 	protected $container;
