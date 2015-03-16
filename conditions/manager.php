@@ -144,7 +144,7 @@ class manager
 			$this->db->sql_query($sql);
 
 			// Clear any cached autogroups data
-			$this->cache->destroy('autogroups_type_ids');
+			$this->cache->destroy('_autogroups_type_ids');
 		}
 		catch (\RuntimeException $e)
 		{
@@ -167,7 +167,7 @@ class manager
 		$this->db->sql_query($sql);
 
 		// Clear any cached autogroups data
-		$this->cache->destroy('autogroups_type_ids');
+		$this->cache->destroy('_autogroups_type_ids');
 	}
 
 	/**
@@ -181,7 +181,7 @@ class manager
 	public function get_autogroups_type_id($autogroups_type_name)
 	{
 		// Get cached auto groups ids if they exist
-		$autogroups_type_ids = $this->cache->get('autogroups_type_ids');
+		$autogroups_type_ids = $this->cache->get('_autogroups_type_ids');
 
 		// Get auto groups ids from the db if no cache data exists, cache result
 		if ($autogroups_type_ids === false)
@@ -197,7 +197,7 @@ class manager
 			}
 			$this->db->sql_freeresult($result);
 
-			$this->cache->put('autogroups_type_ids', $autogroups_type_ids);
+			$this->cache->put('_autogroups_type_ids', $autogroups_type_ids);
 		}
 
 		// Add auto group type name to db if it exists as service but is not in db, cache result
@@ -210,7 +210,7 @@ class manager
 
 			$autogroups_type_ids[$autogroups_type_name] = $this->add_autogroups_type($autogroups_type_name);
 
-			$this->cache->put('autogroups_type_ids', $autogroups_type_ids);
+			$this->cache->put('_autogroups_type_ids', $autogroups_type_ids);
 		}
 
 		return $autogroups_type_ids[$autogroups_type_name];
