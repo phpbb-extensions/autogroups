@@ -165,10 +165,10 @@ class event_listener_test extends \phpbb_test_case
 				'delete_post_check',
 				'core.delete_posts_after',
 				'poster_ids',
-				array('$poster_ids'),
+				'$poster_ids',
 				array(
 					'action' => 'delete',
-					'users' => array('$poster_ids'),
+					'users' => '$poster_ids',
 				),
 			),
 			array(
@@ -195,12 +195,12 @@ class event_listener_test extends \phpbb_test_case
 	 *
 	 * @dataProvider autogroup_listeners_data
 	 */
-	public function test_autogroup_listeners($type_class, $event_method, $event_listener, $event_name, $event_data, $options)
+	public function test_autogroup_listeners($type_class, $event_method, $event_listener, $event_var, $event_data, $options)
 	{
 		$this->set_listener();
 
 		// Mock the event var with test event data
-		$$event_name = $event_data;
+		$$event_var = $event_data;
 
 		// Test the check_condition() method is called once
 		// with expected arguments.
@@ -211,7 +211,7 @@ class event_listener_test extends \phpbb_test_case
 		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 		$dispatcher->addListener($event_listener, array($this->listener, $event_method));
 
-		$event_data = array($event_name);
+		$event_data = array($event_var);
 		$event = new \phpbb\event\data(compact($event_data));
 		$dispatcher->dispatch($event_listener, $event);
 	}
