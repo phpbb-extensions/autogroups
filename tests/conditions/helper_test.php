@@ -101,4 +101,51 @@ class helper_test extends base
 	{
 		$this->assertEquals($expected, $this->helper->prepare_users_for_query($user_ids));
 	}
+
+	/**
+	 * Data for test_send_notifications
+	 */
+	public function send_notifications_data()
+	{
+		return array(
+			array(
+				'posts',
+				array(
+					'user_ids' => array(1, 2, 3),
+					'group_id' => 2,
+					'group_name' => 'FOO',
+				),
+			),
+			array(
+				'membership',
+				array(
+					'user_ids' => array(0),
+					'group_id' => 3,
+					'group_name' => 'BAR',
+				),
+			),
+			array(
+				'warnings',
+				array(
+					'user_ids' => array(),
+					'group_id' => 4,
+					'group_name' => 'GLOBAL_MODERATORS',
+				),
+			),
+		);
+	}
+
+	/**
+	 * Test the send_notifications method
+	 *
+	 * @dataProvider send_notifications_data
+	 */
+	public function test_send_notifications($type, $expected)
+	{
+		$this->notification_manager->expects($this->once())
+			->method('add_notifications')
+			->with("phpbb.autogroups.notification.type.$type", $expected);
+
+		$this->helper->send_notifications($type, $expected['user_ids'], $expected['group_id']);
+	}
 }
