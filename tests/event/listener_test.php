@@ -18,16 +18,19 @@ class event_listener_test extends \phpbb_test_case
 	/** @var \phpbb\autogroups\event\listener */
 	protected $listener;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	protected $manager;
+
 	/**
 	* Create our event listener
 	*/
 	protected function set_listener()
 	{
-		$manager = $this->getMockBuilder('\phpbb\autogroups\conditions\manager')
+		$this->manager = $this->getMockBuilder('\phpbb\autogroups\conditions\manager')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->listener = new \phpbb\autogroups\event\listener($manager);
+		$this->listener = new \phpbb\autogroups\event\listener($this->manager);
 	}
 
 	/**
@@ -52,6 +55,30 @@ class event_listener_test extends \phpbb_test_case
 			'core.mcp_warn_post_after',
 			'core.mcp_warn_user_after',
 		), array_keys(\phpbb\autogroups\event\listener::getSubscribedEvents()));
+	}
+
+	/**
+	 * Test the delete_group_rules event
+	 */
+	public function test_delete_group_rules()
+	{
+		$this->set_listener();
+
+		// Mock the group_id var
+		$group_id = array();
+
+		// Test the purge_autogroups_group() method is called once
+		// with group_id event data as its argument.
+		$this->manager->expects($this->once())
+			->method('purge_autogroups_group')
+			->with($group_id);
+
+		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+		$dispatcher->addListener('core.delete_group_after', array($this->listener, 'delete_group_rules'));
+
+		$event_data = array('group_id');
+		$event = new \phpbb\event\data(compact($event_data));
+		$dispatcher->dispatch('core.delete_group_after', $event);
 	}
 
 	/**
@@ -115,5 +142,77 @@ class event_listener_test extends \phpbb_test_case
 		{
 			$this->assertContains($expected, $lang_set_ext);
 		}
+	}
+
+	/**
+	 * Data set for test_autogroup_listeners
+	 *
+	 * @return array Array of test data
+	 */
+	public function autogroup_listeners_data()
+	{
+		return array(
+			array(
+				'phpbb.autogroups.type.posts',
+				'submit_post_check',
+				'core.submit_post_end',
+				'data',
+				array('poster_id' => '$poster_ids'),
+				array('users' => '$poster_ids'),
+			),
+			array(
+				'phpbb.autogroups.type.posts',
+				'delete_post_check',
+				'core.delete_posts_after',
+				'poster_ids',
+				'$poster_ids',
+				array(
+					'action' => 'delete',
+					'users' => '$poster_ids',
+				),
+			),
+			array(
+				'phpbb.autogroups.type.warnings',
+				'add_warning_check',
+				'core.mcp_warn_post_after',
+				'user_row',
+				array('user_id' => '$poster_ids'),
+				array('users' => '$poster_ids'),
+			),
+			array(
+				'phpbb.autogroups.type.warnings',
+				'add_warning_check',
+				'core.mcp_warn_user_after',
+				'user_row',
+				array('user_id' => '$poster_ids'),
+				array('users' => '$poster_ids'),
+			),
+		);
+	}
+
+	/**
+	 * Test all the autogroup listener events that run check_condition()
+	 *
+	 * @dataProvider autogroup_listeners_data
+	 */
+	public function test_autogroup_listeners($type_class, $event_method, $event_listener, $event_var, $event_data, $options)
+	{
+		$this->set_listener();
+
+		// Mock the event var with test event data
+		$$event_var = $event_data;
+
+		// Test the check_condition() method is called once
+		// with expected arguments.
+		$this->manager->expects($this->once())
+			->method('check_condition')
+			->with($type_class, $options);
+
+		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+		$dispatcher->addListener($event_listener, array($this->listener, $event_method));
+
+		$event_data = array($event_var);
+		$event = new \phpbb\event\data(compact($event_data));
+		$dispatcher->dispatch($event_listener, $event);
 	}
 }

@@ -260,7 +260,7 @@ abstract class base implements type_interface
 					'users' => $user_id_ary,
 				));
 				// Filter users out users that satisfy other conditions for this group
-				$user_id_ary = array_filter($user_id_ary, function($user_id) use ($condition, $condition_user_data, $group_rule) {
+				$user_id_ary = array_filter($user_id_ary, function ($user_id) use ($condition, $condition_user_data, $group_rule) {
 					return !$condition->check_user_data($condition_user_data[$user_id][$condition->get_condition_field()], $group_rule);
 				});
 			}

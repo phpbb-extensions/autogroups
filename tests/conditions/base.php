@@ -32,6 +32,7 @@ class base extends \phpbb_database_test_case
 	protected $condition_type;
 	protected $db;
 	protected $helper;
+	protected $notification_manager;
 	protected $phpbb_container;
 	protected $user;
 	protected $root_path;
@@ -72,7 +73,7 @@ class base extends \phpbb_database_test_case
 
 		$phpbb_log = new \phpbb\log\log($db, $user, $auth, $phpbb_dispatcher, $phpbb_root_path, 'adm/', $phpEx, LOG_TABLE);
 
-		$notification_manager = $this->getMockBuilder('\phpbb\notification\manager')
+		$this->notification_manager = $this->getMockBuilder('\phpbb\notification\manager')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -81,7 +82,7 @@ class base extends \phpbb_database_test_case
 
 		$this->helper = new \phpbb\autogroups\conditions\type\helper(
 			$this->db,
-			$notification_manager,
+			$this->notification_manager,
 			$this->root_path,
 			$this->php_ext
 		);

@@ -206,6 +206,11 @@ class base_test extends base
 					2 => array(1, 2), // expect user 2 in groups 1 and 2
 				),
 			),
+			array(
+				array(),
+				5,
+				array(),
+			),
 		);
 	}
 
