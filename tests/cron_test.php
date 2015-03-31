@@ -82,4 +82,12 @@ class cron_test extends \phpbb_test_case
 		// Assert we get the expected result from should_run()
 		$this->assertSame($expected, $this->cron_task->should_run());
 	}
+
+	/**
+	 * Test the cron task is runnable
+	 */
+	public function test_is_runnable()
+	{
+		$this->assertTrue($this->cron_task->is_runnable());
+	}
 }
