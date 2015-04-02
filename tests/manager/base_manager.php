@@ -50,6 +50,11 @@ class base_manager extends \phpbb_database_test_case
 		$cache = new \phpbb_mock_cache();
 		$this->container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
 
+		// Mock the condition
+		$this->condition = $this->getMockBuilder('\phpbb\autogroups\conditions\type\base')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->manager = new \phpbb\autogroups\conditions\manager(
 			array(
 				'phpbb.autogroups.type.sample1' => '',

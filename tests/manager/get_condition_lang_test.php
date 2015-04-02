@@ -34,11 +34,7 @@ class get_condition_lang_test extends base_manager
 	 */
 	public function test_get_condition_lang($type_name, $expected)
 	{
-		// Mock the condition
-		$condition = $this->getMockBuilder('\phpbb\autogroups\conditions\type\base')
-			->disableOriginalConstructor()
-			->getMock();
-		$condition->expects($this->any())
+		$this->condition->expects($this->any())
 			->method('get_condition_type_name')
 			->will($this->returnValue($expected));
 
@@ -46,7 +42,7 @@ class get_condition_lang_test extends base_manager
 		$this->container->expects($this->any())
 			->method('get')
 			->with($type_name)
-			->will($this->returnValue($condition));
+			->will($this->returnValue($this->condition));
 
 		// Assert the expected lang var is returned by the condition
 		$this->assertEquals($expected, $this->manager->get_condition_lang($type_name));

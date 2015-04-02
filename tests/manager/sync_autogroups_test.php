@@ -36,19 +36,14 @@ class sync_autogroups_test extends base_manager
 		// Options data always passed by sync_autogroups to check()
 		$options = array('action' => 'sync');
 
-		// Mock the condition
-		$condition = $this->getMockBuilder('\phpbb\autogroups\conditions\type\base')
-			->disableOriginalConstructor()
-			->getMock();
-
 		// Mock get_users_for_condition() and test expected values
-		$condition->expects($this->any())
+		$this->condition->expects($this->any())
 			->method('get_users_for_condition')
 			->with($options)
 			->will($this->returnValue(array()));
 
 		// Mock check() and test expected values
-		$condition->expects($this->any())
+		$this->condition->expects($this->any())
 			->method('check')
 			->with(array(), $options)
 			->will($this->returnValue(null));
@@ -57,7 +52,7 @@ class sync_autogroups_test extends base_manager
 		$this->container->expects($this->any())
 			->method('get')
 			->with($type_name)
-			->will($this->returnValue($condition));
+			->will($this->returnValue($this->condition));
 
 		// Call and test sync autogroups
 		$this->assertNull($this->manager->sync_autogroups($rule_id));
