@@ -50,7 +50,7 @@ class base_test extends base
 						'autogroups_max_value'	=> 20,
 						'autogroups_group_id'	=> 2,
 						'autogroups_default'	=> 1,
-						'autogroups_notify'		=> 0,
+						'autogroups_notify'		=> 1,
 						'autogroups_type_name'	=> 'phpbb.autogroups.type.posts',
 					),
 					array(

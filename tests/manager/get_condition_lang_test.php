@@ -34,18 +34,32 @@ class get_condition_lang_test extends base_manager
 	 */
 	public function test_get_condition_lang($type_name, $expected)
 	{
-		$this->condition->expects($this->any())
-			->method('get_condition_type_name')
-			->will($this->returnValue($expected));
+		// Mock the container builder and set the condition type
+		$phpbb_container = new \phpbb_mock_container_builder();
+		$condition = '\phpbb\autogroups\conditions\type\\' . str_replace('phpbb.autogroups.type.', '', $type_name);
+		$phpbb_container->set($type_name, new $condition(
+			$this->container,
+			$this->db,
+			$this->user,
+			'phpbb_autogroups_rules',
+			'phpbb_autogroups_types',
+			dirname(__FILE__) . '/../../../../../',
+			'php'
+		));
 
-		// Use mocked condition when container->get()
-		$this->container->expects($this->any())
-			->method('get')
-			->with($type_name)
-			->will($this->returnValue($this->condition));
+		// Instantiate a new manager using the new mocked container
+		$manager = new \phpbb\autogroups\conditions\manager(
+			array(),
+			$phpbb_container,
+			new \phpbb_mock_cache(),
+			$this->db,
+			$this->user,
+			'phpbb_autogroups_rules',
+			'phpbb_autogroups_types'
+		);
 
 		// Assert the expected lang var is returned by the condition
-		$this->assertEquals($expected, $this->manager->get_condition_lang($type_name));
+		$this->assertEquals($expected, $manager->get_condition_lang($type_name));
 	}
 
 	/**
