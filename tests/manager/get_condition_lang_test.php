@@ -36,7 +36,8 @@ class get_condition_lang_test extends base_manager
 	{
 		// Mock the container builder and set the condition type
 		$phpbb_container = new \phpbb_mock_container_builder();
-		$condition = '\phpbb\autogroups\conditions\type\\' . str_replace('phpbb.autogroups.type.', '', $type_name);
+		$type_parts = explode('.', $type_name);
+		$condition = '\phpbb\autogroups\conditions\type\\' . array_pop($type_parts);
 		$phpbb_container->set($type_name, new $condition(
 			$this->container,
 			$this->db,
