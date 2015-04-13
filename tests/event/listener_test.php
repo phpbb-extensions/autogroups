@@ -200,7 +200,7 @@ class event_listener_test extends \phpbb_test_case
 		$this->set_listener();
 
 		// Mock the event var with test event data
-		$$event_var = $event_data;
+		${$event_var} = $event_data;
 
 		// Test the check_condition() method is called once
 		// with expected arguments.
