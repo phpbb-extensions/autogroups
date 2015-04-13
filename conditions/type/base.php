@@ -131,7 +131,7 @@ abstract class base implements type_interface
 			}
 
 			// Set the current group as default for non-exempt users
-			group_set_user_default($group_id, $user_id_ary);
+			group_user_attributes('default', $group_id, $user_id_ary);
 		}
 	}
 
