@@ -203,6 +203,8 @@ class posts_test extends type_test_case
 		// Get the user's groups
 		$result = $this->helper->get_users_groups($user_id);
 
+		sort($result[$user_id]);
+
 		// Assert the user's groups are unchanged
 		$this->assertEquals($expected, $result[$user_id]);
 	}
