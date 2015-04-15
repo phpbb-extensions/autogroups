@@ -32,13 +32,6 @@ class autogroups_base extends \phpbb_functional_test_case
 		parent::setUp();
 
 		$this->db = $this->get_db();
-
-//		$this->add_lang_ext('phpbb/boardrules', array(
-//			'boardrules_common',
-//			'boardrules_controller',
-//			'info_acp_boardrules',
-//			'boardrules_acp',
-//		));
 	}
 
 	/**
