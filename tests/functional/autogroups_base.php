@@ -86,9 +86,9 @@ class autogroups_base extends \phpbb_functional_test_case
 		$db = $this->get_db();
 
 		// Get the type id
-		$sql = 'SELECT autogroups_type_id AS type_id
+		$sql = "SELECT autogroups_type_id AS type_id
 			FROM phpbb_autogroups_types
-			WHERE autogroups_type_name = "' . $db->sql_escape('phpbb.autogroups.type.' . $type) . '"';
+			WHERE autogroups_type_name = '" . $db->sql_escape('phpbb.autogroups.type.' . $type) . "'";
 		$result = $db->sql_query($sql);
 		$type_id = $db->sql_fetchfield('type_id');
 		$db->sql_freeresult($result);
