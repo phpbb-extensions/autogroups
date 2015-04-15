@@ -16,7 +16,7 @@ namespace phpbb\autogroups\tests\functional;
 class acp_test extends autogroups_base
 {
 	/**
-	 * Test the auto groups posts type
+	 * Test the auto groups ACP
 	 *
 	 * @return null
 	 */
