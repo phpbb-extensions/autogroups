@@ -17,6 +17,8 @@ class posts_test extends autogroups_base
 {
 	/**
 	 * Test the auto groups posts type
+	 *
+	 * @return null
 	 */
 	public function test_autogroups_posts()
 	{
@@ -37,16 +39,10 @@ class posts_test extends autogroups_base
 
 		// Create a new topic/post (will be a 2nd post adding admin to the group)
 		$post = $this->create_topic(2, 'Auto Groups Test Post', 'This is a test post for the Auto Groups extension.');
-
-		// Assert the admin has been added to the group
-		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=2&sid=' . $this->sid);
-		$this->assertContains($test_data['group_name'], $crawler->filter('select')->text());
+		$this->assertInGroup(2, $test_data['group_name']);
 
 		// Create a reply post (will be a 3rd post, removing admin from the group)
-		$post2 = $this->create_post(2, $post['topic_id'], 'Re: Auto Groups Test Post', 'This is a test post posted by the testing framework.');
-
-		// Assert the admin has been removed from the group
-		$crawler = self::request('GET', 'memberlist.php?mode=viewprofile&u=2&sid=' . $this->sid);
-		$this->assertNotContains($test_data['group_name'], $crawler->filter('select')->text());
+		$this->create_post(2, $post['topic_id'], 'Re: Auto Groups Test Post', 'This is a test post posted by the testing framework.');
+		$this->assertNotInGroup(2, $test_data['group_name']);
 	}
 }

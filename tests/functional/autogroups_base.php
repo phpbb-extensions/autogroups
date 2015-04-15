@@ -24,17 +24,22 @@ class autogroups_base extends \phpbb_functional_test_case
 		return array('phpbb/autogroups');
 	}
 
-//	public function setUp()
-//	{
-//		parent::setUp();
-//
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
+	public function setUp()
+	{
+		parent::setUp();
+
+		$this->db = $this->get_db();
+
 //		$this->add_lang_ext('phpbb/boardrules', array(
 //			'boardrules_common',
 //			'boardrules_controller',
 //			'info_acp_boardrules',
 //			'boardrules_acp',
 //		));
-//	}
+	}
 
 	/**
 	 * Create a group
@@ -83,15 +88,13 @@ class autogroups_base extends \phpbb_functional_test_case
 	 */
 	public function create_autogroup_rule($type, $group_id, $min, $max)
 	{
-		$db = $this->get_db();
-
 		// Get the type id
 		$sql = "SELECT autogroups_type_id AS type_id
 			FROM phpbb_autogroups_types
-			WHERE autogroups_type_name = '" . $db->sql_escape('phpbb.autogroups.type.' . $type) . "'";
-		$result = $db->sql_query($sql);
-		$type_id = $db->sql_fetchfield('type_id');
-		$db->sql_freeresult($result);
+			WHERE autogroups_type_name = '" . $this->db->sql_escape('phpbb.autogroups.type.' . $type) . "'";
+		$result = $this->db->sql_query($sql);
+		$type_id = $this->db->sql_fetchfield('type_id');
+		$this->db->sql_freeresult($result);
 
 		if (!$type_id)
 		{
@@ -109,8 +112,34 @@ class autogroups_base extends \phpbb_functional_test_case
 		);
 
 		// Insert the data array
-		$db->sql_query('INSERT INTO phpbb_autogroups_rules ' . $db->sql_build_array('INSERT', $data));
+		$this->db->sql_query('INSERT INTO phpbb_autogroups_rules ' . $this->db->sql_build_array('INSERT', $data));
 
-		return (int) $db->sql_nextid();
+		return (int) $this->db->sql_nextid();
+	}
+
+	/**
+	 * Assert a user is in a user group
+	 *
+	 * @param int    $user_id    The user id
+	 * @param string $group_name The name of the group
+	 * @return null
+	 */
+	public function assertInGroup($user_id, $group_name)
+	{
+		$crawler = self::request('GET', "memberlist.php?mode=viewprofile&u=$user_id&sid={$this->sid}");
+		$this->assertContains($group_name, $crawler->filter('select')->text(), "The group $group_name could not be found in the set of user groups.");
+	}
+
+	/**
+	 * Assert a user is not in a user group
+	 *
+	 * @param int    $user_id    The user id
+	 * @param string $group_name The name of the group
+	 * @return null
+	 */
+	public function assertNotInGroup($user_id, $group_name)
+	{
+		$crawler = self::request('GET', "memberlist.php?mode=viewprofile&u=$user_id&sid={$this->sid}");
+		$this->assertNotContains($group_name, $crawler->filter('select')->text(), "The group $group_name still exists in the set of user groups.");
 	}
 }
