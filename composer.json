@@ -3,7 +3,7 @@
 	"type": "phpbb-extension",
 	"description": "An extension that can automate the process of adding and removing users from groups upon reaching specified milestones related to their post count, age, membership, and warnings count.",
 	"homepage": "https://www.phpbb.com",
-	"version": "1.0.0-b2",
+	"version": "1.0.0-RC1",
 	"keywords": ["phpbb", "extension", "auto", "groups"],
 	"license": "GPL-2.0",
 	"authors": [
