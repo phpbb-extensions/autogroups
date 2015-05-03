@@ -45,8 +45,12 @@ class base_manager extends \phpbb_database_test_case
 	{
 		parent::setUp();
 
+		global $phpbb_root_path, $phpEx;
+
 		$this->db = $this->new_dbal();
-		$this->user = new \phpbb\user('\phpbb\datetime');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$lang = new \phpbb\language\language($lang_loader);
+		$this->user = new \phpbb\user($lang, '\phpbb\datetime');
 		$cache = new \phpbb_mock_cache();
 		$this->container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
 
