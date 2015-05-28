@@ -184,13 +184,13 @@ abstract class base implements type_interface
 					if ($this->check_user_data($user_data[$this->get_condition_field()], $group_rule))
 					{
 						// Check if a user is already a member of checked group
-						if (!in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
+						if (isset($user_groups[$user_id]) && !in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
 						{
 							// Add user to group
 							$add_users_to_group[] = $user_id;
 						}
 					}
-					else if (in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
+					else if (isset($user_groups[$user_id]) && in_array($group_rule['autogroups_group_id'], $user_groups[$user_id]))
 					{
 						// Remove user from the group
 						$remove_users_from_group[] = $user_id;
