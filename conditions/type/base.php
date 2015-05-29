@@ -180,6 +180,12 @@ abstract class base implements type_interface
 
 				foreach ($user_row as $user_id => $user_data)
 				{
+					// Check for no-group users and initialise corresponding data array
+					if (!isset($user_groups[$user_id]))
+					{
+						$user_groups[$user_id] = array();
+					}
+
 					// Check if a user's data is within the min/max range
 					if ($this->check_user_data($user_data[$this->get_condition_field()], $group_rule))
 					{
