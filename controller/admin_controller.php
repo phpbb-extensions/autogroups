@@ -248,6 +248,12 @@ class admin_controller implements admin_interface
 			trigger_error($this->user->lang('ACP_AUTOGROUPS_INVALID_GROUPS') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
+		// Prevent form submit when min and max values are identical
+		if ($data['autogroups_min_value'] == $data['autogroups_max_value'])
+		{
+			trigger_error($this->user->lang('ACP_AUTOGROUPS_INVALID_RANGE') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
 		if ($autogroups_id != 0) // Update existing auto group data
 		{
 			$sql = 'UPDATE ' . $this->autogroups_rules_table . '
