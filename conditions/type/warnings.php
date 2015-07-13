@@ -133,7 +133,11 @@ class warnings extends \phpbb\autogroups\conditions\type\base
 				}
 			}
 
-			$sql_where[] = '(' . implode(' AND ', $where) . ')';
+			if (sizeof($where))
+			{
+				$sql_where[] = '(' . implode(' AND ', $where) . ')';
+			}
+
 			$group_ids[] = $group_rule['autogroups_group_id'];
 		}
 
