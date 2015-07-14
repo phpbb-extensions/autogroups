@@ -74,7 +74,7 @@ class base extends \phpbb_database_test_case
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$phpbb_container = new \phpbb_mock_container_builder();
-		$phpbb_container->set('cache.driver', new \phpbb\cache\driver\null());
+		$phpbb_container->set('cache.driver', new \phpbb\cache\driver\dummy());
 		$phpbb_container->set('notification_manager', new \phpbb_mock_notification_manager());
 		$this->phpbb_container = $phpbb_container;
 
