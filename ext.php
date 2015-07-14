@@ -21,6 +21,21 @@ namespace phpbb\autogroups;
 class ext extends \phpbb\extension\base
 {
 	/**
+	 * Check whether or not the extension can be enabled.
+	 * The current phpBB version should meet or exceed
+	 * the minimum version required by this extension:
+	 *
+	 * Requires phpBB 3.2.0-dev due to the revised notifications system.
+	 *
+	 * @return bool
+	 * @access public
+	 */
+	public function is_enableable()
+	{
+		return phpbb_version_compare(PHPBB_VERSION, '3.2.0-dev', '>=');
+	}
+
+	/**
 	 * Overwrite enable_step to enable Auto Groups notifications
 	 * before any included migrations are installed.
 	 *
