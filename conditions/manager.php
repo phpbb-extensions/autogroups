@@ -10,6 +10,7 @@
 
 namespace phpbb\autogroups\conditions;
 
+use phpbb\exception\runtime_exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -146,7 +147,7 @@ class manager
 			// Clear any cached autogroups data
 			$this->cache->destroy('_autogroups_type_ids');
 		}
-		catch (\RuntimeException $e)
+		catch (runtime_exception $e)
 		{
 			// Continue
 		}
@@ -173,7 +174,7 @@ class manager
 	 * @param string $autogroups_type_name The name of the auto group type
 	 *
 	 * @return int The condition_type_id
-	 * @throws \RuntimeException
+	 * @throws runtime_exception
 	 */
 	public function get_autogroups_type_id($autogroups_type_name)
 	{
@@ -202,7 +203,7 @@ class manager
 		{
 			if (!isset($this->autogroups_types[$autogroups_type_name]))
 			{
-				throw new \RuntimeException($this->user->lang('AUTOGROUPS_TYPE_NOT_EXIST', $autogroups_type_name));
+				throw new runtime_exception('AUTOGROUPS_TYPE_NOT_EXIST', array($autogroups_type_name));
 			}
 
 			$autogroups_type_ids[$autogroups_type_name] = $this->add_autogroups_type($autogroups_type_name);
