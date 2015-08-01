@@ -101,7 +101,7 @@ class autogroups_base extends \phpbb_functional_test_case
 			'autogroups_max_value'	=> $max,
 			'autogroups_group_id'	=> $group_id,
 			'autogroups_default'	=> true,
-			'autogroups_notify'		=> false,
+			'autogroups_notify'		=> true,
 		);
 
 		// Insert the data array

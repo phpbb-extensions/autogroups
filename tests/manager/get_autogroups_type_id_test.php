@@ -80,7 +80,7 @@ class get_autogroups_type_id_test extends base_manager
 	 * Test getting invalid type_names which should throw an exception
 	 *
 	 * @dataProvider get_autogroups_type_id_fails_test_data
-	 * @expectedException \RuntimeException
+	 * @expectedException \phpbb\exception\runtime_exception
 	 */
 	public function test_get_autogroups_type_id_fails($type_name)
 	{
