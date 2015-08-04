@@ -132,16 +132,16 @@ class manager
 		try
 		{
 			// Get the id of the condition
-			$condtion_type_id = $this->get_autogroups_type_id($autogroups_type_name);
+			$condition_type_id = $this->get_autogroups_type_id($autogroups_type_name);
 
 			// Delete any rules associated with the condition id
 			$sql = 'DELETE FROM ' . $this->autogroups_rules_table . '
-				WHERE autogroups_type_id = ' . (int) $condtion_type_id;
+				WHERE autogroups_type_id = ' . (int) $condition_type_id;
 			$this->db->sql_query($sql);
 
 			// Delete any types associated with the condition id
 			$sql = 'DELETE FROM ' . $this->autogroups_types_table . '
-				WHERE autogroups_type_id = ' . (int) $condtion_type_id;
+				WHERE autogroups_type_id = ' . (int) $condition_type_id;
 			$this->db->sql_query($sql);
 
 			// Clear any cached autogroups data
