@@ -25,9 +25,13 @@ class base_manager extends \phpbb_database_test_case
 		return array('phpbb/autogroups');
 	}
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\autogroups\conditions\type\base */
+	protected $condition;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject|\Symfony\Component\DependencyInjection\ContainerInterface */
 	protected $container;
 
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
 	/** @var \phpbb\autogroups\conditions\manager */
