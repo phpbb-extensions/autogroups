@@ -2,7 +2,7 @@
 /**
 *
 * Auto Groups extension for the phpBB Forum Software package.
-* (Thanks/credit to nickvergessen for desigining these tests)
+* (Thanks/credit to nickvergessen for designing these tests)
 *
 * @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
@@ -18,7 +18,7 @@ class event_listener_test extends \phpbb_test_case
 	/** @var \phpbb\autogroups\event\listener */
 	protected $listener;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\autogroups\conditions\manager */
 	protected $manager;
 
 	/**

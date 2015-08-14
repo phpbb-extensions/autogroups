@@ -25,22 +25,19 @@ class admin_controller_base extends \phpbb_database_test_case
 	/** @var \phpbb\autogroups\controller\admin_controller */
 	protected $admin_controller;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
-	protected $container;
-
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\log\log */
 	protected $log;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\autogroups\conditions\manager */
 	protected $manager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\request\request */
 	protected $request;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\template\template */
 	protected $template;
 
 	/** @var \phpbb\user */
