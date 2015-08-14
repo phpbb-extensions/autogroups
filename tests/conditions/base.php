@@ -28,14 +28,28 @@ class base extends \phpbb_database_test_case
 		return array('phpbb/autogroups');
 	}
 
-	protected $condition;
+	/** @var string */
 	protected $condition_type;
+
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
+
+	/** @var \phpbb\autogroups\conditions\type\helper */
 	protected $helper;
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\notification\manager */
 	protected $notification_manager;
+
+	/** @var \phpbb_mock_container_builder */
 	protected $phpbb_container;
+
+	/** @var \phpbb\user */
 	protected $user;
+
+	/** @var string */
 	protected $root_path;
+
+	/** @var string */
 	protected $php_ext;
 
 	public function getDataSet()
@@ -58,10 +72,12 @@ class base extends \phpbb_database_test_case
 		global $auth, $db, $user, $phpbb_container, $phpbb_dispatcher, $phpbb_log, $phpbb_root_path, $phpEx;
 
 		$this->db = $this->new_dbal();
-		$this->user = new \phpbb\user('\phpbb\datetime');
-
 		$db = $this->db;
-		$user = new \phpbb_mock_user;
+
+		$this->user = new \phpbb\user('\phpbb\datetime');
+		$user = $this->user;
+
+		/** @var $auth \PHPUnit_Framework_MockObject_MockObject|\phpbb\auth\auth */
 		$auth = $this->getMock('\phpbb\auth\auth');
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
