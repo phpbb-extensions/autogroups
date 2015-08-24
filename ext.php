@@ -25,7 +25,8 @@ class ext extends \phpbb\extension\base
 	 * The current phpBB version should meet or exceed
 	 * the minimum version required by this extension:
 	 *
-	 * Requires phpBB 3.2.0-dev due to the revised notifications system.
+	 * Requires phpBB 3.2.0-dev due to the revised notifications system
+	 * and new group helper.
 	 *
 	 * @return bool
 	 * @access public

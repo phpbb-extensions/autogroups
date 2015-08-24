@@ -36,6 +36,7 @@ services:
         arguments:
             - @cache.driver
             - @dbal.conn
+            - @group_helper
             - @log
             - @phpbb.autogroups.manager
             - @request
