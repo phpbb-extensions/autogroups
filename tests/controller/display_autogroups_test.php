@@ -61,7 +61,7 @@ class display_autogroups_test extends admin_controller_base
 				)),
 				array('groups', array(
 					'GROUP_ID'		=> 1,
-					'GROUP_NAME'	=> 'G_GROUP1',
+					'GROUP_NAME'	=> 'GROUP1',
 					'S_SELECTED'	=> false,
 				)),
 				array('groups', array(

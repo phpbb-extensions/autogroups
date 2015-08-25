@@ -21,6 +21,9 @@ class admin_controller implements admin_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\group\helper */
+	protected $group_helper;
+
 	/** @var \phpbb\log\log */
 	protected $log;
 
@@ -50,6 +53,7 @@ class admin_controller implements admin_interface
 	 *
 	 * @param \phpbb\cache\driver\driver_interface $cache                    Cache driver interface
 	 * @param \phpbb\db\driver\driver_interface    $db                       Database object
+	 * @param \phpbb\group\helper                  $group_helper             Group helper object
 	 * @param \phpbb\log\log                       $log                      The phpBB log system
 	 * @param \phpbb\autogroups\conditions\manager $manager                  Auto groups condition manager object
 	 * @param \phpbb\request\request               $request                  Request object
@@ -59,10 +63,11 @@ class admin_controller implements admin_interface
 	 * @param string                               $autogroups_types_table   Name of the table used to store auto group types data
 	 * @access public
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\log\log $log, \phpbb\autogroups\conditions\manager $manager, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\group\helper $group_helper, \phpbb\log\log $log, \phpbb\autogroups\conditions\manager $manager, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;
+		$this->group_helper = $group_helper;
 		$this->log = $log;
 		$this->manager = $manager;
 		$this->request = $request;
@@ -373,7 +378,7 @@ class admin_controller implements admin_interface
 		{
 			$this->template->assign_block_vars('groups', array(
 				'GROUP_ID'		=> $group_row['group_id'],
-				'GROUP_NAME'	=> ($group_row['group_type'] == GROUP_SPECIAL) ? $this->user->lang('G_' . $group_row['group_name']) : $group_row['group_name'],
+				'GROUP_NAME'	=> $this->group_helper->get_name($group_row['group_name']),
 
 				'S_SELECTED'	=> in_array($group_row['group_id'], $selected),
 			));

@@ -65,6 +65,14 @@ class base extends \phpbb_database_test_case
 		return $compositeDs;
 	}
 
+	public function get_lang()
+	{
+		global $phpbb_root_path, $phpEx;
+
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		return new \phpbb\language\language($lang_loader);
+	}
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -73,12 +81,12 @@ class base extends \phpbb_database_test_case
 
 		$this->db = $this->new_dbal();
 
-		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$lang = new \phpbb\language\language($lang_loader);
+		$lang = $this->get_lang();
+
 		$this->user = new \phpbb\user($lang, '\phpbb\datetime');
 
 		$user = $this->getMock('\phpbb\user', array(), array(
-			new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx)),
+			$lang,
 			'\phpbb\datetime'
 		));
 
@@ -92,6 +100,8 @@ class base extends \phpbb_database_test_case
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_container->set('cache.driver', new \phpbb\cache\driver\dummy());
 		$phpbb_container->set('notification_manager', new \phpbb_mock_notification_manager());
+		$phpbb_container->set('group_helper', new \phpbb\group\helper($lang));
+
 		$this->phpbb_container = $phpbb_container;
 
 		$phpbb_log = new \phpbb\log\log($db, $user, $auth, $phpbb_dispatcher, $phpbb_root_path, 'adm/', $phpEx, LOG_TABLE);

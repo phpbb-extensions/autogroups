@@ -107,6 +107,8 @@ class helper_test extends base
 	 */
 	public function send_notifications_data()
 	{
+		$language = $this->get_lang();
+
 		return array(
 			array(
 				'posts',
@@ -129,7 +131,7 @@ class helper_test extends base
 				array(
 					'user_ids' => array(),
 					'group_id' => 4,
-					'group_name' => 'GLOBAL_MODERATORS',
+					'group_name' => $language->lang('G_GLOBAL_MODERATORS'),
 				),
 			),
 		);
