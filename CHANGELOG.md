@@ -9,6 +9,7 @@
 - Added Italian language pack
 - Added Spanish language pack
 - Added French language pack
+- Added Arabic language pack
 
 ## 1.0.0 - 2015-05-14
 
