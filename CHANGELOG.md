@@ -6,6 +6,7 @@
 - Fixed an issue when encountering users not belonging to any group(s) created PHP notices
 - Fixed an issue where the "warnings" type could generate invalid SQL queries
 - Added German language pack
+- Added Italian language pack
 - Added Spanish language pack
 - Added French language pack
 
