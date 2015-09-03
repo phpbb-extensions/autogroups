@@ -7,6 +7,7 @@
 - Fixed an issue where the "warnings" type could generate invalid SQL queries
 - Added German language pack
 - Added Spanish language pack
+- Added French language pack
 
 ## 1.0.0 - 2015-05-14
 
