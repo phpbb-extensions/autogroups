@@ -64,9 +64,9 @@
 			"phpbb/phpbb": ">=3.1.0,<3.2.*@dev"
 		},
 		"version-check": {
-			"host": "version.phpbb.com",
-			"directory": "/phpbb-extensions",
-			"filename": "autogroups_versions.json"
+			"host": "www.phpbb.com",
+			"directory": "/customise/db/extension/auto_groups",
+			"filename": "version_check"
 		}
 	}
 }
