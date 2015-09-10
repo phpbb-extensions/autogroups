@@ -108,8 +108,9 @@ class manager
 	public function add_autogroups_type($autogroups_type_name)
 	{
 		// Insert the type name into the database
-		$sql = 'INSERT INTO ' . $this->autogroups_types_table . '
-			' . $this->db->sql_build_array('INSERT', array('autogroups_type_name' => $this->db->sql_escape($autogroups_type_name)));
+		$sql = 'INSERT INTO ' . $this->autogroups_types_table . ' ' . $this->db->sql_build_array('INSERT', array(
+			'autogroups_type_name' => (string) $autogroups_type_name)
+		);
 		$this->db->sql_query($sql);
 
 		// Return the id of the newly inserted condition type
