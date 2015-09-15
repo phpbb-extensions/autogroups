@@ -74,5 +74,9 @@ class acp_test extends autogroups_base
 		$this->assertContainsLang($test_data['type_lang'], $crawler->filter('#main table tbody tr td')->eq(1)->text());
 		$this->assertContains($test_data['min'], $crawler->filter('#main table tbody tr td')->eq(2)->text());
 		$this->assertContains($test_data['max'], $crawler->filter('#main table tbody tr td')->eq(3)->text());
+
+		// Confirm the log entry has been added correctly
+		$crawler = self::request('GET', 'adm/index.php?i=acp_logs&mode=admin&sid=' . $this->sid);
+		$this->assertContains(strip_tags($this->lang('ACP_AUTOGROUPS_SAVED_LOG')), $crawler->text());
 	}
 }
