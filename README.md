@@ -27,7 +27,7 @@ This is the repository for the development of the phpBB Auto Groups Extension
 
 ## Translations
 
-* Translations should be posted to the [Board Rules topic at phpBB.com](https://www.phpbb.com/customise/db/extension/boardrules/support/topic/130746). We accept pull requests for translation corrections, but we do not accept pull requests for new translations.
+* Translations should be posted to the [Auto Groups topic at phpBB.com](https://www.phpbb.com/customise/db/extension/auto_groups/support/topic/142681). We accept pull requests for translation corrections, but we do not accept pull requests for new translations.
 
 ## Extending Auto Groups
 
