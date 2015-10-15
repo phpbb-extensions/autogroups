@@ -156,7 +156,7 @@ class event_listener_test extends \phpbb_test_case
 				'phpbb.autogroups.type.posts',
 				'submit_post_check',
 				'core.submit_post_end',
-				'data',
+				'data_ary',
 				array('poster_id' => '$poster_ids'),
 				array('users' => '$poster_ids'),
 			),
