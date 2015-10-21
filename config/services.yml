@@ -19,7 +19,7 @@ services:
             - @service_container
             - @cache.driver
             - @dbal.conn
-            - @user
+            - @language
             - %phpbb.autogroups.tables.autogroups_rules%
             - %phpbb.autogroups.tables.autogroups_types%
 
@@ -37,6 +37,7 @@ services:
             - @cache.driver
             - @dbal.conn
             - @group_helper
+            - @language
             - @log
             - @phpbb.autogroups.manager
             - @request
