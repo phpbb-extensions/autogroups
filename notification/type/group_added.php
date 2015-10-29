@@ -74,7 +74,7 @@ class group_added extends \phpbb\notification\type\base
 	 */
 	public function get_title()
 	{
-		return $this->user->lang('AUTOGROUPS_NOTIFICATION_GROUP_ADDED', $this->get_data('group_name'));
+		return $this->language->lang('AUTOGROUPS_NOTIFICATION_GROUP_ADDED', $this->get_data('group_name'));
 	}
 
 	/**
