@@ -77,6 +77,7 @@ class admin_controller_base extends \phpbb_database_test_case
 			$cache,
 			$this->db,
 			$group_helper,
+			$lang,
 			$this->log,
 			$this->manager,
 			$this->request,

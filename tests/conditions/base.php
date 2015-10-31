@@ -37,6 +37,9 @@ class base extends \phpbb_database_test_case
 	/** @var \phpbb\autogroups\conditions\type\helper */
 	protected $helper;
 
+	/** @var \phpbb\language\language */
+	protected $lang;
+
 	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\notification\manager */
 	protected $notification_manager;
 
@@ -81,12 +84,13 @@ class base extends \phpbb_database_test_case
 
 		$this->db = $this->new_dbal();
 
-		$lang = $this->get_lang();
+		$this->lang = $this->get_lang();
 
-		$this->user = new \phpbb\user($lang, '\phpbb\datetime');
+		$this->user = new \phpbb\user($this->lang, '\phpbb\datetime');
 
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\user $user */
 		$user = $this->getMock('\phpbb\user', array(), array(
-			$lang,
+			$this->lang,
 			'\phpbb\datetime'
 		));
 
@@ -100,7 +104,7 @@ class base extends \phpbb_database_test_case
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_container->set('cache.driver', new \phpbb\cache\driver\dummy());
 		$phpbb_container->set('notification_manager', new \phpbb_mock_notification_manager());
-		$phpbb_container->set('group_helper', new \phpbb\group\helper($lang));
+		$phpbb_container->set('group_helper', new \phpbb\group\helper($this->lang));
 
 		$this->phpbb_container = $phpbb_container;
 

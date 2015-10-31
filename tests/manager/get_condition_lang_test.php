@@ -41,7 +41,7 @@ class get_condition_lang_test extends base_manager
 		$phpbb_container->set($type_name, new $condition(
 			$this->container,
 			$this->db,
-			$this->user,
+			$this->lang,
 			'phpbb_autogroups_rules',
 			'phpbb_autogroups_types',
 			dirname(__FILE__) . '/../../../../../',
@@ -54,7 +54,7 @@ class get_condition_lang_test extends base_manager
 			$phpbb_container,
 			new \phpbb_mock_cache(),
 			$this->db,
-			$this->user,
+			$this->lang,
 			'phpbb_autogroups_rules',
 			'phpbb_autogroups_types'
 		);

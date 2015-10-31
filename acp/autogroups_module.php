@@ -16,10 +16,13 @@ class autogroups_module
 
 	public function main($id, $mode)
 	{
-		global $phpbb_container, $request, $user;
+		global $phpbb_container, $request;
+
+		/** @var \phpbb\language\language $language */
+		$language = $phpbb_container->get('language');
 
 		// Add the auto groups ACP lang file
-		$user->add_lang_ext('phpbb/autogroups', 'autogroups_acp');
+		$language->add_lang('autogroups_acp', 'phpbb/autogroups');
 
 		// Get an instance of the admin controller
 		$admin_controller = $phpbb_container->get('phpbb.autogroups.admin_controller');
@@ -35,7 +38,7 @@ class autogroups_module
 		$this->tpl_name = 'manage_autogroups';
 
 		// Set the page title for our ACP auto groups
-		$this->page_title = $user->lang('ACP_AUTOGROUPS_MANAGE');
+		$this->page_title = $language->lang('ACP_AUTOGROUPS_MANAGE');
 
 		// Quick-submit settings from the general options form
 		if ($request->is_set_post('generalsubmit'))
@@ -49,7 +52,7 @@ class autogroups_module
 			case 'add':
 			case 'edit':
 				// Set the page title for our ACP auto groups
-				$this->page_title = $user->lang(strtoupper("ACP_AUTOGROUPS_$action"));
+				$this->page_title = $language->lang(strtoupper("ACP_AUTOGROUPS_$action"));
 
 				// Load the save auto group handle in the admin controller
 				$admin_controller->save_autogroup_rule($autogroups_id);
@@ -73,7 +76,7 @@ class autogroups_module
 				else
 				{
 					// Request confirmation from the user to delete the auto group rule
-					confirm_box(false, $user->lang('ACP_AUTOGROUPS_DELETE_CONFIRM'), build_hidden_fields(array(
+					confirm_box(false, $language->lang('ACP_AUTOGROUPS_DELETE_CONFIRM'), build_hidden_fields(array(
 						'autogroups_id'	=> $autogroups_id,
 						'mode'			=> $mode,
 						'action'		=> $action,
