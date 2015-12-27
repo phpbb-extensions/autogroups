@@ -291,7 +291,7 @@ class admin_controller implements admin_interface
 			FROM ' . $this->autogroups_rules_table . '
 			WHERE autogroups_id = ' . (int) $id;
 		$result = $this->db->sql_query($sql);
-		$autogroups_data = $this->db->sql_fetchrow();
+		$autogroups_data = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
 		return $autogroups_data;
@@ -340,7 +340,7 @@ class admin_controller implements admin_interface
 			WHERE autogroup_default_exempt = 1';
 		$result = $this->db->sql_query($sql, 7200);
 
-		while ($row = $this->db->sql_fetchrow())
+		while ($row = $this->db->sql_fetchrow($result))
 		{
 			$group_id_ary[] = $row['group_id'];
 		}
@@ -369,7 +369,7 @@ class admin_controller implements admin_interface
 			ORDER BY group_name';
 		$result = $this->db->sql_query($sql);
 
-		while ($group_row = $this->db->sql_fetchrow())
+		while ($group_row = $this->db->sql_fetchrow($result))
 		{
 			$this->template->assign_block_vars('groups', array(
 				'GROUP_ID'		=> $group_row['group_id'],
