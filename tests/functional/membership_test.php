@@ -64,6 +64,8 @@ class membership_test extends autogroups_base
 			WHERE user_id = ' . (int) $user_id;
 		$this->db->sql_query($sql);
 
+		$this->purge_cache();
+
 		return $this;
 	}
 
@@ -78,5 +80,7 @@ class membership_test extends autogroups_base
 			SET config_value = 0
 			WHERE config_name = 'autogroups_last_run'";
 		$this->db->sql_query($sql);
+
+		$this->purge_cache();
 	}
 }
