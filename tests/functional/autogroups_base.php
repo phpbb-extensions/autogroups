@@ -107,6 +107,8 @@ class autogroups_base extends \phpbb_functional_test_case
 		// Insert the data array
 		$this->db->sql_query('INSERT INTO phpbb_autogroups_rules ' . $this->db->sql_build_array('INSERT', $data));
 
+		$this->purge_cache();
+
 		return (int) $this->db->sql_nextid();
 	}
 
