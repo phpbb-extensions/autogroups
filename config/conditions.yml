@@ -18,31 +18,31 @@ services:
             - '%core.php_ext%'
 
 # ----- Auto groups types -----
-# Scope MUST be prototype for all the plugins to work.
+# Services MUST not be shared for all the plugins to work.
     phpbb.autogroups.type.posts:
         class: phpbb\autogroups\conditions\type\posts
-        scope: prototype
+        shared: false
         parent: phpbb.autogroups.type.base
         tags:
             - { name: phpbb.autogroups.type }
 
     phpbb.autogroups.type.warnings:
         class: phpbb\autogroups\conditions\type\warnings
-        scope: prototype
+        shared: false
         parent: phpbb.autogroups.type.base
         tags:
             - { name: phpbb.autogroups.type }
 
     phpbb.autogroups.type.membership:
         class: phpbb\autogroups\conditions\type\membership
-        scope: prototype
+        shared: false
         parent: phpbb.autogroups.type.base
         tags:
             - { name: phpbb.autogroups.type }
 
     phpbb.autogroups.type.birthdays:
         class: phpbb\autogroups\conditions\type\birthdays
-        scope: prototype
+        shared: false
         parent: phpbb.autogroups.type.base
         tags:
             - { name: phpbb.autogroups.type }
