@@ -10,8 +10,6 @@
 
 namespace phpbb\autogroups\tests\controller;
 
-require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
-
 class display_autogroups_test extends admin_controller_base
 {
 	/**
