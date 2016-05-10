@@ -41,5 +41,5 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	// Notifications
 	'AUTOGROUPS_NOTIFICATION_GROUP_ADDED'	=> '<strong>Grupo atualizado</strong>: Você foi adicionado no grupo %1$s.',
-	'AUTOGROUPS_NOTIFICATION_GROUP_REMOVED'	=> 'Grupo atualizado</strong>: Você foi  removido do grupo %1$s.',
+	'AUTOGROUPS_NOTIFICATION_GROUP_REMOVED'	=> '<strong>Grupo atualizado</strong>: Você foi removido do grupo %1$s.',
 ));
