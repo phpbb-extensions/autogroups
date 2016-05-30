@@ -113,7 +113,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 		// because the database does not yet have updated post counts.
 		if ($options['action'] == 'delete')
 		{
-			foreach ($user_row as $user_id => &$user_data)
+			foreach ($user_row as &$user_data)
 			{
 				$user_data['user_posts']--;
 			}
