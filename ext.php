@@ -127,7 +127,7 @@ class ext extends \phpbb\extension\base
 
 		foreach ($notification_types as $notification_type)
 		{
-			call_user_func(array($phpbb_notifications, $step . '_notifications'), $notification_type);
+			$phpbb_notifications->{$step . '_notifications'}($notification_type);
 		}
 
 		return 'notifications';
