@@ -10,8 +10,8 @@
 
 namespace phpbb\autogroups\tests\controller;
 
-require_once dirname(__FILE__) . '/../../../../../includes/functions.php';
-require_once dirname(__FILE__) . '/../../../../../includes/functions_acp.php';
+require_once __DIR__ . '/../../../../../includes/functions.php';
+require_once __DIR__ . '/../../../../../includes/functions_acp.php';
 
 class resync_autogroup_rule_test extends admin_controller_base
 {
