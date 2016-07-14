@@ -111,6 +111,6 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 		$birthday_year = (int) substr($user_birthday, -4);
 
 		// Return the users age
-		return ($birthday_year) ? (int) max(0, $now['year'] - $birthday_year) : 0;
+		return $birthday_year ? (int) max(0, $now['year'] - $birthday_year) : 0;
 	}
 }
