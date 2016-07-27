@@ -88,7 +88,7 @@ abstract class base implements type_interface
 				$this->autogroups_types_table => 'agt',
 			),
 			'WHERE'		=> 'agr.autogroups_type_id = agt.autogroups_type_id' .
-				(($type) ? " AND agt.autogroups_type_name = '" . $this->db->sql_escape($type) . "'" : ''),
+				($type ? " AND agt.autogroups_type_name = '" . $this->db->sql_escape($type) . "'" : ''),
 		);
 		$sql = $this->db->sql_build_query('SELECT', $sql_array);
 		$result = $this->db->sql_query($sql, 7200);
