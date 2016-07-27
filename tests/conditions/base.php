@@ -10,7 +10,7 @@
 
 namespace phpbb\autogroups\tests\conditions;
 
-require_once dirname(__FILE__) . '/../../../../../includes/functions_user.php';
+require_once __DIR__ . '/../../../../../includes/functions_user.php';
 
 /**
 * Base class for conditions type tests
@@ -57,8 +57,8 @@ class base extends \phpbb_database_test_case
 	public function getDataSet()
 	{
 		// Aggregate multiple fixtures into a single dataset
-		$ds1 = $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/' . $this->condition_type . '.xml');
-		$ds2 = $this->createXMLDataSet(dirname(__FILE__) . '/fixtures/users.xml');
+		$ds1 = $this->createXMLDataSet(__DIR__ . '/fixtures/' . $this->condition_type . '.xml');
+		$ds2 = $this->createXMLDataSet(__DIR__ . '/fixtures/users.xml');
 
 		$compositeDs = new \PHPUnit_Extensions_Database_DataSet_CompositeDataSet();
 		$compositeDs->addDataSet($ds1);

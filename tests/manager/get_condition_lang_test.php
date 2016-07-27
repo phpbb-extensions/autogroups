@@ -44,7 +44,7 @@ class get_condition_lang_test extends base_manager
 			$this->lang,
 			'phpbb_autogroups_rules',
 			'phpbb_autogroups_types',
-			dirname(__FILE__) . '/../../../../../',
+			__DIR__ . '/../../../../../',
 			'php'
 		));
 

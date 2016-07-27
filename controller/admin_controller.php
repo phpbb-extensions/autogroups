@@ -144,7 +144,7 @@ class admin_controller implements admin_interface
 			'S_DEFAULT'		=> (bool) $autogroups_data['autogroups_default'],
 			'S_NOTIFY'		=> (bool) $autogroups_data['autogroups_notify'],
 
-			'U_FORM_ACTION'	=> $this->u_action . '&amp;action=' . (($autogroups_id) ? 'edit' : 'add') . '&amp;autogroups_id=' . $autogroups_id,
+			'U_FORM_ACTION'	=> $this->u_action . '&amp;action=' . ($autogroups_id ? 'edit' : 'add') . '&amp;autogroups_id=' . $autogroups_id,
 			'U_ACTION'		=> $this->u_action,
 			'U_BACK'		=> $this->u_action,
 		));
@@ -275,7 +275,7 @@ class admin_controller implements admin_interface
 		{
 			$sql = 'INSERT INTO ' . $this->autogroups_rules_table . ' ' . $this->db->sql_build_array('INSERT', $data);
 			$this->db->sql_query($sql);
-			$autogroups_id = $this->db->sql_nextid();
+			$autogroups_id = (int) $this->db->sql_nextid();
 		}
 
 		// Apply the auto group to all users
@@ -375,7 +375,7 @@ class admin_controller implements admin_interface
 		$sql = 'SELECT group_id, group_name, group_type
 			FROM ' . GROUPS_TABLE . '
 			WHERE ' . $this->db->sql_in_set('group_name', array('BOTS', 'GUESTS'), true, true) .
-				(($exclude_predefined_groups) ? ' AND group_type <> ' . GROUP_SPECIAL : '') . '
+				($exclude_predefined_groups ? ' AND group_type <> ' . GROUP_SPECIAL : '') . '
 			ORDER BY group_name';
 		$result = $this->db->sql_query($sql);
 
