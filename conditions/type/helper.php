@@ -114,16 +114,13 @@ class helper
 	 */
 	public function prepare_users_for_query($user_ids)
 	{
-		if (is_array($user_ids))
+		if (!is_array($user_ids))
 		{
-			// Cast each array value to integer
-			$user_ids = array_map('intval', $user_ids);
+			$user_ids = array($user_ids);
 		}
-		else
-		{
-			// Cast user id to integer and put it inside an array
-			$user_ids = array((int) $user_ids);
-		}
+
+		// Cast each array value to integer
+		$user_ids = array_map('intval', $user_ids);
 
 		return $user_ids;
 	}
