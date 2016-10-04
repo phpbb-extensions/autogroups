@@ -20,7 +20,7 @@ interface admin_interface
 	/**
 	 * Display the auto group rules
 	 *
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function display_autogroups();
@@ -29,7 +29,7 @@ interface admin_interface
 	 * Save an Auto Group rule
 	 *
 	 * @param int $autogroups_id The auto groups identifier to edit
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function save_autogroup_rule($autogroups_id);
@@ -38,7 +38,7 @@ interface admin_interface
 	 * Delete the auto group rule
 	 *
 	 * @param int $autogroups_id The auto groups identifier to delete
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function delete_autogroup_rule($autogroups_id);
@@ -47,7 +47,7 @@ interface admin_interface
 	 * Sync an auto group by running it's check against all users
 	 *
 	 * @param int $autogroups_id The auto groups identifier to delete
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function resync_autogroup_rule($autogroups_id);
@@ -55,7 +55,7 @@ interface admin_interface
 	/**
 	 * Set form data from the ACP general options section
 	 *
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function submit_autogroups_options();
@@ -64,7 +64,7 @@ interface admin_interface
 	 * Set page url
 	 *
 	 * @param string $u_action Custom form action
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function set_page_url($u_action);

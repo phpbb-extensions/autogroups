@@ -117,7 +117,6 @@ class autogroups_base extends \phpbb_functional_test_case
 	 *
 	 * @param int    $user_id    The user id
 	 * @param string $group_name The name of the group
-	 * @return null
 	 */
 	public function assertInGroup($user_id, $group_name)
 	{
@@ -130,7 +129,6 @@ class autogroups_base extends \phpbb_functional_test_case
 	 *
 	 * @param int    $user_id    The user id
 	 * @param string $group_name The name of the group
-	 * @return null
 	 */
 	public function assertNotInGroup($user_id, $group_name)
 	{

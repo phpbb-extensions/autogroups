@@ -99,7 +99,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 	 *
 	 * @param array $user_row Array of user data to perform checks on
 	 * @param array $options  Array of optional data
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function check($user_row, $options = array())

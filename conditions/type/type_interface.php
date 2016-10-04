@@ -62,7 +62,7 @@ interface type_interface
 	 *
 	 * @param array $user_id_ary     User(s) to add to group
 	 * @param array $group_rule_data Auto group rule data
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function add_users_to_group($user_id_ary, $group_rule_data);
@@ -72,7 +72,7 @@ interface type_interface
 	 *
 	 * @param array $user_id_ary     User(s) to remove from group
 	 * @param array $group_rule_data Auto group rule data
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function remove_users_from_group($user_id_ary, $group_rule_data);
@@ -82,7 +82,7 @@ interface type_interface
 	 *
 	 * @param array $user_row Array of user data to perform checks on
 	 * @param array $options  Array of optional data
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function check($user_row, $options = array());

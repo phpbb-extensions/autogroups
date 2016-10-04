@@ -50,7 +50,7 @@ class m8_default_exemption_data extends \phpbb\db\migration\migration
 	/**
 	 * Set Administrators and Global Moderators to default exempt
 	 *
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function update_default_exempt_groups()
