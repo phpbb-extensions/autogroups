@@ -58,7 +58,7 @@ class listener implements EventSubscriberInterface
 	 * Delete autogroups rules when their related group is deleted
 	 *
 	 * @param \phpbb\event\data $event The event object
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function delete_group_rules($event)
@@ -70,7 +70,7 @@ class listener implements EventSubscriberInterface
 	 * Load common language files during user setup
 	 *
 	 * @param \phpbb\event\data $event The event object
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function load_language_on_setup($event)
@@ -87,7 +87,7 @@ class listener implements EventSubscriberInterface
 	 * Check user's post count after submitting a post for auto groups
 	 *
 	 * @param \phpbb\event\data $event The event object
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function submit_post_check($event)
@@ -101,7 +101,7 @@ class listener implements EventSubscriberInterface
 	 * Check user's post count after deleting a post for auto groups
 	 *
 	 * @param \phpbb\event\data $event The event object
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function delete_post_check($event)
@@ -116,7 +116,7 @@ class listener implements EventSubscriberInterface
 	 * Check user's warnings count after receiving a warning for auto groups
 	 *
 	 * @param \phpbb\event\data $event The event object
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function add_warning_check($event)

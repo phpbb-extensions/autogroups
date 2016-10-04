@@ -228,7 +228,7 @@ class admin_controller implements admin_interface
 	 *
 	 * @param int $autogroups_id An auto group identifier
 	 *                           A value of 0 is new, otherwise we're updating
-	 * @return null
+	 * @return void
 	 * @access protected
 	 */
 	protected function submit_autogroup_rule($autogroups_id = 0)
@@ -327,7 +327,7 @@ class admin_controller implements admin_interface
 	/**
 	 * Display multi-select box containing all user groups
 	 *
-	 * @return null
+	 * @return void
 	 * @access protected
 	 */
 	protected function display_group_exempt_options()
@@ -356,7 +356,7 @@ class admin_controller implements admin_interface
 	 *
 	 * @param array $selected                  An array of identifiers for selected group(s)
 	 * @param bool  $exclude_predefined_groups Exclude GROUP_SPECIAL
-	 * @return null
+	 * @return void
 	 * @access protected
 	 */
 	protected function build_groups_menu($selected, $exclude_predefined_groups = false)
@@ -385,7 +385,7 @@ class admin_controller implements admin_interface
 	 * Build template vars for a select menu of auto group conditions
 	 *
 	 * @param int $selected An identifier for the selected group
-	 * @return null
+	 * @return void
 	 * @access protected
 	 */
 	protected function build_conditions_menu($selected)

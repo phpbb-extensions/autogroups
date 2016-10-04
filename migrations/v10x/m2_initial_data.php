@@ -43,7 +43,7 @@ class m2_initial_data extends \phpbb\db\migration\migration
 	/**
 	 * Add auto group types to the database
 	 *
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function add_autogroups_type_data()

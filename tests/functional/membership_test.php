@@ -17,8 +17,6 @@ class membership_test extends autogroups_base
 {
 	/**
 	 * Test the auto groups membership type
-	 *
-	 * @return null
 	 */
 	public function test_autogroups_memberships()
 	{
@@ -71,8 +69,6 @@ class membership_test extends autogroups_base
 
 	/**
 	 * Reset the auto groups cron job last run time
-	 *
-	 * @return null
 	 */
 	protected function reset_cron()
 	{

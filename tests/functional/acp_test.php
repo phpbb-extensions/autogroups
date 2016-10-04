@@ -17,8 +17,6 @@ class acp_test extends autogroups_base
 {
 	/**
 	 * Test the auto groups ACP
-	 *
-	 * @return null
 	 */
 	public function test_autogroups_acp()
 	{

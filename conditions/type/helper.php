@@ -131,7 +131,7 @@ class helper
 	 * @param string $type       Type of notification to send (group_added|group_removed)
 	 * @param array $user_id_ary Array of user(s) to notify
 	 * @param int $group_id      The usergroup identifier
-	 * @return null
+	 * @return void
 	 * @access public
 	 */
 	public function send_notifications($type, $user_id_ary, $group_id)

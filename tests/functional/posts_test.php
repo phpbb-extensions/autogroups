@@ -17,8 +17,6 @@ class posts_test extends autogroups_base
 {
 	/**
 	 * Test the auto groups posts type
-	 *
-	 * @return null
 	 */
 	public function test_autogroups_posts()
 	{
