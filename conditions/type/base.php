@@ -72,7 +72,7 @@ abstract class base implements type_interface
 
 		if (!function_exists('group_user_add'))
 		{
-			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+			include $this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext;
 		}
 	}
 

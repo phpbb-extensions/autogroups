@@ -138,7 +138,7 @@ class helper
 	{
 		if (!function_exists('get_group_name'))
 		{
-			include($this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext);
+			include $this->phpbb_root_path . 'includes/functions_user.' . $this->php_ext;
 		}
 
 		$this->notification_manager->add_notifications("phpbb.autogroups.notification.type.$type", array(
