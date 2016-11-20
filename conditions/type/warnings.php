@@ -133,7 +133,7 @@ class warnings extends \phpbb\autogroups\conditions\type\base
 				}
 			}
 
-			if (sizeof($where))
+			if (count($where))
 			{
 				$sql_where[] = '(' . implode(' AND ', $where) . ')';
 			}
@@ -141,6 +141,6 @@ class warnings extends \phpbb\autogroups\conditions\type\base
 			$group_ids[] = $group_rule['autogroups_group_id'];
 		}
 
-		return '(' . (sizeof($sql_where) ? implode(' OR ', $sql_where) . ' OR ' : '') . $this->db->sql_in_set('ug.group_id', $group_ids, false, true) . ')';
+		return '(' . (count($sql_where) ? implode(' OR ', $sql_where) . ' OR ' : '') . $this->db->sql_in_set('ug.group_id', $group_ids, false, true) . ')';
 	}
 }
