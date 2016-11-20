@@ -76,7 +76,7 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 		$sql = 'SELECT user_id, ' . implode(', ', $condition_data) . '
 			FROM ' . USERS_TABLE . '
 			WHERE ' . $this->db->sql_in_set('user_type', array(USER_INACTIVE, USER_IGNORE), true) . '
-				AND ' . $this->db->sql_in_set('user_id', $user_ids, !sizeof($user_ids), true);
+				AND ' . $this->db->sql_in_set('user_id', $user_ids, !count($user_ids), true);
 		$result = $this->db->sql_query($sql);
 
 		$user_data = array();

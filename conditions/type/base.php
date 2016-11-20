@@ -125,7 +125,7 @@ abstract class base implements type_interface
 			$default_exempt_users = $this->helper->get_default_exempt_users();
 
 			// Remove any exempt users from our main user array
-			if (sizeof($default_exempt_users))
+			if (count($default_exempt_users))
 			{
 				$user_id_ary = array_diff($user_id_ary, $default_exempt_users);
 			}
@@ -141,7 +141,7 @@ abstract class base implements type_interface
 	public function remove_users_from_group($user_id_ary, $group_rule_data)
 	{
 		// Return if the user_id_array is empty
-		if (!sizeof($user_id_ary))
+		if (!count($user_id_ary))
 		{
 			return;
 		}
@@ -203,13 +203,13 @@ abstract class base implements type_interface
 					}
 				}
 
-				if (sizeof($add_users_to_group))
+				if (count($add_users_to_group))
 				{
 					// Add users to groups
 					$this->add_users_to_group($add_users_to_group, $group_rule);
 				}
 
-				if (sizeof($remove_users_from_group))
+				if (count($remove_users_from_group))
 				{
 					// Filter users that should not be removed
 					$remove_users_from_group = $this->filter_users($remove_users_from_group, $group_rule, $group_rules);
@@ -257,7 +257,7 @@ abstract class base implements type_interface
 			// Only look at other auto group rules that apply to this group
 			if ($group_rule['autogroups_group_id'] == $current_rule['autogroups_group_id'] &&
 				$group_rule['autogroups_type_id'] != $current_rule['autogroups_type_id'] &&
-				sizeof($user_id_ary)
+				count($user_id_ary)
 			)
 			{
 				// Load other auto group rule's condition type and get new data for our user(s)
