@@ -60,6 +60,6 @@ class m3_config_data extends \phpbb\db\migration\migration
 		}
 		$this->db->sql_freeresult($result);
 
-		return sizeof($group_ids) ? serialize($group_ids) : '';
+		return count($group_ids) ? serialize($group_ids) : '';
 	}
 }
