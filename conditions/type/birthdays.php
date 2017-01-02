@@ -107,10 +107,27 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 			$now = phpbb_gmgetdate();
 		}
 
-		// Get birth year from the stored birth date
-		$birthday_year = (int) substr($user_birthday, -4);
+		$age = 0;
 
-		// Return the users age
-		return $birthday_year ? (int) max(0, $now['year'] - $birthday_year) : 0;
+		if ($user_birthday)
+		{
+			list($bday_day, $bday_month, $bday_year) = array_map('intval', explode('-', $user_birthday));
+
+			if ($bday_year)
+			{
+				$diff = $now['mon'] - $bday_month;
+				if ($diff == 0)
+				{
+					$diff = ($now['mday'] - $bday_day < 0) ? 1 : 0;
+				}
+				else
+				{
+					$diff = ($diff < 0) ? 1 : 0;
+				}
+				$age = max(0, (int) ($now['year'] - $bday_year - $diff));
+			}
+		}
+
+		return $age;
 	}
 }
