@@ -111,7 +111,7 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 		$birthday_year = (int) substr($user_birthday, -4);
 		if ($birthday_year)
 		{
-			$birthday_datetime = new \DateTime($user_birthday);
+			$birthday_datetime = new \DateTime(str_replace(' ', '', $user_birthday));
 			$diff = $birthday_datetime->diff($now);
 			$age = (int) $diff->format('%y');
 		}
