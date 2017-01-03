@@ -103,29 +103,16 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 
 		if (!isset($now))
 		{
-			// Get the current UTC timestamp
-			$now = phpbb_gmgetdate();
+			$now = new \DateTime('now');
 		}
 
 		$age = 0;
 
 		if ($user_birthday)
 		{
-			list($bday_day, $bday_month, $bday_year) = array_map('intval', explode('-', $user_birthday));
-
-			if ($bday_year)
-			{
-				$diff = $now['mon'] - $bday_month;
-				if ($diff == 0)
-				{
-					$diff = ($now['mday'] - $bday_day < 0) ? 1 : 0;
-				}
-				else
-				{
-					$diff = ($diff < 0) ? 1 : 0;
-				}
-				$age = max(0, (int) ($now['year'] - $bday_year - $diff));
-			}
+			$birthday_datetime = new \DateTime($user_birthday);
+			$diff = $birthday_datetime->diff($now);
+			$age = (int) $diff->format('%y');
 		}
 
 		return $age;
