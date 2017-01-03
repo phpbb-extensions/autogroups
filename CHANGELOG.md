@@ -2,6 +2,7 @@
 
 ## 1.0.2 - 2016-11-30
 
+- Fixed new years day bug in the auto group by user age condition
 - Various code improvements and maintenance
 - Added Croatian language packs
 - Added Chinese language packs
