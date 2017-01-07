@@ -52,7 +52,7 @@
 	],
 	"require": {
 		"php": ">=5.4",
-		"phpbb/phpbb": ">=3.2.0@dev",
+		"phpbb/phpbb": ">=3.2.0",
 		"composer/installers": "~1.0"
 	},
 	"require-dev": {
@@ -61,7 +61,7 @@
 	"extra": {
 		"display-name": "Auto Groups",
 		"soft-require": {
-			"phpbb/phpbb": ">=3.2.0@dev,<3.3.0@dev"
+			"phpbb/phpbb": ">=3.2.0,<3.3"
 		},
 		"version-check": {
 			"host": "www.phpbb.com",

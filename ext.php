@@ -25,7 +25,7 @@ class ext extends \phpbb\extension\base
 	 * The current phpBB version should meet or exceed
 	 * the minimum version required by this extension:
 	 *
-	 * Requires phpBB 3.2.0-dev due to the revised notifications system
+	 * Requires phpBB 3.2.0 due to the revised notifications system
 	 * and new group helper.
 	 *
 	 * @return bool
@@ -33,7 +33,7 @@ class ext extends \phpbb\extension\base
 	 */
 	public function is_enableable()
 	{
-		return phpbb_version_compare(PHPBB_VERSION, '3.2.0-dev', '>=');
+		return phpbb_version_compare(PHPBB_VERSION, '3.2.0', '>=');
 	}
 
 	/**
