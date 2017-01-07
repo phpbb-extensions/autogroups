@@ -25,7 +25,7 @@ class group_removed extends \phpbb\autogroups\notification\type\group_added
 	 */
 	public function get_title()
 	{
-		return $this->user->lang('AUTOGROUPS_NOTIFICATION_GROUP_REMOVED', $this->get_data('group_name'));
+		return $this->language->lang('AUTOGROUPS_NOTIFICATION_GROUP_REMOVED', $this->get_data('group_name'));
 	}
 
 	/**

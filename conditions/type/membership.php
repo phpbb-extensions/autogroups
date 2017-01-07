@@ -45,7 +45,7 @@ class membership extends \phpbb\autogroups\conditions\type\base
 	 */
 	public function get_condition_type_name()
 	{
-		return $this->user->lang('AUTOGROUPS_TYPE_MEMBERSHIP');
+		return $this->language->lang('AUTOGROUPS_TYPE_MEMBERSHIP');
 	}
 
 	/**

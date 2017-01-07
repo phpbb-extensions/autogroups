@@ -10,7 +10,6 @@
 
 namespace phpbb\autogroups\tests\conditions;
 
-require_once __DIR__ . '/../../../../../includes/functions.php';
 require_once __DIR__ . '/../../../../../includes/functions_user.php';
 
 /**
@@ -36,6 +35,9 @@ class base extends \phpbb_database_test_case
 
 	/** @var \phpbb\autogroups\conditions\type\helper */
 	protected $helper;
+
+	/** @var \phpbb\language\language */
+	protected $lang;
 
 	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\notification\manager */
 	protected $notification_manager;
@@ -65,6 +67,14 @@ class base extends \phpbb_database_test_case
 		return $compositeDs;
 	}
 
+	public function get_lang()
+	{
+		global $phpbb_root_path, $phpEx;
+
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		return new \phpbb\language\language($lang_loader);
+	}
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -72,10 +82,18 @@ class base extends \phpbb_database_test_case
 		global $auth, $db, $user, $phpbb_container, $phpbb_dispatcher, $phpbb_log, $phpbb_root_path, $phpEx;
 
 		$this->db = $this->new_dbal();
-		$db = $this->db;
 
-		$this->user = new \phpbb\user('\phpbb\datetime');
-		$user = $this->user;
+		$this->lang = $this->get_lang();
+
+		$this->user = new \phpbb\user($this->lang, '\phpbb\datetime');
+
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\user $user */
+		$user = $this->getMock('\phpbb\user', array(), array(
+			$this->lang,
+			'\phpbb\datetime'
+		));
+
+		$db = $this->db;
 
 		/** @var $auth \PHPUnit_Framework_MockObject_MockObject|\phpbb\auth\auth */
 		$auth = $this->getMock('\phpbb\auth\auth');
@@ -83,8 +101,10 @@ class base extends \phpbb_database_test_case
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$phpbb_container = new \phpbb_mock_container_builder();
-		$phpbb_container->set('cache.driver', new \phpbb\cache\driver\null());
+		$phpbb_container->set('cache.driver', new \phpbb\cache\driver\dummy());
 		$phpbb_container->set('notification_manager', new \phpbb_mock_notification_manager());
+		$phpbb_container->set('group_helper', new \phpbb\group\helper($this->lang));
+
 		$this->phpbb_container = $phpbb_container;
 
 		$phpbb_log = new \phpbb\log\log($db, $user, $auth, $phpbb_dispatcher, $phpbb_root_path, 'adm/', $phpEx, LOG_TABLE);

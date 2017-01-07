@@ -55,7 +55,7 @@ class group_added extends \phpbb\notification\type\base
 
 		foreach ($data['user_ids'] as $user_id)
 		{
-			$users[$user_id] = array('');
+			$users[$user_id] = $this->notification_manager->get_default_methods();
 		}
 
 		return $users;
@@ -74,7 +74,7 @@ class group_added extends \phpbb\notification\type\base
 	 */
 	public function get_title()
 	{
-		return $this->user->lang('AUTOGROUPS_NOTIFICATION_GROUP_ADDED', $this->get_data('group_name'));
+		return $this->language->lang('AUTOGROUPS_NOTIFICATION_GROUP_ADDED', $this->get_data('group_name'));
 	}
 
 	/**
@@ -108,6 +108,6 @@ class group_added extends \phpbb\notification\type\base
 	{
 		$this->set_data('group_name', $data['group_name']);
 
-		return parent::create_insert_array($data, $pre_create_data);
+		parent::create_insert_array($data, $pre_create_data);
 	}
 }

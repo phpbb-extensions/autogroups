@@ -10,6 +10,7 @@
 
 namespace phpbb\autogroups\conditions;
 
+use phpbb\exception\runtime_exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -29,8 +30,8 @@ class manager
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $language;
 
 	/** @var string The database table the auto group rules are stored in */
 	protected $autogroups_rules_table;
@@ -45,19 +46,19 @@ class manager
 	 * @param ContainerInterface                   $phpbb_container        Service container interface
 	 * @param \phpbb\cache\driver\driver_interface $cache                  Cache driver interface
 	 * @param \phpbb\db\driver\driver_interface    $db                     Database object
-	 * @param \phpbb\user                          $user                   User object
+	 * @param \phpbb\language\language             $language               Language object
 	 * @param string                               $autogroups_rules_table Name of the table used to store auto group rules data
 	 * @param string                               $autogroups_types_table Name of the table used to store auto group types data
 	 *
 	 * @access public
 	 */
-	public function __construct($autogroups_types, ContainerInterface $phpbb_container, \phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
+	public function __construct($autogroups_types, ContainerInterface $phpbb_container, \phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $language, $autogroups_rules_table, $autogroups_types_table)
 	{
 		$this->autogroups_types = $autogroups_types;
 		$this->phpbb_container = $phpbb_container;
 		$this->cache = $cache;
 		$this->db = $db;
-		$this->user = $user;
+		$this->language = $language;
 		$this->autogroups_rules_table = $autogroups_rules_table;
 		$this->autogroups_types_table = $autogroups_types_table;
 	}
@@ -149,7 +150,7 @@ class manager
 			// Clear any cached autogroups data
 			$this->cache->destroy('_autogroups_type_ids');
 		}
-		catch (\RuntimeException $e)
+		catch (runtime_exception $e)
 		{
 			// Continue
 		}
@@ -176,7 +177,7 @@ class manager
 	 * @param string $autogroups_type_name The name of the auto group type
 	 *
 	 * @return int The condition_type_id
-	 * @throws \RuntimeException
+	 * @throws runtime_exception
 	 */
 	public function get_autogroups_type_id($autogroups_type_name)
 	{
@@ -205,7 +206,7 @@ class manager
 		{
 			if (!isset($this->autogroups_types[$autogroups_type_name]))
 			{
-				throw new \RuntimeException($this->user->lang('AUTOGROUPS_TYPE_NOT_EXIST', $autogroups_type_name));
+				throw new runtime_exception('AUTOGROUPS_TYPE_NOT_EXIST', array($autogroups_type_name));
 			}
 
 			$autogroups_type_ids[$autogroups_type_name] = $this->add_autogroups_type($autogroups_type_name);
@@ -295,7 +296,7 @@ class manager
 		}
 		catch (\InvalidArgumentException $e)
 		{
-			return $this->user->lang('AUTOGROUPS_TYPE_NOT_EXIST', $autogroups_type_name);
+			return $this->language->lang('AUTOGROUPS_TYPE_NOT_EXIST', $autogroups_type_name);
 		}
 
 		return $condition->get_condition_type_name();

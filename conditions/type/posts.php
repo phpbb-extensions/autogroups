@@ -45,7 +45,7 @@ class posts extends \phpbb\autogroups\conditions\type\base
 	 */
 	public function get_condition_type_name()
 	{
-		return $this->user->lang('AUTOGROUPS_TYPE_POSTS');
+		return $this->language->lang('AUTOGROUPS_TYPE_POSTS');
 	}
 
 	/**

@@ -26,8 +26,8 @@ abstract class base implements type_interface
 	/** @var \phpbb\autogroups\conditions\type\helper */
 	protected $helper;
 
-	/** @var \phpbb\user */
-	protected $user;
+	/** @var \phpbb\language\language */
+	protected $language;
 
 	/** @var string The database table the auto group rules are stored in */
 	protected $autogroups_rules_table;
@@ -46,7 +46,7 @@ abstract class base implements type_interface
 	 *
 	 * @param ContainerInterface                $container              Service container interface
 	 * @param \phpbb\db\driver\driver_interface $db                     Database object
-	 * @param \phpbb\user                       $user                   User object
+	 * @param \phpbb\language\language          $language               Language object
 	 * @param string                            $autogroups_rules_table Name of the table used to store auto group rules data
 	 * @param string                            $autogroups_types_table Name of the table used to store auto group types data
 	 * @param string                            $phpbb_root_path        phpBB root path
@@ -54,11 +54,11 @@ abstract class base implements type_interface
 	 *
 	 * @access public
 	 */
-	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
+	public function __construct(ContainerInterface $container, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $language, $autogroups_rules_table, $autogroups_types_table, $phpbb_root_path, $php_ext)
 	{
 		$this->container = $container;
 		$this->db = $db;
-		$this->user = $user;
+		$this->language = $language;
 
 		$this->autogroups_rules_table = $autogroups_rules_table;
 		$this->autogroups_types_table = $autogroups_types_table;

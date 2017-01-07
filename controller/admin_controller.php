@@ -21,6 +21,12 @@ class admin_controller implements admin_interface
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\group\helper */
+	protected $group_helper;
+
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\log\log */
 	protected $log;
 
@@ -50,6 +56,8 @@ class admin_controller implements admin_interface
 	 *
 	 * @param \phpbb\cache\driver\driver_interface $cache                    Cache driver interface
 	 * @param \phpbb\db\driver\driver_interface    $db                       Database object
+	 * @param \phpbb\group\helper                  $group_helper             Group helper object
+	 * @param \phpbb\language\language             $language                 Language object
 	 * @param \phpbb\log\log                       $log                      The phpBB log system
 	 * @param \phpbb\autogroups\conditions\manager $manager                  Auto groups condition manager object
 	 * @param \phpbb\request\request               $request                  Request object
@@ -59,10 +67,12 @@ class admin_controller implements admin_interface
 	 * @param string                               $autogroups_types_table   Name of the table used to store auto group types data
 	 * @access public
 	 */
-	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\log\log $log, \phpbb\autogroups\conditions\manager $manager, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
+	public function __construct(\phpbb\cache\driver\driver_interface $cache, \phpbb\db\driver\driver_interface $db, \phpbb\group\helper $group_helper, \phpbb\language\language $language, \phpbb\log\log $log, \phpbb\autogroups\conditions\manager $manager, \phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, $autogroups_rules_table, $autogroups_types_table)
 	{
 		$this->cache = $cache;
 		$this->db = $db;
+		$this->group_helper = $group_helper;
+		$this->language = $language;
 		$this->log = $log;
 		$this->manager = $manager;
 		$this->request = $request;
@@ -158,8 +168,8 @@ class admin_controller implements admin_interface
 		{
 			$json_response = new \phpbb\json_response;
 			$json_response->send(array(
-				'MESSAGE_TITLE'	=> $this->user->lang('INFORMATION'),
-				'MESSAGE_TEXT'	=> $this->user->lang('ACP_AUTOGROUPS_DELETE_SUCCESS'),
+				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
+				'MESSAGE_TEXT'	=> $this->language->lang('ACP_AUTOGROUPS_DELETE_SUCCESS'),
 				'REFRESH_DATA'	=> array(
 					'time'	=> 3
 				)
@@ -175,7 +185,7 @@ class admin_controller implements admin_interface
 		// If the link hash is invalid, stop and show an error message to the user
 		if (!check_link_hash($this->request->variable('hash', ''), 'sync' . $autogroups_id))
 		{
-			trigger_error($this->user->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		try
@@ -216,7 +226,7 @@ class admin_controller implements admin_interface
 		}
 		else
 		{
-			confirm_box(false, $this->user->lang('CONFIRM_OPERATION'), build_hidden_fields(array(
+			confirm_box(false, $this->language->lang('CONFIRM_OPERATION'), build_hidden_fields(array(
 				'generalsubmit' => true,
 				'group_ids' => $autogroups_default_exempt,
 			)));
@@ -245,13 +255,13 @@ class admin_controller implements admin_interface
 		// Prevent form submit when no user groups are available or selected
 		if (!$data['autogroups_group_id'])
 		{
-			trigger_error($this->user->lang('ACP_AUTOGROUPS_INVALID_GROUPS') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_GROUPS') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		// Prevent form submit when min and max values are identical
 		if ($data['autogroups_min_value'] == $data['autogroups_max_value'])
 		{
-			trigger_error($this->user->lang('ACP_AUTOGROUPS_INVALID_RANGE') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_RANGE') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
 		if ($autogroups_id != 0) // Update existing auto group data
@@ -275,7 +285,7 @@ class admin_controller implements admin_interface
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'ACP_AUTOGROUPS_SAVED_LOG', time());
 
 		// Output message to user after submitting the form
-		trigger_error($this->user->lang('ACP_AUTOGROUPS_SUBMIT_SUCCESS') . adm_back_link($this->u_action));
+		trigger_error($this->language->lang('ACP_AUTOGROUPS_SUBMIT_SUCCESS') . adm_back_link($this->u_action));
 	}
 
 	/**
@@ -373,7 +383,7 @@ class admin_controller implements admin_interface
 		{
 			$this->template->assign_block_vars('groups', array(
 				'GROUP_ID'		=> $group_row['group_id'],
-				'GROUP_NAME'	=> ($group_row['group_type'] == GROUP_SPECIAL) ? $this->user->lang('G_' . $group_row['group_name']) : $group_row['group_name'],
+				'GROUP_NAME'	=> $this->group_helper->get_name($group_row['group_name']),
 
 				'S_SELECTED'	=> in_array($group_row['group_id'], $selected),
 			));

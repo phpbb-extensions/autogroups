@@ -34,6 +34,9 @@ class base_manager extends \phpbb_database_test_case
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
+	/** @var \phpbb\language\language */
+	protected $lang;
+
 	/** @var \phpbb\autogroups\conditions\manager */
 	protected $manager;
 
@@ -49,8 +52,12 @@ class base_manager extends \phpbb_database_test_case
 	{
 		parent::setUp();
 
+		global $phpbb_root_path, $phpEx;
+
 		$this->db = $this->new_dbal();
-		$this->user = new \phpbb\user('\phpbb\datetime');
+		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
+		$this->lang = new \phpbb\language\language($lang_loader);
+		$this->user = new \phpbb\user($this->lang, '\phpbb\datetime');
 		$cache = new \phpbb_mock_cache();
 		$this->container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
 
@@ -68,7 +75,7 @@ class base_manager extends \phpbb_database_test_case
 			$this->container,
 			$cache,
 			$this->db,
-			$this->user,
+			$this->lang,
 			'phpbb_autogroups_rules',
 			'phpbb_autogroups_types'
 		);
