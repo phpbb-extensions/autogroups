@@ -42,6 +42,7 @@ branches:
     - master
     - develop
     - /^develop-.*$/
+    - /^\d+(\.\d+)?\.x$/
 
 install:
   - travis/prepare-phpbb.sh $EXTNAME $PHPBB_BRANCH
