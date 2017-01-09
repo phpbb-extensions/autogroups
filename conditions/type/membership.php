@@ -145,7 +145,7 @@ class membership extends \phpbb\autogroups\conditions\type\base
 	 */
 	protected function days_to_timestamp($value)
 	{
-		return (int) strtotime("$value days ago");
+		return (int) strtotime("{$value} days ago");
 	}
 
 	/**
@@ -157,9 +157,8 @@ class membership extends \phpbb\autogroups\conditions\type\base
 	 */
 	protected function timestamp_to_days($value)
 	{
-		$now  = new \DateTime('now');
-		$time = new \DateTime();
-		$time->setTimestamp($value);
+		$now  = new \DateTime();
+		$time = new \DateTime("@{$value}");
 		$diff = $now->diff($time);
 		return (int) $diff->format('%a');
 	}
