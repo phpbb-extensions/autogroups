@@ -127,7 +127,7 @@ class membership_test extends type_test_case
 	public function helper_update_user_data($user_id, $data)
 	{
 		$sql = 'UPDATE phpbb_users
-			SET user_regdate = ' . (int) (time() - ($data * 86400)) . '
+			SET user_regdate = ' . (int) (strtotime("$data days ago")) . '
 			WHERE user_id = ' . (int) $user_id;
 		$this->db->sql_query($sql);
 	}
