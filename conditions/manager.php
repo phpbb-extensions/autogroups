@@ -241,7 +241,7 @@ class manager
 	 * @param int     $type_id      The id of the auto group type
 	 * @param int     $rule_id      The id of the auto group rule
 	 *
-	 * @return string|bool The condition type name, false on error
+	 * @return string|false The condition type name, false on error
 	 * @access public
 	 */
 	public function get_autogroups_type_name($type_id = 0, $rule_id = 0)
