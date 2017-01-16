@@ -41,7 +41,7 @@ class warnings_test extends type_test_case
 	 * User 2 is already a member of groups 1 and 2 (2 is default)
 	 * User 3 is already a member of group 5 (5 is default)
 	 *
-	 * @return Array of test data
+	 * @return array Array of test data
 	 */
 	public function check_condition_test_data()
 	{
