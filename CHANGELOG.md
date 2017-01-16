@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.2 - 2016-11-30
+
+- Fixed new years day bug in the auto group by user age condition
+- Various code improvements and maintenance
+- Added Croatian language packs
+- Added Chinese language packs
+- Added Dutch language pack
+- Added Russian language pack
+
 ## 1.0.1 - 2015-09-05
 
 - Do not allow identical min/max values to be set
