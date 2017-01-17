@@ -55,6 +55,6 @@ class sync_autogroups_test extends base_manager
 			->will($this->returnValue($this->condition));
 
 		// Call and test sync autogroups
-		$this->assertNull($this->manager->sync_autogroups($rule_id));
+		$this->manager->sync_autogroups($rule_id);
 	}
 }

@@ -36,6 +36,6 @@ class check_conditions_test extends base_manager
 			->will($this->returnValue($this->condition));
 
 		// Call and test sync autogroups
-		$this->assertNull($this->manager->check_conditions());
+		$this->manager->check_conditions();
 	}
 }
