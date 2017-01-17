@@ -12,14 +12,19 @@ namespace phpbb\autogroups\acp;
 
 class autogroups_module
 {
+	public $page_title;
+	public $tpl_name;
 	public $u_action;
 
 	public function main($id, $mode)
 	{
-		global $phpbb_container, $request;
+		global $phpbb_container;
 
 		/** @var \phpbb\language\language $language */
 		$language = $phpbb_container->get('language');
+
+		/** @var \phpbb\request\request $request */
+		$request = $phpbb_container->get('request');
 
 		// Add the auto groups ACP lang file
 		$language->add_lang('autogroups_acp', 'phpbb/autogroups');
