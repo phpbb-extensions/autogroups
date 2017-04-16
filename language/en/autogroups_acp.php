@@ -56,7 +56,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notify users',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Send a notification to users after being automatically added or removed from this group.',
 
-	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Set group default exemptions',
+	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Set group default exceptions',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Auto Groups will not change a user’s default group if it is selected in this list. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
 
 	'ACP_AUTOGROUPS_CREATE_RULE'	=> 'Create new Auto Group',
