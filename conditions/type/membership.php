@@ -82,7 +82,7 @@ class membership extends \phpbb\autogroups\conditions\type\base
 				),
 			),
 			'WHERE' => $this->sql_where_clause($options) . '
-				AND ' . $this->db->sql_in_set('u.user_type', array(USER_INACTIVE, USER_IGNORE), true),
+				AND ' . $this->db->sql_in_set('u.user_type', $this->ignore_user_types(), true),
 			'GROUP_BY' => 'u.user_id',
 		);
 
@@ -129,37 +129,10 @@ class membership extends \phpbb\autogroups\conditions\type\base
 
 			$min = ($max >= $min) ? $min : 0; // For cases where no max_value was set (no end limit)
 
-			$sql_where[] = "(u.user_regdate BETWEEN $min AND $max)";
+			$sql_where[] = "(u.{$this->get_condition_field()} BETWEEN $min AND $max)";
 			$group_ids[] = $group_rule['autogroups_group_id'];
 		}
 
 		return '(' . (count($sql_where) ? implode(' OR ', $sql_where) . ' OR ' : '') . $this->db->sql_in_set('ug.group_id', $group_ids, false, true) . ')';
-	}
-
-	/**
-	 * Helper to convert days into a timestamp
-	 *
-	 * @param int $value Number of days
-	 * @return int Timestamp
-	 * @access protected
-	 */
-	protected function days_to_timestamp($value)
-	{
-		return (int) strtotime((int) $value . ' days ago');
-	}
-
-	/**
-	 * Helper to convert a timestamp into days
-	 *
-	 * @param int $value Timestamp
-	 * @return int Number of days
-	 * @access protected
-	 */
-	protected function timestamp_to_days($value)
-	{
-		$now  = new \DateTime();
-		$time = new \DateTime('@' . (int) $value);
-		$diff = $now->diff($time);
-		return (int) $diff->format('%a');
 	}
 }

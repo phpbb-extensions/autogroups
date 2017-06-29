@@ -84,7 +84,7 @@ class warnings extends \phpbb\autogroups\conditions\type\base
 				),
 			),
 			'WHERE' => $this->sql_where_clause($options) . '
-				AND ' . $this->db->sql_in_set('u.user_type', array(USER_INACTIVE, USER_IGNORE), true),
+				AND ' . $this->db->sql_in_set('u.user_type', $this->ignore_user_types(), true),
 			'GROUP_BY' => 'u.user_id',
 		);
 
