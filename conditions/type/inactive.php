@@ -45,7 +45,7 @@ class inactive extends \phpbb\autogroups\conditions\type\membership
 	 */
 	public function get_condition_type_name()
 	{
-		return $this->user->lang('AUTOGROUPS_TYPE_INACTIVE');
+		return $this->language->lang('AUTOGROUPS_TYPE_INACTIVE');
 	}
 
 	/**
