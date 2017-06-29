@@ -73,7 +73,7 @@ class autogroups_base extends \phpbb_functional_test_case
 	/**
 	 * Create an Auto Groups rule set
 	 *
-	 * @param string $type     The auto group type posts|warnings|membership|birthdays
+	 * @param string $type     The auto group type posts|warnings|membership|birthdays|inactive
 	 * @param int    $group_id The group id
 	 * @param int    $min      The minimum test value
 	 * @param int    $max      Tha maximum test value

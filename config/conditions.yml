@@ -46,3 +46,10 @@ services:
         parent: phpbb.autogroups.type.base
         tags:
             - { name: phpbb.autogroups.type }
+
+    phpbb.autogroups.type.inactive:
+        class: phpbb\autogroups\conditions\type\inactive
+        shared: false
+        parent: phpbb.autogroups.type.base
+        tags:
+            - { name: phpbb.autogroups.type }
