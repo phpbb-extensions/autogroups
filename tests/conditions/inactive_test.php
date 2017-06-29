@@ -22,7 +22,7 @@ class inactive_test extends type_test_case
 		return new \phpbb\autogroups\conditions\type\inactive(
 			$this->phpbb_container,
 			$this->db,
-			$this->lang,
+			$this->user,
 			'phpbb_autogroups_rules',
 			'phpbb_autogroups_types',
 			$this->root_path,
