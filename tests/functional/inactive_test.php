@@ -27,6 +27,7 @@ class inactive_test extends autogroups_base
 			'group_name' => 'test-inactive',
 			'min' => 0,
 			'max' => 10,
+			'username' => 'Inactive-test-user',
 		);
 
 		// Create a new test group
@@ -38,7 +39,7 @@ class inactive_test extends autogroups_base
 		$this->assertNotFalse($autogroup_id, 'Failed to create an auto group rule set.');
 
 		// Create a new user
-		$user_1 = $this->create_user('Inactive-test-user');
+		$user_1 = $this->create_user($test_data['username']);
 
 		// Run the cron job, should add the user to the group
 		$this->update_user_inactive($user_1);
@@ -46,11 +47,11 @@ class inactive_test extends autogroups_base
 		$this->assertInGroup($user_1, $test_data['group_name']);
 
 		// Activate the user
-		$this->user_activation('Inactive-test-user', 'activated');
+		$this->user_activation($test_data['username'], 'activated');
 		$this->assertNotInGroup($user_1, $test_data['group_name']);
 
 		// Deactivate the user
-		$this->user_activation('Inactive-test-user', 'deactived');
+		$this->user_activation($test_data['username'], 'deactived');
 		$this->assertInGroup($user_1, $test_data['group_name']);
 	}
 
@@ -61,11 +62,16 @@ class inactive_test extends autogroups_base
 	 */
 	protected function user_activation($username, $mode)
 	{
+		// Go to manage users
 		$crawler = self::request('GET', 'adm/index.php?i=acp_users&mode=overview&sid=' . $this->sid);
 		$this->assertContainsLang('FIND_USERNAME', $crawler->filter('html')->text());
+
+		// Load the user
 		$form = $crawler->selectButton('Submit')->form();
 		$crawler = self::submit($form, array('username' => $username));
 		$this->assertContainsLang('USER_TOOLS', $crawler->filter('html')->text());
+
+		// Activate/deactivate the user
 		$form = $crawler->filter('input[name=update]')->selectButton('Submit')->form();
 		$crawler = self::submit($form, array('action' => 'active'));
 		$this->assertContainsLang('USER_ADMIN_' . strtoupper($mode), $crawler->filter('html')->text());
@@ -92,18 +98,5 @@ class inactive_test extends autogroups_base
 		$this->purge_cache();
 
 		return $this;
-	}
-
-	/**
-	 * Reset the auto groups cron job last run time
-	 */
-	protected function reset_cron()
-	{
-		$sql = "UPDATE phpbb_config
-			SET config_value = 0
-			WHERE config_name = 'autogroups_last_run'";
-		$this->db->sql_query($sql);
-
-		$this->purge_cache();
 	}
 }
