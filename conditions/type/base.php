@@ -309,7 +309,13 @@ abstract class base implements type_interface
 	{
 		if (!$value)
 		{
-			return 0;
+			// This is a bit of a hack. If we have no timestamp (ie 0)
+			// we don't want to return 0 because that is still a valid number
+			// that could be used in auto group checks, leading to false
+			// positives. So we'll just return -time() which should be a
+			// number that would never fit in the range of possible days a
+			// user might reasonably set for an auto group.
+			return -time();
 		}
 
 		$now  = new \DateTime();

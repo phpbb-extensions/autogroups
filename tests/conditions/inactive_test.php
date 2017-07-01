@@ -70,12 +70,6 @@ class inactive_test extends type_test_case
 				array(),
 			),
 			array(
-				array(3 => 0), // user 3 inactive 0 days
-				array(3 => array(2, 5)), // user 3 added to group 2
-				array(3 => 5), // default remains on group 5 (because its an exempted group)
-				array(),
-			),
-			array(
 				array(
 					1 => 15, // user 1 inactive 15 days
 					2 => 50, // user 2 inactive 50 days
@@ -117,6 +111,21 @@ class inactive_test extends type_test_case
 				array(
 					1 => 2, // default
 					2 => 6, // default
+				),
+				array(),
+			),
+			array(
+				array(
+					1 => false, // user 1 not inactive (false results in a user_inactive_time of 0)
+					3 => 0,  // user 3 inactive 0 days
+				),
+				array(
+					1 => array(1, 5), // user 1 added to no new groups
+					3 => array(2, 5), // user 3 added to group 2
+				),
+				array(
+					1 => 1, // default
+					3 => 5, // default remains on group 5 (because its an exempted group)
 				),
 				array(),
 			),
