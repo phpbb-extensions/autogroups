@@ -40,16 +40,16 @@ services:
         tags:
             - { name: phpbb.autogroups.type }
 
-    phpbb.autogroups.type.birthdays:
-        class: phpbb\autogroups\conditions\type\birthdays
+    phpbb.autogroups.type.inactive:
+        class: phpbb\autogroups\conditions\type\inactive
         scope: prototype
         parent: phpbb.autogroups.type.base
         tags:
             - { name: phpbb.autogroups.type }
 
-    phpbb.autogroups.type.inactive:
-        class: phpbb\autogroups\conditions\type\inactive
-        shared: false
+    phpbb.autogroups.type.birthdays:
+        class: phpbb\autogroups\conditions\type\birthdays
+        scope: prototype
         parent: phpbb.autogroups.type.base
         tags:
             - { name: phpbb.autogroups.type }

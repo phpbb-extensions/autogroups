@@ -11,7 +11,7 @@
 namespace phpbb\autogroups\tests\conditions;
 
 /**
- * Run tests on the membership type class.
+ * Run tests on the inactive type class.
  */
 class inactive_test extends type_test_case
 {

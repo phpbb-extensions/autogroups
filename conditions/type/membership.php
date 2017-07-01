@@ -92,7 +92,7 @@ class membership extends \phpbb\autogroups\conditions\type\base
 		$user_data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			// Convert user_regdate from timestamp to number of days
+			// Convert from timestamp to number of days
 			$row[$this->get_condition_field()] = $this->timestamp_to_days($row[$this->get_condition_field()]);
 
 			$user_data[$row['user_id']] = $row;
