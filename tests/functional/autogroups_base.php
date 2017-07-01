@@ -77,7 +77,7 @@ class autogroups_base extends \phpbb_functional_test_case
 	 * @param int    $group_id The group id
 	 * @param int    $min      The minimum test value
 	 * @param int    $max      Tha maximum test value
-	 * @return int|null Return the new auto group rule id
+	 * @return int Return the new auto group rule id
 	 */
 	public function create_autogroup_rule($type, $group_id, $min, $max)
 	{
@@ -91,7 +91,11 @@ class autogroups_base extends \phpbb_functional_test_case
 
 		if (!$type_id)
 		{
-			return null;
+			$this->db->sql_query('INSERT INTO phpbb_autogroups_types ' . $this->db->sql_build_array('INSERT', array(
+				'autogroups_type_name' => 'phpbb.autogroups.type.' . $type
+			)));
+
+			$type_id = (int) $this->db->sql_nextid();
 		}
 
 		// Build the data array to insert
