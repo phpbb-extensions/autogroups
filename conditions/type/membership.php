@@ -127,7 +127,7 @@ class membership extends \phpbb\autogroups\conditions\type\base
 			$min = $this->days_to_timestamp($group_rule['autogroups_max_value']);
 			$max = $this->days_to_timestamp($group_rule['autogroups_min_value']);
 
-			$min = ($max >= $min) ? $min : 0; // For cases where no max_value was set (no end limit)
+			$min = ($max >= $min) ? $min : 1; // For cases where no max_value was set (no end limit)
 
 			$sql_where[] = "(u.{$this->get_condition_field()} BETWEEN $min AND $max)";
 			$group_ids[] = $group_rule['autogroups_group_id'];
