@@ -232,7 +232,7 @@ abstract class base implements type_interface
 	 */
 	protected function check_user_data($value, $group_rule)
 	{
-		return ($value >= $group_rule['autogroups_min_value']) &&
+		return (null !== $value && $value >= $group_rule['autogroups_min_value']) &&
 			(empty($group_rule['autogroups_max_value']) || ($value <= $group_rule['autogroups_max_value'])
 		);
 	}
@@ -302,20 +302,14 @@ abstract class base implements type_interface
 	 * Helper to convert a timestamp into days
 	 *
 	 * @param int $value Timestamp
-	 * @return int Number of days
+	 * @return int|null Number of days or null if no value given
 	 * @access protected
 	 */
 	protected function timestamp_to_days($value)
 	{
 		if (!$value)
 		{
-			// This is a bit of a hack. If we have no timestamp (ie 0)
-			// we don't want to return 0 because that is still a valid number
-			// that could be used in auto group checks, leading to false
-			// positives. So we'll just return -time() which should be a
-			// number that would never fit in the range of possible days a
-			// user might reasonably set for an auto group.
-			return -time();
+			return null;
 		}
 
 		$now  = new \DateTime();
