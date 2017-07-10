@@ -51,6 +51,10 @@ class listener implements EventSubscriberInterface
 			// Auto Groups "Warnings" listeners
 			'core.mcp_warn_post_after'	=> 'add_warning_check',
 			'core.mcp_warn_user_after'	=> 'add_warning_check',
+
+			// Auto Groups "Inactive" listeners
+			'core.user_add_after'			=> 'inactive_user_check',
+			'core.user_active_flip_after'	=> 'inactive_user_check',
 		);
 	}
 
@@ -123,6 +127,27 @@ class listener implements EventSubscriberInterface
 	{
 		$this->manager->check_condition('phpbb.autogroups.type.warnings', array(
 			'users'		=> $event['user_row']['user_id'],
+		));
+	}
+
+	/**
+	 * Check deactivated user(s)
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 * @return void
+	 * @access public
+	 */
+	public function inactive_user_check($event)
+	{
+		// Ignore new user accounts that are immediately activated
+		if ($event->offsetExists('user_row') && $event['user_row']['user_inactive_time'] == 0)
+		{
+			return;
+		}
+
+		$users = $event->offsetExists('user_id') ? 'user_id' : 'user_id_ary';
+		$this->manager->check_condition('phpbb.autogroups.type.inactive', array(
+			'users'		=> $event[$users],
 		));
 	}
 }
