@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+	<table name="phpbb_autogroups_rules">
+		<column>autogroups_id</column>
+		<column>autogroups_type_id</column>
+		<column>autogroups_min_value</column>
+		<column>autogroups_max_value</column>
+		<column>autogroups_group_id</column>
+		<column>autogroups_default</column>
+		<column>autogroups_notify</column>
+		<row>
+			<value>1</value>
+			<value>1</value>
+			<value>10</value>
+			<value>50</value>
+			<value>2</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>50</value>
+			<value>100</value>
+			<value>3</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>1</value>
+			<value>0</value>
+			<value>3</value>
+			<value>4</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>4</value>
+			<value>1</value>
+			<value>500</value>
+			<value>0</value>
+			<value>6</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+	</table>
+	<table name="phpbb_autogroups_types">
+		<column>autogroups_type_id</column>
+		<column>autogroups_type_name</column>
+		<row>
+			<value>1</value>
+			<value>phpbb.autogroups.type.lastvisit</value>
+		</row>
+	</table>
+</dataset>

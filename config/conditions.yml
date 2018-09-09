@@ -40,6 +40,13 @@ services:
         tags:
             - { name: phpbb.autogroups.type }
 
+    phpbb.autogroups.type.lastvisit:
+        class: phpbb\autogroups\conditions\type\lastvisit
+        shared: false
+        parent: phpbb.autogroups.type.base
+        tags:
+            - { name: phpbb.autogroups.type }
+
     phpbb.autogroups.type.birthdays:
         class: phpbb\autogroups\conditions\type\birthdays
         shared: false
