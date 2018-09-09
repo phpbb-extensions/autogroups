@@ -51,6 +51,9 @@ class listener implements EventSubscriberInterface
 			// Auto Groups "Warnings" listeners
 			'core.mcp_warn_post_after'	=> 'add_warning_check',
 			'core.mcp_warn_user_after'	=> 'add_warning_check',
+
+			// Auto Gorups "Last Visit" listeners
+			'core.session_create_after'	=> 'last_visit_check',
 		);
 	}
 
@@ -123,6 +126,20 @@ class listener implements EventSubscriberInterface
 	{
 		$this->manager->check_condition('phpbb.autogroups.type.warnings', array(
 			'users'		=> $event['user_row']['user_id'],
+		));
+	}
+
+	/**
+	 * Check user's last visit status when they log in
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 * @return void
+	 * @access public
+	 */
+	public function last_visit_check($event)
+	{
+		$this->manager->check_condition('phpbb.autogroups.type.lastvisit', array(
+			'users'		=> $event['session_data']['session_user_id'],
 		));
 	}
 }

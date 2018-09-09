@@ -52,6 +52,7 @@ class event_listener_test extends \phpbb_test_case
 			'core.delete_posts_after',
 			'core.mcp_warn_post_after',
 			'core.mcp_warn_user_after',
+			'core.session_create_after',
 		), array_keys(\phpbb\autogroups\event\listener::getSubscribedEvents()));
 	}
 
@@ -184,6 +185,14 @@ class event_listener_test extends \phpbb_test_case
 				'user_row',
 				array('user_id' => '$poster_ids'),
 				array('users' => '$poster_ids'),
+			),
+			array(
+				'phpbb.autogroups.type.lastvisit',
+				'last_visit_check',
+				'core.session_create_after',
+				'session_data',
+				array('session_user_id' => '$user_id'),
+				array('users' => '$user_id'),
 			),
 		);
 	}
