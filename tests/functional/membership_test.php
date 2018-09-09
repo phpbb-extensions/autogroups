@@ -66,17 +66,4 @@ class membership_test extends autogroups_base
 
 		return $this;
 	}
-
-	/**
-	 * Reset the auto groups cron job last run time
-	 */
-	protected function reset_cron()
-	{
-		$sql = "UPDATE phpbb_config
-			SET config_value = 0
-			WHERE config_name = 'autogroups_last_run'";
-		$this->db->sql_query($sql);
-
-		$this->purge_cache();
-	}
 }

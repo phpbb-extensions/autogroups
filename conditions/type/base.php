@@ -232,7 +232,7 @@ abstract class base implements type_interface
 	 */
 	protected function check_user_data($value, $group_rule)
 	{
-		return ($value >= $group_rule['autogroups_min_value']) &&
+		return (null !== $value && $value >= $group_rule['autogroups_min_value']) &&
 			(empty($group_rule['autogroups_max_value']) || ($value <= $group_rule['autogroups_max_value'])
 		);
 	}
@@ -273,5 +273,48 @@ abstract class base implements type_interface
 		}
 
 		return $user_id_ary;
+	}
+
+	/**
+	 * An array of user types to ignore when querying users
+	 *
+	 * @return array Array of user types
+	 * @access protected
+	 */
+	protected function ignore_user_types()
+	{
+		return array(USER_INACTIVE, USER_IGNORE);
+	}
+
+	/**
+	 * Helper to convert days into a timestamp
+	 *
+	 * @param int $value Number of days
+	 * @return int Timestamp
+	 * @access protected
+	 */
+	protected function days_to_timestamp($value)
+	{
+		return (int) strtotime((int) $value . ' days ago');
+	}
+
+	/**
+	 * Helper to convert a timestamp into days
+	 *
+	 * @param int $value Timestamp
+	 * @return int|null Number of days or null if no value given
+	 * @access protected
+	 */
+	protected function timestamp_to_days($value)
+	{
+		if (!$value)
+		{
+			return null;
+		}
+
+		$now  = new \DateTime();
+		$time = new \DateTime('@' . (int) $value);
+		$diff = $now->diff($time);
+		return (int) $diff->format('%a');
 	}
 }
