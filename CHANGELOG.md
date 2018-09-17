@@ -2,6 +2,11 @@
 
 ## Vesion 2.x (for phpBB 3.2)
 
+### 2.0.1 - 2018-09-17
+
+- Added a new Auto Group type based on the number of days since a user's last visit.
+- Added Slovak language pack
+
 ### 2.0.0 - 2017-01-16
 
 - Updated for phpBB 3.2 (continue using the 1.x branch for phpBB 3.1.x)
