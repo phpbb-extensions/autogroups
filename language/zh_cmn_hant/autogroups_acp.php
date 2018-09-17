@@ -69,6 +69,7 @@ $lang = array_merge($lang, array(
 
 	// Conditions
 	'AUTOGROUPS_TYPE_BIRTHDAYS'		=> '用戶年齡',
+	'AUTOGROUPS_TYPE_LASTVISIT'		=> '自上次访问以来的几天',
 	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> '成為會員天數',
 	'AUTOGROUPS_TYPE_POSTS'			=> '帖子數目',
 	'AUTOGROUPS_TYPE_WARNINGS'		=> '警告數目',
