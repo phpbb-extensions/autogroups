@@ -88,15 +88,19 @@ class base extends \phpbb_database_test_case
 		$this->user = new \phpbb\user($this->lang, '\phpbb\datetime');
 
 		/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\user $user */
-		$user = $this->getMock('\phpbb\user', array(), array(
-			$this->lang,
-			'\phpbb\datetime'
-		));
+		$user = $this->getMockBuilder('\phpbb\user')
+			->setConstructorArgs(array(
+				$this->lang,
+				'\phpbb\datetime'
+			))
+			->getMock();
 
 		$db = $this->db;
 
 		/** @var $auth \PHPUnit_Framework_MockObject_MockObject|\phpbb\auth\auth */
-		$auth = $this->getMock('\phpbb\auth\auth');
+		$auth = $this->getMockBuilder('\phpbb\auth\auth')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
