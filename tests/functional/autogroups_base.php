@@ -73,11 +73,11 @@ class autogroups_base extends \phpbb_functional_test_case
 	/**
 	 * Create an Auto Groups rule set
 	 *
-	 * @param string $type     The auto group type posts|warnings|membership|birthdays
+	 * @param string $type     The auto group type posts|warnings|membership|birthdays|lastvisit
 	 * @param int    $group_id The group id
 	 * @param int    $min      The minimum test value
 	 * @param int    $max      Tha maximum test value
-	 * @return int|null Return the new auto group rule id
+	 * @return int Return the new auto group rule id
 	 */
 	public function create_autogroup_rule($type, $group_id, $min, $max)
 	{
@@ -91,7 +91,11 @@ class autogroups_base extends \phpbb_functional_test_case
 
 		if (!$type_id)
 		{
-			return null;
+			$this->db->sql_query('INSERT INTO phpbb_autogroups_types ' . $this->db->sql_build_array('INSERT', array(
+				'autogroups_type_name' => 'phpbb.autogroups.type.' . $type
+			)));
+
+			$type_id = (int) $this->db->sql_nextid();
 		}
 
 		// Build the data array to insert
@@ -134,5 +138,18 @@ class autogroups_base extends \phpbb_functional_test_case
 	{
 		$crawler = self::request('GET', "memberlist.php?mode=viewprofile&u=$user_id&sid={$this->sid}");
 		$this->assertNotContains($group_name, $crawler->filter('select')->text(), "The group $group_name still exists in the set of user groups.");
+	}
+
+	/**
+	 * Reset the auto groups cron job last run time
+	 */
+	public function reset_cron()
+	{
+		$sql = "UPDATE phpbb_config
+			SET config_value = 0
+			WHERE config_name = 'autogroups_last_run'";
+		$this->db->sql_query($sql);
+
+		$this->purge_cache();
 	}
 }

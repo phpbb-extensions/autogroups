@@ -65,7 +65,9 @@ class admin_controller_base extends \phpbb_database_test_case
 		$this->manager = $this->getMockBuilder('\phpbb\autogroups\conditions\manager')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->request = $this->getMock('\phpbb\request\request');
+		$this->request = $this->getMockBuilder('\phpbb\request\request')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);

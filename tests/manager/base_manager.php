@@ -59,7 +59,9 @@ class base_manager extends \phpbb_database_test_case
 		$this->lang = new \phpbb\language\language($lang_loader);
 		$this->user = new \phpbb\user($this->lang, '\phpbb\datetime');
 		$cache = new \phpbb_mock_cache();
-		$this->container = $this->getMock('\Symfony\Component\DependencyInjection\ContainerInterface');
+		$this->container = $this->getMockBuilder('\Symfony\Component\DependencyInjection\ContainerInterface')
+			->disableOriginalConstructor()
+			->getMock();
 
 		// Mock the condition
 		$this->condition = $this->getMockBuilder('\phpbb\autogroups\conditions\type\base')

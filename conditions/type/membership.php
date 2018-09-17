@@ -82,7 +82,7 @@ class membership extends \phpbb\autogroups\conditions\type\base
 				),
 			),
 			'WHERE' => $this->sql_where_clause($options) . '
-				AND ' . $this->db->sql_in_set('u.user_type', array(USER_INACTIVE, USER_IGNORE), true),
+				AND ' . $this->db->sql_in_set('u.user_type', $this->ignore_user_types(), true),
 			'GROUP_BY' => 'u.user_id',
 		);
 
@@ -92,7 +92,7 @@ class membership extends \phpbb\autogroups\conditions\type\base
 		$user_data = array();
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			// Convert user_regdate from timestamp to number of days
+			// Convert from timestamp to number of days
 			$row[$this->get_condition_field()] = $this->timestamp_to_days($row[$this->get_condition_field()]);
 
 			$user_data[$row['user_id']] = $row;
@@ -124,42 +124,15 @@ class membership extends \phpbb\autogroups\conditions\type\base
 		$group_rules = $this->get_group_rules($this->get_condition_type());
 		foreach ($group_rules as $group_rule)
 		{
-			$min = $this->days_to_timestamp($group_rule['autogroups_max_value']);
-			$max = $this->days_to_timestamp($group_rule['autogroups_min_value']);
+			$min = $this->days_to_timestamp($group_rule['autogroups_min_value']);
+			$max = $this->days_to_timestamp($group_rule['autogroups_max_value']);
 
-			$min = ($max >= $min) ? $min : 0; // For cases where no max_value was set (no end limit)
+			$max = ($min >= $max) ? $max : 1; // For cases where no max_value was set (no end limit).
 
-			$sql_where[] = "(u.user_regdate BETWEEN $min AND $max)";
+			$sql_where[] = "(u.{$this->get_condition_field()} BETWEEN $max AND $min)";
 			$group_ids[] = $group_rule['autogroups_group_id'];
 		}
 
 		return '(' . (count($sql_where) ? implode(' OR ', $sql_where) . ' OR ' : '') . $this->db->sql_in_set('ug.group_id', $group_ids, false, true) . ')';
-	}
-
-	/**
-	 * Helper to convert days into a timestamp
-	 *
-	 * @param int $value Number of days
-	 * @return int Timestamp
-	 * @access protected
-	 */
-	protected function days_to_timestamp($value)
-	{
-		return (int) strtotime((int) $value . ' days ago');
-	}
-
-	/**
-	 * Helper to convert a timestamp into days
-	 *
-	 * @param int $value Timestamp
-	 * @return int Number of days
-	 * @access protected
-	 */
-	protected function timestamp_to_days($value)
-	{
-		$now  = new \DateTime();
-		$time = new \DateTime('@' . (int) $value);
-		$diff = $now->diff($time);
-		return (int) $diff->format('%a');
 	}
 }

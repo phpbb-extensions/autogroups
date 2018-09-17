@@ -21,6 +21,7 @@ class get_condition_lang_test extends base_manager
 	{
 		return array(
 			array('phpbb.autogroups.type.birthdays', 'AUTOGROUPS_TYPE_BIRTHDAYS'),
+			array('phpbb.autogroups.type.lastvisit', 'AUTOGROUPS_TYPE_LASTVISIT'),
 			array('phpbb.autogroups.type.membership', 'AUTOGROUPS_TYPE_MEMBERSHIP'),
 			array('phpbb.autogroups.type.posts', 'AUTOGROUPS_TYPE_POSTS'),
 			array('phpbb.autogroups.type.warnings', 'AUTOGROUPS_TYPE_WARNINGS'),

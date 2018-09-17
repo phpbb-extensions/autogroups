@@ -50,7 +50,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MIN_VALUE'				=> 'Minimum value',
 	'ACP_AUTOGROUPS_MIN_VALUE_EXPLAIN'		=> 'Users will be added to this group if they exceed the minimum value.',
 	'ACP_AUTOGROUPS_MAX_VALUE'				=> 'Maximum value',
-	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Users will be removed from this group if they exceed the maximum value. Leave this field empty if you do not want users to be removed.',
+	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Users will be removed from this group if they exceed the maximum value. Set this to 0 if you do not want users to be removed.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Set group default',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Make this the user’s new default group.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notify users',
@@ -70,7 +70,8 @@ $lang = array_merge($lang, array(
 
 	// Conditions
 	'AUTOGROUPS_TYPE_BIRTHDAYS'		=> 'User age',
-	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> 'Membership Days',
+	'AUTOGROUPS_TYPE_LASTVISIT'		=> 'Days since last visit',
+	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> 'Membership days',
 	'AUTOGROUPS_TYPE_POSTS'			=> 'Posts',
 	'AUTOGROUPS_TYPE_WARNINGS'		=> 'Warnings',
 ));
