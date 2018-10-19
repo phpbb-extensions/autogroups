@@ -11,7 +11,7 @@
 
 namespace phpbb\autogroups\tests\event;
 
-class event_listener_test extends \phpbb_test_case
+class listener_test extends \phpbb_test_case
 {
 	/** @var \phpbb\autogroups\event\listener */
 	protected $listener;
