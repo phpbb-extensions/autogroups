@@ -66,9 +66,11 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_EMPTY'			=> 'Нет АвтоГрупп.',
 	'ACP_AUTOGROUPS_NO_GROUPS'		=> 'Нет доступных групп',
 	'ACP_AUTOGROUPS_INVALID_GROUPS'	=> 'Произошла ошибка. Не выбрана действующая группа пользователей.<br />АвтоГруппы могут использоваться только с определенными группами пользователей, создать которые можно на странице управления группами.',
+	'ACP_AUTOGROUPS_INVALID_RANGE'	=> 'Произошла ошибка. Минимальное и максимальное значения не могут быть установлены на одно и то же значение.',
 
 	// Conditions
 	'AUTOGROUPS_TYPE_BIRTHDAYS'		=> 'Возраст участника',
+	'AUTOGROUPS_TYPE_LASTVISIT'		=> 'Дни после последнего посещения',
 	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> 'Количество дней регистрации',
 	'AUTOGROUPS_TYPE_POSTS'			=> 'Сообщений',
 	'AUTOGROUPS_TYPE_WARNINGS'		=> 'Предупреждений',

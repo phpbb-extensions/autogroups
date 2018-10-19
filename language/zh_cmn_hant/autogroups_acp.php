@@ -66,9 +66,11 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_EMPTY'			=> '沒有任何分組設置',
 	'ACP_AUTOGROUPS_NO_GROUPS'		=> '沒有用戶組可以選擇',
 	'ACP_AUTOGROUPS_INVALID_GROUPS'	=> '錯誤！沒有一個有效的用戶組被選中。<br/>自動分組只能設定用戶組，用戶組可以在管理頁上創建。',
+	'ACP_AUTOGROUPS_INVALID_RANGE'	=> '错误！最大值不能等于最小值。',
 
 	// Conditions
 	'AUTOGROUPS_TYPE_BIRTHDAYS'		=> '用戶年齡',
+	'AUTOGROUPS_TYPE_LASTVISIT'		=> '自上次访问以来的几天',
 	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> '成為會員天數',
 	'AUTOGROUPS_TYPE_POSTS'			=> '帖子數目',
 	'AUTOGROUPS_TYPE_WARNINGS'		=> '警告數目',

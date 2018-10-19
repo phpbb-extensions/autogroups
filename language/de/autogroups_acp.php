@@ -70,6 +70,7 @@ $lang = array_merge($lang, array(
 
 	// Conditions
 	'AUTOGROUPS_TYPE_BIRTHDAYS'		=> 'User Alter',
+	'AUTOGROUPS_TYPE_LASTVISIT'		=> 'Tage seit dem letzten Besuch',
 	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> 'Dauer der Mitgliedschaft',
 	'AUTOGROUPS_TYPE_POSTS'			=> 'Posts',
 	'AUTOGROUPS_TYPE_WARNINGS'		=> 'Verwarnungen',
