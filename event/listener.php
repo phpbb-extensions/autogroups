@@ -47,6 +47,7 @@ class listener implements EventSubscriberInterface
 			// Auto Groups "Posts" listeners
 			'core.submit_post_end'		=> 'submit_post_check',
 			'core.delete_posts_after'	=> 'delete_post_check',
+			'core.approve_posts_after'	=> 'approve_post_check',
 
 			// Auto Groups "Warnings" listeners
 			'core.mcp_warn_post_after'	=> 'add_warning_check',
@@ -112,6 +113,20 @@ class listener implements EventSubscriberInterface
 		$this->manager->check_condition('phpbb.autogroups.type.posts', array(
 			'action'	=> 'delete',
 			'users'		=> $event['poster_ids'],
+		));
+	}
+
+	/**
+	 * Check user's post count after approving a post for auto groups
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 * @return void
+	 * @access public
+	 */
+	public function approve_post_check($event)
+	{
+		$this->manager->check_condition('phpbb.autogroups.type.posts', array(
+			'users'		=> array_column($event['post_info'], 'poster_id'),
 		));
 	}
 
