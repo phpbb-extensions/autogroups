@@ -50,6 +50,7 @@ class listener_test extends \phpbb_test_case
 			'core.user_setup',
 			'core.submit_post_end',
 			'core.delete_posts_after',
+			'core.approve_posts_after',
 			'core.mcp_warn_post_after',
 			'core.mcp_warn_user_after',
 			'core.session_create_after',
@@ -169,6 +170,18 @@ class listener_test extends \phpbb_test_case
 					'action' => 'delete',
 					'users' => '$poster_ids',
 				),
+			),
+			array(
+				'phpbb.autogroups.type.posts',
+				'approve_post_check',
+				'core.approve_posts_after',
+				'post_info',
+				array(
+					array('post_id' => 1, 'poster_id' => 100),
+					array('post_id' => 2, 'poster_id' => 200),
+					array('post_id' => 3, 'poster_id' => 300),
+				),
+				array('users' => array(100, 200, 300)),
 			),
 			array(
 				'phpbb.autogroups.type.warnings',
