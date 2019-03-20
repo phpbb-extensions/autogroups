@@ -55,6 +55,9 @@ class listener implements EventSubscriberInterface
 
 			// Auto Gorups "Last Visit" listeners
 			'core.session_create_after'	=> 'last_visit_check',
+
+			// Auto Groups "Membership" listeners
+			'core.user_add_after'		=> 'membership_check',
 		);
 	}
 
@@ -155,6 +158,20 @@ class listener implements EventSubscriberInterface
 	{
 		$this->manager->check_condition('phpbb.autogroups.type.lastvisit', array(
 			'users'		=> $event['session_data']['session_user_id'],
+		));
+	}
+
+	/**
+	 * Check membership after user registration
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 * @return void
+	 * @access public
+	 */
+	public function membership_check($event)
+	{
+		$this->manager->check_condition('phpbb.autogroups.type.membership', array(
+			'users'		=> $event['user_id'],
 		));
 	}
 }
