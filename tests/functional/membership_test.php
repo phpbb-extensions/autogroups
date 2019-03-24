@@ -92,11 +92,12 @@ class membership_test extends autogroups_base
 	 */
 	protected function disable_captcha()
 	{
-		$sql = "UPDATE phpbb_config
-			SET config_value = 0 
-			WHERE config_name = 'enable_confirm'";
-		$this->db->sql_query($sql);
-		$this->purge_cache();
+		$crawler = self::request('GET', "adm/index.php?i=acp_board&mode=registration&sid={$this->sid}");
+		$form = $crawler->selectButton('Submit')->form();
+		$form['config[enable_confirm]']->setValue('0');
+		$crawler = self::submit($form);
+
+		$this->assertContainsLang('CONFIG_UPDATED', $crawler->filter('#main .successbox')->text());
 	}
 
 	/**
