@@ -54,10 +54,11 @@ class membership_test extends autogroups_base
 		$crawler = self::submit($form);
 		$form = $crawler->selectButton('Submit')->form(array(
 			'username'			=> 'user-ag-test',
-			'email'				=> 'user-ag-test@localhost.tld',
+			'email'				=> 'user-ag-test@phpbb.com',
 			'new_password'		=> 'user-ag-testuser-reg-test',
 			'password_confirm'	=> 'user-ag-testuser-reg-test',
 		));
+		$form['tz']->select('Europe/Berlin');
 		$crawler = self::submit($form);
 		$this->assertContainsLang('ACCOUNT_ADDED', $crawler->filter('#message')->text());
 		$new_user_id = $this->get_new_user_id();
