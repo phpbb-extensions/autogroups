@@ -23,7 +23,7 @@ class membership_test extends autogroups_base
 		$test_data = array(
 			'type' => 'membership',
 			'group_name' => 'test-membership',
-			'min' => 1,
+			'min' => 0,
 			'max' => 10,
 		);
 
@@ -44,6 +44,27 @@ class membership_test extends autogroups_base
 		$this->update_user_regdate(2, 20)->reset_cron();
 		self::request('GET', "cron.php?cron_type=cron.task.autogroups_check&sid={$this->sid}", array(), false);
 		$this->assertNotInGroup(2, $test_data['group_name']);
+
+		// Register a new user, should add the user to the group
+		$this->disable_captcha();
+		$this->logout();
+		$this->add_lang('ucp');
+		$crawler = self::request('GET', 'ucp.php?mode=register');
+		$form = $crawler->selectButton('I agree to these terms')->form();
+		$crawler = self::submit($form);
+		$form = $crawler->selectButton('Submit')->form(array(
+			'username'			=> 'user-ag-test',
+			'email'				=> 'user-ag-test@phpbb.com',
+			'new_password'		=> 'user-ag-testuser-reg-test',
+			'password_confirm'	=> 'user-ag-testuser-reg-test',
+		));
+		$form['tz']->select('Europe/Berlin');
+		$crawler = self::submit($form);
+		$this->assertContainsLang('ACCOUNT_ADDED', $crawler->filter('#message')->text());
+		$new_user_id = $this->get_new_user_id();
+		$this->assertGreaterThan(40, $new_user_id); // lets just make sure this is a newer user
+		$this->login();
+		$this->assertInGroup($new_user_id, $test_data['group_name']);
 	}
 
 	/**
@@ -65,5 +86,33 @@ class membership_test extends autogroups_base
 		$this->purge_cache();
 
 		return $this;
+	}
+
+	/**
+	 * Disable captcha for easy registration
+	 */
+	protected function disable_captcha()
+	{
+		$crawler = self::request('GET', "adm/index.php?i=acp_board&mode=registration&sid={$this->sid}");
+		$form = $crawler->selectButton('Submit')->form();
+		$form['config[enable_confirm]']->setValue('0');
+		$crawler = self::submit($form);
+
+		$this->assertContainsLang('CONFIG_UPDATED', $crawler->filter('#main .successbox')->text());
+	}
+
+	/**
+	 * Get user id of last/newest registered user
+	 *
+	 * @return int User ID
+	 */
+	protected function get_new_user_id()
+	{
+		$sql = 'SELECT user_id FROM phpbb_users ORDER BY user_id DESC';
+		$result = $this->db->sql_query_limit($sql, 1);
+		$user_id = (int) $this->db->sql_fetchfield('user_id');
+		$this->db->sql_freeresult($result);
+
+		return $user_id ?: 0;
 	}
 }
