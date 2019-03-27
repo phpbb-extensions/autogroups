@@ -2,6 +2,14 @@
 
 ## Vesion 2.x (for phpBB 3.2)
 
+### 2.0.2 - 2019-03-27
+
+- Check Membership days after user registrations.
+- Check Post counts after post approvals.
+- Avoid possible errors with User age due to invalid dates.
+- Added Polish language pack
+- Added Turkish language pack
+
 ### 2.0.1 - 2018-09-17
 
 - Added a new Auto Group type based on the number of days since a user's last visit.
