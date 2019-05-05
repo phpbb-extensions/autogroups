@@ -55,6 +55,7 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 	 *
 	 * @param array $options Array of optional data
 	 * @return array Array of users ids as keys and their condition data as values
+	 * @throws \Exception
 	 * @access public
 	 */
 	public function get_users_for_condition($options = array())
@@ -96,6 +97,7 @@ class birthdays extends \phpbb\autogroups\conditions\type\base
 	 *
 	 * @param string $user_birthday The users birth date (e.g.: 20-10-1990)
 	 * @return int The users age in years
+	 * @throws \Exception
 	 */
 	protected function get_user_age($user_birthday)
 	{

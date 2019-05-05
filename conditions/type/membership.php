@@ -56,6 +56,7 @@ class membership extends \phpbb\autogroups\conditions\type\base
 	 *
 	 * @param array $options Array of optional data
 	 * @return array Array of users ids as keys and their condition data as values
+	 * @throws \Exception
 	 * @access public
 	 */
 	public function get_users_for_condition($options = array())

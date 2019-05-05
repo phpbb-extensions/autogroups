@@ -1,6 +1,6 @@
 # Changelog
 
-## Vesion 2.x (for phpBB 3.2)
+## Version 2.x (for phpBB 3.2)
 
 ### 2.0.2 - 2019-03-27
 
