@@ -2,7 +2,6 @@
 /**
 *
 * Auto Groups extension for the phpBB Forum Software package.
-* Brazilian Portuguese translation by MarcosFPo and update by eunaumtenhoid (c) 2017 [ver 2.0.0] (https://github.com/phpBBTraducoes)
 *
 * @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
@@ -39,10 +38,7 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACP_AUTOGROUPS_MANAGE'			=> 'Gerenciar Autogrupos',
-	'AUTOGROUPS_TYPE_NOT_EXIST'		=> 'O tipo de Autogrupo `%1$s` não existe.',
-
-	// Logs
-	'ACP_AUTOGROUPS_SAVED_LOG'		=> '<strong>Uma configuração de Autogrupo foi salva</strong>',
-	'ACP_AUTOGROUPS_DELETE_LOG'		=> '<strong>Uma configuração de Autogrupo foi deletada</strong>',
+	// Notifications
+	'AUTOGROUPS_NOTIFICATION_GROUP_ADDED'	=> '<strong>Grup güncellemesi</strong>: %1$s grubuna eklendiniz.',
+	'AUTOGROUPS_NOTIFICATION_GROUP_REMOVED'	=> '<strong>Grup güncellemesi</strong>: %1$s grubundan kaldırıldınız.',
 ));
