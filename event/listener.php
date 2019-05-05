@@ -38,7 +38,7 @@ class listener implements EventSubscriberInterface
 	 * @static
 	 * @access public
 	 */
-	static public function getSubscribedEvents()
+	public static function getSubscribedEvents()
 	{
 		return array(
 			'core.delete_group_after'	=> 'delete_group_rules',
