@@ -46,18 +46,6 @@ class autogroups_check extends \phpbb\cron\task\base
 	}
 
 	/**
-	 * Returns whether this cron task can run, given current board configuration.
-	 *
-	 * If warnings are set to never expire, this cron task will not run.
-	 *
-	 * @return bool
-	 */
-	public function is_runnable()
-	{
-		return true;
-	}
-
-	/**
 	 * Returns whether this cron task should run now, because enough time
 	 * has passed since it was last run (24 hours).
 	 *

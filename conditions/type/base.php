@@ -77,6 +77,30 @@ abstract class base implements type_interface
 	}
 
 	/**
+	 * Get condition type
+	 *
+	 * @return string Condition type
+	 * @access public
+	 */
+	abstract public function get_condition_type();
+
+	/**
+	 * Get condition field (this is the field to check)
+	 *
+	 * @return string Condition field name
+	 * @access public
+	 */
+	abstract public function get_condition_field();
+
+	/**
+	 * Get condition type name
+	 *
+	 * @return string Condition type name
+	 * @access public
+	 */
+	abstract public function get_condition_type_name();
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function get_group_rules($type = '')
@@ -173,7 +197,7 @@ abstract class base implements type_interface
 		foreach ($group_rules as $group_rule)
 		{
 			// Only check group rules set for this condition type
-			if ($group_rule['autogroups_type_name'] == $this->get_condition_type())
+			if ($group_rule['autogroups_type_name'] === $this->get_condition_type())
 			{
 				// Initialize some arrays
 				$add_users_to_group = $remove_users_from_group = array();
@@ -303,6 +327,7 @@ abstract class base implements type_interface
 	 *
 	 * @param int $value Timestamp
 	 * @return int|null Number of days or null if no value given
+	 * @throws \Exception
 	 * @access protected
 	 */
 	protected function timestamp_to_days($value)
