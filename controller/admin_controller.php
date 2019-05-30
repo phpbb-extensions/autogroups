@@ -114,7 +114,8 @@ class admin_controller implements admin_interface
 		));
 
 		// Display the group exemption select box
-		$this->display_group_exempt_options();
+		$exempt_groups = $this->get_exempt_groups();
+		$this->build_groups_menu(array_keys($exempt_groups));
 	}
 
 	/**
@@ -143,6 +144,8 @@ class admin_controller implements admin_interface
 
 			'S_DEFAULT'		=> (bool) $autogroups_data['autogroups_default'],
 			'S_NOTIFY'		=> (bool) $autogroups_data['autogroups_notify'],
+
+			'EXEMPT_GROUPS'	=> implode(', ', array_map([$this, 'display_group_name'], $this->get_exempt_groups())),
 
 			'U_FORM_ACTION'	=> $this->u_action . '&amp;action=' . ($autogroups_id ? 'edit' : 'add') . '&amp;autogroups_id=' . $autogroups_id,
 			'U_ACTION'		=> $this->u_action,
@@ -335,30 +338,28 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	 * Display multi-select box containing all user groups
+	 * Get an array of user groups marked as exempt from default switching
 	 *
-	 * @return void
+	 * @return array An array of exempted groups array('group_id' => 'group_name')
 	 * @access protected
 	 */
-	protected function display_group_exempt_options()
+	protected function get_exempt_groups()
 	{
-		$group_id_ary = array();
+		$groups = array();
 
 		// Get default exempted groups
-		$sql = 'SELECT group_id
+		$sql = 'SELECT group_id, group_name
 			FROM ' . GROUPS_TABLE . '
 			WHERE autogroup_default_exempt = 1';
 		$result = $this->db->sql_query($sql, 7200);
 
 		while ($row = $this->db->sql_fetchrow($result))
 		{
-			$group_id_ary[] = $row['group_id'];
+			$groups[$row['group_id']] = $row['group_name'];
 		}
 		$this->db->sql_freeresult($result);
 
-		// Build groups menu. The exempted groups we found
-		// are to be marked as selected in the menu.
-		$this->build_groups_menu($group_id_ary);
+		return $groups;
 	}
 
 	/**
@@ -383,12 +384,23 @@ class admin_controller implements admin_interface
 		{
 			$this->template->assign_block_vars('groups', array(
 				'GROUP_ID'		=> $group_row['group_id'],
-				'GROUP_NAME'	=> $this->group_helper->get_name($group_row['group_name']),
+				'GROUP_NAME'	=> $this->display_group_name($group_row['group_name']),
 
 				'S_SELECTED'	=> in_array($group_row['group_id'], $selected),
 			));
 		}
 		$this->db->sql_freeresult($result);
+	}
+
+	/**
+	 * Get the display name of a user group
+	 *
+	 * @param string $group_name
+	 * @return string
+	 */
+	protected function display_group_name($group_name)
+	{
+		return $this->group_helper->get_name($group_name);
 	}
 
 	/**
