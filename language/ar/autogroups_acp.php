@@ -54,6 +54,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'سيتم حذف الأعضاء من هذه المجموعة عند الوصول إلى هذه القيمة. لن يتم حذف الأعضاء إذا تركت هذا الحقل فارغاً.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'المحموعة الإفتراضية ',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'هذه المجموعة ستكون هي المجموعة الإفتراضية الجديدة للعضو.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'لن يؤثر هذا على الأعضاء الذين مجموعتهم الافتراضية هي أحد المجموعات التالية: <samp>%s</samp>.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'إشعار الأعضاء ',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'ارسال تنبيه إلى الأعضاء بأنه تم اضافتهم أو حذفهم تلقائياً من هذه المجموعة.',
 

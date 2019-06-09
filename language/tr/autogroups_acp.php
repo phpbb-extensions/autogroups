@@ -53,6 +53,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Eğer maksimum değeri aşarlarsa kullanıcılar bu gruptan kaldırılacak. Eğer kullanıcıların kaldırılmasını istemiyorsanız bu alanı boş bırakın.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Grup varsayılanlarını ayarla',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Bunu kullanıcıların yeni varsayılan grubu yap.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Bu, varsayılan kullanıcı grubu aşağıdakilerden biri olan kullanıcıları etkilemeyecektir: <samp>%s</samp>.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Kullanıcıları bilgilendir',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Kullanıcılar Otomatik olarak bu gruba eklendiğinde veya kaldırıldığında bir bildirim gönder.',
 

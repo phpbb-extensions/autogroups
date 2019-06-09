@@ -54,6 +54,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Liikmed eemaldatakse sellest grupist, kui nad ületavad selle maksimaalse väärtuse. Jäta see väli tühjaks, kui sa ei soovi seda kasutada.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Seadista vaikimisi grupp',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Tee see liikme(te) uueks vaikimisi grupiks.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'See ei mõjuta kasutajaid, kelle vaikimisi kasutajarühm on üks järgmistest: <samp>%s</samp>.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Teavita liikmeid',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Saada teavitus liikmetele, kui nad on automaatselt lisatud või eemaldatud sellest grupist.',
 

@@ -54,6 +54,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Vrijednost prekoračenje koje će rezultirati izbrisivanjem korisnika/ca iz grupe. Ostavite praznim ukoliko ne želite izbrisati korisnike/ce iz grupe.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Postavite grupu kao zadanu',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Ukoliko je omogućeno, grupa će zamijeniti postojeću i postati nova zadana grupa korisnika/ca.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Ovo neće imati utjecaja na korisnike/ce čija je zadana grupa jedna od sljedećih: <samp>%s</samp>.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Obavijestite korisnike/ce',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Ukoliko je omogućeno, obavijest, o dodavanju/izbrisivanju u/iz grupu/e, će automatski biti poslana korisnicima/ama.',
 
