@@ -54,6 +54,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Používatelia budú odstránení z tejto skupiny ak prekročia maximálnu hodnotu. Nechajte toto pole prázdne ak nechcete používateľov odstraňovať.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Nastaviť skupinu ako predvolenú',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Spraviť túto skupinu novú predvolenú skupinu používateľa.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Toto neovplyvní používateľov, ktorých predvolená skupina je jedna z týchto: <samp>%s</samp>.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Oboznámiť používateľa',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Pošle notifikáciu používateľov po tom, čo budú automaticky pridaní alebo odstránení z tejto skupiny.',
 

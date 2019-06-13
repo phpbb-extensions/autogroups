@@ -89,6 +89,7 @@ class save_autogroup_rule_test extends admin_controller_base
 				'MAX_VALUE'		=> $max,
 				'S_DEFAULT'		=> $default,
 				'S_NOTIFY'		=> $notify,
+				'EXEMPT_GROUPS'	=> 'GROUP2',
 				'U_FORM_ACTION'	=> 'index.php&amp;action=' . ($id ? 'edit' : 'add') . '&amp;autogroups_id=' . $id,
 				'U_ACTION'		=> 'index.php',
 				'U_BACK'		=> 'index.php',

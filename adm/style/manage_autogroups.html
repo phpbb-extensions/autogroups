@@ -43,7 +43,7 @@
 				<dd><input id="autogroups_max_value" type="number" size="4" name="autogroups_max_value" value="{{ MAX_VALUE }}"  /></dd>
 			</dl>
 			<dl>
-				<dt><label for="autogroups_default">{{ lang('ACP_AUTOGROUPS_DEFAULT') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_AUTOGROUPS_DEFAULT_EXPLAIN') }}</span></dt>
+				<dt><label for="autogroups_default">{{ lang('ACP_AUTOGROUPS_DEFAULT') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_AUTOGROUPS_DEFAULT_EXPLAIN') }} {{ EXEMPT_GROUPS ? lang('ACP_AUTOGROUPS_DEFAULT_EXEMPTION', EXEMPT_GROUPS) : '' }}</span></dt>
 				<dd><label><input type="radio" class="radio" id="autogroups_default" name="autogroups_default" value="1"{% if S_DEFAULT %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
 					<label><input type="radio" class="radio" name="autogroups_default" value="0"{% if not S_DEFAULT %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 			</dl>

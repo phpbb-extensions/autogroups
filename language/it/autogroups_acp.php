@@ -53,6 +53,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Saranno aggiunti a questo gruppo gli utenti che superano il valore massimo; lasciare in bianco se non si vuole che siano rimossi automaticamente gli utenti dal gruppo.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Imposta come gruppo predefinito',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Rendi questo gruppo predefinito per l’utente.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Ciò non influirà sugli utenti il cui gruppo di utenti predefinito è uno dei seguenti: <samp>%s</samp>.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notifica utenti',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Invia una notifica agli utenti automaticamente aggiunti o rimossi dal gruppo.',
 

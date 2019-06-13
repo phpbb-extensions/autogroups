@@ -53,6 +53,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> '如果它們超過最大值，用戶將從此組中刪除。留空本欄如果你不希望用戶被刪除。',
 	'ACP_AUTOGROUPS_DEFAULT'				=> '設置預設群組',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> '設置為用戶新的預設用戶組。',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> '這不會影響默認用戶組是以下用戶之一的用戶： <samp>%s</samp>.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> '通知用戶',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> '自動添加或刪除該組後，將通知發送給用戶。',
 

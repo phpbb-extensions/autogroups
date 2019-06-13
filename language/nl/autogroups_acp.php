@@ -54,6 +54,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Gebruikers worden verwijderd van deze groep als de maximale waarde wordt overschreden. Laat dit veld leeg om automatisch verwijderen te voorkomen.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Instellen als standaard groep',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Maak voor deze gebruikers de groep standaard.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Dit heeft geen invloed op gebruikers wiens standaardgroep één van de volgende is: <samp>%s</samp>.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notificeer gebruikers',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Stuur een notificatie naar gebruikers als ze automatisch worden toegevoegd of verwijderd van deze groep.',
 
