@@ -7,7 +7,7 @@ This is the repository for the development of the phpBB Auto Groups Extension
 
 ## Install
 
-1. [Download the latest validated release](https://www.phpbb.com/customise/db/extension/auto-groups/).
+1. [Download the latest validated release](https://www.phpbb.com/customise/db/extension/auto_groups/).
 2. Unzip the downloaded release and copy it to the `ext` directory of your phpBB board.
 3. Navigate in the ACP to `Customise -> Manage extensions`.
 4. Look for `Auto Groups` under the Disabled Extensions list, and click its `Enable` link.
