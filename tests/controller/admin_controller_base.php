@@ -28,9 +28,6 @@ class admin_controller_base extends \phpbb_database_test_case
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var \phpbb\group\helper */
-	protected $group_helper;
-
 	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\log\log */
 	protected $log;
 
@@ -73,7 +70,12 @@ class admin_controller_base extends \phpbb_database_test_case
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$lang = new \phpbb\language\language($lang_loader);
 		$this->user = new \phpbb\user($lang, '\phpbb\datetime');
-		$group_helper = new \phpbb\group\helper($lang);
+		$group_helper = $this->getMockBuilder('\phpbb\group\helper')
+			->disableOriginalConstructor()
+			->getMock();
+		$group_helper->expects($this->any())
+			->method('get_name')
+			->will($this->returnArgument(0));
 
 		$this->admin_controller = new \phpbb\autogroups\controller\admin_controller(
 			$cache,
