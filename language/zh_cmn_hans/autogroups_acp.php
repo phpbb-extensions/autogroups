@@ -54,7 +54,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> '如果超过最大值，用户将被移出该用户组。如果不希望用户被移出，请留空此栏。',
 	'ACP_AUTOGROUPS_DEFAULT'				=> '设置默认用户组',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> '设置为用户的新默认用户组。',
-	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> '这不会影响默认用户组是以下用户之一的用户： <samp>%s</samp>.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> '这不会影响那些默认用户组是： <samp>%s</samp> 的用户',
 	'ACP_AUTOGROUPS_NOTIFY'					=> '通知用户',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> '自动加入或者移出该组后，该用户会收到通知。',
 

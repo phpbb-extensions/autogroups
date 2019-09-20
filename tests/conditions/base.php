@@ -107,7 +107,23 @@ class base extends \phpbb_database_test_case
 		$phpbb_container = new \phpbb_mock_container_builder();
 		$phpbb_container->set('cache.driver', new \phpbb\cache\driver\dummy());
 		$phpbb_container->set('notification_manager', new \phpbb_mock_notification_manager());
-		$phpbb_container->set('group_helper', new \phpbb\group\helper($this->lang));
+		$phpbb_container->set('group_helper', new \phpbb\group\helper(
+			$auth,
+			$this->getMockBuilder('\phpbb\cache\service')->disableOriginalConstructor()->getMock(),
+			new \phpbb\config\config([]),
+			$this->lang,
+			$phpbb_dispatcher,
+			new \phpbb\path_helper(
+				new \phpbb\symfony_request(
+					new \phpbb_mock_request()
+				),
+				new \phpbb\filesystem\filesystem(),
+				$this->getMockBuilder('\phpbb\request\request')->getMock(),
+				$phpbb_root_path,
+				$phpEx
+			),
+			$this->user
+		));
 
 		$this->phpbb_container = $phpbb_container;
 
