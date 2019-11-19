@@ -22,7 +22,7 @@ class base extends \phpbb_database_test_case
 	*
 	* @return array vendor/name of extension(s) to test
 	*/
-	static protected function setup_extensions()
+	protected static function setup_extensions()
 	{
 		return array('phpbb/autogroups');
 	}
@@ -60,7 +60,7 @@ class base extends \phpbb_database_test_case
 		$ds1 = $this->createXMLDataSet(__DIR__ . '/fixtures/' . $this->condition_type . '.xml');
 		$ds2 = $this->createXMLDataSet(__DIR__ . '/fixtures/users.xml');
 
-		$compositeDs = new \PHPUnit_Extensions_Database_DataSet_CompositeDataSet();
+		$compositeDs = new \PHPUnit\DbUnit\DataSet\CompositeDataSet();
 		$compositeDs->addDataSet($ds1);
 		$compositeDs->addDataSet($ds2);
 
@@ -75,7 +75,7 @@ class base extends \phpbb_database_test_case
 		return new \phpbb\language\language($lang_loader);
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 

@@ -10,8 +10,6 @@
 
 namespace phpbb\autogroups\tests\functional;
 
-use \Symfony\Component\DomCrawler\Crawler;
-
 class autogroups_base extends \phpbb_functional_test_case
 {
 	/**
@@ -19,7 +17,7 @@ class autogroups_base extends \phpbb_functional_test_case
 	*
 	* @return array vendor/name of extension(s) to test
 	*/
-	static protected function setup_extensions()
+	protected static function setup_extensions()
 	{
 		return array('phpbb/autogroups');
 	}
@@ -27,7 +25,7 @@ class autogroups_base extends \phpbb_functional_test_case
 	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -62,7 +60,7 @@ class autogroups_base extends \phpbb_functional_test_case
 		$crawler = self::request('GET', 'adm/index.php?i=acp_groups&mode=manage&sid=' . $this->sid);
 		$crawler = $crawler
 			->filter('table > tbody > tr')
-			->reduce(function (Crawler $node) use ($group_name) {
+			->reduce(function (\Symfony\Component\DomCrawler\Crawler $node) use ($group_name) {
 				return $node->filter('strong')->text() == $group_name;
 			});
 		$url = $crawler->selectLink($this->lang('SETTINGS'))->link()->getUri();

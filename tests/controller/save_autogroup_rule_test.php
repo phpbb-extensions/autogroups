@@ -40,22 +40,22 @@ class save_autogroup_rule_test extends admin_controller_base
 		$this->assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
 
 		// Return false from is_set_post()
-		$this->request->expects($this->any())
+		$this->request->expects($this->once())
 			->method('is_set_post')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		// Return condition names/ids from get_autogroups_type_ids()
-		$this->manager->expects($this->any())
+		$this->manager->expects($this->once())
 			->method('get_autogroups_type_ids')
-			->will($this->returnValue(array(
+			->willReturn(array(
 				'phpbb.autogroups.type.sample1' => 1,
 				'phpbb.autogroups.type.sample2' => 2,
-			)));
+			));
 
 		// Return empty strings for get_condition_lang()
-		$this->manager->expects($this->any())
+		$this->manager->expects($this->atMost(2))
 			->method('get_condition_lang')
-			->will($this->returnValue(''));
+			->willReturn('');
 
 		// Set expectations for the assign_block_vars template values
 		$this->template->expects($this->exactly(3))

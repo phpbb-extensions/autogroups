@@ -39,12 +39,12 @@ class resync_autogroup_rule_test extends admin_controller_base
 		$this->assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
 
 		// Set a valid link hash
-		$this->request->expects($this->any())
+		$this->request->expects($this->once())
 			->method('variable')
 			->with($this->anything())
-			->will($this->returnValueMap(array(
+			->willReturnMap(array(
 				array('hash', '', false, \phpbb\request\request_interface::REQUEST, generate_link_hash('sync' . $id))
-			)))
+			))
 		;
 
 		// Test that the sync_autogroups() method is
@@ -69,12 +69,12 @@ class resync_autogroup_rule_test extends admin_controller_base
 		$this->assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
 
 		// Set an invalid link hash
-		$this->request->expects($this->any())
+		$this->request->expects($this->once())
 			->method('variable')
 			->with($this->anything())
-			->will($this->returnValueMap(array(
+			->willReturnMap(array(
 				array('hash', '', false, \phpbb\request\request_interface::REQUEST, generate_link_hash('foobar' . $id))
-			)))
+			))
 		;
 
 		// Test that the sync_autogroups() method
@@ -102,12 +102,12 @@ class resync_autogroup_rule_test extends admin_controller_base
 		$this->assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
 
 		// Set a valid link hash
-		$this->request->expects($this->any())
+		$this->request->expects($this->once())
 			->method('variable')
 			->with($this->anything())
-			->will($this->returnValueMap(array(
+			->willReturnMap(array(
 				array('hash', '', false, \phpbb\request\request_interface::REQUEST, generate_link_hash('sync' . $id))
-			)))
+			))
 		;
 
 		// Make the sync_autogroups() method throw an exception.

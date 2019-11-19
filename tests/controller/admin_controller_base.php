@@ -17,7 +17,7 @@ class admin_controller_base extends \phpbb_database_test_case
 	 *
 	 * @return array vendor/name of extension(s) to test
 	 */
-	static protected function setup_extensions()
+	protected static function setup_extensions()
 	{
 		return array('phpbb/autogroups');
 	}
@@ -48,7 +48,7 @@ class admin_controller_base extends \phpbb_database_test_case
 		return $this->createXMLDataSet(__DIR__ . '/fixtures/phpbb.autogroups.xml');
 	}
 
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 
@@ -73,7 +73,7 @@ class admin_controller_base extends \phpbb_database_test_case
 		$group_helper = $this->getMockBuilder('\phpbb\group\helper')
 			->disableOriginalConstructor()
 			->getMock();
-		$group_helper->expects($this->any())
+		$group_helper
 			->method('get_name')
 			->will($this->returnArgument(0));
 
