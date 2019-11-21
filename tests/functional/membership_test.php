@@ -63,7 +63,6 @@ class membership_test extends autogroups_base
 		$this->assertContainsLang('ACCOUNT_ADDED', $crawler->filter('#message')->text());
 		$new_user_id = $this->get_new_user_id();
 		$this->assertGreaterThan(40, $new_user_id); // lets just make sure this is a newer user
-		$this->login();
 		$this->assertInGroup($new_user_id, $test_data['group_name']);
 	}
 

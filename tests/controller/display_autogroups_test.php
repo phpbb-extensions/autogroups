@@ -25,11 +25,11 @@ class display_autogroups_test extends admin_controller_base
 		$this->manager->expects($this->at(0))
 			->method('get_condition_lang')
 			->with('phpbb.autogroups.type.sample1')
-			->will($this->returnValue('phpbb.autogroups.type.sample1'));
+			->willReturn('phpbb.autogroups.type.sample1');
 		$this->manager->expects($this->at(1))
 			->method('get_condition_lang')
 			->with('phpbb.autogroups.type.sample2')
-			->will($this->returnValue('phpbb.autogroups.type.sample2'));
+			->willReturn('phpbb.autogroups.type.sample2');
 
 		// Set expectations for the assign_block_vars template values
 		$this->template->expects($this->exactly(4))

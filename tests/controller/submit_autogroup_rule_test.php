@@ -85,14 +85,14 @@ class submit_autogroup_rule_test extends admin_controller_base
 		$this->assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
 
 		// Return true from is_set_post()
-		$this->request->expects($this->any())
+		$this->request->expects($this->once())
 			->method('is_set_post')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		// Get the requested variable data
-		$this->request->expects($this->any())
+		$this->request->expects($this->atLeastOnce())
 			->method('variable')
-			->will($this->returnValueMap($requestMap));
+			->willReturnMap($requestMap);
 
 		// Check that the expected trigger_error() is called
 		$this->setExpectedTriggerError($errNo);

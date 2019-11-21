@@ -42,9 +42,9 @@ class delete_autogroup_rule_test extends admin_controller_base
 		$this->assertEquals($expected, $this->get_autogroup_rule_count($id));
 
 		// Prevent AJAX request
-		$this->request->expects($this->any())
+		$this->request->expects($this->once())
 			->method('is_ajax')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		// Call the delete_autogroup_rule() method
 		$this->admin_controller->delete_autogroup_rule($id);

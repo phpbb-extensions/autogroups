@@ -84,7 +84,7 @@ class get_condition_lang_test extends base_manager
 	public function test_get_condition_lang_fails($type_name, $expected)
 	{
 		// Use mocked condition when container->get()
-		$this->container->expects($this->any())
+		$this->container->expects($this->once())
 			->method('get')
 			->with($type_name)
 			->will($this->throwException(new \InvalidArgumentException()));
