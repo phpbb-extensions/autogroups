@@ -55,6 +55,7 @@ class listener_test extends \phpbb_test_case
 			'core.mcp_warn_user_after',
 			'core.session_create_after',
 			'core.user_add_after',
+			'core.user_active_flip_after',
 		), array_keys(\phpbb\autogroups\event\listener::getSubscribedEvents()));
 	}
 
@@ -215,6 +216,14 @@ class listener_test extends \phpbb_test_case
 				'user_id',
 				array('user_id' => 100),
 				array('users' => array('user_id' => 100)),
+			),
+			array(
+				'phpbb.autogroups.type.membership',
+				'membership_check',
+				'core.user_active_flip_after',
+				'user_id_ary',
+				array('user_id_ary' => [200, 300]),
+				array('users' => array('user_id_ary' => [200, 300])),
 			),
 		);
 	}
