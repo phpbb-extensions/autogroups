@@ -2,6 +2,14 @@
 
 ## Version 2.x (for phpBB 3.2)
 
+## 2.0.3 - 2020-03-18
+
+- Check Membership days after a user account is activated.
+- AutoGroups will now show you in the ACP setting for “Set group default” the user groups that are exempt from having their default group changed.
+- Corrected minimum PHP requirement to 5.5.
+- Added Danish language pack
+- Added Czech language pack
+
 ### 2.0.2 - 2019-03-27
 
 - Check Membership days after user registrations.
