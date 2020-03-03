@@ -77,30 +77,6 @@ abstract class base implements type_interface
 	}
 
 	/**
-	 * Get condition type
-	 *
-	 * @return string Condition type
-	 * @access public
-	 */
-	abstract public function get_condition_type();
-
-	/**
-	 * Get condition field (this is the field to check)
-	 *
-	 * @return string Condition field name
-	 * @access public
-	 */
-	abstract public function get_condition_field();
-
-	/**
-	 * Get condition type name
-	 *
-	 * @return string Condition type name
-	 * @access public
-	 */
-	abstract public function get_condition_type_name();
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function get_group_rules($type = '')
