@@ -25,9 +25,6 @@ class ext extends \phpbb\extension\base
 	 * The current phpBB version should meet or exceed
 	 * the minimum version required by this extension:
 	 *
-	 * Requires phpBB 3.2.0 due to the revised notifications system
-	 * and new group helper. Requires PHP 5.5 due to array_column().
-	 *
 	 * @return bool|array
 	 * @access public
 	 */
@@ -45,11 +42,21 @@ class ext extends \phpbb\extension\base
 		return $enableable;
 	}
 
+	/**
+	 * Require phpBB 3.2.0 due to the revised notifications system and new group helper.
+	 *
+	 * @return bool
+	 */
 	protected function check_phpbb_version()
 	{
 		return phpbb_version_compare(PHPBB_VERSION, '3.2.0', '>=');
 	}
 
+	/**
+	 * Requires PHP 5.5 due to array_column().
+	 *
+	 * @return bool
+	 */
 	protected function check_php_version()
 	{
 		return phpbb_version_compare(PHP_VERSION, '5.5.0', '>=');
