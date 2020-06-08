@@ -3,7 +3,7 @@
 *
 * Auto Groups extension for the phpBB Forum Software package.
 *
-* @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
+* @copyright (c) 2019 phpBB Limited <https://www.phpbb.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
@@ -38,10 +38,5 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACP_AUTOGROUPS_MANAGE'			=> 'Auto Groups Verwaltung',
-	'AUTOGROUPS_TYPE_NOT_EXIST'		=> 'Die Auto-Gruppe `%1$s` existiert nicht.',
-
-	// Logs
-	'ACP_AUTOGROUPS_SAVED_LOG'		=> '<strong>Eine Auto Groups-Konfiguration wurde gespeichert</strong>',
-	'ACP_AUTOGROUPS_DELETE_LOG'		=> '<strong>Eine Auto Groups-Konfiguration wurde gelöscht</strong>',
+	'AUTOGROUPS_NOT_ENABLEABLE'	=> 'Auto Groups konnte nicht aktiviert werden. Die Mindestanforderungen von phpBB 3.2.0 und/oder PHP 5.5.0 sind nicht erfüllt.',
 ));
