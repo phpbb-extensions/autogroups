@@ -87,7 +87,7 @@ class get_condition_lang_test extends base_manager
 		$this->container->expects(self::once())
 			->method('get')
 			->with($type_name)
-			->will($this->throwException(new \InvalidArgumentException()));
+			->will(self::throwException(new \InvalidArgumentException()));
 
 		// Assert the expected lang var is returned by the condition
 		self::assertEquals($expected, $this->manager->get_condition_lang($type_name));

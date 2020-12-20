@@ -79,7 +79,7 @@ class base extends \phpbb_database_test_case
 	{
 		parent::setUp();
 
-		global $auth, $db, $user, $phpbb_container, $phpbb_dispatcher, $phpbb_log, $phpbb_root_path, $phpEx;
+		global $auth, $config, $db, $user, $phpbb_container, $phpbb_dispatcher, $phpbb_log, $phpbb_root_path, $phpEx;
 
 		$this->db = $this->new_dbal();
 
@@ -94,6 +94,9 @@ class base extends \phpbb_database_test_case
 				'\phpbb\datetime'
 			))
 			->getMock();
+		$user->data['user_id'] = 2;
+
+		$config = new \phpbb\config\config(array());
 
 		$db = $this->db;
 

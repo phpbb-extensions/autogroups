@@ -20,7 +20,7 @@ class check_conditions_test extends base_manager
 		// Mock get_users_for_condition() and test expected values
 		$this->condition->expects(self::exactly(3))
 			->method('get_users_for_condition')
-			->with($this->anything())
+			->with(self::anything())
 			->willReturn(array(1 => 'foo', 2 => 'bar'));
 
 		// Mock check() and test expected values
@@ -32,7 +32,7 @@ class check_conditions_test extends base_manager
 		// Use mocked condition when container->get()
 		$this->container->expects(self::exactly(3))
 			->method('get')
-			->with($this->anything())
+			->with(self::anything())
 			->willReturn($this->condition);
 
 		// Call and test sync autogroups

@@ -61,7 +61,7 @@ class autogroups_base extends \phpbb_functional_test_case
 		$crawler = $crawler
 			->filter('table > tbody > tr')
 			->reduce(function (\Symfony\Component\DomCrawler\Crawler $node) use ($group_name) {
-				return $node->filter('strong')->text() == $group_name;
+				return $node->filter('strong')->text() === $group_name;
 			});
 		$url = $crawler->selectLink($this->lang('SETTINGS'))->link()->getUri();
 
@@ -122,7 +122,7 @@ class autogroups_base extends \phpbb_functional_test_case
 	 */
 	public function assertInGroup($user_id, $group_name)
 	{
-		$crawler = self::request('GET', "memberlist.php?mode=viewprofile&u=$user_id&sid={$this->sid}");
+		$crawler = self::request('GET', "memberlist.php?mode=viewprofile&u=$user_id");
 		self::assertStringContainsString($group_name, $crawler->filter('select')->text(), "The group $group_name could not be found in the set of user groups.");
 	}
 
@@ -134,7 +134,7 @@ class autogroups_base extends \phpbb_functional_test_case
 	 */
 	public function assertNotInGroup($user_id, $group_name)
 	{
-		$crawler = self::request('GET', "memberlist.php?mode=viewprofile&u=$user_id&sid={$this->sid}");
+		$crawler = self::request('GET', "memberlist.php?mode=viewprofile&u=$user_id");
 		self::assertStringNotContainsString($group_name, $crawler->filter('select')->text(), "The group $group_name still exists in the set of user groups.");
 	}
 

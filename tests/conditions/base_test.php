@@ -154,6 +154,7 @@ class base_test extends base
 		$group_rule_data = array(
 			'autogroups_group_id' 	=> $group_id,
 			'autogroups_default'	=> $default,
+			'autogroups_notify'		=> false,
 		);
 
 		// Instantiate the condition
@@ -224,6 +225,7 @@ class base_test extends base
 		// Prepare data
 		$group_rule_data = array(
 			'autogroups_group_id' 	=> $group_id,
+			'autogroups_notify'		=> false,
 		);
 
 		// Instantiate the condition

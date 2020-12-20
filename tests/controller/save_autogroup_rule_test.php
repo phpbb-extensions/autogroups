@@ -23,9 +23,6 @@ class save_autogroup_rule_test extends admin_controller_base
 		return array(
 			array(1, 0, 20, true, false, false, true, false),
 			array(2, 30, 50, false, false, true, false, true),
-			array(0, 0, 0, false, false, false, false, false),
-			array('', 0, 0, false, false, false, false, false),
-			array('foo', 0, 0, false, false, false, false, false),
 		);
 	}
 

@@ -41,7 +41,7 @@ class resync_autogroup_rule_test extends admin_controller_base
 		// Set a valid link hash
 		$this->request->expects(self::once())
 			->method('variable')
-			->with($this->anything())
+			->with(self::anything())
 			->willReturnMap(array(
 				array('hash', '', false, \phpbb\request\request_interface::REQUEST, generate_link_hash('sync' . $id))
 			))
@@ -51,7 +51,7 @@ class resync_autogroup_rule_test extends admin_controller_base
 		// called once with the identifier as its arg.
 		$this->manager->expects(self::once())
 			->method('sync_autogroups')
-			->with($this->equalTo($id));
+			->with(self::equalTo($id));
 
 		// Call the save_autogroup_rule() method
 		$this->admin_controller->resync_autogroup_rule($id);
@@ -71,7 +71,7 @@ class resync_autogroup_rule_test extends admin_controller_base
 		// Set an invalid link hash
 		$this->request->expects(self::once())
 			->method('variable')
-			->with($this->anything())
+			->with(self::anything())
 			->willReturnMap(array(
 				array('hash', '', false, \phpbb\request\request_interface::REQUEST, generate_link_hash('foobar' . $id))
 			))
@@ -81,7 +81,7 @@ class resync_autogroup_rule_test extends admin_controller_base
 		// is never called during execution.
 		$this->manager->expects(self::never())
 			->method('sync_autogroups')
-			->with($this->equalTo($id));
+			->with(self::equalTo($id));
 
 		// Check that trigger_error() is called
 		$this->setExpectedTriggerError(E_USER_WARNING);
@@ -104,7 +104,7 @@ class resync_autogroup_rule_test extends admin_controller_base
 		// Set a valid link hash
 		$this->request->expects(self::once())
 			->method('variable')
-			->with($this->anything())
+			->with(self::anything())
 			->willReturnMap(array(
 				array('hash', '', false, \phpbb\request\request_interface::REQUEST, generate_link_hash('sync' . $id))
 			))
@@ -113,8 +113,8 @@ class resync_autogroup_rule_test extends admin_controller_base
 		// Make the sync_autogroups() method throw an exception.
 		$this->manager->expects(self::once())
 			->method('sync_autogroups')
-			->with($this->anything())
-			->will($this->throwException(new \Exception()))
+			->with(self::anything())
+			->will(self::throwException(new \Exception()))
 		;
 
 		// Check that trigger_error() is called

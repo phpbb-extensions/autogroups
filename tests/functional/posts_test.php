@@ -37,10 +37,10 @@ class posts_test extends autogroups_base
 
 		// Create a new topic/post (will be a 2nd post adding admin to the group)
 		$post = $this->create_topic(2, 'Auto Groups Test Post', 'This is a test post for the Auto Groups extension.');
-		self::assertInGroup(2, $test_data['group_name']);
+		$this->assertInGroup(2, $test_data['group_name']);
 
 		// Create a reply post (will be a 3rd post, removing admin from the group)
 		$this->create_post(2, $post['topic_id'], 'Re: Auto Groups Test Post', 'This is a test post posted by the testing framework.');
-		self::assertNotInGroup(2, $test_data['group_name']);
+		$this->assertNotInGroup(2, $test_data['group_name']);
 	}
 }

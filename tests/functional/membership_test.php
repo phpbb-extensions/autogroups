@@ -38,12 +38,12 @@ class membership_test extends autogroups_base
 		// Run the cron job for a user with 2 days of membership, should add the user to the group
 		$this->update_user_regdate(2, 2)->reset_cron();
 		self::request('GET', "cron.php?cron_type=cron.task.autogroups_check&sid={$this->sid}", array(), false);
-		self::assertInGroup(2, $this->test_data['group_name']);
+		$this->assertInGroup(2, $this->test_data['group_name']);
 
 		// Run the cron job for a user with 20 days of membership, should remove the user from the group
 		$this->update_user_regdate(2, 20)->reset_cron();
 		self::request('GET', "cron.php?cron_type=cron.task.autogroups_check&sid={$this->sid}", array(), false);
-		self::assertNotInGroup(2, $this->test_data['group_name']);
+		$this->assertNotInGroup(2, $this->test_data['group_name']);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class membership_test extends autogroups_base
 		$this->assertContainsLang('ACCOUNT_ADDED', $crawler->filter('#message')->text());
 		$new_user_id = $this->get_new_user_id();
 		self::assertGreaterThan(40, $new_user_id); // lets just make sure this is a newer user
-		self::assertInGroup($new_user_id, $this->test_data['group_name']);
+		$this->assertInGroup($new_user_id, $this->test_data['group_name']);
 		return $new_user_id;
 	}
 
@@ -93,7 +93,7 @@ class membership_test extends autogroups_base
 		$crawler = self::submit($form);
 		$this->assertContainsLang('USER_ADMIN_DEACTIVED', $crawler->filter('.successbox')->text());
 		$this->remove_user_group($this->test_data['group_name'], 'user-ag-test');
-		self::assertNotInGroup($new_user_id, $this->test_data['group_name']);
+		$this->assertNotInGroup($new_user_id, $this->test_data['group_name']);
 
 		// Re-activate the user, should add the user to the group
 		$crawler = self::request('GET', "adm/index.php?i=users&mode=overview&u=$new_user_id&sid={$this->sid}");
@@ -102,7 +102,7 @@ class membership_test extends autogroups_base
 		$form->setValues($data);
 		$crawler = self::submit($form);
 		$this->assertContainsLang('USER_ADMIN_ACTIVATED', $crawler->filter('.successbox')->text());
-		self::assertInGroup($new_user_id, $this->test_data['group_name']);
+		$this->assertInGroup($new_user_id, $this->test_data['group_name']);
 	}
 
 	/**
