@@ -33,7 +33,7 @@ class get_autogroups_type_id_test extends base_manager
 	 */
 	public function test_get_autogroups_type_id_from_db($type_name, $expected)
 	{
-		$this->assertSame($expected, $this->manager->get_autogroups_type_id($type_name));
+		self::assertSame($expected, $this->manager->get_autogroups_type_id($type_name));
 	}
 
 	/**
@@ -57,7 +57,7 @@ class get_autogroups_type_id_test extends base_manager
 	 */
 	public function test_get_autogroups_type_id_from_service($type_name, $expected)
 	{
-		$this->assertSame($expected, $this->manager->get_autogroups_type_id($type_name));
+		self::assertSame($expected, $this->manager->get_autogroups_type_id($type_name));
 	}
 
 	/**

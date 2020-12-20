@@ -89,7 +89,7 @@ class base_test extends base
 		$condition = $this->get_condition();
 
 		$result = $condition->get_group_rules($type);
-		$this->assertEquals($expected, $result);
+		self::assertEquals($expected, $result);
 	}
 
 	/**
@@ -166,7 +166,7 @@ class base_test extends base
 		$user_groups = $this->helper->get_users_groups($user_id_ary);
 
 		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $user_groups);
+		self::assertEquals($expected, $user_groups);
 	}
 
 	/**
@@ -236,6 +236,6 @@ class base_test extends base
 		$user_groups = $this->helper->get_users_groups($user_id_ary);
 
 		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $user_groups);
+		self::assertEquals($expected, $user_groups);
 	}
 }

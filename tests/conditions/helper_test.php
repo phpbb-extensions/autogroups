@@ -65,7 +65,7 @@ class helper_test extends base
 		$result = $this->helper->get_users_groups($user_id);
 
 		// Assert the user's groups are as expected
-		$this->assertEquals($expected, $result);
+		self::assertEquals($expected, $result);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class helper_test extends base
 	 */
 	public function test_get_default_exempt_users()
 	{
-		$this->assertEquals(array(3), $this->helper->get_default_exempt_users());
+		self::assertEquals(array(3), $this->helper->get_default_exempt_users());
 	}
 
 	/**
@@ -99,7 +99,7 @@ class helper_test extends base
 	 */
 	public function test_prepare_users_for_query($user_ids, $expected)
 	{
-		$this->assertEquals($expected, $this->helper->prepare_users_for_query($user_ids));
+		self::assertEquals($expected, $this->helper->prepare_users_for_query($user_ids));
 	}
 
 	/**
@@ -144,7 +144,7 @@ class helper_test extends base
 	 */
 	public function test_send_notifications($type, $expected)
 	{
-		$this->notification_manager->expects($this->once())
+		$this->notification_manager->expects(self::once())
 			->method('add_notifications')
 			->with("phpbb.autogroups.notification.type.$type", $expected);
 

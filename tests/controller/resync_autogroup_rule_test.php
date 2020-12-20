@@ -36,10 +36,10 @@ class resync_autogroup_rule_test extends admin_controller_base
 	public function test_resync_autogroup_rule($id)
 	{
 		// Assert the admin_controller is instantiated
-		$this->assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
+		self::assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
 
 		// Set a valid link hash
-		$this->request->expects($this->once())
+		$this->request->expects(self::once())
 			->method('variable')
 			->with($this->anything())
 			->willReturnMap(array(
@@ -49,7 +49,7 @@ class resync_autogroup_rule_test extends admin_controller_base
 
 		// Test that the sync_autogroups() method is
 		// called once with the identifier as its arg.
-		$this->manager->expects($this->once())
+		$this->manager->expects(self::once())
 			->method('sync_autogroups')
 			->with($this->equalTo($id));
 
@@ -66,10 +66,10 @@ class resync_autogroup_rule_test extends admin_controller_base
 	public function test_resync_autogroup_rule_fails($id)
 	{
 		// Assert the admin_controller is instantiated
-		$this->assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
+		self::assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
 
 		// Set an invalid link hash
-		$this->request->expects($this->once())
+		$this->request->expects(self::once())
 			->method('variable')
 			->with($this->anything())
 			->willReturnMap(array(
@@ -79,7 +79,7 @@ class resync_autogroup_rule_test extends admin_controller_base
 
 		// Test that the sync_autogroups() method
 		// is never called during execution.
-		$this->manager->expects($this->never())
+		$this->manager->expects(self::never())
 			->method('sync_autogroups')
 			->with($this->equalTo($id));
 
@@ -99,10 +99,10 @@ class resync_autogroup_rule_test extends admin_controller_base
 	public function test_resync_autogroup_rule_exception($id)
 	{
 		// Assert the admin_controller is instantiated
-		$this->assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
+		self::assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
 
 		// Set a valid link hash
-		$this->request->expects($this->once())
+		$this->request->expects(self::once())
 			->method('variable')
 			->with($this->anything())
 			->willReturnMap(array(
@@ -111,7 +111,7 @@ class resync_autogroup_rule_test extends admin_controller_base
 		;
 
 		// Make the sync_autogroups() method throw an exception.
-		$this->manager->expects($this->once())
+		$this->manager->expects(self::once())
 			->method('sync_autogroups')
 			->with($this->anything())
 			->will($this->throwException(new \Exception()))

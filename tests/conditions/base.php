@@ -75,7 +75,7 @@ class base extends \phpbb_database_test_case
 		return new \phpbb\language\language($lang_loader);
 	}
 
-	public function setUp(): void
+	protected function setUp(): void
 	{
 		parent::setUp();
 

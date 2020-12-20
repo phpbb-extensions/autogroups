@@ -18,21 +18,17 @@ class display_autogroups_test extends admin_controller_base
 	public function test_display_autogroups()
 	{
 		// Assert the admin_controller is instantiated
-		$this->assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
+		self::assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
 
 		// Mocked manager should output the expected values
 		// from get_condition_lang() at the expected times.
-		$this->manager->expects($this->at(0))
+		$this->manager->expects(self::exactly(2))
 			->method('get_condition_lang')
-			->with('phpbb.autogroups.type.sample1')
-			->willReturn('phpbb.autogroups.type.sample1');
-		$this->manager->expects($this->at(1))
-			->method('get_condition_lang')
-			->with('phpbb.autogroups.type.sample2')
-			->willReturn('phpbb.autogroups.type.sample2');
+			->withConsecutive(['phpbb.autogroups.type.sample1'], ['phpbb.autogroups.type.sample2'])
+			->willReturnOnConsecutiveCalls('phpbb.autogroups.type.sample1', 'phpbb.autogroups.type.sample2');
 
 		// Set expectations for the assign_block_vars template values
-		$this->template->expects($this->exactly(4))
+		$this->template->expects(self::exactly(4))
 			->method('assign_block_vars')
 			->withConsecutive(
 				array('autogroups', array(
@@ -71,7 +67,7 @@ class display_autogroups_test extends admin_controller_base
 		;
 
 		// Set expectations for the assign_vars template values
-		$this->template->expects($this->once())
+		$this->template->expects(self::once())
 			->method('assign_vars')
 			->with(array(
 				'U_ACTION'				=> 'index.php',

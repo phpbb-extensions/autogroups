@@ -41,15 +41,15 @@ class purge_autogroups_type_test extends base_manager
 		$this->db->sql_freeresult($result);
 
 		// Check that there are types and rules
-		$this->assertGreaterThan(0, $this->count_types($type_name));
-		$this->assertGreaterThan(0, $this->count_rules($type_id));
+		self::assertGreaterThan(0, $this->count_types($type_name));
+		self::assertGreaterThan(0, $this->count_rules($type_id));
 
 		// Purge auto group data
 		$this->manager->purge_autogroups_type($type_name);
 
 		// Check that there are no more types or rules
-		$this->assertEquals(0, $this->count_types($type_name));
-		$this->assertEquals(0, $this->count_rules($type_id));
+		self::assertEquals(0, $this->count_types($type_name));
+		self::assertEquals(0, $this->count_rules($type_id));
 	}
 
 	/**

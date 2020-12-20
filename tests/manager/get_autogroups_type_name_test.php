@@ -39,6 +39,6 @@ class get_autogroups_type_name_test extends base_manager
 	 */
 	public function test_get_autogroups_type_name($type_id, $rule_id, $expected)
 	{
-		$this->assertSame($expected, $this->manager->get_autogroups_type_name($type_id, $rule_id));
+		self::assertSame($expected, $this->manager->get_autogroups_type_name($type_id, $rule_id));
 	}
 }

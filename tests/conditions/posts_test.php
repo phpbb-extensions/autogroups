@@ -206,7 +206,7 @@ class posts_test extends type_test_case
 		sort($result[$user_id]);
 
 		// Assert the user's groups are unchanged
-		$this->assertEquals($expected, $result[$user_id]);
+		self::assertEquals($expected, $result[$user_id]);
 	}
 
 	/**

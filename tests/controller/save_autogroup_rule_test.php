@@ -37,15 +37,15 @@ class save_autogroup_rule_test extends admin_controller_base
 	public function test_save_autogroup_rule($id, $min, $max, $default, $notify, $group_selected, $cond1_selected, $cond2_selected)
 	{
 		// Assert the admin_controller is instantiated
-		$this->assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
+		self::assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
 
 		// Return false from is_set_post()
-		$this->request->expects($this->once())
+		$this->request->expects(self::once())
 			->method('is_set_post')
 			->willReturn(false);
 
 		// Return condition names/ids from get_autogroups_type_ids()
-		$this->manager->expects($this->once())
+		$this->manager->expects(self::once())
 			->method('get_autogroups_type_ids')
 			->willReturn(array(
 				'phpbb.autogroups.type.sample1' => 1,
@@ -53,12 +53,12 @@ class save_autogroup_rule_test extends admin_controller_base
 			));
 
 		// Return empty strings for get_condition_lang()
-		$this->manager->expects($this->atMost(2))
+		$this->manager->expects(self::atMost(2))
 			->method('get_condition_lang')
 			->willReturn('');
 
 		// Set expectations for the assign_block_vars template values
-		$this->template->expects($this->exactly(3))
+		$this->template->expects(self::exactly(3))
 			->method('assign_block_vars')
 			->withConsecutive(
 				array('groups', array(
@@ -80,7 +80,7 @@ class save_autogroup_rule_test extends admin_controller_base
 		;
 
 		// Set expectations for the assign_vars template values
-		$this->template->expects($this->once())
+		$this->template->expects(self::once())
 			->method('assign_vars')
 			->with(array(
 				'S_ADD'			=> (bool) !$id,

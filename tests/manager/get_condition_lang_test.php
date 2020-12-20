@@ -61,7 +61,7 @@ class get_condition_lang_test extends base_manager
 		);
 
 		// Assert the expected lang var is returned by the condition
-		$this->assertEquals($expected, $manager->get_condition_lang($type_name));
+		self::assertEquals($expected, $manager->get_condition_lang($type_name));
 	}
 
 	/**
@@ -84,12 +84,12 @@ class get_condition_lang_test extends base_manager
 	public function test_get_condition_lang_fails($type_name, $expected)
 	{
 		// Use mocked condition when container->get()
-		$this->container->expects($this->once())
+		$this->container->expects(self::once())
 			->method('get')
 			->with($type_name)
 			->will($this->throwException(new \InvalidArgumentException()));
 
 		// Assert the expected lang var is returned by the condition
-		$this->assertEquals($expected, $this->manager->get_condition_lang($type_name));
+		self::assertEquals($expected, $this->manager->get_condition_lang($type_name));
 	}
 }

@@ -37,19 +37,19 @@ class sync_autogroups_test extends base_manager
 		$options = array('action' => 'sync');
 
 		// Mock get_users_for_condition() and test expected values
-		$this->condition->expects($this->once())
+		$this->condition->expects(self::once())
 			->method('get_users_for_condition')
 			->with($options)
 			->willReturn(array());
 
 		// Mock check() and test expected values
-		$this->condition->expects($this->once())
+		$this->condition->expects(self::once())
 			->method('check')
 			->with(array(), $options)
 			->willReturn(null);
 
 		// Use mocked condition when container->get()
-		$this->container->expects($this->once())
+		$this->container->expects(self::once())
 			->method('get')
 			->with($type_name)
 			->willReturn($this->condition);

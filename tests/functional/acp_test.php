@@ -36,7 +36,7 @@ class acp_test extends autogroups_base
 
 		// Create a new test group
 		$group_id = $this->create_group($test_data['group_name']);
-		$this->assertNotNull($group_id, 'Failed to create a test group.');
+		self::assertNotNull($group_id, 'Failed to create a test group.');
 
 		// Test the module is in place
 		$crawler = self::request('GET', "adm/index.php?i=acp_groups&icat=12&mode=manage&sid={$this->sid}");
@@ -63,18 +63,18 @@ class acp_test extends autogroups_base
 		$crawler = self::submit($form);
 
 		// Assert the addition was a success
-		$this->assertGreaterThan(0, $crawler->filter('.successbox')->count());
+		self::assertGreaterThan(0, $crawler->filter('.successbox')->count());
 		$this->assertContainsLang('ACP_AUTOGROUPS_SUBMIT_SUCCESS', $crawler->text());
 
 		// Test the new auto group is displayed in the list of auto groups
 		$crawler = self::request('GET', "adm/index.php?i=\\phpbb\\autogroups\\acp\\autogroups_module&mode=manage&sid={$this->sid}");
-		$this->assertContains($test_data['group_name'], $crawler->filter('#main table tbody tr td')->eq(0)->text());
+		self::assertStringContainsString($test_data['group_name'], $crawler->filter('#main table tbody tr td')->eq(0)->text());
 		$this->assertContainsLang($test_data['type_lang'], $crawler->filter('#main table tbody tr td')->eq(1)->text());
-		$this->assertContains($test_data['min'], $crawler->filter('#main table tbody tr td')->eq(2)->text());
-		$this->assertContains($test_data['max'], $crawler->filter('#main table tbody tr td')->eq(3)->text());
+		self::assertStringContainsString($test_data['min'], $crawler->filter('#main table tbody tr td')->eq(2)->text());
+		self::assertStringContainsString($test_data['max'], $crawler->filter('#main table tbody tr td')->eq(3)->text());
 
 		// Confirm the log entry has been added correctly
 		$crawler = self::request('GET', 'adm/index.php?i=acp_logs&mode=admin&sid=' . $this->sid);
-		$this->assertContains(strip_tags($this->lang('ACP_AUTOGROUPS_SAVED_LOG')), $crawler->text());
+		self::assertStringContainsString(strip_tags($this->lang('ACP_AUTOGROUPS_SAVED_LOG')), $crawler->text());
 	}
 }
