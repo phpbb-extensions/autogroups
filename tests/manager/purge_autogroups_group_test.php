@@ -52,6 +52,6 @@ class purge_autogroups_group_test extends base_manager
 		$this->db->sql_freeresult();
 
 		// Check that the remaining autogroup rules matches expected
-		$this->assertEquals($expected, $autogroups_id);
+		self::assertEquals($expected, $autogroups_id);
 	}
 }

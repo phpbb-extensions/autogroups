@@ -48,7 +48,7 @@ class admin_controller_base extends \phpbb_database_test_case
 		return $this->createXMLDataSet(__DIR__ . '/fixtures/phpbb.autogroups.xml');
 	}
 
-	public function setUp(): void
+	protected function setUp(): void
 	{
 		parent::setUp();
 
@@ -69,13 +69,16 @@ class admin_controller_base extends \phpbb_database_test_case
 			->getMock();
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$lang = new \phpbb\language\language($lang_loader);
-		$user = $this->user = new \phpbb\user($lang, '\phpbb\datetime');
+		$user = new \phpbb\user($lang, '\phpbb\datetime');
+		$user->data['user_id'] = 2;
+		$user->data['user_form_salt'] = '';
+		$this->user = $user;
 		$group_helper = $this->getMockBuilder('\phpbb\group\helper')
 			->disableOriginalConstructor()
 			->getMock();
 		$group_helper
 			->method('get_name')
-			->will($this->returnArgument(0));
+			->will(self::returnArgument(0));
 
 		$this->admin_controller = new \phpbb\autogroups\controller\admin_controller(
 			$cache,

@@ -29,11 +29,11 @@ class posts_test extends autogroups_base
 
 		// Create a new test group
 		$group_id = $this->create_group($test_data['group_name']);
-		$this->assertNotNull($group_id, 'Failed to create a test group.');
+		self::assertNotNull($group_id, 'Failed to create a test group.');
 
 		// Create a new auto group rule for the test group
 		$autogroup_id = $this->create_autogroup_rule($test_data['type'], $group_id, $test_data['min'], $test_data['max']);
-		$this->assertNotNull($autogroup_id, 'Failed to create an auto group rule set.');
+		self::assertNotNull($autogroup_id, 'Failed to create an auto group rule set.');
 
 		// Create a new topic/post (will be a 2nd post adding admin to the group)
 		$post = $this->create_topic(2, 'Auto Groups Test Post', 'This is a test post for the Auto Groups extension.');

@@ -37,7 +37,7 @@ class listener_test extends \phpbb_test_case
 	public function test_construct()
 	{
 		$this->set_listener();
-		$this->assertInstanceOf('\Symfony\Component\EventDispatcher\EventSubscriberInterface', $this->listener);
+		self::assertInstanceOf('\Symfony\Component\EventDispatcher\EventSubscriberInterface', $this->listener);
 	}
 
 	/**
@@ -45,7 +45,7 @@ class listener_test extends \phpbb_test_case
 	*/
 	public function test_getSubscribedEvents()
 	{
-		$this->assertEquals(array(
+		self::assertEquals(array(
 			'core.delete_group_after',
 			'core.user_setup',
 			'core.submit_post_end',
@@ -71,7 +71,7 @@ class listener_test extends \phpbb_test_case
 
 		// Test the purge_autogroups_group() method is called once
 		// with group_id event data as its argument.
-		$this->manager->expects($this->once())
+		$this->manager->expects(self::once())
 			->method('purge_autogroups_group')
 			->with($group_id);
 
@@ -142,7 +142,7 @@ class listener_test extends \phpbb_test_case
 
 		foreach ($expected_contains as $expected)
 		{
-			$this->assertContains($expected, $lang_set_ext);
+			self::assertContains($expected, $lang_set_ext);
 		}
 	}
 
@@ -242,7 +242,7 @@ class listener_test extends \phpbb_test_case
 
 		// Test the check_condition() method is called once
 		// with expected arguments.
-		$this->manager->expects($this->once())
+		$this->manager->expects(self::once())
 			->method('check_condition')
 			->with($type_class, $options);
 

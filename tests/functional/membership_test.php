@@ -29,11 +29,11 @@ class membership_test extends autogroups_base
 	{
 		// Create a new test group
 		$group_id = $this->create_group($this->test_data['group_name']);
-		$this->assertNotNull($group_id, 'Failed to create a test group.');
+		self::assertNotNull($group_id, 'Failed to create a test group.');
 
 		// Create a new auto group rule for the test group
 		$autogroup_id = $this->create_autogroup_rule($this->test_data['type'], $group_id, $this->test_data['min'], $this->test_data['max']);
-		$this->assertNotNull($autogroup_id, 'Failed to create an auto group rule set.');
+		self::assertNotNull($autogroup_id, 'Failed to create an auto group rule set.');
 
 		// Run the cron job for a user with 2 days of membership, should add the user to the group
 		$this->update_user_regdate(2, 2)->reset_cron();
@@ -69,7 +69,7 @@ class membership_test extends autogroups_base
 		$crawler = self::submit($form);
 		$this->assertContainsLang('ACCOUNT_ADDED', $crawler->filter('#message')->text());
 		$new_user_id = $this->get_new_user_id();
-		$this->assertGreaterThan(40, $new_user_id); // lets just make sure this is a newer user
+		self::assertGreaterThan(40, $new_user_id); // lets just make sure this is a newer user
 		$this->assertInGroup($new_user_id, $this->test_data['group_name']);
 		return $new_user_id;
 	}

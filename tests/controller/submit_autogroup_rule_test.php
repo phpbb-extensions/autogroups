@@ -82,15 +82,15 @@ class submit_autogroup_rule_test extends admin_controller_base
 	public function test_submit_autogroup_rule($id, $requestMap, $errNo)
 	{
 		// Assert the admin_controller is instantiated
-		$this->assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
+		self::assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
 
 		// Return true from is_set_post()
-		$this->request->expects($this->once())
+		$this->request->expects(self::once())
 			->method('is_set_post')
 			->willReturn(true);
 
 		// Get the requested variable data
-		$this->request->expects($this->atLeastOnce())
+		$this->request->expects(self::atLeastOnce())
 			->method('variable')
 			->willReturnMap($requestMap);
 

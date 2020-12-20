@@ -24,6 +24,6 @@ class get_autogroups_type_ids_test extends base_manager
 			'phpbb.autogroups.type.sample3' => 3,
 		);
 
-		$this->assertSame($expected, $this->manager->get_autogroups_type_ids());
+		self::assertSame($expected, $this->manager->get_autogroups_type_ids());
 	}
 }

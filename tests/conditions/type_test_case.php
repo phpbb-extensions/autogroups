@@ -45,10 +45,10 @@ abstract class type_test_case extends base
 		{
 			sort($result[$key]);
 		}
-		$this->assertEquals($expected, $result);
+		self::assertEquals($expected, $result);
 
 		// Assert the user's default group id is as expected
-		$this->assertEquals($default, $this->helper_default_groups(array_keys($user_data)));
+		self::assertEquals($default, $this->helper_default_groups(array_keys($user_data)));
 	}
 
 	/**
@@ -81,10 +81,10 @@ abstract class type_test_case extends base
 		{
 			sort($result[$key]);
 		}
-		$this->assertEquals($expected, $result);
+		self::assertEquals($expected, $result);
 
 		// Assert the user's default group id is as expected
-		$this->assertEquals($default, $this->helper_default_groups(array_keys($user_data)));
+		self::assertEquals($default, $this->helper_default_groups(array_keys($user_data)));
 	}
 
 	/**

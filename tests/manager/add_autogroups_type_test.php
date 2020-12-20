@@ -36,6 +36,6 @@ class add_autogroups_type_test extends base_manager
 	{
 		$inserted_id = $this->manager->add_autogroups_type($type_name);
 
-		$this->assertEquals($expected, $inserted_id);
+		self::assertEquals($expected, $inserted_id);
 	}
 }

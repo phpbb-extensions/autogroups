@@ -21,7 +21,7 @@ class cron_test extends \phpbb_test_case
 	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\autogroups\conditions\manager */
 	protected $manager;
 
-	public function setUp()
+	protected function setUp(): void
 	{
 		parent::setUp();
 
@@ -42,14 +42,14 @@ class cron_test extends \phpbb_test_case
 		$autogroups_last_run = $this->config['autogroups_last_run'];
 
 		// Test check_conditions() is called only once
-		$this->manager->expects($this->once())
+		$this->manager->expects(self::once())
 			->method('check_conditions');
 
 		// Run the cron task
 		$this->cron_task->run();
 
 		// Assert the autogroups_last_run value has been updated
-		$this->assertNotEquals($autogroups_last_run, $this->config['autogroups_last_run']);
+		self::assertNotEquals($autogroups_last_run, $this->config['autogroups_last_run']);
 	}
 
 	/**
@@ -80,7 +80,7 @@ class cron_test extends \phpbb_test_case
 		$this->config['autogroups_last_run'] = $time;
 
 		// Assert we get the expected result from should_run()
-		$this->assertSame($expected, $this->cron_task->should_run());
+		self::assertSame($expected, $this->cron_task->should_run());
 	}
 
 	/**
@@ -88,6 +88,6 @@ class cron_test extends \phpbb_test_case
 	 */
 	public function test_is_runnable()
 	{
-		$this->assertTrue($this->cron_task->is_runnable());
+		self::assertTrue($this->cron_task->is_runnable());
 	}
 }

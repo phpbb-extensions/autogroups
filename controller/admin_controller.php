@@ -132,6 +132,19 @@ class admin_controller implements admin_interface
 		// Get data for the auto group so we can display it
 		$autogroups_data = $this->get_autogroup($autogroups_id);
 
+		// If we have no auto group data yet, zero out all default values
+		if (empty($autogroups_data))
+		{
+			$autogroups_data = array_fill_keys([
+				'autogroups_group_id',
+				'autogroups_type_id',
+				'autogroups_min_value',
+				'autogroups_max_value',
+				'autogroups_default',
+				'autogroups_notify'
+			], 0);
+		}
+
 		// Process the auto group data for display in the template
 		$this->build_groups_menu(array($autogroups_data['autogroups_group_id']), true);
 		$this->build_conditions_menu($autogroups_data['autogroups_type_id']);
@@ -307,7 +320,7 @@ class admin_controller implements admin_interface
 		$autogroups_data = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-		return $autogroups_data;
+		return $autogroups_data ? $autogroups_data : [];
 	}
 
 	/**
