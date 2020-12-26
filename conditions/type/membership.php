@@ -84,7 +84,7 @@ class membership extends \phpbb\autogroups\conditions\type\base
 			),
 			'WHERE' => $this->sql_where_clause($options) . '
 				AND ' . $this->db->sql_in_set('u.user_type', $this->ignore_user_types(), true),
-			'GROUP_BY' => 'u.user_id',
+			'GROUP_BY' => 'u.user_id, u.' . implode(', u.', $condition_data),
 		);
 
 		$sql = $this->db->sql_build_query('SELECT_DISTINCT', $sql_array);
