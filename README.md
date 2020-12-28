@@ -2,7 +2,7 @@
 
 This is the repository for the development of the phpBB Auto Groups Extension
 
-[![Build Status](https://travis-ci.org/phpbb-extensions/autogroups.svg)](https://travis-ci.org/phpbb-extensions/autogroups)
+[![Build Status](https://github.com/phpbb-extensions/autogroups/workflows/Tests/badge.svg)](https://github.com/phpbb-extensions/autogroups/actions)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phpbb-extensions/autogroups/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phpbb-extensions/autogroups/?branch=master)
 
 ## Install
