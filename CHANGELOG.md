@@ -1,6 +1,11 @@
 # Changelog
 
-## Version 2.x (for phpBB 3.2)
+## Version 2.x (for phpBB 3.2.x and 3.3.x)
+
+## 2.0.4 - 2021-02-12
+
+- Fixed potential PHP DEBUG notices.
+- Fixed MSSQL issues with the Warnings and Membership auto group rules.
 
 ## 2.0.3 - 2020-03-18
 
