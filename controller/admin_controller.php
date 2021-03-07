@@ -141,11 +141,15 @@ class admin_controller implements admin_interface
 				'autogroups_min_value',
 				'autogroups_max_value',
 				'autogroups_default',
-				'autogroups_notify'
+				'autogroups_notify',
 			], 0);
 		}
 
+		// Format autogroups_excluded_groups specifically to be an array type
+		$autogroups_data['autogroups_excluded_groups'] = !empty($autogroups_data['autogroups_excluded_groups']) ? json_decode($autogroups_data['autogroups_excluded_groups'], true) : array();
+
 		// Process the auto group data for display in the template
+		$this->build_groups_menu($autogroups_data['autogroups_excluded_groups'], false, 'excluded_groups');
 		$this->build_groups_menu(array($autogroups_data['autogroups_group_id']), true);
 		$this->build_conditions_menu($autogroups_data['autogroups_type_id']);
 		$this->template->assign_vars(array(
@@ -266,6 +270,7 @@ class admin_controller implements admin_interface
 			'autogroups_group_id'	=> $this->request->variable('autogroups_group_id', 0),
 			'autogroups_default'	=> $this->request->variable('autogroups_default', false),
 			'autogroups_notify'		=> $this->request->variable('autogroups_notify', false),
+			'autogroups_excluded_groups' => $this->request->variable('autogroups_excluded_groups', array(0)),
 		);
 
 		// Prevent form submit when no user groups are available or selected
@@ -279,6 +284,15 @@ class admin_controller implements admin_interface
 		{
 			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_RANGE') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
+
+		// Prevent form submit when the target group is also in the excluded groups array
+		if (in_array($data['autogroups_group_id'], $data['autogroups_excluded_groups']))
+		{
+			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
+		// Format data
+		$data['autogroups_excluded_groups'] = !empty($data['autogroups_excluded_groups']) ? json_encode($data['autogroups_excluded_groups']) : '';
 
 		if ($autogroups_id != 0) // Update existing auto group data
 		{
@@ -378,12 +392,13 @@ class admin_controller implements admin_interface
 	/**
 	 * Build template vars for a select menu of user groups
 	 *
-	 * @param array $selected                  An array of identifiers for selected group(s)
-	 * @param bool  $exclude_predefined_groups Exclude GROUP_SPECIAL
+	 * @param array  $selected                  An array of identifiers for selected group(s)
+	 * @param bool   $exclude_predefined_groups Exclude GROUP_SPECIAL
+	 * @param string $block                     Name of the template block vars array
 	 * @return void
 	 * @access protected
 	 */
-	protected function build_groups_menu($selected, $exclude_predefined_groups = false)
+	protected function build_groups_menu($selected, $exclude_predefined_groups = false, $block = 'groups')
 	{
 		// Get groups excluding BOTS, Guests, and optionally predefined
 		$sql = 'SELECT group_id, group_name, group_type
@@ -395,7 +410,7 @@ class admin_controller implements admin_interface
 
 		while ($group_row = $this->db->sql_fetchrow($result))
 		{
-			$this->template->assign_block_vars('groups', array(
+			$this->template->assign_block_vars($block, array(
 				'GROUP_ID'		=> $group_row['group_id'],
 				'GROUP_NAME'	=> $this->display_group_name($group_row['group_name']),
 

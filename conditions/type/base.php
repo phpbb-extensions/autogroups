@@ -186,6 +186,12 @@ abstract class base implements type_interface
 						$user_groups[$user_id] = array();
 					}
 
+					// Skip users of excluded groups
+					if (!empty($group_rule['autogroups_excluded_groups']) && array_intersect(json_decode($group_rule['autogroups_excluded_groups'], true), $user_groups[$user_id]))
+					{
+						continue;
+					}
+
 					// Check if a user's data is within the min/max range
 					if ($this->check_user_data($user_data[$this->get_condition_field()], $group_rule))
 					{

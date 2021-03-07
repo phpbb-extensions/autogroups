@@ -52,6 +52,16 @@
 				<dd><label><input type="radio" class="radio" id="autogroups_notify" name="autogroups_notify" value="1"{% if S_NOTIFY %} checked="checked"{% endif %} /> {{ lang('YES') }}</label>
 					<label><input type="radio" class="radio" name="autogroups_notify" value="0"{% if not S_NOTIFY %} checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
 			</dl>
+			<dl>
+				<dt><label for="autogroups_excluded_groups">{{ lang('ACP_AUTOGROUPS_EXCLUDE_GROUP') ~ lang('COLON') }}</label><br /><span>{{ lang('ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN') }}</span></dt>
+				<dd>
+					<select name="autogroups_excluded_groups[]" id="autogroups_excluded_groups" size="10" multiple="multiple">
+						{% for groups in loops.excluded_groups %}
+							<option value="{{ groups.GROUP_ID }}"{% if groups.S_SELECTED %} selected="selected"{% endif %}>{{ groups.GROUP_NAME }}</option>
+						{% endfor %}
+					</select>
+				</dd>
+			</dl>
 		</fieldset>
 		<p class="submit-buttons">
 			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
