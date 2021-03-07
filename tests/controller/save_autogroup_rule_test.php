@@ -55,9 +55,19 @@ class save_autogroup_rule_test extends admin_controller_base
 			->willReturn('');
 
 		// Set expectations for the assign_block_vars template values
-		$this->template->expects(self::exactly(3))
+		$this->template->expects(self::exactly(5))
 			->method('assign_block_vars')
 			->withConsecutive(
+				array('excluded_groups', array(
+					'GROUP_ID'		=> 1,
+					'GROUP_NAME'	=> 'GROUP1',
+					'S_SELECTED'	=> false,
+				)),
+				array('excluded_groups', array(
+					'GROUP_ID'		=> 2,
+					'GROUP_NAME'	=> 'GROUP2',
+					'S_SELECTED'	=> false,
+				)),
 				array('groups', array(
 					'GROUP_ID'		=> 2,
 					'GROUP_NAME'	=> 'GROUP2',
