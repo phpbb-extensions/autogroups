@@ -39,6 +39,16 @@
 			<value>0</value>
 			<value></value>
 		</row>
+		<row>
+			<value>4</value>
+			<value>1</value>
+			<value>300</value>
+			<value>400</value>
+			<value>4</value>
+			<value>0</value>
+			<value>0</value>
+			<value>[1,2]</value>
+		</row>
 	</table>
 	<table name="phpbb_autogroups_types">
 		<column>autogroups_type_id</column>

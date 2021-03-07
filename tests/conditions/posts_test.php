@@ -148,6 +148,24 @@ class posts_test extends type_test_case
 				array('action' => 'sync'),
 			),
 			array(
+				array(
+					1 => 299, // user 1 has 299 posts
+					2 => 301, // user 2 has 301 posts
+					3 => 399, // user 3 has 309 posts
+				),
+				array(
+					1 => array(1, 5), // user 1 not added to group 4 (not enough posts)
+					2 => array(1), // user 2 removed from group 2, but not added to group 4 (in an excluded group)
+					3 => array(4, 5), // user 3 added to group 4 (has enough posts and not in an excluded group)
+				),
+				array(
+					1 => 1, // default
+					2 => 1, // default
+					3 => 5, // default
+				),
+				array('action' => 'sync'),
+			),
+			array(
 				array(0 => 0),
 				array(),
 				array(),
