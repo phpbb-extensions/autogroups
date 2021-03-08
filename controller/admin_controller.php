@@ -378,7 +378,8 @@ class admin_controller implements admin_interface
 
 		$sql = 'SELECT group_id, group_name
 			FROM ' . GROUPS_TABLE . '
-			WHERE autogroup_default_exempt = 1';
+			WHERE autogroup_default_exempt = 1
+			ORDER BY group_name';
 		$result = $this->db->sql_query($sql, 7200);
 
 		while ($row = $this->db->sql_fetchrow($result))
