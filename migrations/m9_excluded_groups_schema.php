@@ -36,13 +36,13 @@ class m9_excluded_groups_schema extends \phpbb\db\migration\migration
 	 */
 	public function update_schema()
 	{
-		return array(
+		return [
 			'add_columns'	=> [
 				$this->table_prefix . 'autogroups_rules'	=> [
 					'autogroups_excluded_groups'	=> ['VCHAR_UNI', ''],
 				],
 			],
-		);
+		];
 	}
 
 	/**
@@ -50,12 +50,12 @@ class m9_excluded_groups_schema extends \phpbb\db\migration\migration
 	 */
 	public function revert_schema()
 	{
-		return array(
+		return [
 			'drop_columns'	=> [
 				$this->table_prefix . 'autogroups_rules'	=> [
 					'autogroups_excluded_groups',
 				],
 			],
-		);
+		];
 	}
 }
