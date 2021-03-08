@@ -400,24 +400,28 @@ class admin_controller implements admin_interface
 	 */
 	protected function build_groups_menu($selected, $exclude_predefined_groups = false, $block = 'groups')
 	{
-		// Get groups excluding BOTS, Guests, and optionally predefined
+		// Get groups excluding BOTS, Guests
 		$sql = 'SELECT group_id, group_name, group_type
 			FROM ' . GROUPS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('group_name', array('BOTS', 'GUESTS'), true, true) .
-				($exclude_predefined_groups ? ' AND group_type <> ' . GROUP_SPECIAL : '') . '
+			WHERE ' . $this->db->sql_in_set('group_name', array('BOTS', 'GUESTS'), true, true) . '
 			ORDER BY group_name';
-		$result = $this->db->sql_query($sql);
+		$result = $this->db->sql_query($sql, 3600);
+		$groups = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
 
-		while ($group_row = $this->db->sql_fetchrow($result))
+		foreach ($groups as $group)
 		{
+			if ($exclude_predefined_groups && $group['group_type'] == GROUP_SPECIAL)
+			{
+				continue;
+			}
 			$this->template->assign_block_vars($block, array(
-				'GROUP_ID'		=> $group_row['group_id'],
-				'GROUP_NAME'	=> $this->display_group_name($group_row['group_name']),
+				'GROUP_ID'		=> $group['group_id'],
+				'GROUP_NAME'	=> $this->display_group_name($group['group_name']),
 
-				'S_SELECTED'	=> in_array($group_row['group_id'], $selected),
+				'S_SELECTED'	=> in_array($group['group_id'], $selected),
 			));
 		}
-		$this->db->sql_freeresult($result);
 	}
 
 	/**
