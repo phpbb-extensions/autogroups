@@ -293,7 +293,7 @@ class admin_controller implements admin_interface
 			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
 
-		// Format data
+		// Format autogroups_excluded_groups for storage in the db
 		$data['autogroups_excluded_groups'] = !empty($data['autogroups_excluded_groups']) ? json_encode($data['autogroups_excluded_groups']) : '';
 
 		if ($autogroups_id != 0) // Update existing auto group data
