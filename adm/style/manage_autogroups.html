@@ -92,7 +92,7 @@
 					<td>{{ autogroups.MAX_VALUE }}</td>
 					<td>{{ lang(autogroups.S_DEFAULT ? 'YES' : 'NO') }}</td>
 					<td>{{ lang(autogroups.S_NOTIFY ? 'YES' : 'NO') }}</td>
-					<td>{{ autogroups.EXCLUDED_GROUPS ?: lang('NO') }}</td>
+					<td>{{ autogroups.EXCLUDED_GROUPS ?: '-' }}</td>
 					<td><a href="{{ autogroups.U_EDIT }}">{{ ICON_EDIT }}</a> <a href="{{ autogroups.U_SYNC }}">{{ ICON_SYNC }}</a> <a href="{{ autogroups.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a></td>
 				</tr>
 			{% else %}
