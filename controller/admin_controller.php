@@ -376,17 +376,10 @@ class admin_controller implements admin_interface
 	{
 		$groups = array();
 
-		$sql = 'SELECT group_id, group_name
-			FROM ' . GROUPS_TABLE . '
-			WHERE autogroup_default_exempt = 1
-			ORDER BY group_name';
-		$result = $this->db->sql_query($sql, 7200);
-
-		while ($row = $this->db->sql_fetchrow($result))
+		foreach ($this->query_groups('autogroup_default_exempt = 1') as $row)
 		{
 			$groups[$row['group_id']] = $row['group_name'];
 		}
-		$this->db->sql_freeresult($result);
 
 		return $groups;
 	}
@@ -445,24 +438,6 @@ class admin_controller implements admin_interface
 	}
 
 	/**
-	 * Get groups excluding BOTS, Guests
-	 *
-	 * @return array
-	 */
-	protected function query_groups()
-	{
-		$sql = 'SELECT group_id, group_name, group_type
-			FROM ' . GROUPS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('group_name', array('BOTS', 'GUESTS'), true, true) . '
-			ORDER BY group_name';
-		$result = $this->db->sql_query($sql, 3600);
-		$groups = $this->db->sql_fetchrowset($result);
-		$this->db->sql_freeresult($result);
-
-		return $groups ? $groups : array();
-	}
-
-	/**
 	 * Build template vars for a select menu of auto group conditions
 	 *
 	 * @param int $selected An identifier for the selected group
@@ -482,6 +457,26 @@ class admin_controller implements admin_interface
 				'S_SELECTED'		=> $condition_id == $selected,
 			));
 		}
+	}
+
+	/**
+	 * Get group data, always excluding BOTS, Guests
+	 *
+	 * @param string $where_sql Optional additional SQL where conditions
+	 * @return array An array of group data rows (group_id, group_name, group_type)
+	 */
+	protected function query_groups($where_sql = '')
+	{
+		$sql = 'SELECT group_id, group_name, group_type
+			FROM ' . GROUPS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('group_name', array('BOTS', 'GUESTS'), true, true) .
+				($where_sql ? ' AND ' . $this->db->sql_escape($where_sql) : '') . '
+			ORDER BY group_name';
+		$result = $this->db->sql_query($sql, 3600);
+		$groups = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		return $groups ? $groups : array();
 	}
 
 	/**
