@@ -369,14 +369,13 @@ class admin_controller implements admin_interface
 	/**
 	 * Get an array of user groups marked as exempt from default switching
 	 *
-	 * @return array An array of exempted groups array('group_id' => 'group_name')
+	 * @return array An array of exempted groups: array('group_id' => 'group_name')
 	 * @access protected
 	 */
 	protected function get_exempt_groups()
 	{
 		$groups = array();
 
-		// Get default exempted groups
 		$sql = 'SELECT group_id, group_name
 			FROM ' . GROUPS_TABLE . '
 			WHERE autogroup_default_exempt = 1';
@@ -394,8 +393,8 @@ class admin_controller implements admin_interface
 	/**
 	 * Get an array of user groups marked as excluded from auto grouping
 	 *
-	 * @param string $excluded_groups A json encoded string
-	 * @return array An array of exempted groups array('group_id' => 'group_name')
+	 * @param string $excluded_groups A json encoded string of an array of group ids
+	 * @return array An array of groups: array('group_id' => 'group_name')
 	 * @access protected
 	 */
 	protected function get_excluded_groups($excluded_groups)
