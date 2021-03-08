@@ -102,7 +102,7 @@ class admin_controller implements admin_interface
 				'S_DEFAULT'	=> $row['autogroups_default'],
 				'S_NOTIFY'	=> $row['autogroups_notify'],
 
-				'EXCLUDED_GROUPS'	=> implode(', ', array_map([$this, 'display_group_name'], $this->get_excluded_groups($row['autogroups_excluded_groups']))),
+				'EXCLUDED_GROUPS'	=> implode(', ', array_map([$this->group_helper, 'get_name'], $this->get_excluded_groups($row['autogroups_excluded_groups']))),
 
 				'U_EDIT'	=> "{$this->u_action}&amp;action=edit&amp;autogroups_id=" . $row['autogroups_id'],
 				'U_DELETE'	=> "{$this->u_action}&amp;action=delete&amp;autogroups_id=" . $row['autogroups_id'],
@@ -164,7 +164,7 @@ class admin_controller implements admin_interface
 			'S_DEFAULT'		=> (bool) $autogroups_data['autogroups_default'],
 			'S_NOTIFY'		=> (bool) $autogroups_data['autogroups_notify'],
 
-			'EXEMPT_GROUPS'	=> implode(', ', array_map([$this, 'display_group_name'], $this->get_exempt_groups())),
+			'EXEMPT_GROUPS'	=> implode(', ', array_map([$this->group_helper, 'get_name'], $this->get_exempt_groups())),
 
 			'U_FORM_ACTION'	=> $this->u_action . '&amp;action=' . ($autogroups_id ? 'edit' : 'add') . '&amp;autogroups_id=' . $autogroups_id,
 			'U_ACTION'		=> $this->u_action,
@@ -437,7 +437,7 @@ class admin_controller implements admin_interface
 			}
 			$this->template->assign_block_vars($block, array(
 				'GROUP_ID'		=> $group['group_id'],
-				'GROUP_NAME'	=> $this->display_group_name($group['group_name']),
+				'GROUP_NAME'	=> $this->group_helper->get_name($group['group_name']),
 
 				'S_SELECTED'	=> in_array($group['group_id'], $selected),
 			));
@@ -460,17 +460,6 @@ class admin_controller implements admin_interface
 		$this->db->sql_freeresult($result);
 
 		return $groups ? $groups : array();
-	}
-
-	/**
-	 * Get the display name of a user group
-	 *
-	 * @param string $group_name
-	 * @return string
-	 */
-	protected function display_group_name($group_name)
-	{
-		return $this->group_helper->get_name($group_name);
 	}
 
 	/**
