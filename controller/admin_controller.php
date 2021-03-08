@@ -102,6 +102,8 @@ class admin_controller implements admin_interface
 				'S_DEFAULT'	=> $row['autogroups_default'],
 				'S_NOTIFY'	=> $row['autogroups_notify'],
 
+				'EXCLUDED_GROUPS'	=> implode(', ', array_map([$this, 'display_group_name'], $this->get_excluded_groups($row['autogroups_excluded_groups']))),
+
 				'U_EDIT'	=> "{$this->u_action}&amp;action=edit&amp;autogroups_id=" . $row['autogroups_id'],
 				'U_DELETE'	=> "{$this->u_action}&amp;action=delete&amp;autogroups_id=" . $row['autogroups_id'],
 				'U_SYNC'	=> "{$this->u_action}&amp;action=sync&amp;autogroups_id=" . $row['autogroups_id'] . '&amp;hash=' . generate_link_hash('sync' . $row['autogroups_id']),
@@ -390,6 +392,33 @@ class admin_controller implements admin_interface
 	}
 
 	/**
+	 * Get an array of user groups marked as excluded from auto grouping
+	 *
+	 * @param string $excluded_groups A json encoded string
+	 * @return array An array of exempted groups array('group_id' => 'group_name')
+	 * @access protected
+	 */
+	protected function get_excluded_groups($excluded_groups)
+	{
+		$groups = array();
+
+		if (!empty($excluded_groups))
+		{
+			$excluded_groups = json_decode($excluded_groups, true);
+
+			foreach ($this->query_groups() as $row)
+			{
+				if (in_array($row['group_id'], $excluded_groups))
+				{
+					$groups[$row['group_id']] = $row['group_name'];
+				}
+			}
+		}
+
+		return $groups;
+	}
+
+	/**
 	 * Build template vars for a select menu of user groups
 	 *
 	 * @param array  $selected                  An array of identifiers for selected group(s)
@@ -400,16 +429,7 @@ class admin_controller implements admin_interface
 	 */
 	protected function build_groups_menu($selected, $exclude_predefined_groups = false, $block = 'groups')
 	{
-		// Get groups excluding BOTS, Guests
-		$sql = 'SELECT group_id, group_name, group_type
-			FROM ' . GROUPS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('group_name', array('BOTS', 'GUESTS'), true, true) . '
-			ORDER BY group_name';
-		$result = $this->db->sql_query($sql, 3600);
-		$groups = $this->db->sql_fetchrowset($result);
-		$this->db->sql_freeresult($result);
-
-		foreach ($groups as $group)
+		foreach ($this->query_groups() as $group)
 		{
 			if ($exclude_predefined_groups && $group['group_type'] == GROUP_SPECIAL)
 			{
@@ -422,6 +442,24 @@ class admin_controller implements admin_interface
 				'S_SELECTED'	=> in_array($group['group_id'], $selected),
 			));
 		}
+	}
+
+	/**
+	 * Get groups excluding BOTS, Guests
+	 *
+	 * @return array
+	 */
+	protected function query_groups()
+	{
+		$sql = 'SELECT group_id, group_name, group_type
+			FROM ' . GROUPS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('group_name', array('BOTS', 'GUESTS'), true, true) . '
+			ORDER BY group_name';
+		$result = $this->db->sql_query($sql, 3600);
+		$groups = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		return $groups ? $groups : array();
 	}
 
 	/**

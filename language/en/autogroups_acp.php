@@ -57,6 +57,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notify users',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Send a notification to users after being automatically added or removed from this group.',
 
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
 	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
 	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
 	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
