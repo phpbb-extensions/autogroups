@@ -102,7 +102,7 @@ class admin_controller implements admin_interface
 				'S_DEFAULT'	=> $row['autogroups_default'],
 				'S_NOTIFY'	=> $row['autogroups_notify'],
 
-				'EXCLUDED_GROUPS'	=> implode(', ', array_map([$this->group_helper, 'get_name'], $this->get_excluded_groups($row['autogroups_excluded_groups']))),
+				'EXCLUDED_GROUPS'	=> implode('<br>', $this->get_excluded_groups($row['autogroups_excluded_groups'])),
 
 				'U_EDIT'	=> "{$this->u_action}&amp;action=edit&amp;autogroups_id=" . $row['autogroups_id'],
 				'U_DELETE'	=> "{$this->u_action}&amp;action=delete&amp;autogroups_id=" . $row['autogroups_id'],
@@ -164,7 +164,7 @@ class admin_controller implements admin_interface
 			'S_DEFAULT'		=> (bool) $autogroups_data['autogroups_default'],
 			'S_NOTIFY'		=> (bool) $autogroups_data['autogroups_notify'],
 
-			'EXEMPT_GROUPS'	=> implode(', ', array_map([$this->group_helper, 'get_name'], $this->get_exempt_groups())),
+			'EXEMPT_GROUPS'	=> implode(', ', $this->get_exempt_groups()),
 
 			'U_FORM_ACTION'	=> $this->u_action . '&amp;action=' . ($autogroups_id ? 'edit' : 'add') . '&amp;autogroups_id=' . $autogroups_id,
 			'U_ACTION'		=> $this->u_action,
@@ -378,7 +378,7 @@ class admin_controller implements admin_interface
 
 		foreach ($this->query_groups('autogroup_default_exempt = 1') as $row)
 		{
-			$groups[$row['group_id']] = $row['group_name'];
+			$groups[$row['group_id']] = $this->group_helper->get_name_string('full', $row['group_id'], $row['group_name'], $row['group_colour']);
 		}
 
 		return $groups;
@@ -403,7 +403,7 @@ class admin_controller implements admin_interface
 			{
 				if (in_array($row['group_id'], $excluded_groups))
 				{
-					$groups[$row['group_id']] = $row['group_name'];
+					$groups[$row['group_id']] = $this->group_helper->get_name_string('full', $row['group_id'], $row['group_name'], $row['group_colour']);
 				}
 			}
 		}
@@ -467,7 +467,7 @@ class admin_controller implements admin_interface
 	 */
 	protected function query_groups($where_sql = '')
 	{
-		$sql = 'SELECT group_id, group_name, group_type
+		$sql = 'SELECT group_id, group_name, group_type, group_colour
 			FROM ' . GROUPS_TABLE . '
 			WHERE ' . $this->db->sql_in_set('group_name', array('BOTS', 'GUESTS'), true, true) .
 				($where_sql ? ' AND ' . $this->db->sql_escape($where_sql) : '') . '
