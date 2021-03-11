@@ -226,31 +226,20 @@ class admin_controller implements admin_interface
 	public function submit_autogroups_options()
 	{
 		// Get data from the form
-		$autogroups_default_exempt = $this->request->variable('group_ids', array(0));
+		$group_ids = $this->request->variable('group_ids', array(0));
 
 		// Use a confirmation box routine before setting the data
 		if (confirm_box(true))
 		{
-			// Set selected groups to 1
-			$sql = 'UPDATE ' . GROUPS_TABLE . '
-				SET autogroup_default_exempt = 1
-				WHERE ' . $this->db->sql_in_set('group_id', $autogroups_default_exempt, false, true);
-			$this->db->sql_query($sql);
-
-			// Set all other groups to 0
-			$sql = 'UPDATE ' . GROUPS_TABLE . '
-				SET autogroup_default_exempt = 0
-				WHERE ' . $this->db->sql_in_set('group_id', $autogroups_default_exempt, true, true);
-			$this->db->sql_query($sql);
-
-			// Clear the cached group table data
+			// Set selected groups to true, unselected to false
+			$this->set_exempt_groups($group_ids);
 			$this->cache->destroy('sql', GROUPS_TABLE);
 		}
 		else
 		{
 			confirm_box(false, $this->language->lang('CONFIRM_OPERATION'), build_hidden_fields(array(
 				'generalsubmit' => true,
-				'group_ids' => $autogroups_default_exempt,
+				'group_ids' => $group_ids,
 			)));
 		}
 	}
@@ -367,6 +356,28 @@ class admin_controller implements admin_interface
 	}
 
 	/**
+	 * Set the user groups marked as exempt from default switching.
+	 * Sets the 'autogroup_default_exempt' field for all groups in
+	 * $group_ids to true, while all other groups are set to false.
+	 *
+	 * @param array $group_ids An array of group ids
+	 * @param bool  $flag      True or false
+	 */
+	protected function set_exempt_groups($group_ids, $flag = true)
+	{
+		$sql = 'UPDATE ' . GROUPS_TABLE . '
+			SET autogroup_default_exempt = ' . (int) $flag . '
+			WHERE ' . $this->db->sql_in_set('group_id', $group_ids, !$flag, true);
+		$this->db->sql_query($sql);
+
+		// Recursively recall this function with false, to set all other groups to false
+		if ($flag !== false)
+		{
+			$this->set_exempt_groups($group_ids, false);
+		}
+	}
+
+	/**
 	 * Get an array of user groups marked as exempt from default switching
 	 *
 	 * @return array An array of exempted groups: array('group_id' => 'group_name')
@@ -476,7 +487,7 @@ class admin_controller implements admin_interface
 		$groups = $this->db->sql_fetchrowset($result);
 		$this->db->sql_freeresult($result);
 
-		return $groups ? $groups : array();
+		return $groups ?: array();
 	}
 
 	/**
