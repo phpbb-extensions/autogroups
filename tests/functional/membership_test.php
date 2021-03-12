@@ -38,11 +38,13 @@ class membership_test extends autogroups_base
 		// Run the cron job for a user with 2 days of membership, should add the user to the group
 		$this->update_user_regdate(2, 2)->reset_cron();
 		self::request('GET', "cron.php?cron_type=cron.task.autogroups_check&sid={$this->sid}", array(), false);
+		$this->purge_cache();
 		$this->assertInGroup(2, $this->test_data['group_name']);
 
 		// Run the cron job for a user with 20 days of membership, should remove the user from the group
 		$this->update_user_regdate(2, 20)->reset_cron();
 		self::request('GET', "cron.php?cron_type=cron.task.autogroups_check&sid={$this->sid}", array(), false);
+		$this->purge_cache();
 		$this->assertNotInGroup(2, $this->test_data['group_name']);
 	}
 

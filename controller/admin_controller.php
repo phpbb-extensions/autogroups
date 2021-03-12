@@ -102,6 +102,8 @@ class admin_controller implements admin_interface
 				'S_DEFAULT'	=> $row['autogroups_default'],
 				'S_NOTIFY'	=> $row['autogroups_notify'],
 
+				'EXCLUDED_GROUPS'	=> implode('<br>', $this->get_excluded_groups($row['autogroups_excluded_groups'])),
+
 				'U_EDIT'	=> "{$this->u_action}&amp;action=edit&amp;autogroups_id=" . $row['autogroups_id'],
 				'U_DELETE'	=> "{$this->u_action}&amp;action=delete&amp;autogroups_id=" . $row['autogroups_id'],
 				'U_SYNC'	=> "{$this->u_action}&amp;action=sync&amp;autogroups_id=" . $row['autogroups_id'] . '&amp;hash=' . generate_link_hash('sync' . $row['autogroups_id']),
@@ -141,11 +143,15 @@ class admin_controller implements admin_interface
 				'autogroups_min_value',
 				'autogroups_max_value',
 				'autogroups_default',
-				'autogroups_notify'
+				'autogroups_notify',
 			], 0);
 		}
 
+		// Format autogroups_excluded_groups specifically to be an array type
+		$autogroups_data['autogroups_excluded_groups'] = !empty($autogroups_data['autogroups_excluded_groups']) ? json_decode($autogroups_data['autogroups_excluded_groups'], true) : array();
+
 		// Process the auto group data for display in the template
+		$this->build_groups_menu($autogroups_data['autogroups_excluded_groups'], false, 'excluded_groups');
 		$this->build_groups_menu(array($autogroups_data['autogroups_group_id']), true);
 		$this->build_conditions_menu($autogroups_data['autogroups_type_id']);
 		$this->template->assign_vars(array(
@@ -158,7 +164,7 @@ class admin_controller implements admin_interface
 			'S_DEFAULT'		=> (bool) $autogroups_data['autogroups_default'],
 			'S_NOTIFY'		=> (bool) $autogroups_data['autogroups_notify'],
 
-			'EXEMPT_GROUPS'	=> implode(', ', array_map([$this, 'display_group_name'], $this->get_exempt_groups())),
+			'EXEMPT_GROUPS'	=> implode(', ', $this->get_exempt_groups()),
 
 			'U_FORM_ACTION'	=> $this->u_action . '&amp;action=' . ($autogroups_id ? 'edit' : 'add') . '&amp;autogroups_id=' . $autogroups_id,
 			'U_ACTION'		=> $this->u_action,
@@ -220,31 +226,20 @@ class admin_controller implements admin_interface
 	public function submit_autogroups_options()
 	{
 		// Get data from the form
-		$autogroups_default_exempt = $this->request->variable('group_ids', array(0));
+		$group_ids = $this->request->variable('group_ids', array(0));
 
 		// Use a confirmation box routine before setting the data
 		if (confirm_box(true))
 		{
-			// Set selected groups to 1
-			$sql = 'UPDATE ' . GROUPS_TABLE . '
-				SET autogroup_default_exempt = 1
-				WHERE ' . $this->db->sql_in_set('group_id', $autogroups_default_exempt, false, true);
-			$this->db->sql_query($sql);
-
-			// Set all other groups to 0
-			$sql = 'UPDATE ' . GROUPS_TABLE . '
-				SET autogroup_default_exempt = 0
-				WHERE ' . $this->db->sql_in_set('group_id', $autogroups_default_exempt, true, true);
-			$this->db->sql_query($sql);
-
-			// Clear the cached group table data
+			// Set selected groups to true, unselected to false
+			$this->set_exempt_groups($group_ids);
 			$this->cache->destroy('sql', GROUPS_TABLE);
 		}
 		else
 		{
 			confirm_box(false, $this->language->lang('CONFIRM_OPERATION'), build_hidden_fields(array(
 				'generalsubmit' => true,
-				'group_ids' => $autogroups_default_exempt,
+				'group_ids' => $group_ids,
 			)));
 		}
 	}
@@ -266,6 +261,7 @@ class admin_controller implements admin_interface
 			'autogroups_group_id'	=> $this->request->variable('autogroups_group_id', 0),
 			'autogroups_default'	=> $this->request->variable('autogroups_default', false),
 			'autogroups_notify'		=> $this->request->variable('autogroups_notify', false),
+			'autogroups_excluded_groups' => $this->request->variable('autogroups_excluded_groups', array(0)),
 		);
 
 		// Prevent form submit when no user groups are available or selected
@@ -279,6 +275,15 @@ class admin_controller implements admin_interface
 		{
 			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_RANGE') . adm_back_link($this->u_action), E_USER_WARNING);
 		}
+
+		// Prevent form submit when the target group is also in the excluded groups array
+		if (in_array($data['autogroups_group_id'], $data['autogroups_excluded_groups']))
+		{
+			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS') . adm_back_link($this->u_action), E_USER_WARNING);
+		}
+
+		// Format autogroups_excluded_groups for storage in the db
+		$data['autogroups_excluded_groups'] = !empty($data['autogroups_excluded_groups']) ? json_encode($data['autogroups_excluded_groups']) : '';
 
 		if ($autogroups_id != 0) // Update existing auto group data
 		{
@@ -351,26 +356,68 @@ class admin_controller implements admin_interface
 	}
 
 	/**
+	 * Set the user groups marked as exempt from default switching.
+	 * Sets the 'autogroup_default_exempt' field for all groups in
+	 * $group_ids to true, while all other groups are set to false.
+	 *
+	 * @param array $group_ids An array of group ids
+	 * @param bool  $flag      True or false
+	 */
+	protected function set_exempt_groups($group_ids, $flag = true)
+	{
+		$sql = 'UPDATE ' . GROUPS_TABLE . '
+			SET autogroup_default_exempt = ' . (int) $flag . '
+			WHERE ' . $this->db->sql_in_set('group_id', $group_ids, !$flag, true);
+		$this->db->sql_query($sql);
+
+		// Recursively recall this function with false, to set all other groups to false
+		if ($flag !== false)
+		{
+			$this->set_exempt_groups($group_ids, false);
+		}
+	}
+
+	/**
 	 * Get an array of user groups marked as exempt from default switching
 	 *
-	 * @return array An array of exempted groups array('group_id' => 'group_name')
+	 * @return array An array of exempted groups: array('group_id' => 'group_name')
 	 * @access protected
 	 */
 	protected function get_exempt_groups()
 	{
 		$groups = array();
 
-		// Get default exempted groups
-		$sql = 'SELECT group_id, group_name
-			FROM ' . GROUPS_TABLE . '
-			WHERE autogroup_default_exempt = 1';
-		$result = $this->db->sql_query($sql, 7200);
-
-		while ($row = $this->db->sql_fetchrow($result))
+		foreach ($this->query_groups('autogroup_default_exempt = 1') as $row)
 		{
-			$groups[$row['group_id']] = $row['group_name'];
+			$groups[$row['group_id']] = $this->group_helper->get_name_string('full', $row['group_id'], $row['group_name'], $row['group_colour']);
 		}
-		$this->db->sql_freeresult($result);
+
+		return $groups;
+	}
+
+	/**
+	 * Get an array of user groups marked as excluded from auto grouping
+	 *
+	 * @param string $excluded_groups A json encoded string of an array of group ids
+	 * @return array An array of groups: array('group_id' => 'group_name')
+	 * @access protected
+	 */
+	protected function get_excluded_groups($excluded_groups)
+	{
+		$groups = array();
+
+		if (!empty($excluded_groups))
+		{
+			$excluded_groups = json_decode($excluded_groups, true);
+
+			foreach ($this->query_groups() as $row)
+			{
+				if (in_array($row['group_id'], $excluded_groups))
+				{
+					$groups[$row['group_id']] = $this->group_helper->get_name_string('full', $row['group_id'], $row['group_name'], $row['group_colour']);
+				}
+			}
+		}
 
 		return $groups;
 	}
@@ -378,42 +425,27 @@ class admin_controller implements admin_interface
 	/**
 	 * Build template vars for a select menu of user groups
 	 *
-	 * @param array $selected                  An array of identifiers for selected group(s)
-	 * @param bool  $exclude_predefined_groups Exclude GROUP_SPECIAL
+	 * @param array  $selected                  An array of identifiers for selected group(s)
+	 * @param bool   $exclude_predefined_groups Exclude GROUP_SPECIAL
+	 * @param string $block                     Name of the template block vars array
 	 * @return void
 	 * @access protected
 	 */
-	protected function build_groups_menu($selected, $exclude_predefined_groups = false)
+	protected function build_groups_menu($selected, $exclude_predefined_groups = false, $block = 'groups')
 	{
-		// Get groups excluding BOTS, Guests, and optionally predefined
-		$sql = 'SELECT group_id, group_name, group_type
-			FROM ' . GROUPS_TABLE . '
-			WHERE ' . $this->db->sql_in_set('group_name', array('BOTS', 'GUESTS'), true, true) .
-				($exclude_predefined_groups ? ' AND group_type <> ' . GROUP_SPECIAL : '') . '
-			ORDER BY group_name';
-		$result = $this->db->sql_query($sql);
-
-		while ($group_row = $this->db->sql_fetchrow($result))
+		foreach ($this->query_groups() as $group)
 		{
-			$this->template->assign_block_vars('groups', array(
-				'GROUP_ID'		=> $group_row['group_id'],
-				'GROUP_NAME'	=> $this->display_group_name($group_row['group_name']),
+			if ($exclude_predefined_groups && $group['group_type'] == GROUP_SPECIAL)
+			{
+				continue;
+			}
+			$this->template->assign_block_vars($block, array(
+				'GROUP_ID'		=> $group['group_id'],
+				'GROUP_NAME'	=> $this->group_helper->get_name($group['group_name']),
 
-				'S_SELECTED'	=> in_array($group_row['group_id'], $selected),
+				'S_SELECTED'	=> in_array($group['group_id'], $selected),
 			));
 		}
-		$this->db->sql_freeresult($result);
-	}
-
-	/**
-	 * Get the display name of a user group
-	 *
-	 * @param string $group_name
-	 * @return string
-	 */
-	protected function display_group_name($group_name)
-	{
-		return $this->group_helper->get_name($group_name);
 	}
 
 	/**
@@ -436,6 +468,26 @@ class admin_controller implements admin_interface
 				'S_SELECTED'		=> $condition_id == $selected,
 			));
 		}
+	}
+
+	/**
+	 * Get group data, always excluding BOTS, Guests
+	 *
+	 * @param string $where_sql Optional additional SQL where conditions
+	 * @return array An array of group data rows (group_id, group_name, group_type)
+	 */
+	protected function query_groups($where_sql = '')
+	{
+		$sql = 'SELECT group_id, group_name, group_type, group_colour
+			FROM ' . GROUPS_TABLE . '
+			WHERE ' . $this->db->sql_in_set('group_name', array('BOTS', 'GUESTS'), true, true) .
+				($where_sql ? ' AND ' . $this->db->sql_escape($where_sql) : '') . '
+			ORDER BY group_name';
+		$result = $this->db->sql_query($sql, 3600);
+		$groups = $this->db->sql_fetchrowset($result);
+		$this->db->sql_freeresult($result);
+
+		return $groups ?: array();
 	}
 
 	/**
