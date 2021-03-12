@@ -54,10 +54,14 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'سيتم حذف الأعضاء من هذه المجموعة عند الوصول إلى هذه القيمة. لن يتم حذف الأعضاء إذا تركت هذا الحقل فارغاً.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'المحموعة الإفتراضية ',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'هذه المجموعة ستكون هي المجموعة الإفتراضية الجديدة للعضو.',
-	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'لن يؤثر هذا على الأعضاء الذين مجموعتهم الافتراضية هي أحد المجموعات التالية: <samp>%s</samp>.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'لن يؤثر هذا على الأعضاء الذين مجموعتهم الافتراضية هي أحد المجموعات التالية: %s.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'إشعار الأعضاء ',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'ارسال تنبيه إلى الأعضاء بأنه تم اضافتهم أو حذفهم تلقائياً من هذه المجموعة.',
 
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'تجاهل المجموعة الإفتراضية ',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'لن يتم تغيير المجموعة الإفتراضية للعضو بواسطة المجموعة التلقائية إذا تم تحديدها من القائمة هذه. تستطيع تحديد أكثر من مجموعة بواسطة النقر باستمرار على زر الكنترول <samp>CTRL</samp> (أو <samp>&#8984;CMD</samp> في نظام الماك Mac) ومن ثم التقر بالماوس على المجموعات التي تريدها.',
 

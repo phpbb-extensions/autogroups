@@ -58,6 +58,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> '通知用户',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> '自动加入或者移出该组后，该用户会收到通知。',
 
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> '设置用户组默认的豁免',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> '此表中选定的用户组将不受自动分组设置的影响。按下 <samp>CTRL</samp> （或者 Mac 的 <samp>&#8984;CMD</samp> ）来选择多个用户组。',
 

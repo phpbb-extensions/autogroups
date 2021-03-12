@@ -53,10 +53,14 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Brugere fjernes fra gruppen hvis de overstiger maksimumsværdien. Lad feltet været tomt, hvis du ikke vil have at brugere fjernes.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Sæt gruppestandard',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Gør det til brugerens nye standardgruppe.',
-	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Dette påvirker ikke brugere, hvis standardbrugergruppe er en af: <samp>%s</samp>.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Dette påvirker ikke brugere, hvis standardbrugergruppe er en af: %s.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Informer brugere',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Send en notifikation til brugere efter automatisk tilføjelse eller fjernelse fra gruppen.',
 
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Sæt undtagelser for gruppestandard',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Autogrupper ændre ikke en brugers standardgruppe hvis den er valgt i listen. Vælg flere grupper ved at holde <samp>CTRL</samp> (eller <samp>&#8984;CMD</samp> på Mac) nede og vælg grupperne.',
 
