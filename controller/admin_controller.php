@@ -207,7 +207,7 @@ class admin_controller implements admin_interface
 		// If the link hash is invalid, stop and show an error message to the user
 		if (!check_link_hash($this->request->variable('hash', ''), 'sync' . $autogroups_id))
 		{
-			trigger_error($this->language->lang('FORM_INVALID') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('FORM_INVALID') . $this->get_back_link(), E_USER_WARNING);
 		}
 
 		try
@@ -216,7 +216,7 @@ class admin_controller implements admin_interface
 		}
 		catch (\Exception $e)
 		{
-			trigger_error($e->getMessage() . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($e->getMessage() . $this->get_back_link(), E_USER_WARNING);
 		}
 	}
 
@@ -267,19 +267,19 @@ class admin_controller implements admin_interface
 		// Prevent form submit when no user groups are available or selected
 		if (!$data['autogroups_group_id'])
 		{
-			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_GROUPS') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_GROUPS') . $this->get_back_link($autogroups_id), E_USER_WARNING);
 		}
 
 		// Prevent form submit when min and max values are identical
 		if ($data['autogroups_min_value'] == $data['autogroups_max_value'])
 		{
-			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_RANGE') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_RANGE') . $this->get_back_link($autogroups_id), E_USER_WARNING);
 		}
 
 		// Prevent form submit when the target group is also in the excluded groups array
 		if (in_array($data['autogroups_group_id'], $data['autogroups_excluded_groups']))
 		{
-			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS') . adm_back_link($this->u_action), E_USER_WARNING);
+			trigger_error($this->language->lang('ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS') . $this->get_back_link($autogroups_id), E_USER_WARNING);
 		}
 
 		// Format autogroups_excluded_groups for storage in the db
@@ -306,7 +306,7 @@ class admin_controller implements admin_interface
 		$this->log->add('admin', $this->user->data['user_id'], $this->user->ip, 'ACP_AUTOGROUPS_SAVED_LOG', time());
 
 		// Output message to user after submitting the form
-		trigger_error($this->language->lang('ACP_AUTOGROUPS_SUBMIT_SUCCESS') . adm_back_link($this->u_action));
+		trigger_error($this->language->lang('ACP_AUTOGROUPS_SUBMIT_SUCCESS') . $this->get_back_link());
 	}
 
 	/**
@@ -488,6 +488,21 @@ class admin_controller implements admin_interface
 		$this->db->sql_freeresult($result);
 
 		return $groups ?: array();
+	}
+
+	/**
+	 * Return the ACP action back link. For editing an auto group it will take you
+	 * back to that auto group's edit page. Otherwise it will take you back to main
+	 * auto groups ACP page.
+	 *
+	 * @param int $autogroups_id
+	 * @return string
+	 */
+	protected function get_back_link($autogroups_id = 0)
+	{
+		$back_link = $autogroups_id ? '&amp;action=edit&amp;autogroups_id=' . $autogroups_id : '';
+
+		return adm_back_link($this->u_action . $back_link);
 	}
 
 	/**
