@@ -54,10 +54,14 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Liikmed eemaldatakse sellest grupist, kui nad ületavad selle maksimaalse väärtuse. Jäta see väli tühjaks, kui sa ei soovi seda kasutada.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Seadista vaikimisi grupp',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Tee see liikme(te) uueks vaikimisi grupiks.',
-	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'See ei mõjuta kasutajaid, kelle vaikimisi kasutajarühm on üks järgmistest: <samp>%s</samp>.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'See ei mõjuta kasutajaid, kelle vaikimisi kasutajarühm on üks järgmistest: %s.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Teavita liikmeid',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Saada teavitus liikmetele, kui nad on automaatselt lisatud või eemaldatud sellest grupist.',
 
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Seadista vaikimisi grupile erandid',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Auto-grupp ei muuda liikmete vaikimisi grupi, kui see on valitud sellest nimekirjast. Vali mitu gruppi korraga hoides klaviatuuri klahvi <samp>CTRL</samp> all (või <samp>&#8984;CMD</samp> Mac\'is) ja vali grupid.',
 

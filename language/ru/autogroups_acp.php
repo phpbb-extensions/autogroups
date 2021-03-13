@@ -53,10 +53,14 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Пользователи будут исключены из этой группы, если превысят максимальное значение. Оставьте это поле пустым, если не хотите, чтобы участники были исключены из группы.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Сделать группой по-умолчанию',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Сделать выбранную группу группой пользователя по умолчанию.',
-	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Это не затронет пользователей, чья группа по умолчанию одна из следующих: <samp>%s</samp>.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Это не затронет пользователей, чья группа по умолчанию одна из следующих: %s.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Уведомить пользователя',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Отправить уведомление пользователю после автоматического добавления/удаления в группу.',
 
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Установить исключения для групп по умолчанию',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'АвтоГруппы не изменят группу пользователя по умолчанию, если она отмечена в этом списке. Выберите несколько групп с нажатой клавишей <samp>CTRL</samp> (или <samp>&#8984;CMD</samp> на Mac).',
 

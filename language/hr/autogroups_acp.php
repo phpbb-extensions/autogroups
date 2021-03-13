@@ -54,10 +54,14 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Vrijednost prekoračenje koje će rezultirati izbrisivanjem korisnika/ca iz grupe. Ostavi praznim ukoliko ne želiš izbrisati korisnike/ce iz grupe.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Postavi grupu kao zadanu',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Ukoliko je omogućeno, grupa će zamijeniti postojeću i postati nova zadana grupa korisnika/ca.',
-	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Ovo neće imati utjecaja na korisnike/ce čija je zadana grupa jedna od sljedećih: <samp>%s</samp>.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Ovo neće imati utjecaja na korisnike/ce čija je zadana grupa jedna od sljedećih: %s.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Obavijesti korisnike/ce',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Ukoliko je omogućeno, obavijest, o dodavanju/izbrisivanju u/iz grupu/e, će automatski biti poslana korisnicima/ama.',
 
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Iznimke za (ne)postavljanje grupe kao zadane',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Automatsko upravljanje grupom/ama neće promijeniti zadanu grupu korisnika/ca ukoliko je zadana grupa odabrana na listi. Odaberi višestruke grupe držeći pritisnutu tipku [tipkovnice] <samp>CTRL</samp> [ili <samp>&#8984;CMD</samp> na Macu] + klikćući [označavajući] [grupe za odabir].',
 

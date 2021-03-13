@@ -53,10 +53,14 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Eğer maksimum değeri aşarlarsa kullanıcılar bu gruptan kaldırılacak. Eğer kullanıcıların kaldırılmasını istemiyorsanız bu alanı boş bırakın.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Grup varsayılanlarını ayarla',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Bunu kullanıcıların yeni varsayılan grubu yap.',
-	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Bu, varsayılan kullanıcı grubu aşağıdakilerden biri olan kullanıcıları etkilemeyecektir: <samp>%s</samp>.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Bu, varsayılan kullanıcı grubu aşağıdakilerden biri olan kullanıcıları etkilemeyecektir: %s.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Kullanıcıları bilgilendir',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Kullanıcılar Otomatik olarak bu gruba eklendiğinde veya kaldırıldığında bir bildirim gönder.',
 
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Grup varsayılan muafiyetlerini ayarla',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Eğer o bu listede seçili ise Otomatik Gruplar bir kullanıcının varsayılan grubunu değiştirmeyecek. Çoklu grup seçmek için <samp>CTRL</samp> (veya MAClerde <samp>&#8984;CMD</samp>) tuşuna basın ve grupları seçin.',
 

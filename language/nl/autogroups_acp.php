@@ -54,10 +54,14 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Gebruikers worden verwijderd van deze groep als de maximale waarde wordt overschreden. Laat dit veld leeg om automatisch verwijderen te voorkomen.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Instellen als standaard groep',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Maak voor deze gebruikers de groep standaard.',
-	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Dit heeft geen invloed op gebruikers wiens standaardgroep één van de volgende is: <samp>%s</samp>.',
+	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Dit heeft geen invloed op gebruikers wiens standaardgroep één van de volgende is: %s.',
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notificeer gebruikers',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Stuur een notificatie naar gebruikers als ze automatisch worden toegevoegd of verwijderd van deze groep.',
 
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Instellen standaard groep uitzonderingen',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Automatische groepen zal niet een gebruiker zijn standaard groep veranderen als deze groep geselecteerd is in deze lijst. Selecteer meerdere groepen door <samp>CTRL</samp> (of <samp>&#8984;CMD</samp> op Mac) ingedrukt te houden en de groepen te selecteren.',
 
