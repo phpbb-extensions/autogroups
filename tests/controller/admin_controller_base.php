@@ -79,6 +79,9 @@ class admin_controller_base extends \phpbb_database_test_case
 		$group_helper
 			->method('get_name')
 			->will(self::returnArgument(0));
+		$group_helper
+			->method('get_name_string')
+			->will(self::returnArgument(2));
 
 		$this->admin_controller = new \phpbb\autogroups\controller\admin_controller(
 			$cache,

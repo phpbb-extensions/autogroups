@@ -104,6 +104,7 @@ class autogroups_base extends \phpbb_functional_test_case
 			'autogroups_group_id'	=> $group_id,
 			'autogroups_default'	=> true,
 			'autogroups_notify'		=> true,
+			'autogroups_excluded_groups' => '',
 		);
 
 		// Insert the data array

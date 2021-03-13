@@ -52,6 +52,7 @@ class base_test extends base
 						'autogroups_default'	=> 1,
 						'autogroups_notify'		=> 1,
 						'autogroups_type_name'	=> 'phpbb.autogroups.type.posts',
+						'autogroups_excluded_groups' => '',
 					),
 					array(
 						'autogroups_id' 		=> 2,
@@ -62,6 +63,7 @@ class base_test extends base
 						'autogroups_default'	=> 1,
 						'autogroups_notify'		=> 0,
 						'autogroups_type_name'	=> 'phpbb.autogroups.type.posts',
+						'autogroups_excluded_groups' => '',
 					),
 					array(
 						'autogroups_id' 		=> 3,
@@ -72,6 +74,18 @@ class base_test extends base
 						'autogroups_default'	=> 0,
 						'autogroups_notify'		=> 0,
 						'autogroups_type_name'	=> 'phpbb.autogroups.type.posts',
+						'autogroups_excluded_groups' => '',
+					),
+					array(
+						'autogroups_id' 		=> 4,
+						'autogroups_type_id'	=> 1,
+						'autogroups_min_value'	=> 300,
+						'autogroups_max_value'	=> 400,
+						'autogroups_group_id'	=> 4,
+						'autogroups_default'	=> 0,
+						'autogroups_notify'		=> 0,
+						'autogroups_type_name'	=> 'phpbb.autogroups.type.posts',
+						'autogroups_excluded_groups' => '[1,2]',
 					),
 				),
 			),
@@ -128,7 +142,7 @@ class base_test extends base
 				true,
 				array(
 					1 => array(1, 5, 4), // expect user 1 in groups 1, 4, 5
-					2 => array(1, 2, 4), // expect user 1 in groups 1, 2, 4
+					2 => array(1, 2, 4), // expect user 2 in groups 1, 2, 4
 				),
 			),
 			array(
@@ -137,7 +151,7 @@ class base_test extends base
 				false,
 				array(
 					1 => array(1, 5), // expect user 1 in groups 1, 5
-					2 => array(1, 2, 5), // expect user 1 in groups 1, 2, 5
+					2 => array(1, 2, 5), // expect user 2 in groups 1, 2, 5
 				),
 			),
 		);
