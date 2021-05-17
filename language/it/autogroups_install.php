@@ -2,11 +2,10 @@
 /**
 *
 * Auto Groups extension for the phpBB Forum Software package.
-* Estonian translation by phpBBeesti.ee [Exabot]
 *
-* @copyright (c) 2015 phpBB Limited <https://www.phpbb.com>
+* @copyright (c) 2019 phpBB Limited <https://www.phpbb.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
-*
+* @Italian translation By alex75 https://www.phpbb-store.it
 */
 
 /**
@@ -39,7 +38,5 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	// Notifications
-	'AUTOGROUPS_NOTIFICATION_GROUP_ADDED'	=> '<strong>Grupi uuendatud</strong>: sa oled lisatud %1$s grupi.',
-	'AUTOGROUPS_NOTIFICATION_GROUP_REMOVED'	=> '<strong>Grupi uuendatud</strong>: sind on eemaldatud grupist %1$s.',
+	'AUTOGROUPS_NOT_ENABLEABLE'	=> 'Non è stato possibile abilitare Auto Gruppi. I requisiti minimi di phpBB 3.2.0 e / o PHP 5.5.0 non erano soddisfatti.',
 ));

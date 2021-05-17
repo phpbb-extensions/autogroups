@@ -2,7 +2,7 @@
 /**
 *
 * Auto Groups extension for the phpBB Forum Software package.
-* Estonian translation by phpBBeeti.com (http://www.phpbbeest.com/)
+* Estonian translation by phpBBeesti.ee [Exabot]
 *
 * @copyright (c) 2015 phpBB Limited <https://www.phpbb.com>
 * @license GNU General Public License, version 2 (GPL-2.0)

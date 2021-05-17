@@ -5,7 +5,7 @@
 *
 * @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
-*
+* @Italian translation By alex75 https://www.phpbb-store.it
 */
 
 /**
@@ -48,9 +48,9 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_CONDITION_NAME'			=> 'Tipo autogruppo',
 	'ACP_AUTOGROUPS_CONDITION_NAME_EXPLAIN'	=> 'Scegli il tipo di condizione per cui gli utenti vengono aggiunti o rimossi dal gruppo.',
 	'ACP_AUTOGROUPS_MIN_VALUE'				=> 'Valore minimo',
-	'ACP_AUTOGROUPS_MIN_VALUE_EXPLAIN'		=> 'Saranno aggiunti a questo gruppo gli utenti che superano il valore minimo.',
+	'ACP_AUTOGROUPS_MIN_VALUE_EXPLAIN'		=> 'Gli utenti verranno aggiunti a questo gruppo se supereranno il valore minimo.',
 	'ACP_AUTOGROUPS_MAX_VALUE'				=> 'Valore massimo',
-	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Saranno aggiunti a questo gruppo gli utenti che superano il valore massimo; lasciare in bianco se non si vuole che siano rimossi automaticamente gli utenti dal gruppo.',
+	'ACP_AUTOGROUPS_MAX_VALUE_EXPLAIN'		=> 'Gli utenti verranno rimossi da questo gruppo se supereranno il valore massimo. Impostare su 0 se non si desidera che gli utenti vengano rimossi automaticamente.',
 	'ACP_AUTOGROUPS_DEFAULT'				=> 'Imposta come gruppo predefinito',
 	'ACP_AUTOGROUPS_DEFAULT_EXPLAIN'		=> 'Rendi questo gruppo predefinito per l’utente.',
 	'ACP_AUTOGROUPS_DEFAULT_EXEMPTION'		=> 'Ciò non influirà sugli utenti il cui gruppo di utenti predefinito è uno dei seguenti: %s.',
