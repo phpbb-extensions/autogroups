@@ -31,15 +31,15 @@ class group_added extends \phpbb\notification\type\base
 	/**
 	 * {@inheritdoc}
 	 */
-	public static function get_item_id($data)
+	public static function get_item_id($type_data)
 	{
-		return (int) $data['group_id'];
+		return (int) $type_data['group_id'];
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public static function get_item_parent_id($data)
+	public static function get_item_parent_id($type_data)
 	{
 		return 0;
 	}
@@ -47,13 +47,13 @@ class group_added extends \phpbb\notification\type\base
 	/**
 	 * {@inheritdoc}
 	 */
-	public function find_users_for_notification($data, $options = array())
+	public function find_users_for_notification($type_data, $options = array())
 	{
 		$users = array();
 
-		$data['user_ids'] = (!is_array($data['user_ids'])) ? array($data['user_ids']) : $data['user_ids'];
+		$type_data['user_ids'] = (!is_array($type_data['user_ids'])) ? array($type_data['user_ids']) : $type_data['user_ids'];
 
-		foreach ($data['user_ids'] as $user_id)
+		foreach ($type_data['user_ids'] as $user_id)
 		{
 			$users[$user_id] = $this->notification_manager->get_default_methods();
 		}
@@ -104,10 +104,10 @@ class group_added extends \phpbb\notification\type\base
 	/**
 	 * {@inheritdoc}
 	 */
-	public function create_insert_array($data, $pre_create_data = array())
+	public function create_insert_array($type_data, $pre_create_data = array())
 	{
-		$this->set_data('group_name', $data['group_name']);
+		$this->set_data('group_name', $type_data['group_name']);
 
-		parent::create_insert_array($data, $pre_create_data);
+		parent::create_insert_array($type_data, $pre_create_data);
 	}
 }

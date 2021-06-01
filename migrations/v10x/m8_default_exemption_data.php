@@ -22,7 +22,7 @@ class m8_default_exemption_data extends \phpbb\db\migration\migration
 	 * @static
 	 * @access public
 	 */
-	static public function depends_on()
+	public static function depends_on()
 	{
 		return array(
 			'\phpbb\autogroups\migrations\v10x\m3_config_data',
