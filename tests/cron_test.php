@@ -18,7 +18,7 @@ class cron_test extends \phpbb_test_case
 	/** @var \phpbb\autogroups\cron\autogroups_check */
 	protected $cron_task;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\autogroups\conditions\manager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\autogroups\conditions\manager */
 	protected $manager;
 
 	protected function setUp(): void
