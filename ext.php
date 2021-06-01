@@ -72,25 +72,18 @@ class ext extends \phpbb\extension\base
 	 */
 	public function enable_step($old_state)
 	{
-		switch ($old_state)
+		// if nothing has run yet
+		if ($old_state === false)
 		{
-			case '': // Empty means nothing has run yet
-
-				// Enable Auto Groups notifications
-				return $this->notification_handler('enable', array(
-					'phpbb.autogroups.notification.type.group_added',
-					'phpbb.autogroups.notification.type.group_removed',
-				));
-
-			break;
-
-			default:
-
-				// Run parent enable step method
-				return parent::enable_step($old_state);
-
-			break;
+			// Enable Auto Groups notifications
+			return $this->notification_handler('enable', array(
+				'phpbb.autogroups.notification.type.group_added',
+				'phpbb.autogroups.notification.type.group_removed',
+			));
 		}
+
+		// Run parent enable step method
+		return parent::enable_step($old_state);
 	}
 
 	/**
@@ -103,25 +96,18 @@ class ext extends \phpbb\extension\base
 	 */
 	public function disable_step($old_state)
 	{
-		switch ($old_state)
+		// if nothing has run yet
+		if ($old_state === false)
 		{
-			case '': // Empty means nothing has run yet
-
-				// Disable Auto Groups notifications
-				return $this->notification_handler('disable', array(
-					'phpbb.autogroups.notification.type.group_added',
-					'phpbb.autogroups.notification.type.group_removed',
-				));
-
-			break;
-
-			default:
-
-				// Run parent disable step method
-				return parent::disable_step($old_state);
-
-			break;
+			// Disable Auto Groups notifications
+			return $this->notification_handler('disable', array(
+				'phpbb.autogroups.notification.type.group_added',
+				'phpbb.autogroups.notification.type.group_removed',
+			));
 		}
+
+		// Run parent disable step method
+		return parent::disable_step($old_state);
 	}
 
 	/**
@@ -134,25 +120,18 @@ class ext extends \phpbb\extension\base
 	 */
 	public function purge_step($old_state)
 	{
-		switch ($old_state)
+		// if nothing has run yet
+		if ($old_state === false)
 		{
-			case '': // Empty means nothing has run yet
-
-				// Purge Auto Groups notifications
-				return $this->notification_handler('purge', array(
-					'phpbb.autogroups.notification.type.group_added',
-					'phpbb.autogroups.notification.type.group_removed',
-				));
-
-			break;
-
-			default:
-
-				// Run parent purge step method
-				return parent::purge_step($old_state);
-
-			break;
+			// Purge Auto Groups notifications
+			return $this->notification_handler('purge', array(
+				'phpbb.autogroups.notification.type.group_added',
+				'phpbb.autogroups.notification.type.group_removed',
+			));
 		}
+
+		// Run parent purge step method
+		return parent::purge_step($old_state);
 	}
 
 	/**

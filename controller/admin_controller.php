@@ -325,7 +325,7 @@ class admin_controller implements admin_interface
 		$autogroups_data = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-		return $autogroups_data ? $autogroups_data : [];
+		return $autogroups_data ?: [];
 	}
 
 	/**

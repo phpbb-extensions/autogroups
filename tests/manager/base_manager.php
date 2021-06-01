@@ -25,10 +25,10 @@ class base_manager extends \phpbb_database_test_case
 		return array('phpbb/autogroups');
 	}
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\autogroups\conditions\type\base */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\autogroups\conditions\type\base */
 	protected $condition;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\Symfony\Component\DependencyInjection\ContainerInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\DependencyInjection\ContainerInterface */
 	protected $container;
 
 	/** @var \phpbb\db\driver\driver_interface */

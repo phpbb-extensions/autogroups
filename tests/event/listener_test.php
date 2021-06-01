@@ -16,7 +16,7 @@ class listener_test extends \phpbb_test_case
 	/** @var \phpbb\autogroups\event\listener */
 	protected $listener;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\autogroups\conditions\manager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\autogroups\conditions\manager */
 	protected $manager;
 
 	/**
@@ -75,12 +75,11 @@ class listener_test extends \phpbb_test_case
 			->method('purge_autogroups_group')
 			->with($group_id);
 
-		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+		$dispatcher = new \phpbb\event\dispatcher();
 		$dispatcher->addListener('core.delete_group_after', array($this->listener, 'delete_group_rules'));
 
 		$event_data = array('group_id');
-		$event = new \phpbb\event\data(compact($event_data));
-		$dispatcher->dispatch('core.delete_group_after', $event);
+		$dispatcher->trigger_event('core.delete_group_after', compact($event_data));
 	}
 
 	/**
@@ -130,15 +129,12 @@ class listener_test extends \phpbb_test_case
 	{
 		$this->set_listener();
 
-		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+		$dispatcher = new \phpbb\event\dispatcher();
 		$dispatcher->addListener('core.user_setup', array($this->listener, 'load_language_on_setup'));
 
 		$event_data = array('lang_set_ext');
-		$event = new \phpbb\event\data(compact($event_data));
-		$dispatcher->dispatch('core.user_setup', $event);
-
-		$lang_set_ext = $event->get_data_filtered($event_data);
-		$lang_set_ext = $lang_set_ext['lang_set_ext'];
+		$event_data_after = $dispatcher->trigger_event('core.user_setup', compact($event_data));
+		extract($event_data_after, EXTR_OVERWRITE);
 
 		foreach ($expected_contains as $expected)
 		{
@@ -246,11 +242,10 @@ class listener_test extends \phpbb_test_case
 			->method('check_condition')
 			->with($type_class, $options);
 
-		$dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+		$dispatcher = new \phpbb\event\dispatcher();
 		$dispatcher->addListener($event_listener, array($this->listener, $event_method));
 
 		$event_data = array($event_var);
-		$event = new \phpbb\event\data(compact($event_data));
-		$dispatcher->dispatch($event_listener, $event);
+		$dispatcher->trigger_event($event_listener, compact($event_data));
 	}
 }

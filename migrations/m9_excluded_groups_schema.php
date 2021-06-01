@@ -26,7 +26,7 @@ class m9_excluded_groups_schema extends \phpbb\db\migration\migration
 	/**
 	 * {@inheritDoc}
 	 */
-	static public function depends_on()
+	public static function depends_on()
 	{
 		return ['\phpbb\autogroups\migrations\v10x\m1_initial_schema'];
 	}

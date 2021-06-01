@@ -120,9 +120,7 @@ class helper
 		}
 
 		// Cast each array value to integer
-		$user_ids = array_map('intval', $user_ids);
-
-		return $user_ids;
+		return array_map('intval', $user_ids);
 	}
 
 	/**

@@ -39,7 +39,7 @@ class base extends \phpbb_database_test_case
 	/** @var \phpbb\language\language */
 	protected $lang;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\notification\manager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\notification\manager */
 	protected $notification_manager;
 
 	/** @var \phpbb_mock_container_builder */
@@ -87,7 +87,7 @@ class base extends \phpbb_database_test_case
 
 		$this->user = new \phpbb\user($this->lang, '\phpbb\datetime');
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject|\phpbb\user $user */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\user $user */
 		$user = $this->getMockBuilder('\phpbb\user')
 			->setConstructorArgs(array(
 				$this->lang,
@@ -100,7 +100,7 @@ class base extends \phpbb_database_test_case
 
 		$db = $this->db;
 
-		/** @var $auth \PHPUnit_Framework_MockObject_MockObject|\phpbb\auth\auth */
+		/** @var $auth \PHPUnit\Framework\MockObject\MockObject|\phpbb\auth\auth */
 		$auth = $this->getMockBuilder('\phpbb\auth\auth')
 			->disableOriginalConstructor()
 			->getMock();
