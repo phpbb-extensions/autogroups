@@ -22,6 +22,8 @@ class membership_test extends autogroups_base
 		'max'        => 10,
 	);
 
+	protected $test_user = 'user-ag-test';
+
 	/**
 	 * Test the auto groups membership type
 	 */
@@ -62,16 +64,16 @@ class membership_test extends autogroups_base
 		$form = $crawler->selectButton('I agree to these terms')->form();
 		$crawler = self::submit($form);
 		$form = $crawler->selectButton('Submit')->form(array(
-			'username'			=> 'user-ag-test',
-			'email'				=> 'user-ag-test@phpbb.com',
-			'new_password'		=> 'user-ag-testuser-reg-test',
-			'password_confirm'	=> 'user-ag-testuser-reg-test',
+			'username'			=> $this->test_user,
+			'email'				=> $this->test_user . '@phpbb.com',
+			'new_password'		=> $this->test_user . $this->test_user,
+			'password_confirm'	=> $this->test_user . $this->test_user,
 		));
 		$form['tz']->select('Europe/Berlin');
 		$crawler = self::submit($form);
 		$this->assertContainsLang('ACCOUNT_ADDED', $crawler->filter('#message')->text());
 		$new_user_id = $this->get_new_user_id();
-		self::assertGreaterThan(40, $new_user_id); // lets just make sure this is a newer user
+		self::assertGreaterThan(40, $new_user_id); // let's just make sure this is a newer user
 		$this->assertInGroup($new_user_id, $this->test_data['group_name']);
 		return $new_user_id;
 	}
@@ -94,7 +96,7 @@ class membership_test extends autogroups_base
 		$form->setValues($data);
 		$crawler = self::submit($form);
 		$this->assertContainsLang('USER_ADMIN_DEACTIVED', $crawler->filter('.successbox')->text());
-		$this->remove_user_group($this->test_data['group_name'], 'user-ag-test');
+		$this->remove_user_group($this->test_data['group_name'], $this->test_user);
 		$this->assertNotInGroup($new_user_id, $this->test_data['group_name']);
 
 		// Re-activate the user, should add the user to the group
@@ -104,6 +106,26 @@ class membership_test extends autogroups_base
 		$form->setValues($data);
 		$crawler = self::submit($form);
 		$this->assertContainsLang('USER_ADMIN_ACTIVATED', $crawler->filter('.successbox')->text());
+		$this->assertInGroup($new_user_id, $this->test_data['group_name']);
+		return $new_user_id;
+	}
+
+	/**
+	 * User logs in and should add the user to the group
+	 *
+	 * @depends test_user_activation
+	 * @param int $new_user_id
+	 */
+	public function test_user_login($new_user_id)
+	{
+		// Remove user from the group
+		$this->login();
+		$this->remove_user_group($this->test_data['group_name'], $this->test_user);
+		$this->assertNotInGroup($new_user_id, $this->test_data['group_name']);
+		$this->logout();
+
+		// User logs in, and should be added to group
+		$this->login($this->test_user);
 		$this->assertInGroup($new_user_id, $this->test_data['group_name']);
 	}
 

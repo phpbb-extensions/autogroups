@@ -208,6 +208,14 @@ class listener_test extends \phpbb_test_case
 			array(
 				'phpbb.autogroups.type.membership',
 				'membership_check',
+				'core.session_create_after',
+				'session_data',
+				array('session_user_id' => '$user_id', 'session_page' => 'index.php?mode=login'),
+				array('users' => '$user_id'),
+			),
+			array(
+				'phpbb.autogroups.type.membership',
+				'membership_check',
 				'core.user_add_after',
 				'user_id',
 				array('user_id' => 100),
