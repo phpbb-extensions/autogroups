@@ -157,6 +157,12 @@ class listener implements EventSubscriberInterface
 	 */
 	public function last_visit_check($event)
 	{
+		// only check session at login (this will prevent repeated excessive attempts at this check)
+		if (strpos($event['session_data']['session_page'], 'login') === false)
+		{
+			return;
+		}
+
 		$this->manager->check_condition('phpbb.autogroups.type.lastvisit', array(
 			'users'		=> $event['session_data']['session_user_id'],
 		));
