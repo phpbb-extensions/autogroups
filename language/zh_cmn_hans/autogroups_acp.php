@@ -58,10 +58,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> '通知用户',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> '自动加入或者移出该组后，该用户会收到通知。',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> '排除的用户组',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> '排除这些用户组的成员',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> '列表中所选择的<em>任何组</em>的成员都会别忽略掉。此处留空，如果你希望自动分组能对 <em>所有论坛成员</em> 都有效。 使用 <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) 来选择多个用户组。',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> '发生错误。此条件下的组无法同时被排除在外。',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> '设置用户组默认的豁免',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> '此表中选定的用户组将不受自动分组设置的影响。按下 <samp>CTRL</samp> （或者 Mac 的 <samp>&#8984;CMD</samp> ）来选择多个用户组。',
 
