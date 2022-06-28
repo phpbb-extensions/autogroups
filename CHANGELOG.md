@@ -2,6 +2,11 @@
 
 ## Version 2.x (for phpBB 3.2.x and 3.3.x)
 
+## 2.0.5 - 2022-06-18
+
+- Run membership condition check when a user logs in.
+- Added Portuguese language pack
+
 ### 2.0.4 - 2021-03-12
 
 - Added new option to exempt members of selected user groups from being affected by an Auto Group rule.
