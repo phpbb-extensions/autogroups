@@ -2,14 +2,19 @@
 
 ## Version 2.x (for phpBB 3.2.x and 3.3.x)
 
-## 2.0.4 - 2021-03-12
+## 2.0.5 - 2022-06-18
+
+- Run membership condition check when a user logs in.
+- Added Portuguese language pack
+
+### 2.0.4 - 2021-03-12
 
 - Added new option to exempt members of selected user groups from being affected by an Auto Group rule.
 - Fixed potential PHP DEBUG notices.
 - Fixed MSSQL issues with the Warnings and Membership auto group rules.
 - Various minor code and behavior improvements.
 
-## 2.0.3 - 2020-03-18
+### 2.0.3 - 2020-03-18
 
 - Check Membership days after a user account is activated.
 - AutoGroups will now show you in the ACP setting for “Set group default” the user groups that are exempt from having their default group changed.

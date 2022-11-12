@@ -34,4 +34,4 @@ This is the repository for the development of the phpBB Auto Groups Extension
 Auto Groups can easily be extended by experienced extension developers. View the [Extending Auto Groups Wiki Page](https://github.com/phpbb-extensions/autogroups/wiki/Extending-Auto-Groups) to learn how.
 
 ## License
-[GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
+[GNU General Public License v2](https://opensource.org/licenses/GPL-2.0)

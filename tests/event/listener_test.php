@@ -202,7 +202,15 @@ class listener_test extends \phpbb_test_case
 				'last_visit_check',
 				'core.session_create_after',
 				'session_data',
-				array('session_user_id' => '$user_id'),
+				array('session_user_id' => '$user_id', 'session_page' => 'index.php?mode=login'),
+				array('users' => '$user_id'),
+			),
+			array(
+				'phpbb.autogroups.type.membership',
+				'membership_check',
+				'core.session_create_after',
+				'session_data',
+				array('session_user_id' => '$user_id', 'session_page' => 'index.php?mode=login'),
 				array('users' => '$user_id'),
 			),
 			array(
@@ -246,6 +254,83 @@ class listener_test extends \phpbb_test_case
 		$dispatcher->addListener($event_listener, array($this->listener, $event_method));
 
 		$event_data = array($event_var);
+		$dispatcher->trigger_event($event_listener, compact($event_data));
+	}
+
+	/**
+	 * Data set for test_autogroup_listeners
+	 *
+	 * @return array Array of test data
+	 */
+	public function autogroup_listener_limits_data()
+	{
+		return [
+			[
+				'phpbb.autogroups.type.lastvisit',
+				'last_visit_check',
+				'core.session_create_after',
+				'session_data',
+				['session_user_id' => '$user_id', 'session_page' => 'index.php?mode=logout'],
+			],
+			[
+				'phpbb.autogroups.type.lastvisit',
+				'last_visit_check',
+				'core.session_create_after',
+				'session_data',
+				['session_user_id' => '$user_id', 'session_page' => ''],
+			],
+			[
+				'phpbb.autogroups.type.membership',
+				'membership_check',
+				'core.session_create_after',
+				'session_data',
+				['session_user_id' => '$user_id', 'session_page' => 'index.php?mode=logout'],
+			],
+			[
+				'phpbb.autogroups.type.membership',
+				'membership_check',
+				'core.session_create_after',
+				'session_data',
+				['session_user_id' => '$user_id', 'session_page' => ''],
+			],
+			[
+				'phpbb.autogroups.type.membership',
+				'membership_check',
+				'core.user_add_after',
+				'user_id',
+				null,
+			],
+			[
+				'phpbb.autogroups.type.membership',
+				'membership_check',
+				'core.user_active_flip_after',
+				'user_id_ary',
+				null,
+			],
+		];
+	}
+
+	/**
+	 * Test the autogroup listener events that have limits on running checks
+	 *
+	 * @dataProvider autogroup_listener_limits_data
+	 */
+	public function test_autogroup_listener_limits($type_class, $event_method, $event_listener, $event_var, $event_data)
+	{
+		$this->set_listener();
+
+		// Mock the event var with test event data
+		${$event_var} = $event_data;
+
+		// Test the check_condition() method is called never
+		// with expected arguments.
+		$this->manager->expects(self::never())
+			->method('check_condition');
+
+		$dispatcher = new \phpbb\event\dispatcher();
+		$dispatcher->addListener($event_listener, [$this->listener, $event_method]);
+
+		$event_data = [$event_var];
 		$dispatcher->trigger_event($event_listener, compact($event_data));
 	}
 }

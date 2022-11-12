@@ -53,8 +53,8 @@ class listener implements EventSubscriberInterface
 			'core.mcp_warn_post_after'	=> 'add_warning_check',
 			'core.mcp_warn_user_after'	=> 'add_warning_check',
 
-			// Auto Gorups "Last Visit" listeners
-			'core.session_create_after'	=> 'last_visit_check',
+			// Auto Groups "User Session" listeners
+			'core.session_create_after'	=> [['last_visit_check'], ['membership_check']],
 
 			// Auto Groups "Membership" listeners
 			'core.user_add_after'			=> 'membership_check',
@@ -157,13 +157,19 @@ class listener implements EventSubscriberInterface
 	 */
 	public function last_visit_check($event)
 	{
+		// only check session at login (this will prevent repeated excessive attempts at this check)
+		if (strpos($event['session_data']['session_page'], 'login') === false)
+		{
+			return;
+		}
+
 		$this->manager->check_condition('phpbb.autogroups.type.lastvisit', array(
 			'users'		=> $event['session_data']['session_user_id'],
 		));
 	}
 
 	/**
-	 * Check membership after user registration
+	 * Check membership after user creation, activation, or login
 	 *
 	 * @param \phpbb\event\data $event The event object
 	 * @return void
@@ -171,9 +177,27 @@ class listener implements EventSubscriberInterface
 	 */
 	public function membership_check($event)
 	{
-		$users = $event->offsetExists('user_id_ary') ? 'user_id_ary' : 'user_id';
+		if ($event->offsetExists('session_data')) // core.session_create_after
+		{
+			// only check session at login (this will prevent repeated excessive attempts at this check)
+			$users = strpos($event['session_data']['session_page'], 'login') !== false ? $event['session_data']['session_user_id'] : null;
+		}
+		else if ($event->offsetExists('user_id_ary')) // core.user_add_after
+		{
+			$users = $event['user_id_ary'];
+		}
+		else // core.user_active_flip_after
+		{
+			$users = $event['user_id'];
+		}
+
+		if (null === $users)
+		{
+			return;
+		}
+
 		$this->manager->check_condition('phpbb.autogroups.type.membership', array(
-			'users'		=> $event[$users],
+			'users'		=> $users,
 		));
 	}
 }
