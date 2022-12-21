@@ -1,5 +1,3 @@
-# Extending Auto Groups
-
 Auto Groups can easily be extended by experienced extension developers. Add the Auto Group functionality to an existing extension or write a simple add-on extension that extends Auto Groups with more options not available in the base package.
 
 The Auto Groups extension works by comparing a component of user data against defined minimum / maximum values set by the Admin in the ACP. If a user's data is within the defined range for a specified group, the user will automatically be added to the group.
