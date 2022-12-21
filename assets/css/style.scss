@@ -2,4 +2,10 @@
 ---
 
 @import "{{ site.theme }}";
-.wrapper, section, nav { max-width: 950px !important; }
+.wrapper, section, nav {
+  max-width: 950px !important;
+}
+.highlight .err {
+    color: inherit !important;
+    background-color: inherit !important;
+}
