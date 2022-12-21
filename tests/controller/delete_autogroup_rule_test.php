@@ -54,6 +54,32 @@ class delete_autogroup_rule_test extends admin_controller_base
 	}
 
 	/**
+	 * Test the delete_autogroup_rule() method with AJAX
+	 */
+	public function test_delete_autogroup_rule_ajax()
+	{
+		// Assert the admin_controller is instantiated
+		self::assertInstanceOf('\phpbb\autogroups\controller\admin_controller', $this->admin_controller);
+
+		// First check the autogroup rule exists as expected
+		self::assertEquals(1, $this->get_autogroup_rule_count(1));
+
+		// AJAX request
+		$this->request->expects(self::once())
+			->method('is_ajax')
+			->willReturn(true);
+
+		// Handle trigger_error() output called from json_response
+		$this->setExpectedTriggerError(E_WARNING);
+
+		// Call the delete_autogroup_rule() method
+		$this->admin_controller->delete_autogroup_rule(1);
+
+		// Verify the autogroup rule has been removed
+		self::assertEquals(0, $this->get_autogroup_rule_count(1));
+	}
+
+	/**
 	 * Get the number of autogroup rules by their identifier
 	 *
 	 * @param int $id An autogroup rule identifier
