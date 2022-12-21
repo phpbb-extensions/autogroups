@@ -21,8 +21,9 @@ class save_autogroup_rule_test extends admin_controller_base
 	public function save_autogroup_rule_data()
 	{
 		return array(
-			array(1, 0, 20, true, false, false, true, false),
-			array(2, 30, 50, false, false, true, false, true),
+			array(0, 0, 0, false, false, false, false, false), // with no existing rule, zero out the options
+			array(1, 0, 20, true, false, false, true, false), // load options for rule #1
+			array(2, 30, 50, false, false, true, false, true), // load options for rule #2
 		);
 	}
 
