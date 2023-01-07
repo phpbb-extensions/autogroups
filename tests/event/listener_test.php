@@ -266,6 +266,13 @@ class listener_test extends \phpbb_test_case
 	{
 		return [
 			[
+				'phpbb.autogroups.type.posts',
+				'submit_post_check',
+				'core.submit_post_end',
+				'data',
+				null,
+			],
+			[
 				'phpbb.autogroups.type.lastvisit',
 				'last_visit_check',
 				'core.session_create_after',
