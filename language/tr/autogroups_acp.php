@@ -57,10 +57,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Kullanıcıları bilgilendir',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Kullanıcılar Otomatik olarak bu gruba eklendiğinde veya kaldırıldığında bir bildirim gönder.',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Hariç tutulan gruplar',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Bu grupların üyelerini hariç tut',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Bu listede seçili <em>herhangi bir grubun</em> üyesi yok sayılacak. Bu Otomatik Grubun panonuzun <em>tüm üyelerine</em> uygulanmasını istiyorsanız bu alanı boş bırakın. <samp>CTRL</samp> (veya Mac\'te <samp>&#8984;CMD</samp>) tuşunu basılı tutarak ve grupları seçerek birden fazla grup seçin.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'Bir hata meydana geldi. Hariç tutulan gruplar alanında da bu koşul için grup seçilemez.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Grup varsayılan muafiyetlerini ayarla',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Eğer o bu listede seçili ise Otomatik Gruplar bir kullanıcının varsayılan grubunu değiştirmeyecek. Çoklu grup seçmek için <samp>CTRL</samp> (veya MAClerde <samp>&#8984;CMD</samp>) tuşuna basın ve grupları seçin.',
 
