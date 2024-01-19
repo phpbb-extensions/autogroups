@@ -25,9 +25,11 @@ class lastvisit_test extends autogroups_base
 		$test_data = array(
 			'type' => 'lastvisit',
 			'group_name' => 'test-lastvisit',
-			'min' => 0,
-			'max' => 10,
+			'min' => 10,
+			'max' => 1000,
 		);
+
+		$test_user_id = $this->create_user('Bertie');
 
 		// Create a new test group
 		$group_id = $this->create_group($test_data['group_name']);
@@ -37,17 +39,17 @@ class lastvisit_test extends autogroups_base
 		$autogroup_id = $this->create_autogroup_rule($test_data['type'], $group_id, $test_data['min'], $test_data['max']);
 		self::assertNotNull($autogroup_id, 'Failed to create an auto group rule set.');
 
-		// Run the cron job for a user with 2 days of membership, should add the user to the group
-		$this->update_user_lastvisit(2, 2)->reset_cron();
+		// Run the cron job for a user with 20 days since last visit, should add the user to the group
+		$this->update_user_lastvisit($test_user_id, 20)->reset_cron();
 		self::request('GET', "cron.php?cron_type=cron.task.autogroups_check&sid={$this->sid}", array(), false);
 		$this->purge_cache();
-		$this->assertInGroup(2, $test_data['group_name']);
+		$this->assertInGroup($test_user_id, $test_data['group_name']);
 
-		// Run the cron job for a user with 20 days of membership, should remove the user from the group
-		$this->update_user_lastvisit(2, 20)->reset_cron();
+		// Run the cron job for a user with 2 days since last visit, should remove the user from the group
+		$this->update_user_lastvisit($test_user_id, 2)->reset_cron();
 		self::request('GET', "cron.php?cron_type=cron.task.autogroups_check&sid={$this->sid}", array(), false);
 		$this->purge_cache();
-		$this->assertNotInGroup(2, $test_data['group_name']);
+		$this->assertNotInGroup($test_user_id, $test_data['group_name']);
 	}
 
 	/**
