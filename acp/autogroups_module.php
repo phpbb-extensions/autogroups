@@ -50,7 +50,7 @@ class autogroups_module
 		$this->tpl_name = 'manage_autogroups';
 
 		// Set the page title for our ACP auto groups
-		$this->page_title = $language->lang('ACP_AUTOGROUPS_MANAGE');
+		$this->page_title = 'ACP_AUTOGROUPS_MANAGE';
 
 		// Quick-submit settings from the general options form
 		if ($request->is_set_post('generalsubmit'))
@@ -64,7 +64,7 @@ class autogroups_module
 			case 'add':
 			case 'edit':
 				// Set the page title for our ACP auto groups
-				$this->page_title = $language->lang(strtoupper("ACP_AUTOGROUPS_$action"));
+				$this->page_title = strtoupper("ACP_AUTOGROUPS_$action");
 
 				// Load the save auto group handle in the admin controller
 				$admin_controller->save_autogroup_rule($autogroups_id);

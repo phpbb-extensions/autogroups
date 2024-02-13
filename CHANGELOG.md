@@ -2,6 +2,11 @@
 
 ## Version 2.x (for phpBB 3.2.x and 3.3.x)
 
+## 2.0.6 - 2024-01-18
+
+- Fixed PHP warnings that could be caused by a conflict with other extensions.
+- Updated English, French, German and Turkish language packs.
+
 ## 2.0.5 - 2022-06-18
 
 - Run membership condition check when a user logs in.
