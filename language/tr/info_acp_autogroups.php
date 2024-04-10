@@ -38,10 +38,10 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACP_AUTOGROUPS_MANAGE'			=> 'Otomatik Grupları Yönet',
-	'AUTOGROUPS_TYPE_NOT_EXIST'		=> 'Otomatik Grup tip `%1$s` mevcut değil.',
+	'ACP_AUTOGROUPS_MANAGE'		=> 'Otomatik Grupları Yönet',
+	'AUTOGROUPS_TYPE_NOT_EXIST'	=> 'Otomatik Grup tipi `%1$s` mevcut değil.',
 
 	// Logs
-	'ACP_AUTOGROUPS_SAVED_LOG'		=> '<strong>Bir Otomatik Grup ayarı kaydedildi</strong>',
-	'ACP_AUTOGROUPS_DELETE_LOG'		=> '<strong>Bir Otomatik Grup ayarı silindi</strong>',
+	'ACP_AUTOGROUPS_SAVED_LOG'	=> '<strong>Bir Otomatik Grup ayarı kaydedildi</strong>',
+	'ACP_AUTOGROUPS_DELETE_LOG'	=> '<strong>Bir Otomatik Grup ayarı silindi</strong>',
 ));
