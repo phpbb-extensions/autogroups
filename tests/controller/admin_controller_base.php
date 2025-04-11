@@ -52,7 +52,7 @@ class admin_controller_base extends \phpbb_database_test_case
 	{
 		parent::setUp();
 
-		global $user, $phpbb_root_path, $phpEx;
+		global $language, $user, $phpbb_root_path, $phpEx;
 
 		$cache = new \phpbb_mock_cache();
 		$this->db = $this->new_dbal();
@@ -69,6 +69,7 @@ class admin_controller_base extends \phpbb_database_test_case
 			->getMock();
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
 		$lang = new \phpbb\language\language($lang_loader);
+		$language = $lang;
 		$user = new \phpbb\user($lang, '\phpbb\datetime');
 		$user->data['user_id'] = 2;
 		$user->data['user_form_salt'] = '';

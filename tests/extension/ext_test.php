@@ -68,12 +68,15 @@ class ext_test extends \phpbb_database_test_case
 
 	protected function create_extension_manager()
 	{
-		global $phpbb_root_path, $php_ext;
+		$phpbb_root_path = __DIR__ . './../../../../';
+		$php_ext = 'php';
 
 		$config = new \phpbb\config\config(['version' => PHPBB_VERSION, 'allow_board_notifications' => 1]);
 		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 		$factory = new \phpbb\db\tools\factory();
-		$db_tools = $factory->get($this->db);
+		$finder_factory = new \phpbb\finder\factory(null, false, $phpbb_root_path, $php_ext);
+		$db_doctrine = $this->new_doctrine_dbal();
+		$db_tools = $factory->get($db_doctrine);
 		$table_prefix = 'phpbb_';
 
 		$container = new \phpbb_mock_container_builder();
@@ -87,11 +90,12 @@ class ext_test extends \phpbb_database_test_case
 			$phpbb_root_path,
 			$php_ext,
 			$table_prefix,
+			self::get_core_tables(),
 			[],
 			new \phpbb\db\migration\helper()
 		);
 		$container->set('migrator', $migrator);
-		$container->set('dispatcher', $phpbb_dispatcher);
+		$container->set('event_dispatcher', $phpbb_dispatcher);
 
 		$cache_driver = new \phpbb\cache\driver\dummy();
 		$cache = new \phpbb\cache\service(
@@ -105,7 +109,11 @@ class ext_test extends \phpbb_database_test_case
 
 		$language = new \phpbb\language\language(new \phpbb\language\language_file_loader($phpbb_root_path, $php_ext));
 
-		$user_loader = new \phpbb\user_loader($this->db, $phpbb_root_path, $php_ext, USERS_TABLE);
+		$avatar_helper = $this->getMockBuilder('\phpbb\avatar\helper')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$user_loader = new \phpbb\user_loader($avatar_helper, $this->db, $phpbb_root_path, $php_ext, USERS_TABLE);
 		$user = $this->createMock('\phpbb\user');
 
 		$container->set('notification.method.board', new \phpbb\notification\method\board(
@@ -137,10 +145,9 @@ class ext_test extends \phpbb_database_test_case
 			$container,
 			$this->db,
 			$config,
-			new \phpbb\filesystem\filesystem(),
-			EXT_TABLE,
+			$finder_factory,
+			'phpbb_ext',
 			$phpbb_root_path,
-			$php_ext,
 			null
 		);
 	}
