@@ -21,7 +21,7 @@ on:
 jobs:
     # START Basic Checks Job (EPV, code sniffer, images check, etc.)
     basic-checks:
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-22.04
         strategy:
             matrix:
                 include:
@@ -33,14 +33,14 @@ jobs:
 
         steps:
             - name: Checkout phpBB
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   repository: phpbb/phpbb
                   ref: ${{ env.PHPBB_BRANCH }}
                   path: phpBB3
 
             - name: Checkout extension
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   path: phpBB3/phpBB/ext/${{ env.EXTNAME }}
 
@@ -89,7 +89,7 @@ jobs:
 
     # START MySQL and MariaDB Job
     mysql-tests:
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-22.04
         strategy:
             matrix:
                 include:
@@ -127,6 +127,8 @@ jobs:
                       db: "mysql:5.7"
                     - php: '8.3'
                       db: "mysql:5.7"
+                    - php: '8.4'
+                      db: "mysql:5.7"
 
         name: PHP ${{ matrix.php }} - ${{ matrix.db_alias != '' && matrix.db_alias || matrix.db }}
 
@@ -156,14 +158,14 @@ jobs:
 
         steps:
             - name: Checkout phpBB
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   repository: phpbb/phpbb
                   ref: ${{ env.PHPBB_BRANCH }}
                   path: phpBB3
 
             - name: Checkout extension
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   path: phpBB3/phpBB/ext/${{ env.EXTNAME }}
 
@@ -240,7 +242,7 @@ jobs:
 
     # START PostgreSQL Job
     postgres-tests:
-        runs-on: ubuntu-20.04
+        runs-on: ubuntu-22.04
         strategy:
             matrix:
                 include:
@@ -269,6 +271,8 @@ jobs:
                     - php: '8.2'
                       db: "postgres:14"
                     - php: '8.3'
+                      db: "postgres:14"
+                    - php: '8.4'
                       db: "postgres:14"
 
         name: PHP ${{ matrix.php }} - ${{ matrix.db }}
@@ -301,14 +305,14 @@ jobs:
 
         steps:
             - name: Checkout phpBB
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   repository: phpbb/phpbb
                   ref: ${{ env.PHPBB_BRANCH }}
                   path: phpBB3
 
             - name: Checkout extension
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   path: phpBB3/phpBB/ext/${{ env.EXTNAME }}
 
@@ -364,14 +368,14 @@ jobs:
                       db: "mcr.microsoft.com/mssql/server:2017-latest"
                       db_alias: 'MSSQL 2017'
                     - php: '7.2'
-                      db: "mcr.microsoft.com/mssql/server:2019-latest"
+                      db: "mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04"
                       db_alias: 'MSSQL 2019'
 
         name: PHP ${{ matrix.php }} - ${{ matrix.db_alias != '' && matrix.db_alias || matrix.db }}
 
         services:
             mssql:
-                image: ${{ matrix.db != 'mcr.microsoft.com/mssql/server:2017-latest' && matrix.db != 'mcr.microsoft.com/mssql/server:2019-latest' && 'mcr.microsoft.com/mssql/server:2017-latest' || matrix.db }}
+                image: ${{ matrix.db != 'mcr.microsoft.com/mssql/server:2017-latest' && matrix.db != 'mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04' && 'mcr.microsoft.com/mssql/server:2017-latest' || matrix.db }}
                 env:
                     SA_PASSWORD: "Pssw0rd_12"
                     ACCEPT_EULA: "y"
@@ -396,14 +400,14 @@ jobs:
 
         steps:
             - name: Checkout phpBB
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   repository: phpbb/phpbb
                   ref: ${{ env.PHPBB_BRANCH }}
                   path: phpBB3
 
             - name: Checkout extension
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
                   path: phpBB3/phpBB/ext/${{ env.EXTNAME }}
 
@@ -411,7 +415,7 @@ jobs:
               env:
                   MATRIX_DB: ${{ matrix.db }}
               run: |
-                  if [ $MATRIX_DB == 'mcr.microsoft.com/mssql/server:2017-latest' ] || [ $MATRIX_DB == 'mcr.microsoft.com/mssql/server:2019-latest' ]
+                  if [ $MATRIX_DB == 'mcr.microsoft.com/mssql/server:2017-latest' ] || [ $MATRIX_DB == 'mcr.microsoft.com/mssql/server:2019-CU27-ubuntu-20.04' ]
                   then
                       db='mssql'
                   else
