@@ -71,7 +71,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_DELETE_SUCCESS'	=> 'Automatische groep succesvol verwijderd.',
 	'ACP_AUTOGROUPS_EMPTY'			=> 'Er zijn geen automatische groepen.',
 	'ACP_AUTOGROUPS_NO_GROUPS'		=> 'Geen groepen beschikbaar',
-	'ACP_AUTOGROUPS_INVALID_GROUPS'	=> 'Er is een fout opgetreden. Er is geen geldige groep geselecteerd.<br />Automatische groepen kan alleen worden gebruikt bij door de beheerder aangemaakte groepen, welke kan worden aangemaakt op de “Beheer groepen pagina”.',
+	'ACP_AUTOGROUPS_INVALID_GROUPS'	=> 'Er is een fout opgetreden. Er is geen geldige groep geselecteerd.<br>Automatische groepen kan alleen worden gebruikt bij door de beheerder aangemaakte groepen, welke kan worden aangemaakt op de “Beheer groepen pagina”.',
 	'ACP_AUTOGROUPS_INVALID_RANGE'	=> 'Er is een fout opgetreden. De minimale en maximale waarde kunnen niet hetzelfde zijn.',
 
 	// Conditions
