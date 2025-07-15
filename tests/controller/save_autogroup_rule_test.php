@@ -56,36 +56,54 @@ class save_autogroup_rule_test extends admin_controller_base
 			->willReturn('');
 
 		// Set expectations for the assign_block_vars template values
+		$invocation = 0;
 		$this->template->expects(self::exactly(5))
 			->method('assign_block_vars')
-			->withConsecutive(
-				array('excluded_groups', array(
-					'GROUP_ID'		=> 1,
-					'GROUP_NAME'	=> 'GROUP1',
-					'S_SELECTED'	=> false,
-				)),
-				array('excluded_groups', array(
-					'GROUP_ID'		=> 2,
-					'GROUP_NAME'	=> 'GROUP2',
-					'S_SELECTED'	=> false,
-				)),
-				array('groups', array(
-					'GROUP_ID'		=> 2,
-					'GROUP_NAME'	=> 'GROUP2',
-					'S_SELECTED'	=> $group_selected,
-				)),
-				array('conditions', array(
-					'CONDITION_ID'		=> 1,
-					'CONDITION_NAME'	=> '',
-					'S_SELECTED'		=> $cond1_selected,
-				)),
-				array('conditions', array(
-					'CONDITION_ID'		=> 2,
-					'CONDITION_NAME'	=> '',
-					'S_SELECTED'		=> $cond2_selected,
-				))
-			)
-		;
+			->willReturnCallback(function($block, $vars) use (&$invocation, $group_selected, $cond1_selected, $cond2_selected) {
+				switch ($invocation) {
+					case 0:
+						self::assertEquals('excluded_groups', $block);
+						self::assertEquals(array(
+							'GROUP_ID'		=> 1,
+							'GROUP_NAME'	=> 'GROUP1',
+							'S_SELECTED'	=> false,
+						), $vars);
+						break;
+					case 1:
+						self::assertEquals('excluded_groups', $block);
+						self::assertEquals(array(
+							'GROUP_ID'		=> 2,
+							'GROUP_NAME'	=> 'GROUP2',
+							'S_SELECTED'	=> false,
+						), $vars);
+						break;
+					case 2:
+						self::assertEquals('groups', $block);
+						self::assertEquals(array(
+							'GROUP_ID'		=> 2,
+							'GROUP_NAME'	=> 'GROUP2',
+							'S_SELECTED'	=> $group_selected,
+						), $vars);
+						break;
+					case 3:
+						self::assertEquals('conditions', $block);
+						self::assertEquals(array(
+							'CONDITION_ID'		=> 1,
+							'CONDITION_NAME'	=> '',
+							'S_SELECTED'		=> $cond1_selected,
+						), $vars);
+						break;
+					case 4:
+						self::assertEquals('conditions', $block);
+						self::assertEquals(array(
+							'CONDITION_ID'		=> 2,
+							'CONDITION_NAME'	=> '',
+							'S_SELECTED'		=> $cond2_selected,
+						), $vars);
+						break;
+				}
+				$invocation++;
+			});
 
 		// Set expectations for the assign_vars template values
 		$this->template->expects(self::once())
