@@ -52,7 +52,9 @@ class admin_controller_base extends \phpbb_database_test_case
 	{
 		parent::setUp();
 
-		global $language, $user, $phpbb_root_path, $phpEx;
+		global $language, $user, $phpbb_root_path, $phpEx, $phpbb_dispatcher;
+
+		$phpbb_dispatcher = new \phpbb_mock_event_dispatcher();
 
 		$cache = new \phpbb_mock_cache();
 		$this->db = $this->new_dbal();
@@ -79,10 +81,10 @@ class admin_controller_base extends \phpbb_database_test_case
 			->getMock();
 		$group_helper
 			->method('get_name')
-			->will(self::returnArgument(0));
+			->willReturnArgument(0);
 		$group_helper
 			->method('get_name_string')
-			->will(self::returnArgument(2));
+			->willReturnArgument(2);
 
 		$this->admin_controller = new \phpbb\autogroups\controller\admin_controller(
 			$cache,
