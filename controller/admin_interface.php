@@ -38,7 +38,7 @@ interface admin_interface
 	 * Delete the auto group rule
 	 *
 	 * @param int $autogroups_id The auto groups identifier to delete
-	 * @return void
+	 * @return \Symfony\Component\HttpFoundation\JsonResponse|null
 	 * @access public
 	 */
 	public function delete_autogroup_rule($autogroups_id);
