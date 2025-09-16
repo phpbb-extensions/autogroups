@@ -87,7 +87,7 @@ class listener_test extends \phpbb_test_case
 	*
 	* @return array Array of test data
 	*/
-	public function load_language_on_setup_data()
+	public static function load_language_on_setup_data()
 	{
 		return array(
 			array(
@@ -147,7 +147,7 @@ class listener_test extends \phpbb_test_case
 	 *
 	 * @return array Array of test data
 	 */
-	public function autogroup_listeners_data()
+	public static function autogroup_listeners_data()
 	{
 		return array(
 			array(
@@ -262,7 +262,7 @@ class listener_test extends \phpbb_test_case
 	 *
 	 * @return array Array of test data
 	 */
-	public function autogroup_listener_limits_data()
+	public static function autogroup_listener_limits_data()
 	{
 		return [
 			[

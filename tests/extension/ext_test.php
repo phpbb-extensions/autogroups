@@ -14,6 +14,9 @@ class ext_test extends \phpbb_database_test_case
 {
 	protected const EXTENSION = 'phpbb/autogroups';
 
+	/** @var \phpbb\db\driver\driver_interface */
+	protected $db;
+
 	/** @var \phpbb\extension\manager \phpbb\extension\manager */
 	protected $extension_manager;
 

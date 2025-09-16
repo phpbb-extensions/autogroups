@@ -17,7 +17,7 @@ class purge_autogroups_group_test extends base_manager
 	 *
 	 * @return array Array of test data
 	 */
-	public function purge_autogroups_group_test_data()
+	public static function purge_autogroups_group_test_data()
 	{
 		// In the fixture we have the following settings:
 		// Rule 1 applies to group 1

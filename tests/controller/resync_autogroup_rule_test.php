@@ -19,7 +19,7 @@ class resync_autogroup_rule_test extends admin_controller_base
 	 *
 	 * @return array Array of test data
 	 */
-	public function resync_autogroup_rule_data()
+	public static function resync_autogroup_rule_data()
 	{
 		return array(
 			array(0),

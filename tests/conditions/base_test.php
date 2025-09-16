@@ -37,7 +37,7 @@ class base_test extends base
 	/**
 	 * Data for test_get_group_rules
 	 */
-	public function get_group_rules_test_data()
+	public static function get_group_rules_test_data()
 	{
 		return array(
 			array(
@@ -109,7 +109,7 @@ class base_test extends base
 	/**
 	 * Data for test_add_users_to_group
 	 */
-	public function add_users_to_group_test_data()
+	public static function add_users_to_group_test_data()
 	{
 		return array(
 			array(
@@ -187,7 +187,7 @@ class base_test extends base
 	/**
 	 * Data for test_remove_users_from_group
 	 */
-	public function remove_users_from_group_test_data()
+	public static function remove_users_from_group_test_data()
 	{
 		return array(
 			array(

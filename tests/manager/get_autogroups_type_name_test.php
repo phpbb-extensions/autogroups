@@ -17,7 +17,7 @@ class get_autogroups_type_name_test extends base_manager
 	 *
 	 * @return array Array of test data
 	 */
-	public function get_autogroups_type_name_test_data()
+	public static function get_autogroups_type_name_test_data()
 	{
 		return array(
 			array(1, 0, 'phpbb.autogroups.type.sample1'),

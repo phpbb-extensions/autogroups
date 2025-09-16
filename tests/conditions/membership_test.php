@@ -43,7 +43,7 @@ class membership_test extends type_test_case
 	 *
 	 * @return array Array of test data
 	 */
-	public function check_condition_test_data()
+	public static function check_condition_test_data()
 	{
 		return array(
 			array(

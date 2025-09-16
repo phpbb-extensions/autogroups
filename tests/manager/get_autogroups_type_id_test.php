@@ -17,7 +17,7 @@ class get_autogroups_type_id_test extends base_manager
 	 *
 	 * @return array Array of test data
 	 */
-	public function get_autogroups_type_id_from_db_test_data()
+	public static function get_autogroups_type_id_from_db_test_data()
 	{
 		return array(
 			array('phpbb.autogroups.type.sample1', 1),
@@ -41,7 +41,7 @@ class get_autogroups_type_id_test extends base_manager
 	 *
 	 * @return array Array of test data
 	 */
-	public function get_autogroups_type_id_from_service_test_data()
+	public static function get_autogroups_type_id_from_service_test_data()
 	{
 		return array(
 			array('phpbb.autogroups.type.sample3', 3),
@@ -65,7 +65,7 @@ class get_autogroups_type_id_test extends base_manager
 	 *
 	 * @return array Array of test data
 	 */
-	public function get_autogroups_type_id_fails_test_data()
+	public static function get_autogroups_type_id_fails_test_data()
 	{
 		return array(
 			array('phpbb.autogroups.type.sample'),

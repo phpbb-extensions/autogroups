@@ -17,7 +17,7 @@ class sync_autogroups_test extends base_manager
 	 *
 	 * @return array Array of test data
 	 */
-	public function sync_autogroups_test_data()
+	public static function sync_autogroups_test_data()
 	{
 		return array(
 			array('phpbb.autogroups.type.sample1', 1),

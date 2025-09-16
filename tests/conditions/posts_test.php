@@ -42,7 +42,7 @@ class posts_test extends type_test_case
 	 *
 	 * @return array Array of test data
 	 */
-	public function check_condition_test_data()
+	public static function check_condition_test_data()
 	{
 		return array(
 			array(
@@ -191,7 +191,7 @@ class posts_test extends type_test_case
 	 *
 	 * @return array Array of test data
 	 */
-	public function check_no_options_test_data()
+	public static function check_no_options_test_data()
 	{
 		return array(
 			array(1, 10, array(1, 5)),

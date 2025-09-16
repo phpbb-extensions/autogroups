@@ -17,7 +17,7 @@ class purge_autogroups_type_test extends base_manager
 	 *
 	 * @return array Array of test data
 	 */
-	public function purge_autogroups_type_test_data()
+	public static function purge_autogroups_type_test_data()
 	{
 		return array(
 			array('phpbb.autogroups.type.sample1'),

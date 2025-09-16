@@ -17,7 +17,7 @@ class get_condition_lang_test extends base_manager
 	 *
 	 * @return array Array of test data
 	 */
-	public function get_condition_lang_test_data()
+	public static function get_condition_lang_test_data()
 	{
 		return array(
 			array('phpbb.autogroups.type.birthdays', 'AUTOGROUPS_TYPE_BIRTHDAYS'),
@@ -69,7 +69,7 @@ class get_condition_lang_test extends base_manager
 	 *
 	 * @return array Array of test data
 	 */
-	public function get_condition_lang_fails_test_data()
+	public static function get_condition_lang_fails_test_data()
 	{
 		return array(
 			array('phpbb.autogroups.type.sample', 'AUTOGROUPS_TYPE_NOT_EXIST'),

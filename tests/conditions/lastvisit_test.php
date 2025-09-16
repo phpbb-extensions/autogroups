@@ -43,7 +43,7 @@ class lastvisit_test extends membership_test
 	 *
 	 * @return array Array of test data
 	 */
-	public function check_condition_test_data()
+	public static function check_condition_test_data()
 	{
 		return array(
 			array(

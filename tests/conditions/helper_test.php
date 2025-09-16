@@ -20,7 +20,7 @@ class helper_test extends base
 	/**
 	 * Data for test_get_users_groups
 	 */
-	public function get_users_groups_test_data()
+	public static function get_users_groups_test_data()
 	{
 		return array(
 			array(
@@ -80,7 +80,7 @@ class helper_test extends base
 	/**
 	 * Data for test_prepare_users_for_query
 	 */
-	public function prepare_users_for_query_test_data()
+	public static function prepare_users_for_query_test_data()
 	{
 		return array(
 			array(1, array(1)),
@@ -105,10 +105,8 @@ class helper_test extends base
 	/**
 	 * Data for test_send_notifications
 	 */
-	public function send_notifications_data()
+	public static function send_notifications_data()
 	{
-		$language = $this->get_lang();
-
 		return array(
 			array(
 				'posts',
@@ -131,7 +129,7 @@ class helper_test extends base
 				array(
 					'user_ids' => array(),
 					'group_id' => 4,
-					'group_name' => $language->lang('G_GLOBAL_MODERATORS'),
+					'group_name' => 'Global moderators',
 				),
 			),
 		);

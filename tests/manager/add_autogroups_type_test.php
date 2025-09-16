@@ -17,7 +17,7 @@ class add_autogroups_type_test extends base_manager
 	 *
 	 * @return array Array of test data
 	 */
-	public function add_autogroups_type_test_data()
+	public static function add_autogroups_type_test_data()
 	{
 		// The database insertion does not persist between tests,
 		// so the expected ID of each insertion will always be 3.
