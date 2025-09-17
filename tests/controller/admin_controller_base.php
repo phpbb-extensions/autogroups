@@ -40,6 +40,9 @@ class admin_controller_base extends \phpbb_database_test_case
 	/** @var \PHPUnit\Framework\MockObject\MockObject|\phpbb\template\template */
 	protected $template;
 
+	/** @var \phpbb\language\language */
+	protected $language;
+
 	/** @var \phpbb\user */
 	protected $user;
 
@@ -70,9 +73,8 @@ class admin_controller_base extends \phpbb_database_test_case
 		$this->template = $this->getMockBuilder('\phpbb\template\template')
 			->getMock();
 		$lang_loader = new \phpbb\language\language_file_loader($phpbb_root_path, $phpEx);
-		$lang = new \phpbb\language\language($lang_loader);
-		$language = $lang;
-		$user = new \phpbb\user($lang, '\phpbb\datetime');
+		$this->language = $language = new \phpbb\language\language($lang_loader);
+		$user = new \phpbb\user($this->language, '\phpbb\datetime');
 		$user->data['user_id'] = 2;
 		$user->data['user_form_salt'] = '';
 		$this->user = $user;
@@ -90,7 +92,7 @@ class admin_controller_base extends \phpbb_database_test_case
 			$cache,
 			$this->db,
 			$group_helper,
-			$lang,
+			$this->language,
 			$this->log,
 			$this->manager,
 			$this->request,

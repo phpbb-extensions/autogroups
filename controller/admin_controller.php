@@ -188,14 +188,15 @@ class admin_controller implements admin_interface
 		// If AJAX was used, show user a result message
 		if ($this->request->is_ajax())
 		{
-			return new \Symfony\Component\HttpFoundation\JsonResponse(array(
+			$json_response = new \phpbb\json_response;
+			$json_response->send(array(
 				'MESSAGE_TITLE'	=> $this->language->lang('INFORMATION'),
 				'MESSAGE_TEXT'	=> $this->language->lang('ACP_AUTOGROUPS_DELETE_SUCCESS'),
-				'REFRESH_DATA'	=> ['time' => 3],
+				'REFRESH_DATA'	=> array(
+					'time'	=> 3
+				)
 			));
 		}
-
-		return null;
 	}
 
 	/**

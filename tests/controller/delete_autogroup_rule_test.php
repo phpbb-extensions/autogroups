@@ -10,8 +10,6 @@
 
 namespace phpbb\autogroups\tests\controller;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
-
 class delete_autogroup_rule_test extends admin_controller_base
 {
 	/**
@@ -71,9 +69,13 @@ class delete_autogroup_rule_test extends admin_controller_base
 			->method('is_ajax')
 			->willReturn(true);
 
+		// Handle trigger_error() output called from json_response
+		$this->expectOutputString('{"MESSAGE_TITLE":"' . $this->language->lang('INFORMATION')
+			. '","MESSAGE_TEXT":"' . $this->language->lang('ACP_AUTOGROUPS_DELETE_SUCCESS')
+			. '","REFRESH_DATA":{"time":3}}');
+
 		// Call the delete_autogroup_rule() method
-		$response = $this->admin_controller->delete_autogroup_rule(1);
-		self::assertInstanceOf(JsonResponse::class, $response);
+		$this->admin_controller->delete_autogroup_rule(1);
 
 		// Verify the autogroup rule has been removed
 		self::assertEquals(0, $this->get_autogroup_rule_count(1));
