@@ -73,6 +73,7 @@ class delete_autogroup_rule_test extends admin_controller_base
 		$this->expectOutputString('{"MESSAGE_TITLE":"' . $this->language->lang('INFORMATION')
 			. '","MESSAGE_TEXT":"' . $this->language->lang('ACP_AUTOGROUPS_DELETE_SUCCESS')
 			. '","REFRESH_DATA":{"time":3}}');
+		$this->expectException(\RuntimeException::class);
 
 		// Call the delete_autogroup_rule() method
 		$this->admin_controller->delete_autogroup_rule(1);
