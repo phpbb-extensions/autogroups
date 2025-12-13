@@ -233,7 +233,7 @@ class posts_test extends type_test_case
 	 * @param int $user_id
 	 * @param int $data The number of posts a user has
 	 */
-	public function helper_update_user_data($user_id, $data)
+	public function helper_update_user_data(int $user_id, int $data)
 	{
 		$sql = 'UPDATE ' . USERS_TABLE . '
 			SET user_posts = ' . (int) $data . '

@@ -21,7 +21,7 @@ abstract class type_test_case extends base
 	 *
 	 * @dataProvider check_condition_test_data
 	 */
-	public function test_check_condition($user_data, $expected, $default, $options)
+	public function test_check_condition($user_data, $expected, $default, $options): void
 	{
 		// Prepare the users data for checking
 		foreach ($user_data as $user_id => $data)
@@ -56,7 +56,7 @@ abstract class type_test_case extends base
 	 *
 	 * @dataProvider check_condition_test_data
 	 */
-	public function test_check_condition_with_users($user_data, $expected, $default)
+	public function test_check_condition_with_users($user_data, $expected, $default): void
 	{
 		// Update the users regdate timestamp
 		foreach ($user_data as $user_id => $data)
@@ -93,7 +93,7 @@ abstract class type_test_case extends base
 	 * @param array $user_ids
 	 * @return array Array of user ids and their default group ids
 	 */
-	public function helper_default_groups($user_ids)
+	public function helper_default_groups(array $user_ids): array
 	{
 		$sql = 'SELECT user_id, group_id
 			FROM phpbb_users
@@ -116,5 +116,5 @@ abstract class type_test_case extends base
 	 * @param int $user_id
 	 * @param int $data
 	 */
-	abstract public function helper_update_user_data($user_id, $data);
+	abstract public function helper_update_user_data(int $user_id, int $data);
 }

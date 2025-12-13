@@ -81,7 +81,7 @@ class birthdays_test extends type_test_case
 	 * @param int $user_id
 	 * @param int $data The age in years of a user
 	 */
-	public function helper_update_user_data($user_id, $data)
+	public function helper_update_user_data(int $user_id, int $data)
 	{
 		$now = getdate(time());
 		$birthday = sprintf('%2d-%2d-%4d', $now['mday'], $now['mon'], ($now['year'] - $data));

@@ -22,7 +22,7 @@ class membership_test extends autogroups_base
 		'max'        => 10,
 	);
 
-	protected $test_user = 'user-ag-test';
+	protected $test_user = 'agTestUser1';
 
 	/**
 	 * Test the auto groups membership type
@@ -61,7 +61,7 @@ class membership_test extends autogroups_base
 		$this->logout();
 		$this->add_lang('ucp');
 		$crawler = self::request('GET', 'ucp.php?mode=register');
-		$form = $crawler->selectButton('I agree to these terms')->form();
+		$form = $crawler->selectButton($this->lang('AGREE'))->form();
 		$crawler = self::submit($form);
 		$form = $crawler->selectButton('Submit')->form(array(
 			'username'			=> $this->test_user,
@@ -69,7 +69,7 @@ class membership_test extends autogroups_base
 			'new_password'		=> $this->test_user . $this->test_user,
 			'password_confirm'	=> $this->test_user . $this->test_user,
 		));
-		$form['tz']->select('Europe/Berlin');
+		//$form['tz']->select('Europe/Berlin');
 		$crawler = self::submit($form);
 		$this->assertContainsLang('ACCOUNT_ADDED', $crawler->filter('#message')->text());
 		$new_user_id = $this->get_new_user_id();

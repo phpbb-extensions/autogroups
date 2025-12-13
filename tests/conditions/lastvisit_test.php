@@ -111,11 +111,11 @@ class lastvisit_test extends membership_test
 			),
 			array(
 				array(
-					1 => false, // user 1 no last visit recorded in DB (0 is default empty value)
+					1 => 0, // user 1 no last visit recorded in DB (0 is default empty value)
 					3 => 0,  // user 3 inactive 0 days
 				),
 				array(
-					1 => array(1, 5), // user 1 added to no new groups
+					1 => array(1, 4, 5), // user 1 added to group 4
 					3 => array(4, 5), // user 3 added to group 4
 				),
 				array(
@@ -139,7 +139,7 @@ class lastvisit_test extends membership_test
 	 * @param int $user_id
 	 * @param int $data The number of days since a user has last visited
 	 */
-	public function helper_update_user_data($user_id, $data)
+	public function helper_update_user_data(int $user_id, int $data)
 	{
 		$sql = 'UPDATE phpbb_users
 			SET user_lastvisit = ' . (int) (strtotime("$data days ago")) . '
