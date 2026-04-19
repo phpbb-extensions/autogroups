@@ -2,9 +2,9 @@
 /**
 *
 * Auto Groups extension for the phpBB Forum Software package.
-* Dutch translation by Nadleeh (www.heralder.net)
+* Romanian translation by iorG19 (https://ioforos.com)
 *
-* @copyright (c) 2014 phpBB Limited <https://www.phpbb.com>
+* @copyright (c) 2019 phpBB Limited <https://www.phpbb.com>
 * @license GNU General Public License, version 2 (GPL-2.0)
 *
 */
@@ -39,10 +39,5 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, array(
-	'ACP_AUTOGROUPS_MANAGE'			=> 'Beheer Auto Groepen',
-	'AUTOGROUPS_TYPE_NOT_EXIST'		=> 'Het Auto Groep type `%1$s` bestaat niet.',
-
-	// Logs
-	'ACP_AUTOGROUPS_SAVED_LOG'		=> '<strong>Een Auto Groep configuratie is opgeslagen</strong>',
-	'ACP_AUTOGROUPS_DELETE_LOG'		=> '<strong>Een Auto Groep configuratie is verwijderd</strong>',
+	'AUTOGROUPS_NOT_ENABLEABLE'	=> 'Grupurile automate nu au putut fi activate. Cerințele minime ale phpBB 3.2.0 și/sau PHP 5.5.0 nu au fost îndeplinite.',
 ));
