@@ -41,14 +41,12 @@ class lastvisit_test extends autogroups_base
 
 		// Run the cron job for a user with 20 days since last visit, should add the user to the group
 		$this->update_user_lastvisit($test_user_id, 20)->reset_cron();
-		self::request('GET', "cron.php?cron_type=cron.task.autogroups_check&sid={$this->sid}", array(), false);
-		$this->purge_cache();
+		$this->run_cron();
 		$this->assertInGroup($test_user_id, $test_data['group_name']);
 
 		// Run the cron job for a user with 2 days since last visit, should remove the user from the group
 		$this->update_user_lastvisit($test_user_id, 2)->reset_cron();
-		self::request('GET', "cron.php?cron_type=cron.task.autogroups_check&sid={$this->sid}", array(), false);
-		$this->purge_cache();
+		$this->run_cron();
 		$this->assertNotInGroup($test_user_id, $test_data['group_name']);
 	}
 
