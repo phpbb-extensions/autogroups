@@ -58,12 +58,12 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Teavita liikmeid',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Saada teavitus liikmetele, kui nad on automaatselt lisatud või eemaldatud sellest grupist.',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Välistatud grupid',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Välista nende gruppide liikmed',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Selles loendis valitud <em>mis tahes gruppi</em> kuuluvad liikmed jäetakse välja. Jäta väli tühjaks, kui soovid automaatset gruppi rakendada foorumi <em>kõigile liikmetele</em>. Mitme grupi valimiseks hoia all klahvi <samp>CTRL</samp> (Macis <samp>&#8984;CMD</samp>) ja vali grupid.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'Tekkis viga. Selle tingimuse gruppi ei saa valida ka välistatud gruppide väljal.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Seadista vaikimisi grupile erandid',
-	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Auto-grupp ei muuda liikmete vaikimisi grupi, kui see on valitud sellest nimekirjast. Vali mitu gruppi korraga hoides klaviatuuri klahvi <samp>CTRL</samp> all (või <samp>&#8984;CMD</samp> Mac\'is) ja vali grupid.',
+	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Auto-grupp ei muuda liikmete vaikimisi grupi, kui see on valitud sellest nimekirjast. Vali mitu gruppi korraga hoides klaviatuuri klahvi <samp>CTRL</samp> all (või <samp>&#8984;CMD</samp> Mac’is) ja vali grupid.',
 
 	'ACP_AUTOGROUPS_CREATE_RULE'	=> 'Loo uus automaatne grupp',
 	'ACP_AUTOGROUPS_SUBMIT_SUCCESS'	=> 'Automaatne grupp edukalt seadistatud.',

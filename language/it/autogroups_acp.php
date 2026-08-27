@@ -57,10 +57,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notifica utenti',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Invia una notifica agli utenti automaticamente aggiunti o rimossi dal gruppo.',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Gruppi esclusi',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Escludi i membri di questi gruppi',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'I membri appartenenti a <em>qualsiasi gruppo</em> selezionato in questo elenco saranno ignorati. Lascia vuoto questo campo se vuoi applicare questo autogruppo a <em>tutti i membri</em> della tua board. Seleziona più gruppi tenendo premuto <samp>CTRL</samp> (o <samp>&#8984;CMD</samp> su Mac) e selezionando i gruppi.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'Si è verificato un errore. Il gruppo di questa condizione non può essere selezionato anche nel campo dei gruppi esclusi.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Imposta eccezioni per gruppo predefinito',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Autogruppi non cambierà il gruppo predefinito se fa parte di un gruppo selezionato in questa lista. Per selezionare più gruppi, tenere premuto <samp>CTRL</samp> (o <samp>&#8984;CMD</samp> su sistemi Mac) e selezionare i gruppi.',
 

@@ -58,10 +58,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Powiadom użytkownika',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Ustaw Tak, aby powiadomić użytkownika, gdy zostanie automatycznie dodany lub usunięty z grupy.',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Wykluczone grupy',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Wyklucz członków tych grup',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Członkowie należący do <em>dowolnej grupy</em> wybranej na tej liście zostaną pominięci. Pozostaw to pole puste, jeśli chcesz zastosować automatyczną grupę do <em>wszystkich członków</em> forum. Wybierz kilka grup, przytrzymując klawisz <samp>CTRL</samp> (lub <samp>&#8984;CMD</samp> na Macu) i zaznaczając grupy.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'Wystąpił błąd. Grupa dla tego warunku nie może być jednocześnie wybrana w polu wykluczonych grup.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Domyślna grupa',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Domyślna grupa użytkownika nie zostanie zmieniona, jeśli zostanie wybrana na liście predefiniowanych grup. Zaznacz kilka grup przy pomocy wciśniętego przycisku <samp>CTRL</samp> (lub <samp>&#8984;CMD</samp> w systemie iOS) na klawiaturze.',
 
@@ -76,7 +76,7 @@ $lang = array_merge($lang, array(
 
 	// Conditions
 	'AUTOGROUPS_TYPE_BIRTHDAYS'		=> 'Wiek',
-	'AUTOGROUPS_TYPE_LASTVISIT'		=> 'Days since last visit',
+	'AUTOGROUPS_TYPE_LASTVISIT'		=> 'Dni od ostatniej wizyty',
 	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> 'Długość członkostwa (dni)',
 	'AUTOGROUPS_TYPE_POSTS'			=> 'Liczba postów',
 	'AUTOGROUPS_TYPE_WARNINGS'		=> 'Ostrzeżenia',
