@@ -91,4 +91,12 @@ class birthdays_test extends type_test_case
 			WHERE user_id = " . (int) $user_id;
 		$this->db->sql_query($sql);
 	}
+
+	public function test_invalid_birthday_returns_zero_age()
+	{
+		$method = new \ReflectionMethod($this->get_condition(), 'get_user_age');
+		$method->setAccessible(true);
+
+		self::assertSame(0, $method->invoke($this->get_condition(), '99-99-2000'));
+	}
 }
