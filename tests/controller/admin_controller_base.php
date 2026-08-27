@@ -102,4 +102,29 @@ class admin_controller_base extends \phpbb_database_test_case
 			'phpbb_autogroups_types'
 		);
 	}
+
+	/**
+	 * Expect trigger_error() without PHPUnit's deprecated error expectations
+	 *
+	 * PHPUnit 9 deprecates expecting its E_WARNING/E_USER_WARNING exception
+	 * wrappers. Convert only the requested error level to a regular exception
+	 * and restore PHPUnit's error handler before throwing it.
+	 *
+	 * @param int    $errno
+	 * @param string $message
+	 */
+	public function setExpectedTriggerError($errno, $message = '')
+	{
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionCode($errno);
+		if ($message)
+		{
+			$this->expectExceptionMessage((string) $message);
+		}
+
+		set_error_handler(function ($error_number, $error_message) {
+			restore_error_handler();
+			throw new \RuntimeException($error_message, $error_number);
+		}, $errno);
+	}
 }

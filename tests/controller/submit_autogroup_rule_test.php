@@ -88,7 +88,7 @@ class submit_autogroup_rule_test extends admin_controller_base
 				E_USER_WARNING,
 			),
 			array(
-				5, // test error: max = min values
+			5, // test error: max = min values
 				array(
 					array('autogroups_type_id', 0, false, \phpbb\request\request_interface::REQUEST, 3),
 					array('autogroups_min_value', 0, false, \phpbb\request\request_interface::REQUEST, 0),
@@ -101,11 +101,11 @@ class submit_autogroup_rule_test extends admin_controller_base
 				E_USER_WARNING,
 			),
 			array(
-				6, // test error: group id in excluded group ids
+			6, // test error: group id in excluded group ids
 				array(
 					array('autogroups_type_id', 0, false, \phpbb\request\request_interface::REQUEST, 3),
 					array('autogroups_min_value', 0, false, \phpbb\request\request_interface::REQUEST, 0),
-					array('autogroups_max_value', 0, false, \phpbb\request\request_interface::REQUEST, 0),
+					array('autogroups_max_value', 0, false, \phpbb\request\request_interface::REQUEST, 1),
 					array('autogroups_group_id', 0, false, \phpbb\request\request_interface::REQUEST, 1),
 					array('autogroups_default', false, false, \phpbb\request\request_interface::REQUEST, true),
 					array('autogroups_notify', false, false, \phpbb\request\request_interface::REQUEST, true),

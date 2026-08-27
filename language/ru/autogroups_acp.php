@@ -57,10 +57,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Уведомить пользователя',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Отправить уведомление пользователю после автоматического добавления/удаления в группу.',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Исключённые группы',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Исключить участников этих групп',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Участники, состоящие в <em>любой группе</em>, выбранной в этом списке, будут проигнорированы. Оставьте поле пустым, если хотите применить эту АвтоГруппу ко <em>всем участникам</em> форума. Выберите несколько групп, удерживая <samp>CTRL</samp> (или <samp>&#8984;CMD</samp> на Mac).',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'Произошла ошибка. Группу для этого условия нельзя одновременно выбрать в поле исключённых групп.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Установить исключения для групп по умолчанию',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'АвтоГруппы не изменят группу пользователя по умолчанию, если она отмечена в этом списке. Выберите несколько групп с нажатой клавишей <samp>CTRL</samp> (или <samp>&#8984;CMD</samp> на Mac).',
 

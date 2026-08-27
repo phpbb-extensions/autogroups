@@ -57,10 +57,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Informovat uživatele',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Zaslat oznámení uživateli poté, co byl automaticky přidán nebo odebán z této skupiny.',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Vyloučené skupiny',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Vyloučit členy těchto skupin',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Členové patřící do <em>kterékoli skupiny</em> vybrané v tomto seznamu budou ignorováni. Pokud chcete tuto automatickou skupinu použít na <em>všechny členy</em> fóra, ponechte toto pole prázdné. Více skupin vyberete přidržením klávesy <samp>CTRL</samp> (nebo <samp>&#8984;CMD</samp> na Macu) a výběrem skupin.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'Došlo k chybě. Skupinu pro tuto podmínku nelze zároveň vybrat v poli vyloučených skupin.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Nastavte výchozí skupině výjimky',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Auto skupiny nezmění výchozí skupinu uživatele, pokud je zvolena v tomto seznamu. Vyberte několik skupin přidržením<samp>CTRL</samp> (nebo <samp>&#8984;CMD</samp> v Mac) a výberte skupiny.',
 
@@ -75,7 +75,7 @@ $lang = array_merge($lang, array(
 
 	// Conditions
 	'AUTOGROUPS_TYPE_BIRTHDAYS'		=> 'Věk uživatelé',
-	'AUTOGROUPS_TYPE_LASTVISIT'		=> 'Days since last visit',
+	'AUTOGROUPS_TYPE_LASTVISIT'		=> 'Dny od poslední návštěvy',
 	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> 'Členem dnů',
 	'AUTOGROUPS_TYPE_POSTS'			=> 'Příspěvky',
 	'AUTOGROUPS_TYPE_WARNINGS'		=> 'Varování',

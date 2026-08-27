@@ -254,4 +254,83 @@ class base_test extends base
 		// Assert the user's groups are as expected
 		self::assertEquals($expected, $user_groups);
 	}
+
+	public function test_check_initialises_groups_for_unknown_user()
+	{
+		$this->get_condition()->check(array(
+			999 => array('user_posts' => 0),
+		));
+
+		self::assertSame(array(), $this->helper->get_users_groups(array(999)));
+	}
+
+	public function test_filter_users_keeps_only_users_failing_other_rule()
+	{
+		$other_condition = new filter_condition();
+		$this->phpbb_container->set('phpbb.autogroups.type.other', $other_condition);
+
+		$method = new \ReflectionMethod($this->get_condition(), 'filter_users');
+		$method->setAccessible(true);
+		$actual = $method->invoke(
+			$this->get_condition(),
+			array(2, 3),
+			array('autogroups_group_id' => 4, 'autogroups_type_id' => 1),
+			array(array(
+				'autogroups_group_id' => 4,
+				'autogroups_type_id' => 2,
+				'autogroups_type_name' => 'phpbb.autogroups.type.other',
+				'autogroups_min_value' => 10,
+				'autogroups_max_value' => 20,
+			))
+		);
+
+		self::assertSame(array(1 => 3), $actual);
+	}
+
+	public function timestamp_data()
+	{
+		return array(
+			'empty timestamp' => array(0, null),
+			'five days ago' => array(strtotime('5 days ago'), 5),
+		);
+	}
+
+	/**
+	 * @dataProvider timestamp_data
+	 */
+	public function test_timestamp_to_days($timestamp, $expected)
+	{
+		$method = new \ReflectionMethod($this->get_condition(), 'timestamp_to_days');
+		$method->setAccessible(true);
+
+		self::assertSame($expected, $method->invoke($this->get_condition(), $timestamp));
+	}
+
+	public function test_days_to_timestamp()
+	{
+		$method = new \ReflectionMethod($this->get_condition(), 'days_to_timestamp');
+		$method->setAccessible(true);
+
+		self::assertEqualsWithDelta(strtotime('3 days ago'), $method->invoke($this->get_condition(), 3), 1);
+	}
+}
+
+class filter_condition extends \phpbb\autogroups\conditions\type\posts
+{
+	public function __construct()
+	{
+	}
+
+	public function get_users_for_condition($options = array())
+	{
+		return array(
+			2 => array('user_posts' => 15),
+			3 => array('user_posts' => 5),
+		);
+	}
+
+	public function check_user_data($value, $group_rule)
+	{
+		return parent::check_user_data($value, $group_rule);
+	}
 }

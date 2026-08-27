@@ -240,4 +240,47 @@ class posts_test extends type_test_case
 			WHERE user_id = ' . (int) $user_id;
 		$this->db->sql_query($sql);
 	}
+
+	public function test_check_adjusts_post_count_during_deletion()
+	{
+		$helper = $this->createMock(\phpbb\autogroups\conditions\type\helper::class);
+		$helper->expects(self::once())
+			->method('get_users_groups')
+			->with(array(1))
+			->willReturn(array(1 => array()));
+
+		$condition = new posts_deletion_test_condition($helper);
+		$condition->check(array(
+			1 => array('user_posts' => 11),
+		), array('action' => 'delete'));
+
+		self::assertSame(array(1), $condition->added_users);
+	}
+}
+
+class posts_deletion_test_condition extends \phpbb\autogroups\conditions\type\posts
+{
+	public $added_users = array();
+
+	public function __construct(\phpbb\autogroups\conditions\type\helper $helper)
+	{
+		$this->helper = $helper;
+	}
+
+	public function get_group_rules($type = '')
+	{
+		return array(array(
+			'autogroups_type_id' => 1,
+			'autogroups_type_name' => $this->get_condition_type(),
+			'autogroups_min_value' => 10,
+			'autogroups_max_value' => 10,
+			'autogroups_group_id' => 2,
+			'autogroups_excluded_groups' => '',
+		));
+	}
+
+	public function add_users_to_group($user_id_ary, $group_rule_data)
+	{
+		$this->added_users = $user_id_ary;
+	}
 }

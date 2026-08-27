@@ -69,6 +69,29 @@ class ext_test extends \phpbb_database_test_case
 		$this->assertCount(0, $this->get_notifications());
 	}
 
+	public function test_incompatible_version_returns_localised_error()
+	{
+		$language = $this->createMock(\phpbb\language\language::class);
+		$language->expects(self::once())->method('add_lang')->with('autogroups_install', 'phpbb/autogroups');
+		$language->expects(self::once())
+			->method('lang')
+			->with('AUTOGROUPS_NOT_ENABLEABLE')
+			->willReturn('Not enableable');
+
+		$container = $this->createMock(\Symfony\Component\DependencyInjection\ContainerInterface::class);
+		$container->expects(self::once())->method('get')->with('language')->willReturn($language);
+
+		$extension = new incompatible_ext(
+			$container,
+			$this->createMock(\phpbb\finder::class),
+			$this->createMock(\phpbb\db\migrator::class),
+			self::EXTENSION,
+			'ext/phpbb/autogroups/'
+		);
+
+		self::assertSame('Not enableable', $extension->is_enableable());
+	}
+
 	protected function create_extension_manager()
 	{
 		$phpbb_root_path = __DIR__ . './../../../../';
@@ -167,5 +190,18 @@ class ext_test extends \phpbb_database_test_case
 		}
 		$this->db->sql_freeresult($result);
 		return $notification_type_ids;
+	}
+}
+
+class incompatible_ext extends \phpbb\autogroups\ext
+{
+	protected function check_phpbb_version()
+	{
+		return false;
+	}
+
+	protected function check_php_version()
+	{
+		return false;
 	}
 }

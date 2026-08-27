@@ -10,8 +10,6 @@
 
 namespace phpbb\autogroups\tests\conditions;
 
-require_once __DIR__ . '/../../../../../includes/functions_user.php';
-
 /**
 * Base class for conditions type tests
 */

@@ -58,10 +58,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notificar a usuarios',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Enviar una notificación a los usuarios después de ser añadido o eliminado automáticamente de este grupo.',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Grupos excluidos',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Excluir miembros de estos grupos',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Se ignorarán los miembros que pertenezcan a <em>cualquier grupo</em> seleccionado en esta lista. Deje este campo vacío si desea aplicar este Auto Grupo a <em>todos los miembros</em> de su sitio. Seleccione varios grupos manteniendo pulsada la tecla <samp>CTRL</samp> (o <samp>&#8984;CMD</samp> en Mac) y seleccionando los grupos.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'Ocurrió un error. El grupo de esta condición no puede seleccionarse también en el campo de grupos excluidos.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Establecer exenciones predeterminadas del grupo',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Auto Grupos no cambiará de grupo predeterminado de un usuario si se ha seleccionado en esta lista. Seleccione varios grupos mediante la pulsación de <samp>CTRL</samp> (o <samp>&#8984;CMD</samp> en Mac) y seleccione los grupos.',
 

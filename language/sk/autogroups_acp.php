@@ -58,10 +58,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Oboznámiť používateľa',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Pošle notifikáciu používateľov po tom, čo budú automaticky pridaní alebo odstránení z tejto skupiny.',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Vylúčené skupiny',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Vylúčiť členov týchto skupín',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Členovia patriaci do <em>ktorejkoľvek skupiny</em> vybranej v tomto zozname budú ignorovaní. Ak chcete automatickú skupinu použiť na <em>všetkých členov</em> fóra, nechajte toto pole prázdne. Viacero skupín vyberiete podržaním klávesu <samp>CTRL</samp> (alebo <samp>&#8984;CMD</samp> na Macu) a označením skupín.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'Nastala chyba. Skupinu pre túto podmienku nemožno zároveň vybrať v poli vylúčených skupín.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Nastaviť výnimky v predvolenej skupine',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Automatické skupiny nebudú meniť používateľovu predvolenú skupinu ak bude vybraná v tomto zozname. Vyberte viacero skupín podrčaním <samp>CTRL</samp> (alebo <samp>&#8984;CMD</samp> na Macu) a vyberte skupiny.',
 
