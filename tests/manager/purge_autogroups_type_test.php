@@ -52,6 +52,13 @@ class purge_autogroups_type_test extends base_manager
 		self::assertEquals(0, $this->count_rules($type_id));
 	}
 
+	public function test_purge_missing_autogroups_type_is_ignored()
+	{
+		$this->manager->purge_autogroups_type('phpbb.autogroups.type.missing');
+
+		self::assertSame(2, $this->count_types('phpbb.autogroups.type.sample1') + $this->count_types('phpbb.autogroups.type.sample2'));
+	}
+
 	/**
 	 * Get a count of type_name in phpbb_autogroups_types
 	 *

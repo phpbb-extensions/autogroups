@@ -57,10 +57,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> '通知用戶',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> '自動添加或刪除該組後，將通知發送給用戶。',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> '排除的用戶組',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> '排除這些用戶組的成員',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> '屬於此列表中所選<em>任何用戶組</em>的成員都會被忽略。如果要將此自動分組套用於討論區的<em>所有成員</em>，請將此欄留空。按住 <samp>CTRL</samp>（Mac 上為 <samp>&#8984;CMD</samp>）並選擇用戶組，即可選擇多個用戶組。',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> '發生錯誤。此條件使用的用戶組不能同時在排除的用戶組欄位中選取。',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> '設置豁免預設分組的用戶組',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> '此表中已選擇的用戶組將豁免於設置預設分組。按下 <samp>CTRL</samp> (或 Mac 的 <samp>&#8984;CMD</samp>) 來選擇多過一個用戶組',
 

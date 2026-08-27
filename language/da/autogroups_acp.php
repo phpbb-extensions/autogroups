@@ -57,10 +57,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Informer brugere',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Send en notifikation til brugere efter automatisk tilføjelse eller fjernelse fra gruppen.',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Ekskluderede grupper',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Ekskluder medlemmer af disse grupper',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Medlemmer, der tilhører <em>en af grupperne</em> valgt på denne liste, ignoreres. Lad feltet stå tomt, hvis autogruppen skal gælde for <em>alle medlemmer</em> af dit forum. Vælg flere grupper ved at holde <samp>CTRL</samp> (eller <samp>&#8984;CMD</samp> på Mac) nede og vælge grupperne.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'Der opstod en fejl. Gruppen for denne betingelse kan ikke samtidig vælges i feltet med ekskluderede grupper.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Sæt undtagelser for gruppestandard',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Autogrupper ændre ikke en brugers standardgruppe hvis den er valgt i listen. Vælg flere grupper ved at holde <samp>CTRL</samp> (eller <samp>&#8984;CMD</samp> på Mac) nede og vælg grupperne.',
 
@@ -75,7 +75,7 @@ $lang = array_merge($lang, array(
 
 	// Conditions
 	'AUTOGROUPS_TYPE_BIRTHDAYS'		=> 'Brugerens alder',
-	'AUTOGROUPS_TYPE_LASTVISIT'		=> 'Days since last visit',
+	'AUTOGROUPS_TYPE_LASTVISIT'		=> 'Dage siden sidste besøg',
 	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> 'Dage med medlemsskab',
 	'AUTOGROUPS_TYPE_POSTS'			=> 'Indlæg',
 	'AUTOGROUPS_TYPE_WARNINGS'		=> 'Advarsler',

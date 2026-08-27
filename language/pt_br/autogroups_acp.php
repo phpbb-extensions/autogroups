@@ -58,10 +58,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Notificar o usuário',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Enviar uma notificação para usuários depois que foram automaticamente adicionados ou removidos deste grupo.',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Grupos excluídos',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Excluir membros destes grupos',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Os membros que pertencem a <em>qualquer grupo</em> selecionado nesta lista serão ignorados. Deixe este campo em branco se quiser aplicar este Autogrupo a <em>todos os membros</em> do fórum. Selecione vários grupos mantendo <samp>CTRL</samp> pressionado (ou <samp>&#8984;CMD</samp> no Mac) e selecionando os grupos.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'Ocorreu um erro. O grupo desta condição não pode também ser selecionado no campo de grupos excluídos.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Configure as exceções para o grupo padrão',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'O grupo padrão do usuário não será automaticamente alterado se estiver selecionado nesta lista. Selecione diversos grupos segurando <samp>CTRL</samp> (ou <samp>&#8984;CMD</samp> no Mac) e clicando sobre o grupo.',
 
@@ -78,6 +78,6 @@ $lang = array_merge($lang, array(
 	'AUTOGROUPS_TYPE_BIRTHDAYS'		=> 'Idade do usuário',
 	'AUTOGROUPS_TYPE_LASTVISIT'		=> 'Dias desde a última visita',
 	'AUTOGROUPS_TYPE_MEMBERSHIP'	=> 'Dias que o usuário é membro',
-	'AUTOGROUPS_TYPE_POSTS'			=> 'Posts',
+	'AUTOGROUPS_TYPE_POSTS'			=> 'Publicações',
 	'AUTOGROUPS_TYPE_WARNINGS'		=> 'Advertência',
 ));

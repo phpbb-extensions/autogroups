@@ -58,10 +58,10 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_NOTIFY'					=> 'Obavijestite korisnike/ce',
 	'ACP_AUTOGROUPS_NOTIFY_EXPLAIN'			=> 'Ukoliko je omogućeno, obavijest, o dodavanju/izbrisivanju u/iz grupu/e, će automatski biti poslana korisnicima/ama.',
 
-	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Excluded groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Exclude members of these groups',
-	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Members belonging to <em>any group</em> selected in this list will be ignored. Leave this field blank if you want this Auto Group applied to <em>all members</em> of your board. Select multiple groups by holding <samp>CTRL</samp> (or <samp>&#8984;CMD</samp> on Mac) and selecting the groups.',
-	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'An error occurred. The group for this condition can not also be selected in the excluded groups field.',
+	'ACP_AUTOGROUPS_EXCLUDED_GROUPS'		=> 'Izuzete grupe',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP'			=> 'Izuzmite članove/ice ovih grupa',
+	'ACP_AUTOGROUPS_EXCLUDE_GROUP_EXPLAIN'	=> 'Članovi/ice koji pripadaju <em>bilo kojoj grupi</em> odabranoj na ovoj listi bit će zanemareni. Ostavite polje prazno ako želite automatsko upravljanje grupom primijeniti na <em>sve članove/ice</em> foruma. Odaberite višestruke grupe držeći pritisnutu tipku <samp>CTRL</samp> [ili <samp>&#8984;CMD</samp> na Macu] i označavajući grupe.',
+	'ACP_AUTOGROUPS_INVALID_EXCLUDE_GROUPS'	=> 'Došlo je do greške. Grupa za ovaj uvjet ne može istovremeno biti odabrana u polju izuzetih grupa.',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP'			=> 'Iznimke za (ne)postavljanje grupe kao zadane',
 	'ACP_AUTOGROUPS_EXEMPT_GROUP_EXPLAIN'	=> 'Automatsko upravljanje grupom/ama neće promijeniti zadanu grupu korisnika/ca ukoliko je zadana grupa odabrana na listi. Odaberite višestruke grupe držeći pritisnutu tipku [tipkovnice] <samp>CTRL</samp> [ili <samp>&#8984;CMD</samp> na Macu] + klikćući [označavajući] [grupe za odabir].',
 
@@ -69,7 +69,7 @@ $lang = array_merge($lang, array(
 	'ACP_AUTOGROUPS_SUBMIT_SUCCESS'	=> 'Automatsko upravljanje izabranom grupom je postavljeno.',
 	'ACP_AUTOGROUPS_DELETE_CONFIRM'	=> 'Jeste li siguran/na da želite izbrisati automatsko upravljanje izabranom grupom?',
 	'ACP_AUTOGROUPS_DELETE_SUCCESS'	=> 'Automatsko upravljanje izabranom grupom je izbrisano.',
-	'ACP_AUTOGROUPS_EMPTY'			=> 'There are no auto groups.',
+	'ACP_AUTOGROUPS_EMPTY'			=> 'Nema automatski upravljanih grupa.',
 	'ACP_AUTOGROUPS_NO_GROUPS'		=> 'Nema dostupnih grupa',
 	'ACP_AUTOGROUPS_INVALID_GROUPS'	=> 'Došlo je do greške: nije izabrana niti jedna grupa.<br>Automatsko upravljanje grupom/ama može se primijeniti samo na korisnički dodane grupe.',
 	'ACP_AUTOGROUPS_INVALID_RANGE'	=> 'Došlo je do greške: minimalna i maksimalna vrijednost ne mogu biti postavljene na istu vrijednost.',

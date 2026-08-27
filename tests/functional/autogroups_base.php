@@ -151,4 +151,38 @@ class autogroups_base extends \phpbb_functional_test_case
 
 		$this->purge_cache();
 	}
+
+	/**
+	 * Run the Auto Groups cron task and wait for post-response execution to finish
+	 */
+	public function run_cron()
+	{
+		self::request('GET', "cron.php?cron_type=cron.task.autogroups_check&sid={$this->sid}", array(), false);
+
+		$cron_completed = false;
+		for ($attempt = 0; $attempt < 100; $attempt++)
+		{
+			$sql = "SELECT config_name, config_value
+				FROM phpbb_config
+				WHERE " . $this->db->sql_in_set('config_name', array('autogroups_last_run', 'cron_lock'));
+			$result = $this->db->sql_query($sql);
+			$config = array();
+			while ($row = $this->db->sql_fetchrow($result))
+			{
+				$config[$row['config_name']] = $row['config_value'];
+			}
+			$this->db->sql_freeresult($result);
+
+			if (!empty($config['autogroups_last_run']) && empty($config['cron_lock']))
+			{
+				$cron_completed = true;
+				break;
+			}
+
+			usleep(100000);
+		}
+
+		self::assertTrue($cron_completed, 'The Auto Groups cron task did not complete within 10 seconds.');
+		$this->purge_cache();
+	}
 }
