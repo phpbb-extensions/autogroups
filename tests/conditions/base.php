@@ -114,6 +114,7 @@ class base extends \phpbb_database_test_case
 		$phpbb_container->set('group_helper', new \phpbb\group\helper(
 			$auth,
 			$avatar_helper,
+			$this->db,
 			$this->getMockBuilder('\phpbb\cache\service')->disableOriginalConstructor()->getMock(),
 			new \phpbb\config\config([]),
 			$this->lang,
@@ -126,6 +127,7 @@ class base extends \phpbb_database_test_case
 				$phpbb_root_path,
 				$phpEx
 			),
+			$this->createMock(\phpbb\template\template::class),
 			$this->user
 		));
 

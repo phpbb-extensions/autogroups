@@ -287,7 +287,7 @@ class base_test extends base
 		self::assertSame(array(1 => 3), $actual);
 	}
 
-	public function timestamp_data()
+	public static function timestamp_data()
 	{
 		return array(
 			'empty timestamp' => array(0, null),

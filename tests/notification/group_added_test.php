@@ -36,6 +36,8 @@ class group_added_test extends \phpbb_test_case
 		$this->manager = $this->createMock(\phpbb\notification\manager::class);
 
 		$this->notification = new \phpbb\autogroups\notification\type\group_added(
+			$this->createMock(\phpbb\avatar\helper::class),
+			$this->createMock(\phpbb\controller\helper::class),
 			$db,
 			$this->language,
 			$user,
@@ -61,7 +63,7 @@ class group_added_test extends \phpbb_test_case
 		self::assertSame(array(), $this->notification->get_email_template_variables());
 	}
 
-	public function find_users_data()
+	public static function find_users_data()
 	{
 		return array(
 			'single user' => array(2, array(2 => array('notification.method.board'))),
@@ -112,6 +114,8 @@ class group_added_test extends \phpbb_test_case
 		global $phpbb_root_path, $phpEx;
 
 		$notification = new \phpbb\autogroups\notification\type\group_removed(
+			$this->createMock(\phpbb\avatar\helper::class),
+			$this->createMock(\phpbb\controller\helper::class),
 			$this->createMock(\phpbb\db\driver\driver_interface::class),
 			$this->language,
 			$this->createMock(\phpbb\user::class),

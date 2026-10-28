@@ -83,7 +83,7 @@ class ext_test extends \phpbb_database_test_case
 
 		$extension = new incompatible_ext(
 			$container,
-			$this->createMock(\phpbb\finder::class),
+			$this->createMock(\phpbb\finder\finder::class),
 			$this->createMock(\phpbb\db\migrator::class),
 			self::EXTENSION,
 			'ext/phpbb/autogroups/'

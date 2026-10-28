@@ -59,7 +59,7 @@ class autogroups_module_test extends \phpbb_test_case
 		parent::tearDown();
 	}
 
-	public function action_data()
+	public static function action_data()
 	{
 		return array(
 			'list' => array('', null, null, 1, 'ACP_AUTOGROUPS_MANAGE'),
